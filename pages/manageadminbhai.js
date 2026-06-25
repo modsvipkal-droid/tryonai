@@ -262,7 +262,7 @@ export default function ManageAdmin() {
     if (graphData.length === 0) return <div className="text-xs text-slate-400 py-6 text-center">Loading chart...</div>;
 
     const totals = graphData.map(d => d.total);
-    const maxVal = Math.max(...totals, 5); // default base height 5 so grid renders cleanly when empty
+    const maxVal = Math.max(...totals, 5);
     const width = 320;
     const height = 100;
     const padding = 15;
@@ -281,6 +281,14 @@ export default function ManageAdmin() {
 
     const areaD = pathD + ` L ${points[points.length - 1].x} ${height - padding} L ${points[0].x} ${height - padding} Z`;
 
+    // compute approximate path length for line animation
+    let pathLength = 0;
+    for (let i = 1; i < points.length; i++) {
+      const dx = points[i].x - points[i - 1].x;
+      const dy = points[i].y - points[i - 1].y;
+      pathLength += Math.sqrt(dx * dx + dy * dy);
+    }
+
     const allZero = totals.every(t => t === 0);
 
     return (
@@ -288,21 +296,37 @@ export default function ManageAdmin() {
         {allZero ? (
           <div className="text-[10px] text-slate-400 py-8 text-center italic">No traffic logged in this period</div>
         ) : (
-          <svg className="w-full h-[100px]" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
+          <svg
+            className="w-full h-[100px] drop-shadow-sm"
+            viewBox={`0 0 ${width} ${height}`}
+            preserveAspectRatio="none"
+          >
             <defs>
-              <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#2e7d32" stopOpacity="0.25" />
+              <linearGradient id="greenGradSoft" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#2e7d32" stopOpacity="0.20" />
                 <stop offset="100%" stopColor="#2e7d32" stopOpacity="0.0" />
               </linearGradient>
+              <filter id="glowGreen">
+                <feDropShadow dx="0" dy="0" stdDeviation="2" floodColor="#2e7d32" floodOpacity="0.3" />
+              </filter>
             </defs>
             <line x1={padding} y1={padding} x2={width - padding} y2={padding} stroke="#cbd5e1" strokeDasharray="3,3" strokeWidth="0.5" />
-            <line x1={padding} y1={height - padding} x2={width - padding} y2={height - padding} stroke="#94a3b8" strokeWidth="1" />
-            <path d={areaD} fill="url(#greenGrad)" />
-            <path d={pathD} fill="none" stroke="#2e7d32" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+            <line x1={padding} y1={height - padding} x2={width - padding} y2={height - padding} stroke="#94a3b8" strokeWidth="0.5" />
+            <path d={areaD} fill="url(#greenGradSoft)" />
+            <path
+              d={pathD}
+              fill="none"
+              stroke="#2e7d32"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="line-chart-path"
+              style={{ '--path-length': pathLength, strokeDasharray: pathLength, strokeDashoffset: pathLength }}
+            />
             {points.map((p, idx) => (
-              <g key={idx}>
-                <circle cx={p.x} cy={p.y} r="3" fill="#2e7d32" stroke="#ffffff" strokeWidth="1" />
-                <text x={p.x} y={height - 2} fontSize="7" fill="#475569" textAnchor="middle">
+              <g key={idx} style={{ animation: `fadeIn 0.3s ${0.3 + idx * 0.15}s both` }}>
+                <circle cx={p.x} cy={p.y} r="3.5" fill="#2e7d32" stroke="#ffffff" strokeWidth="1.5" filter="url(#glowGreen)" />
+                <text x={p.x} y={height - 2} fontSize="7" fill="#64748b" textAnchor="middle" fontWeight="500">
                   {graphData[idx].date}
                 </text>
               </g>
@@ -344,57 +368,68 @@ export default function ManageAdmin() {
 
     return (
       <div className="flex items-center gap-4 mt-2">
-        <svg width="70" height="70" viewBox="0 0 36 36" className="transform -rotate-90 flex-shrink-0">
-          <circle cx="18" cy="18" r="16" fill="none" stroke="#f1f5f9" strokeWidth="4.5" />
-          {mPct > 0 && (
-            <circle
-              cx="18"
-              cy="18"
-              r="16"
-              fill="none"
-              stroke="#1a73e8"
-              strokeWidth="4.5"
-              strokeDasharray={`${strokeM} ${c - strokeM}`}
-              strokeDashoffset={-offsetM}
-            />
-          )}
-          {dPct > 0 && (
-            <circle
-              cx="18"
-              cy="18"
-              r="16"
-              fill="none"
-              stroke="#8e24aa"
-              strokeWidth="4.5"
-              strokeDasharray={`${strokeD} ${c - strokeD}`}
-              strokeDashoffset={-offsetD}
-            />
-          )}
-          {tPct > 0 && (
-            <circle
-              cx="18"
-              cy="18"
-              r="16"
-              fill="none"
-              stroke="#ff9800"
-              strokeWidth="4.5"
-              strokeDasharray={`${strokeT} ${c - strokeT}`}
-              strokeDashoffset={-offsetT}
-            />
-          )}
-        </svg>
-        <div className="flex-1 text-[11px] space-y-1 text-slate-700">
-          <div className="flex items-center justify-between">
-            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#1a73e8]"></span>Mobile</span>
-            <span className="font-semibold">{mPct}% ({devices.mobile.count})</span>
+        <div className="relative flex-shrink-0">
+          <svg width="72" height="72" viewBox="0 0 36 36" className="transform -rotate-90">
+            <circle cx="18" cy="18" r="16" fill="none" stroke="#f1f5f9" strokeWidth="4.5" />
+            {mPct > 0 && (
+              <circle
+                cx="18"
+                cy="18"
+                r="16"
+                fill="none"
+                stroke="#1a73e8"
+                strokeWidth="4.5"
+                strokeDasharray={`${strokeM} ${c - strokeM}`}
+                strokeDashoffset={-offsetM}
+                className="donut-segment"
+                style={{ '--circ': c, '--final': -offsetM, strokeLinecap: 'round' }}
+              />
+            )}
+            {dPct > 0 && (
+              <circle
+                cx="18"
+                cy="18"
+                r="16"
+                fill="none"
+                stroke="#8e24aa"
+                strokeWidth="4.5"
+                strokeDasharray={`${strokeD} ${c - strokeD}`}
+                strokeDashoffset={-offsetD}
+                className="donut-segment"
+                style={{ '--circ': c, '--final': -offsetD, strokeLinecap: 'round', animationDelay: '0.15s' }}
+              />
+            )}
+            {tPct > 0 && (
+              <circle
+                cx="18"
+                cy="18"
+                r="16"
+                fill="none"
+                stroke="#ff9800"
+                strokeWidth="4.5"
+                strokeDasharray={`${strokeT} ${c - strokeT}`}
+                strokeDashoffset={-offsetT}
+                className="donut-segment"
+                style={{ '--circ': c, '--final': -offsetT, strokeLinecap: 'round', animationDelay: '0.3s' }}
+              />
+            )}
+          </svg>
+          <div className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-slate-600 pointer-events-none" style={{ animation: 'fadeIn 0.5s 0.5s both' }}>
+            {totalCount}
           </div>
-          <div className="flex items-center justify-between">
-            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#8e24aa]"></span>Desktop</span>
-            <span className="font-semibold">{dPct}% ({devices.desktop.count})</span>
+        </div>
+        <div className="flex-1 text-[11px] space-y-1.5 text-slate-700">
+          <div className="flex items-center justify-between px-1">
+            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#1a73e8] shadow-sm"></span><span className="text-slate-500">Mobile</span></span>
+            <span className="font-semibold text-slate-700">{mPct}% <span className="text-slate-400 font-normal">({devices.mobile.count})</span></span>
           </div>
-          <div className="flex items-center justify-between">
-            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#ff9800]"></span>Tablet</span>
-            <span className="font-semibold">{tPct}% ({devices.tablet.count})</span>
+          <div className="flex items-center justify-between px-1">
+            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#8e24aa] shadow-sm"></span><span className="text-slate-500">Desktop</span></span>
+            <span className="font-semibold text-slate-700">{dPct}% <span className="text-slate-400 font-normal">({devices.desktop.count})</span></span>
+          </div>
+          <div className="flex items-center justify-between px-1">
+            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#ff9800] shadow-sm"></span><span className="text-slate-500">Tablet</span></span>
+            <span className="font-semibold text-slate-700">{tPct}% <span className="text-slate-400 font-normal">({devices.tablet.count})</span></span>
           </div>
         </div>
       </div>
@@ -413,8 +448,8 @@ export default function ManageAdmin() {
     const chartWidth = width - 2 * padding;
     const chartHeight = height - 2 * padding;
 
-    const barWidth = (chartWidth / rtChart.length) * 0.6;
-    const gap = (chartWidth / rtChart.length) * 0.4;
+    const barWidth = (chartWidth / rtChart.length) * 0.55;
+    const gap = (chartWidth / rtChart.length) * 0.45;
 
     const allZero = totals.every(t => t === 0);
 
@@ -424,24 +459,32 @@ export default function ManageAdmin() {
           <div className="text-[10px] text-slate-400 py-6 text-center italic">No active traffic in last 10 mins</div>
         ) : (
           <svg className="w-full h-[75px]" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="barGrad" x1="0" y1="1" x2="0" y2="0">
+                <stop offset="0%" stopColor="#ff9800" stopOpacity="0.55" />
+                <stop offset="100%" stopColor="#ff9800" stopOpacity="0.85" />
+              </linearGradient>
+            </defs>
             {rtChart.map((d, idx) => {
               const x = padding + idx * (barWidth + gap);
               const barHeight = (d.activeUsers / maxActive) * chartHeight;
               const y = height - padding - barHeight;
               return (
-                <g key={idx}>
+                <g key={idx} className="bar-chart-rect" style={{ animationDelay: `${idx * 0.06}s` }}>
                   <rect
                     x={x}
                     y={y}
                     width={barWidth}
                     height={barHeight}
-                    rx="1.5"
-                    className="fill-[#ff9800] opacity-80 hover:opacity-100 transition-opacity"
+                    rx="2"
+                    fill="url(#barGrad)"
+                    className="opacity-80 hover:opacity-100 transition-all duration-200"
+                    style={{ filter: 'drop-shadow(0 1px 2px rgba(255, 152, 0, 0.15))' }}
                   />
                 </g>
               );
             })}
-            <line x1={padding} y1={height - padding} x2={width - padding} y2={height - padding} stroke="#ff9800" opacity="0.35" strokeWidth="1" />
+            <line x1={padding} y1={height - padding} x2={width - padding} y2={height - padding} stroke="#ff9800" opacity="0.2" strokeWidth="0.5" />
           </svg>
         )}
       </div>
@@ -633,7 +676,7 @@ export default function ManageAdmin() {
                             </div>
                             <div className="w-full bg-slate-200 bg-opacity-40 h-1.5 rounded-full overflow-hidden">
                               <div 
-                                className="bg-[#8e24aa] h-full rounded-full" 
+                                className="bg-[#8e24aa] h-full rounded-full progress-bar-fill" 
                                 style={{ width: `${Math.min(100, (page.count / (analytics.pagesRanking[0]?.count || 1)) * 100)}%` }}
                               />
                             </div>
@@ -721,7 +764,7 @@ export default function ManageAdmin() {
                             </div>
                             <div className="w-full bg-slate-200 bg-opacity-40 h-1 rounded-full overflow-hidden">
                               <div 
-                                className="bg-[#1a73e8] h-full rounded-full" 
+                                className="bg-[#1a73e8] h-full rounded-full progress-bar-fill" 
                                 style={{ width: `${Math.min(100, (b.count / (analytics.browsers[0]?.count || 1)) * 100)}%` }}
                               />
                             </div>
@@ -811,7 +854,7 @@ export default function ManageAdmin() {
                         </div>
                         <div className="w-full bg-slate-200 bg-opacity-40 h-1.5 rounded-full overflow-hidden">
                           <div 
-                            className="bg-[#8e24aa] h-full rounded-full" 
+                            className="bg-[#8e24aa] h-full rounded-full progress-bar-fill" 
                             style={{ 
                               width: `${Math.min(100, 
                                 ((analytics?.social?.instagram || 0) / 
@@ -828,7 +871,7 @@ export default function ManageAdmin() {
                         </div>
                         <div className="w-full bg-slate-200 bg-opacity-40 h-1.5 rounded-full overflow-hidden">
                           <div 
-                            className="bg-[#8e24aa] h-full rounded-full" 
+                            className="bg-[#8e24aa] h-full rounded-full progress-bar-fill" 
                             style={{ 
                               width: `${Math.min(100, 
                                 ((analytics?.social?.facebook || 0) / 
@@ -866,7 +909,7 @@ export default function ManageAdmin() {
                         </div>
                         <div className="w-full bg-slate-200 bg-opacity-40 h-1.5 rounded-full overflow-hidden">
                           <div 
-                            className="bg-[#2e7d32] h-full rounded-full" 
+                            className="bg-[#2e7d32] h-full rounded-full progress-bar-fill" 
                             style={{ 
                               width: `${Math.min(100, 
                                 ((analytics?.referral?.googleAccounts || 0) / 
@@ -883,7 +926,7 @@ export default function ManageAdmin() {
                         </div>
                         <div className="w-full bg-slate-200 bg-opacity-40 h-1.5 rounded-full overflow-hidden">
                           <div 
-                            className="bg-[#2e7d32] h-full rounded-full" 
+                            className="bg-[#2e7d32] h-full rounded-full progress-bar-fill" 
                             style={{ 
                               width: `${Math.min(100, 
                                 ((analytics?.referral?.otherApps || 0) / 
@@ -921,7 +964,7 @@ export default function ManageAdmin() {
                         </div>
                         <div className="w-full bg-slate-200 bg-opacity-40 h-1.5 rounded-full overflow-hidden">
                           <div 
-                            className="bg-[#1a73e8] h-full rounded-full" 
+                            className="bg-[#1a73e8] h-full rounded-full progress-bar-fill" 
                             style={{ 
                               width: `${Math.min(100, 
                                 ((analytics?.organic?.googleSearch || 0) / 
@@ -938,7 +981,7 @@ export default function ManageAdmin() {
                         </div>
                         <div className="w-full bg-slate-200 bg-opacity-40 h-1.5 rounded-full overflow-hidden">
                           <div 
-                            className="bg-[#1a73e8] h-full rounded-full" 
+                            className="bg-[#1a73e8] h-full rounded-full progress-bar-fill" 
                             style={{ 
                               width: `${Math.min(100, 
                                 ((analytics?.organic?.duckDuckGo || 0) / 
