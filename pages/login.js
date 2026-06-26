@@ -202,8 +202,10 @@ export default function Login() {
         setError("Network error. Check your connection.");
       } else if (code.includes("account-disabled")) {
         setError("This account is disabled.");
+      } else if (code.includes("internal-error")) {
+        setError("Auth config error. Contact support or try again later.");
       } else {
-        setError(err?.message || "Something went wrong.");
+        setError("Sign-in failed. Please try again.");
       }
       setLoading(false);
     }
