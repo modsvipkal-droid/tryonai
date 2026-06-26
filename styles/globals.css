@@ -491,106 +491,59 @@ nextjs-portal,
 }
 
 .number-ball {
-  --main: #09a865;
-  --dark: #007242;
-  --light: #54df9b;
-  width: clamp(49px, 10.4vw, 61px);
+  width: clamp(56px, 12vw, 70px);
   aspect-ratio: 1;
-  position: relative;
-  isolation: isolate;
   display: grid;
   place-items: center;
   justify-self: center;
-  color: var(--main);
   border-radius: 50%;
-  background:
-    radial-gradient(circle at 50% 50%, #fff 0 37%, transparent 38%),
-    repeating-conic-gradient(from 14deg, var(--main) 0 24deg, var(--light) 24deg 38deg, #f8ffff 38deg 50deg, var(--dark) 50deg 68deg, var(--main) 68deg 90deg);
-  box-shadow:
-    inset 0 -3px 7px rgba(0, 0, 0, 0.14),
-    inset 0 3px 5px rgba(255, 255, 255, 0.68),
-    0 3px 7px rgba(0, 0, 0, 0.08);
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   transition:
     transform 230ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    filter 230ms ease,
     box-shadow 230ms ease;
 }
 
 .number-ball:hover {
-  transform: translateY(-2px) scale(1.02);
-  filter: saturate(1.08);
-  box-shadow:
-    inset 0 -3px 7px rgba(0, 0, 0, 0.14),
-    inset 0 3px 5px rgba(255, 255, 255, 0.68),
-    0 9px 16px rgba(0, 76, 49, 0.12);
-}
-
-.number-ball::before {
-  content: "";
-  position: absolute;
-  inset: 8px;
-  z-index: -1;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 42% 35%, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.72)),
-    #fff;
-  box-shadow:
-    inset 0 2px 5px rgba(255, 255, 255, 0.96),
-    inset 0 -2px 5px rgba(0, 0, 0, 0.07);
-}
-
-.number-ball::after {
-  content: "";
-  position: absolute;
-  inset: 4px;
-  z-index: -2;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.72);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 .number-ball-img {
-  width: 28px;
-  height: 28px;
+  width: 38px;
+  height: 38px;
   object-fit: contain;
   display: block;
   pointer-events: none;
 }
 
 .number-ball.small {
-  width: 31px;
-  height: 31px;
-}
-
-.number-ball.small::before {
-  inset: 5px;
-}
-
-.number-ball.small::after {
-  inset: 3px;
+  width: 36px;
+  height: 36px;
 }
 
 .number-ball.small .number-ball-img {
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
 }
 
 .mini-token .number-ball-img {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   display: block;
 }
 
 .frequency-bar-label img {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   object-fit: contain;
   display: block;
   margin: 0 auto;
 }
 
 .history-number-img {
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   object-fit: contain;
   display: block;
   vertical-align: middle;
@@ -1214,16 +1167,12 @@ nextjs-portal,
 }
 
 .mini-token {
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   display: grid;
   place-items: center;
-  color: #fff;
   border-radius: 50%;
-  background: var(--main);
-  font-size: 13px;
-  font-weight: 800;
-  box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.18);
+  background: transparent;
 }
 
 .temp-icon {
