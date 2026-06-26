@@ -454,7 +454,7 @@ function Icon({ name, className = "" }) {
 function NumberBall({ value, tone, small = false }) {
   return (
     <div className={`number-ball ${tone} ${small ? "small" : ""}`}>
-      <span>{value}</span>
+      <img src={`/number${value}.png`} alt={value} className="number-ball-img" />
     </div>
   );
 }
@@ -659,9 +659,7 @@ function TrendChart({ trendPoints }) {
           {trendPoints.map((point) => (
             <g key={point.period}>
               <line x1={point.x} y1={point.y + 3} x2={point.x} y2="62" className="trend-vgrid" />
-              <text x={point.x} y={point.y - 8} className={`trend-label ${point.tone}`}>
-                {point.value}
-              </text>
+              <image x={point.x - 5} y={point.y - 16} width="10" height="10" href={`/number${point.value}.png`} className="trend-label-img" />
               <circle cx={point.x} cy={point.y} r="4" className={`trend-dot ${point.tone}`} />
               <circle cx={point.x} cy={point.y} r="9" className={`trend-dot-ring ${point.tone}`} />
               <text x={point.x} y="65" className="trend-period">
@@ -690,7 +688,7 @@ function HotColdCard({ hotCold }) {
         {hotCold.length > 0 ? (
           hotCold.map((item) => (
             <div className="hot-row" key={`${item.value}-${item.label}`}>
-              <span className={`mini-token ${item.tone}`}>{item.value}</span>
+              <span className={`mini-token ${item.tone}`}><img src={`/number${item.value}.png`} alt={item.value} className="number-ball-img" /></span>
               <span className={`temp-icon ${item.type}`}>
                 {item.type === "hot" ? "Hot" : "Cold"}
               </span>
@@ -967,7 +965,7 @@ function Dashboard({ history, hotCold, currentPeriod, remainingMs, stats }) {
           <SignalWaves />
           <span>Top Repeat Signal</span>
           <div className="signal-number">
-            <b className={topSignal.tone}>{topSignal.value}</b>
+            <b className={topSignal.tone}><img src={`/number${topSignal.value}.png`} alt={topSignal.value} className="signal-number-img" /></b>
             <strong>{topSignal.amount}</strong>
           </div>
           <p>
@@ -986,7 +984,7 @@ function Dashboard({ history, hotCold, currentPeriod, remainingMs, stats }) {
         <div className="frequency-grid">
           {frequency.map((item) => (
             <div className="frequency-bar" key={item.number}>
-              <span>{item.number}</span>
+              <span className="frequency-bar-label"><img src={`/number${item.number}.png`} alt={item.number} /></span>
               <div className="frequency-track">
                 <i style={{ "--height": `${(item.count / maxFrequency) * 100}%` }} />
               </div>
@@ -1034,7 +1032,7 @@ function HistoryTable({ history, status }) {
                     colors.length > 1 ? colors.join("-") : colors[0]
                   }`}
                 >
-                  {row.number}
+                  <img src={`/number${row.number}.png`} alt={row.number} className="history-number-img" />
                 </strong>
                 <span>{row.size}</span>
                 <span className="color-dots">

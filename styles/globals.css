@@ -548,16 +548,17 @@ nextjs-portal,
   border: 1px solid rgba(255, 255, 255, 0.72);
 }
 
-.number-ball span {
-  color: var(--main);
-  font-size: 32px;
-  font-weight: 900;
-  line-height: 1;
-  text-shadow: 0 2px 1px rgba(255, 255, 255, 0.8);
+.number-ball-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
 }
 
 .number-ball.small {
   width: 31px;
+  height: 31px;
 }
 
 .number-ball.small::before {
@@ -568,8 +569,42 @@ nextjs-portal,
   inset: 3px;
 }
 
-.number-ball.small span {
-  font-size: 18px;
+.number-ball.small .number-ball-img {
+  width: 18px;
+  height: 18px;
+}
+
+.mini-token .number-ball-img {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.frequency-bar-label img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+.history-number-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+  vertical-align: middle;
+}
+
+.trend-label-img {
+  image-rendering: auto;
+}
+
+.signal-number-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  display: block;
 }
 
 .number-ball.green,
@@ -1613,22 +1648,8 @@ nextjs-portal,
 }
 
 .signal-number b {
-  color: var(--main);
-  font-size: 52px;
-  font-weight: 900;
-  line-height: 1;
-}
-
-.signal-number b.green {
-  --main: var(--history-green);
-}
-
-.signal-number b.red {
-  --main: var(--history-red);
-}
-
-.signal-number b.violet {
-  --main: var(--history-dot-violet);
+  display: grid;
+  place-items: center;
 }
 
 .signal-number strong {
@@ -1686,10 +1707,9 @@ nextjs-portal,
   gap: 4px;
 }
 
-.frequency-bar>span {
-  color: #1a2e26;
-  font-size: 10px;
-  font-weight: 800;
+.frequency-bar-label {
+  display: grid;
+  place-items: center;
 }
 
 .frequency-track {
