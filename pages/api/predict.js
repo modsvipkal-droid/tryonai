@@ -282,8 +282,8 @@ export default async function handler(req, res) {
     "accept": "application/json,text/plain,*/*",
     "accept-language": "en-US,en;q=0.9",
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-    "origin": "https://trxtrader.pro",
-    "referer": "https://trxtrader.pro/",
+    "origin": "https://wingo30.com",
+    "referer": "https://wingo30.com/",
   };
 
   async function tryFetchWinGo() {
