@@ -188,24 +188,23 @@ export default function Login() {
         return;
       }
 
-      await signInWithGoogle();
       setSheetOpen(false);
+      await new Promise((r) => setTimeout(r, 400));
+
+      await signInWithGoogle();
       router.replace("/");
     } catch (err) {
       console.error("Google sign-in error:", err);
+      const msg = err?.message || "";
       const code = err?.code || "";
-      if (code.includes("popup-closed-by-user") || code.includes("cancelled-popup")) {
-        setError("Sign-in cancelled. Please try again.");
-      } else if (code.includes("popup-blocked")) {
-        setError("Popup blocked. Please allow popups.");
+      if (msg.includes("timed out")) {
+        setError("Sign-in took too long. Please try again.");
       } else if (code.includes("network")) {
         setError("Network error. Check your connection.");
-      } else if (code.includes("account-disabled")) {
-        setError("This account is disabled.");
-      } else if (code.includes("internal-error")) {
-        setError("Auth config error. Contact support or try again later.");
+      } else if (msg.includes("cancelled") || msg.includes("user closed")) {
+        setError("Sign-in cancelled.");
       } else {
-        setError("Sign-in failed. Please try again.");
+        setError("Sign-in failed. Try again.");
       }
       setLoading(false);
     }
