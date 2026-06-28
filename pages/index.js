@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { watchAuthState, signOutUser } from "@/lib/firebase";
 import { addUser, getRemainingPredictions, incrementPredictionCount } from "@/lib/storage";
 import { fetchWingoHistory, generateMockHistory, getCurrentIssue, estimateTimestamps } from "@/lib/wingo";
+import { OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema, FAQSchema } from "@/components/SEO";
 
 function LottieTgs({ src, size = 48 }) {
   const containerRef = useRef(null);
@@ -1121,12 +1122,27 @@ function AuthGate() {
   return (
     <>
       <Head>
-        <title>Checking Login | TryonAI</title>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1"
-        />
-        <meta name="theme-color" content="#ffffff" />
+        <title>TryonAI - AI Wingo Prediction Platform</title>
+        <meta name="description" content="TryonAI is an AI-powered prediction platform for Wingo30. Get real-time analysis, pattern recognition, smart signals, and live dashboard for smarter trading decisions." />
+        <meta name="keywords" content="TryonAI, Wingo30, AI prediction, pattern analysis, trading signals, Wingo prediction, AI analysis, real-time analytics, prediction platform, smart trading, Wingo 30 seconds, Tryon AI, AI trading bot, signal analysis, pattern recognition" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <meta name="theme-color" content="#00964f" />
+        <link rel="canonical" href="https://wingo30.com/" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="TryonAI - AI Wingo Prediction Platform" />
+        <meta property="og:description" content="AI-powered prediction platform for Wingo30. Real-time analysis, pattern recognition, and smart trading signals." />
+        <meta property="og:url" content="https://wingo30.com/" />
+        <meta property="og:site_name" content="TryonAI" />
+        <meta property="og:image" content="https://wingo30.com/og-image.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="TryonAI - AI Wingo Prediction Platform" />
+        <meta name="twitter:description" content="AI-powered prediction platform for Wingo30. Real-time analysis, pattern recognition, and smart trading signals." />
+        <meta name="twitter:image" content="https://wingo30.com/og-image.jpg" />
+        <meta name="twitter:site" content="@TryonAI" />
+        <meta name="twitter:creator" content="@TryonAI" />
       </Head>
       <div className="auth-gate">
         <span />
@@ -1312,13 +1328,40 @@ function MainApp({ user }) {
   return (
     <>
       <Head>
-        <title>TryonAI UI</title>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1"
-        />
+        <title>TryonAI - AI Wingo Prediction Platform</title>
+        <meta name="description" content="TryonAI provides AI-driven Wingo30 predictions with real-time pattern analysis, trend charts, hot and cold signals, and a live analytics dashboard." />
+        <meta name="keywords" content="TryonAI, Wingo30, AI prediction, pattern analysis, trading signals, Wingo prediction, AI analysis, real-time analytics, prediction platform, smart trading, Wingo 30 seconds, Tryon AI, AI trading bot, signal analysis, pattern recognition, live dashboard, win prediction, number prediction, color prediction, big small prediction" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta name="theme-color" content="#00964f" />
+        <link rel="canonical" href="https://wingo30.com/" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="TryonAI - AI Wingo Prediction Platform" />
+        <meta property="og:description" content="AI-powered prediction platform for Wingo30. Real-time analysis, pattern recognition, and smart trading signals." />
+        <meta property="og:url" content="https://wingo30.com/" />
+        <meta property="og:site_name" content="TryonAI" />
+        <meta property="og:image" content="https://wingo30.com/og-image.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="TryonAI - AI Wingo Prediction Platform" />
+        <meta name="twitter:description" content="AI-powered prediction platform for Wingo30. Real-time analysis, pattern recognition, and smart trading signals." />
+        <meta name="twitter:image" content="https://wingo30.com/og-image.jpg" />
+        <meta name="twitter:site" content="@TryonAI" />
+        <meta name="twitter:creator" content="@TryonAI" />
       </Head>
+      <OrganizationSchema />
+      <WebsiteSchema />
+      <WebPageSchema title="TryonAI - AI Wingo Prediction Platform" description="AI-powered prediction platform for Wingo30 with real-time analysis, pattern recognition, and smart trading signals." url="https://wingo30.com/" />
+      <BreadcrumbSchema items={[{ name: "Home", url: "https://wingo30.com/" }]} />
+      <SoftwareAppSchema />
+      <FAQSchema questions={[
+        { question: "What is TryonAI?", answer: "TryonAI is an AI-powered prediction platform for Wingo30 that provides real-time analysis, pattern recognition, and smart trading signals to help users make informed decisions." },
+        { question: "How does Wingo30 prediction work?", answer: "TryonAI uses advanced algorithms to analyze historical Wingo30 data, identify patterns, and generate predictions for the next period's outcome including number, color, and size." },
+        { question: "Is TryonAI free to use?", answer: "TryonAI offers unlimited predictions for subscribed users. Subscribe to unlock full access to all premium features and real-time analytics." },
+        { question: "What is Wingo 30 seconds?", answer: "Wingo30 is a fast-paced prediction game where a new period starts every 30 seconds. Players predict the outcome including number (0-9), color (Green, Violet, Red), and size (Big/Small)." },
+        { question: "How accurate are TryonAI predictions?", answer: "TryonAI uses advanced pattern analysis and machine learning algorithms to provide high-accuracy predictions. The accuracy rate is displayed live on the dashboard." }
+      ]} />
       {showRules && <RulesPopup onClose={() => setShowRules(false)} remaining={remaining} user={user} />}
       <Toast message={toastMessage} visible={toastVisible} />
       <div className="page-shell">

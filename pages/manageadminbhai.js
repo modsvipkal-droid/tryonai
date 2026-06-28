@@ -496,6 +496,8 @@ export default function ManageAdmin() {
       <>
         <Head>
           <title>Admin Login | TryonAI</title>
+          <meta name="description" content="TryonAI admin panel login. Authorized access only." />
+          <meta name="robots" content="noindex, nofollow" />
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         </Head>
         <div className="min-h-screen bg-slate-50 flex items-center justify-center p-5">
@@ -531,6 +533,8 @@ export default function ManageAdmin() {
     <>
       <Head>
         <title>Admin Dashboard | TryonAI</title>
+        <meta name="description" content="TryonAI admin dashboard. Analytics, user management, and platform monitoring." />
+        <meta name="robots" content="noindex, nofollow" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </Head>
       {/* Scrollable Root Container */}

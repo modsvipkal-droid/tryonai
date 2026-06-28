@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import "@/styles/loading.css";
 import { useCallback, useState, useEffect } from "react";
+import Head from "next/head";
 import LoadingScreen from "@/components/loading";
 
 export default function App({ Component, pageProps }) {
@@ -44,6 +45,15 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
+      <Head>
+        <meta name="author" content="TryonAI" />
+        <meta name="publisher" content="TryonAI" />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large" />
+        <meta name="language" content="English" />
+        <meta name="rating" content="general" />
+        <meta name="revisit-after" content="1 days" />
+      </Head>
       <Component {...pageProps} />
       {showIntroLoader && <LoadingScreen onComplete={handleIntroComplete} />}
     </>

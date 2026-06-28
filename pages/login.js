@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { signInWithGoogle, watchAuthState } from "@/lib/firebase";
+import { OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema } from "@/components/SEO";
 
 function GoogleMark() {
   return (
@@ -234,13 +235,36 @@ export default function Login() {
   return (
     <>
       <Head>
-        <title>Login | TryonAI</title>
+        <title>Sign In | TryonAI - AI Wingo Prediction Platform</title>
+        <meta name="description" content="Sign in to TryonAI to access AI-powered Wingo30 predictions, real-time pattern analysis, smart trading signals, and live analytics dashboard." />
+        <meta name="keywords" content="TryonAI login, Wingo30 sign in, AI prediction login, trading platform, Wingo prediction access" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta name="theme-color" content="#ffffff" />
+        <link rel="canonical" href="https://wingo30.com/login" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Sign In | TryonAI - AI Wingo Prediction Platform" />
+        <meta property="og:description" content="Sign in to TryonAI to access AI-powered Wingo30 predictions, real-time analysis, and smart trading signals." />
+        <meta property="og:url" content="https://wingo30.com/login" />
+        <meta property="og:site_name" content="TryonAI" />
+        <meta property="og:image" content="https://wingo30.com/og-image.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Sign In | TryonAI - AI Wingo Prediction Platform" />
+        <meta name="twitter:description" content="Sign in to TryonAI to access AI-powered Wingo30 predictions, real-time analysis, and smart trading signals." />
+        <meta name="twitter:image" content="https://wingo30.com/og-image.jpg" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
       </Head>
+      <OrganizationSchema />
+      <WebsiteSchema />
+      <WebPageSchema title="Sign In | TryonAI" description="Sign in to TryonAI for AI-powered Wingo30 predictions." url="https://wingo30.com/login" />
+      <BreadcrumbSchema items={[
+        { name: "Home", url: "https://wingo30.com/" },
+        { name: "Sign In", url: "https://wingo30.com/login" }
+      ]} />
       <main className="login-page">
         <div className="background" />
         <div className="login-hero-image" style={{ backgroundImage: 'url(/Loginbg.jpg)' }} />
