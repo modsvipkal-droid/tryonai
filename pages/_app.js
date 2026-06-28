@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import "@/styles/loading.css";
 import { useCallback, useState, useEffect } from "react";
 import Head from "next/head";
+import Script from "next/script";
 import LoadingScreen from "@/components/loading";
 
 export default function App({ Component, pageProps }) {
@@ -54,6 +55,13 @@ export default function App({ Component, pageProps }) {
         <meta name="rating" content="general" />
         <meta name="revisit-after" content="1 days" />
       </Head>
+      <Script src="https://www.googletagmanager.com/gtag/js?id=G-QCS58YBCWF" strategy="afterInteractive" />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-QCS58YBCWF');`}
+      </Script>
       <Component {...pageProps} />
       {showIntroLoader && <LoadingScreen onComplete={handleIntroComplete} />}
     </>
