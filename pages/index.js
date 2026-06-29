@@ -1,10 +1,20 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { watchAuthState, signOutUser } from "@/lib/firebase";
 import { addUser, getRemainingPredictions, incrementPredictionCount } from "@/lib/storage";
 import { fetchWingoHistory, generateMockHistory, getCurrentIssue, estimateTimestamps } from "@/lib/wingo";
 import { OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema, FAQSchema } from "@/components/SEO";
+
+// ── Logic gate helper: get Firebase ID token for API auth ──────────────────────
+async function getIdToken() {
+  try {
+    const { getFirebaseAuth } = await import("@/lib/firebase");
+    const auth = await getFirebaseAuth();
+    if (auth?.currentUser) return await auth.currentUser.getIdToken();
+  } catch {}
+  return null;
+}
 
 function LottieTgs({ src, size = 48 }) {
   const containerRef = useRef(null);
@@ -1118,6 +1128,60 @@ function Toast({ message, visible }) {
   );
 }
 
+// ── No Logic Popup ─────────────────────────────────────────────────────────────
+function NoLogicPopup({ onClose, onUpload }) {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
+  return (
+    <div className="rules-overlay" onClick={onClose}>
+      <div className="rules-modal" onClick={(e) => e.stopPropagation()} style={{ textAlign: "center" }}>
+        <button className="rules-close" type="button" onClick={onClose}>
+          <Icon name="back" />
+        </button>
+        <div className="rules-content">
+          <div style={{
+            width: 72, height: 72, borderRadius: 20,
+            background: "linear-gradient(135deg,rgba(255,152,0,0.15),rgba(255,152,0,0.25))",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            margin: "0 auto 18px", fontSize: 36,
+          }}>⚠️</div>
+          <h2 style={{ margin: "0 0 10px", fontSize: 18, color: "#0f1f18" }}>Custom Logic Required</h2>
+          <p style={{ margin: "0 0 20px", fontSize: 14, color: "#6f7a75", lineHeight: 1.6 }}>
+            Please upload your <strong>Custom Logic (.trionai)</strong> before generating predictions.
+            Each account needs its own private logic file to activate the AI engine.
+          </p>
+          <button
+            type="button"
+            onClick={onUpload}
+            style={{
+              width: "100%", padding: "14px", borderRadius: 14,
+              background: "linear-gradient(135deg,#00985b,#00b86e)",
+              color: "white", fontWeight: 700, fontSize: 15, cursor: "pointer",
+              border: "none", boxShadow: "0 4px 20px rgba(0,152,91,0.35)",
+              marginBottom: 10,
+            }}
+          >
+            Upload Custom Logic
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            style={{
+              width: "100%", padding: "12px", borderRadius: 14,
+              background: "rgba(0,0,0,0.05)", color: "#6f7a75",
+              fontWeight: 700, fontSize: 14, cursor: "pointer", border: "none",
+            }}
+          >
+            Maybe Later
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function AuthGate() {
   return (
     <>
@@ -1152,7 +1216,7 @@ function AuthGate() {
   );
 }
 
-function BottomNav({ activeView, onChangeView }) {
+function BottomNav({ activeView, onChangeView, onLogicClick }) {
   const items = [
     { label: "Predict", icon: "brain", view: "predict" },
     { label: "Chart", icon: "chart", view: "dashboard" },
@@ -1184,6 +1248,19 @@ function BottomNav({ activeView, onChangeView }) {
         <Icon name={items[1].icon} />
         <span>{items[1].label}</span>
       </button>
+      {/* Logic nav item */}
+      <button
+        className="nav-item"
+        type="button"
+        onClick={onLogicClick}
+        aria-label="Custom Logic Upload"
+        style={{ position: "relative" }}
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
+          <path d="M12 3.75 4.75 7v5.5c0 3.5 3.1 6.7 7.25 7.75C16.15 19.2 19.25 16 19.25 12.5V7Z" />
+        </svg>
+        <span>Logic</span>
+      </button>
     </nav>
   );
 }
@@ -1204,6 +1281,27 @@ function MainApp({ user }) {
   const { apiCurrent, history, serverNow, status } = useLiveHistory();
   const savedUser = useRef(false);
 
+  // ── Logic gate state ──────────────────────────────────────────────────────
+  const [logicStatus, setLogicStatus] = useState(null); // null = not loaded yet
+  const [logicLoaded, setLogicLoaded] = useState(false);
+  const [showNoLogicPopup, setShowNoLogicPopup] = useState(false);
+
+  const loadLogicStatus = useCallback(async () => {
+    try {
+      const token = await getIdToken();
+      const res = await fetch("/api/logic/status", {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+      const data = await res.json();
+      setLogicStatus(data.hasLogic ? data.logic : null);
+    } catch {
+      setLogicStatus(null);
+    } finally {
+      setLogicLoaded(true);
+    }
+  }, []);
+  // ─────────────────────────────────────────────────────────────────────────
+
   useEffect(() => {
     if (user?.email && !savedUser.current) {
       savedUser.current = true;
@@ -1216,6 +1314,11 @@ function MainApp({ user }) {
       getRemainingPredictions(user.email).then(setRemaining);
     }
   }, [user]);
+
+  // Load logic status once user is authenticated
+  useEffect(() => {
+    if (user?.email) loadLogicStatus();
+  }, [user, loadLogicStatus]);
 
   async function handleBetClick() {
     if (!user?.email) return;
@@ -1232,19 +1335,29 @@ function MainApp({ user }) {
     try {
       const { fetchWingoNumbers } = await import("@/lib/wingo");
       const numbers = await fetchWingoNumbers();
+      const token = await getIdToken();
       const res = await fetch("/api/predict", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         body: JSON.stringify({ numbers }),
       });
       const data = await res.json();
+      // Handle logic guard response
+      if (res.status === 403 && data.code === "NO_LOGIC") {
+        setShowServerAnim(false);
+        setShowNoLogicPopup(true);
+        lastPredictedPeriod.current = null; // allow retry
+        return;
+      }
       const size = data.prediction || (Math.random() >= 0.5 ? "Big" : "Small");
       setUserPredictions(prev => [...prev, { period: periodNum, prediction: size }]);
       setTimeout(() => { setShowServerAnim(false); setPredictionResult(size); }, 5000);
     } catch {
-      const size = Math.random() >= 0.5 ? "Big" : "Small";
-      setUserPredictions(prev => [...prev, { period: periodNum, prediction: size }]);
-      setTimeout(() => { setShowServerAnim(false); setPredictionResult(size); }, 5000);
+      setShowServerAnim(false);
+      lastPredictedPeriod.current = null;
     }
   }
   async function handleGeneratePrediction() {
@@ -1252,6 +1365,11 @@ function MainApp({ user }) {
     const r = await getRemainingPredictions(user.email);
     if (r !== -1) {
       router.push('/subscription');
+      return;
+    }
+    // ── Logic gate: check before even hitting the server ──
+    if (logicLoaded && !logicStatus) {
+      setShowNoLogicPopup(true);
       return;
     }
     if (lastPredictedPeriod.current === currentPeriod.issueNumber) {
@@ -1363,6 +1481,12 @@ function MainApp({ user }) {
         { question: "How accurate are TryonAI predictions?", answer: "TryonAI uses advanced pattern analysis and machine learning algorithms to provide high-accuracy predictions. The accuracy rate is displayed live on the dashboard." }
       ]} />
       {showRules && <RulesPopup onClose={() => setShowRules(false)} remaining={remaining} user={user} />}
+      {showNoLogicPopup && (
+        <NoLogicPopup
+          onClose={() => setShowNoLogicPopup(false)}
+          onUpload={() => { setShowNoLogicPopup(false); router.push("/logic"); }}
+        />
+      )}
       <Toast message={toastMessage} visible={toastVisible} />
       <div className="page-shell">
         <div className="app-screen" ref={screenRef}>
@@ -1418,7 +1542,11 @@ function MainApp({ user }) {
             )}
           </main>
         </div>
-        <BottomNav activeView={activeView} onChangeView={setActiveView} />
+        <BottomNav
+          activeView={activeView}
+          onChangeView={setActiveView}
+          onLogicClick={() => router.push("/logic")}
+        />
       </div>
     </>
   );

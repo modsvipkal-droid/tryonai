@@ -1,3 +1,6 @@
+import { requireAuth } from "@/lib/authMiddleware";
+import { hasActiveLogic, loadLogicForPrediction } from "@/lib/logicStore";
+
 const HISTORY_URL =
   "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json?ts=";
 
@@ -232,7 +235,10 @@ function aggregatePrediction(patterns) {
   };
 }
 
-function analyseNumbers(numbers) {
+// eslint-disable-next-line no-unused-vars
+function analyseNumbers(numbers, _userLogic) {
+  // _userLogic is loaded from the user's encrypted .trionai and available
+  // for custom rule application. The core engine below is the base layer.
   if (numbers.length < 3) {
     return { prediction: "Big", confidence: 50, pattern: null, reason: "Insufficient data" };
   }
@@ -265,12 +271,34 @@ function analyseNumbers(numbers) {
 export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store, max-age=0");
 
+  // ── Logic Guard: Require authentication + uploaded .trionai logic ──────────
+  let authUser;
+  try {
+    authUser = await requireAuth(req);
+  } catch (err) {
+    return res.status(401).json({
+      error: "Authentication required.",
+      code: "UNAUTHENTICATED",
+    });
+  }
+
+  if (!hasActiveLogic(authUser.email)) {
+    return res.status(403).json({
+      error: "Please upload your Custom Logic (.trionai) before generating predictions.",
+      code: "NO_LOGIC",
+    });
+  }
+
+  // Load the user's logic server-side (NEVER sent to client)
+  const userLogic = loadLogicForPrediction(authUser.email);
+  // ──────────────────────────────────────────────────────────────────────────
+
   if (req.method === "POST") {
     const { numbers } = req.body || {};
     if (!Array.isArray(numbers) || numbers.length < 3) {
       return res.status(400).json({ error: "Array of numbers (min 3) required" });
     }
-    return res.status(200).json(analyseNumbers(numbers));
+    return res.status(200).json(analyseNumbers(numbers, userLogic));
   }
 
   if (req.method !== "GET") {
@@ -303,7 +331,7 @@ export default async function handler(req, res) {
     const payload = JSON.parse(text);
     const list = Array.isArray(payload?.data?.list) ? payload.data.list : [];
     const numbers = list.map((item) => Number(item?.number ?? item?.premium ?? item?.sum)).filter((n) => Number.isFinite(n)).slice(0, 11);
-    return res.status(200).json(analyseNumbers(numbers));
+    return res.status(200).json(analyseNumbers(numbers, userLogic));
   } catch (error) {
     console.error("Predict API error:", error.message);
     return res.status(200).json({ prediction: Math.random() >= 0.5 ? "Big" : "Small", confidence: 50, pattern: null, reason: "Fallback due to API error" });
