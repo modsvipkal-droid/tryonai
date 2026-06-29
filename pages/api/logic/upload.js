@@ -1,5 +1,6 @@
 import { requireAuth } from "@/lib/authMiddleware";
 import { saveLogic, getLogicMeta } from "@/lib/logicStore";
+import { findUserByEmail } from "@/lib/db";
 
 export const config = {
   api: {
@@ -85,6 +86,16 @@ export default async function handler(req, res) {
     user = await requireAuth(req);
   } catch (err) {
     return res.status(err.status || 401).json({ error: err.message });
+  }
+
+  // 1.5 Verify user is unlimited in the database
+  try {
+    const dbUser = await findUserByEmail(user.email);
+    if (!dbUser || !dbUser.unlimited) {
+      return res.status(403).json({ error: "Access denied. Unlimited plan required." });
+    }
+  } catch {
+    return res.status(500).json({ error: "Database error. Please try again." });
   }
 
   // 2. Rate limit

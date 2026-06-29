@@ -1545,7 +1545,15 @@ function MainApp({ user }) {
         <BottomNav
           activeView={activeView}
           onChangeView={setActiveView}
-          onLogicClick={() => router.push("/logic")}
+          onLogicClick={async () => {
+            const { isUnlimited } = await import("@/lib/storage");
+            const unlimited = await isUnlimited(user.email);
+            if (!unlimited) {
+              router.push("/subscription");
+            } else {
+              router.push("/logic");
+            }
+          }}
         />
       </div>
     </>

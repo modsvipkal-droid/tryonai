@@ -128,10 +128,21 @@ export default function LogicPage() {
   useEffect(() => {
     let active = true;
     let unsub = () => {};
-    watchAuthState((u) => {
+    watchAuthState(async (u) => {
       if (!active) return;
       if (!u) {
         router.replace("/login");
+        return;
+      }
+      try {
+        const { isUnlimited } = await import("@/lib/storage");
+        const unlimited = await isUnlimited(u.email);
+        if (!unlimited) {
+          router.replace("/subscription");
+          return;
+        }
+      } catch {
+        router.replace("/subscription");
         return;
       }
       setUser(u);
