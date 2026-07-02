@@ -3879,7 +3879,7 @@ nextjs-portal,
 
 .login-page {
   position: relative;
-  min-height: 100%;
+  min-height: 100dvh;
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
@@ -4143,9 +4143,11 @@ nextjs-portal,
 
 .login-hero-image {
   width: 100%;
-  height: 380px;
-  background-size: cover;
-  background-position: center top;
+  height: 50vh;
+  min-height: 280px;
+  max-height: 520px;
+  background-size: contain;
+  background-position: center center;
   background-repeat: no-repeat;
   flex-shrink: 0;
 }
@@ -4155,9 +4157,9 @@ nextjs-portal,
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 18px;
   text-align: center;
-  padding: 32px 20px 48px;
+  padding: 24px 20px 36px;
   width: 100%;
   max-width: 440px;
   flex: 1;
@@ -4206,7 +4208,7 @@ nextjs-portal,
       0% 100%,
       0% 14px);
   transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-  margin-top: 10px;
+  margin-top: 18px;
   box-shadow: 0 8px 24px rgba(21, 39, 254, 0.24);
 }
 
@@ -4914,11 +4916,14 @@ nextjs-portal,
   }
 
   .login-hero-image {
-    height: 260px;
+    height: 40vh;
+    min-height: 200px;
+    max-height: 380px;
   }
 
   .login-content-area {
-    padding: 24px 16px 36px;
+    padding: 20px 16px 32px;
+    gap: 16px;
     max-width: 380px;
   }
 
@@ -4990,11 +4995,14 @@ nextjs-portal,
   }
 
   .login-hero-image {
-    height: 200px;
+    height: 35vh;
+    min-height: 160px;
+    max-height: 280px;
   }
 
   .login-content-area {
-    padding: 20px 14px 28px;
+    padding: 16px 14px 28px;
+    gap: 14px;
     max-width: 320px;
   }
 
