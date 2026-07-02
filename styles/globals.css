@@ -3636,8 +3636,7 @@ nextjs-portal,
 
 .rules-content {
   display: grid;
-  place-items: center;
-  text-align: center;
+  text-align: left;
   gap: 16px;
   min-height: 200px;
 }
@@ -3645,8 +3644,9 @@ nextjs-portal,
 .rules-content h2 {
   margin: 0;
   color: #0a261e;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
+  text-align: center;
 }
 
 .rules-content p {
@@ -3655,6 +3655,67 @@ nextjs-portal,
   font-size: 14px;
   line-height: 1.6;
   font-weight: 500;
+}
+
+/* —— Strict Rules popup styles —— */
+
+.rules-strict-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+.rules-strict-icon svg {
+  width: 48px;
+  height: 48px;
+  color: #0a3d28;
+  opacity: 0.85;
+}
+
+.rules-strict-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rules-strict-list li {
+  position: relative;
+  padding: 8px 14px 8px 34px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #1e293b;
+  border-radius: 8px;
+  background: #f8fafc;
+  margin-bottom: 5px;
+}
+
+.rules-strict-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 11px;
+  top: 8px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #0a3d28;
+}
+
+.rules-strict-list li.rules-strict-no {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.rules-strict-list li.rules-strict-no::before {
+  display: none;
+}
+
+.rules-strict-list li.rules-strict-no svg {
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  width: 16px;
+  height: 16px;
+  color: #dc2626;
+  flex-shrink: 0;
 }
 
 .rules-limit {
