@@ -3881,7 +3881,7 @@ nextjs-portal,
   position: relative;
   min-height: 100dvh;
   height: 100%;
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
@@ -4252,6 +4252,7 @@ nextjs-portal,
   background: linear-gradient(135deg, #1527FE, #5B72FF);
   border: none;
   padding: 13px 30px 13px;
+  width: 340px;
   clip-path: polygon(
     0% 0%,
     64% 0%,
@@ -5025,11 +5026,11 @@ nextjs-portal,
   }
 
   .login-btn {
-    padding: 11px 24px;
+    padding: 13px 30px;
   }
 
   .login-btn-text {
-    font-size: 17px;
+    font-size: 20px;
   }
 
   .l-shape-1 {
@@ -5102,11 +5103,11 @@ nextjs-portal,
   }
 
   .login-btn {
-    padding: 9px 20px;
+    padding: 13px 26px;
   }
 
   .login-btn-text {
-    font-size: 15px;
+    font-size: 18px;
   }
 }
 
