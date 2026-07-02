@@ -4249,7 +4249,7 @@ nextjs-portal,
 
 .login-btn {
   cursor: pointer;
-  background-color: #dd7109;
+  background: linear-gradient(135deg, #1527FE, #5B72FF);
   border: none;
   padding: 13px 30px 13px;
   clip-path: polygon(
@@ -4270,9 +4270,11 @@ nextjs-portal,
   );
   transition: all 0.3s ease-in-out;
   margin-top: 18px;
+  box-shadow: 0 6px 20px rgba(21, 39, 254, 0.25);
 }
 .login-btn:hover {
-  background-color: #5c47de;
+  background: linear-gradient(135deg, #5B72FF, #8C9EFF);
+  box-shadow: 0 8px 28px rgba(21, 39, 254, 0.35);
 }
 .login-btn-inner {
   display: flex;
