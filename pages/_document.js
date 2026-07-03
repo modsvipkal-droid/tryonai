@@ -15,7 +15,6 @@ export default function Document() {
         <meta name="format-detection" content="telephone=no" />
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
 
-        <link rel="canonical" href="https://wingo30.com/" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
@@ -33,6 +32,7 @@ export default function Document() {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://accounts.google.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://challenges.cloudflare.com" crossOrigin="anonymous" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
       </Head>
       <body className="antialiased">
         <Main />

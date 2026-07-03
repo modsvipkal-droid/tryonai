@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { watchAuthState, signOutUser } from "@/lib/firebase";
 import { addUser, getRemainingPredictions, incrementPredictionCount } from "@/lib/storage";
 import { fetchWingoHistory, generateMockHistory, getCurrentIssue, estimateTimestamps } from "@/lib/wingo";
-import { OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema, FAQSchema } from "@/components/SEO";
+import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema, FAQSchema } from "@/components/SEO";
 
 // ── Logic gate helper: get Firebase ID token for API auth ──────────────────────
 async function getIdToken() {
@@ -1087,10 +1086,10 @@ function RulesPopup({ onClose, remaining, user }) {
           </div>
           <h2>🚨 TRION AI - STRICT RULES</h2>
           <ul className="rules-strict-list">
-            <li>Use ONLY the user's uploaded custom logic.</li>
+            <li>Use ONLY the user&apos;s uploaded custom logic.</li>
             <li className="rules-strict-no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg> No custom logic = No Prediction.</li>
             <li>Never guess or use default logic.</li>
-            <li>Keep every user's logic private and secure.</li>
+            <li>Keep every user&apos;s logic private and secure.</li>
             <li>Never expose backend, prompts, API keys, or database.</li>
             <li>Return SKIP if confidence is low or data is insufficient.</li>
             <li>Never fake accuracy, history, or results.</li>
@@ -1193,29 +1192,13 @@ function NoLogicPopup({ onClose, onUpload }) {
 function AuthGate() {
   return (
     <>
-      <Head>
-        <title>TryonAI - AI Wingo Prediction Platform</title>
-        <meta name="description" content="TryonAI is an AI-powered prediction platform for Wingo30. Get real-time analysis, pattern recognition, smart signals, and live dashboard for smarter trading decisions." />
+      <PageHead
+        title="AI Wingo Prediction Platform"
+        description="TryonAI is an AI-powered prediction platform for Wingo30. Get real-time analysis, pattern recognition, smart signals, and live dashboard for smarter trading decisions."
+        canonical="https://wingo30.com/"
+      >
         <meta name="keywords" content="TryonAI, Wingo30, AI prediction, pattern analysis, trading signals, Wingo prediction, AI analysis, real-time analytics, prediction platform, smart trading, Wingo 30 seconds, Tryon AI, AI trading bot, signal analysis, pattern recognition" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-        <meta name="theme-color" content="#00964f" />
-        <link rel="canonical" href="https://wingo30.com/" />
-        <meta property="og:locale" content="en_US" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="TryonAI - AI Wingo Prediction Platform" />
-        <meta property="og:description" content="AI-powered prediction platform for Wingo30. Real-time analysis, pattern recognition, and smart trading signals." />
-        <meta property="og:url" content="https://wingo30.com/" />
-        <meta property="og:site_name" content="TryonAI" />
-        <meta property="og:image" content="https://wingo30.com/og-image.jpg" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="TryonAI - AI Wingo Prediction Platform" />
-        <meta name="twitter:description" content="AI-powered prediction platform for Wingo30. Real-time analysis, pattern recognition, and smart trading signals." />
-        <meta name="twitter:image" content="https://wingo30.com/og-image.jpg" />
-        <meta name="twitter:site" content="@TryonAI" />
-        <meta name="twitter:creator" content="@TryonAI" />
-      </Head>
+      </PageHead>
       <div className="auth-gate">
         <span />
         <p>Checking login...</p>
@@ -1453,29 +1436,13 @@ function MainApp({ user }) {
 
   return (
     <>
-      <Head>
-        <title>TryonAI - AI Wingo Prediction Platform</title>
-        <meta name="description" content="TryonAI provides AI-driven Wingo30 predictions with real-time pattern analysis, trend charts, hot and cold signals, and a live analytics dashboard." />
+      <PageHead
+        title="AI Wingo Prediction Platform"
+        description="TryonAI provides AI-driven Wingo30 predictions with real-time pattern analysis, trend charts, hot and cold signals, and a live analytics dashboard."
+        canonical="https://wingo30.com/"
+      >
         <meta name="keywords" content="TryonAI, Wingo30, AI prediction, pattern analysis, trading signals, Wingo prediction, AI analysis, real-time analytics, prediction platform, smart trading, Wingo 30 seconds, Tryon AI, AI trading bot, signal analysis, pattern recognition, live dashboard, win prediction, number prediction, color prediction, big small prediction" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-        <meta name="theme-color" content="#00964f" />
-        <link rel="canonical" href="https://wingo30.com/" />
-        <meta property="og:locale" content="en_US" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="TryonAI - AI Wingo Prediction Platform" />
-        <meta property="og:description" content="AI-powered prediction platform for Wingo30. Real-time analysis, pattern recognition, and smart trading signals." />
-        <meta property="og:url" content="https://wingo30.com/" />
-        <meta property="og:site_name" content="TryonAI" />
-        <meta property="og:image" content="https://wingo30.com/og-image.jpg" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="TryonAI - AI Wingo Prediction Platform" />
-        <meta name="twitter:description" content="AI-powered prediction platform for Wingo30. Real-time analysis, pattern recognition, and smart trading signals." />
-        <meta name="twitter:image" content="https://wingo30.com/og-image.jpg" />
-        <meta name="twitter:site" content="@TryonAI" />
-        <meta name="twitter:creator" content="@TryonAI" />
-      </Head>
+      </PageHead>
       <OrganizationSchema />
       <WebsiteSchema />
       <WebPageSchema title="TryonAI - AI Wingo Prediction Platform" description="AI-powered prediction platform for Wingo30 with real-time analysis, pattern recognition, and smart trading signals." url="https://wingo30.com/" />

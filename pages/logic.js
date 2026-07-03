@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { watchAuthState } from "@/lib/firebase";
+import { PageHead } from "@/components/SEO";
 
 // ─── Icons ─────────────────────────────────────────────────────────────────────
 function Icon({ name, className = "" }) {
@@ -321,12 +321,12 @@ export default function LogicPage() {
 
   return (
     <>
-      <Head>
-        <title>Custom Logic Upload – TryonAI</title>
-        <meta name="description" content="Upload your custom .trionai logic file to enable personalized AI predictions on TryonAI." />
-        <meta name="robots" content="noindex, nofollow" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-      </Head>
+      <PageHead
+        title="Custom Logic Upload"
+        description="Upload your custom .trionai logic file to enable personalized AI predictions on TryonAI."
+        canonical="https://wingo30.com/logic"
+        noindex
+      />
 
       {/* Hidden file input */}
       <input

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import Head from "next/head";
+import { PageHead } from "@/components/SEO";
 
 const AUTH_KEY = "_mab_auth";
 
@@ -494,12 +494,12 @@ export default function ManageAdmin() {
   if (!authed) {
     return (
       <>
-        <Head>
-          <title>Admin Login | TryonAI</title>
-          <meta name="description" content="TryonAI admin panel login. Authorized access only." />
-          <meta name="robots" content="noindex, nofollow" />
-          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-        </Head>
+        <PageHead
+          title="Admin Login"
+          description="TryonAI admin panel login. Authorized access only."
+          canonical="https://wingo30.com/admin"
+          noindex
+        />
         <div className="min-h-screen bg-slate-50 flex items-center justify-center p-5">
           <div className="w-full max-w-sm bg-white border border-slate-200 rounded-2xl p-8 shadow-lg text-center">
             <div className="w-12 h-12 bg-[#2e7d32] rounded-xl flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl">A</div>
@@ -531,12 +531,12 @@ export default function ManageAdmin() {
 
   return (
     <>
-      <Head>
-        <title>Admin Dashboard | TryonAI</title>
-        <meta name="description" content="TryonAI admin dashboard. Analytics, user management, and platform monitoring." />
-        <meta name="robots" content="noindex, nofollow" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-      </Head>
+      <PageHead
+        title="Admin Dashboard"
+        description="TryonAI admin dashboard. Analytics, user management, and platform monitoring."
+        canonical="https://wingo30.com/admin"
+        noindex
+      />
       {/* Scrollable Root Container */}
       <div className="fixed inset-0 overflow-y-auto bg-white text-slate-800 pb-20">
         {/* Top Navbar */}
@@ -654,7 +654,7 @@ export default function ManageAdmin() {
                   </div>
                   <div className="flex justify-between items-end text-slate-500 mt-2 border-t border-green-200 border-opacity-30 pt-2">
                     <div>
-                      <span className="text-[10px] block">Today's Traffic</span>
+                      <span className="text-[10px] block">Today&apos;s Traffic</span>
                       <strong className="value text-base font-bold">{analytics?.trafficGraph?.[6]?.total || 0} visits</strong>
                     </div>
                     <div className="text-[9px] text-right">7-day view</div>

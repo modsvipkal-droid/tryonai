@@ -1,6 +1,5 @@
-import Head from "next/head";
 import { useState } from "react";
-import { OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema } from "@/components/SEO";
+import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema } from "@/components/SEO";
 
 const bgStyle = `html, body { background: #f8fafc !important; overflow: auto !important; } #__next { height: auto; min-height: 100vh; overflow: auto; }`;
 
@@ -11,28 +10,14 @@ export default function Subscription() {
 
   return (
     <>
-      <Head>
-        <title>Subscription Plans | TryonAI - AI Wingo Prediction Platform</title>
-        <meta name="description" content="Subscribe to TryonAI for unlimited AI-powered Wingo30 predictions, premium signals, real-time pattern analysis, and advanced trading insights." />
+      <PageHead
+        title="Subscription Plans"
+        description="Subscribe to TryonAI for unlimited AI-powered Wingo30 predictions, premium signals, real-time pattern analysis, and advanced trading insights."
+        canonical="https://wingo30.com/subscription"
+      >
         <meta name="keywords" content="TryonAI subscription, Wingo30 premium, unlimited predictions, AI signal subscription, trading plan, prediction access" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-        <meta name="theme-color" content="#ffffff" />
-        <link rel="canonical" href="https://wingo30.com/subscription" />
-        <meta property="og:locale" content="en_US" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Subscription Plans | TryonAI - AI Wingo Prediction Platform" />
-        <meta property="og:description" content="Subscribe to TryonAI for unlimited AI-powered Wingo30 predictions, premium signals, and real-time pattern analysis." />
-        <meta property="og:url" content="https://wingo30.com/subscription" />
-        <meta property="og:site_name" content="TryonAI" />
-        <meta property="og:image" content="https://wingo30.com/og-image.jpg" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Subscription Plans | TryonAI - AI Wingo Prediction Platform" />
-        <meta name="twitter:description" content="Subscribe to TryonAI for unlimited AI-powered Wingo30 predictions, premium signals, and real-time analysis." />
-        <meta name="twitter:image" content="https://wingo30.com/og-image.jpg" />
         <style dangerouslySetInnerHTML={{ __html: bgStyle }} />
-      </Head>
+      </PageHead>
       <OrganizationSchema />
       <WebsiteSchema />
       <WebPageSchema title="Subscription Plans | TryonAI" description="Subscribe to TryonAI for unlimited Wingo30 predictions." url="https://wingo30.com/subscription" />

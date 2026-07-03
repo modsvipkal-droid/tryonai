@@ -1,5 +1,5 @@
 {
-  "name": "TryonAI - AI Prediction Platform",
+  "name": "TryonAI - AI Wingo30 Prediction Platform",
   "short_name": "TryonAI",
   "description": "AI-powered prediction platform for Wingo30. Real-time analysis, pattern recognition, and smart trading signals powered by artificial intelligence.",
   "start_url": "/",
@@ -8,15 +8,13 @@
   "theme_color": "#00964f",
   "orientation": "portrait",
   "lang": "en",
+  "categories": ["finance", "utilities", "productivity"],
+  "iarc_rating_id": "N/A",
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/favicon.ico",
-      "sizes": "32x32",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "/favicon.ico",
-      "sizes": "64x64",
+      "sizes": "32x32 64x64",
       "type": "image/x-icon"
     }
   ]
