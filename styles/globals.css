@@ -4339,6 +4339,7 @@ nextjs-portal,
   box-shadow: 0 8px 28px rgba(21, 39, 254, 0.35);
 }
 .login-btn-inner {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4351,6 +4352,19 @@ nextjs-portal,
   -webkit-mask-size: 200%;
   animation: shine 2s infinite;
   transition: 0.35s;
+}
+.login-btn-blob {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.15;
+  overflow: hidden;
+  border-radius: inherit;
+}
+.login-btn-blob svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 @keyframes shine {
   0% {

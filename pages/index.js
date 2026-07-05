@@ -1197,7 +1197,7 @@ function AuthGate() {
         description="TryonAI is an AI-powered prediction platform for Wingo30. Get real-time analysis, pattern recognition, smart signals, and live dashboard for smarter trading decisions."
         canonical="https://wingo30.com/"
       >
-        <meta name="keywords" content="TryonAI, Wingo30, AI prediction, pattern analysis, trading signals, Wingo prediction, AI analysis, real-time analytics, prediction platform, smart trading, Wingo 30 seconds, Tryon AI, AI trading bot, signal analysis, pattern recognition" />
+        <meta name="keywords" content="Wingo AI, Wingo prediction, Wingo30, TrionAI, Kal mods, Wingo VIP, Wingo analyst, Wingo app, Wingo colour prediction, Wingo real AI bot, AI wingo prediction, wingo ai prediction app, wingo ai prediction generator apk, wingo ai bot apk latest version, ai wingo prediction generator, ai wingo analysis, ai wingo game, wingo game, wingo 30, wingo 30 second, wingo 30 second live, wingo 30 second prediction chart today, wingo 30 sec prediction, wingo 30s prediction, win go 30s, trionAI, trillionaire, tri nation series, trio AI, tronair, trion it park, sailing melody, trionaid, triona, trion air filters, Kal mods, Kal mod apk, wingo vip, wingo prediction, TryonAI, AI prediction, pattern analysis, trading signals, real-time analytics, prediction platform, smart trading, AI trading bot, signal analysis, pattern recognition, live dashboard, win prediction, number prediction, color prediction, big small prediction" />
       </PageHead>
       <div className="auth-gate">
         <span />
@@ -1441,7 +1441,7 @@ function MainApp({ user }) {
         description="TryonAI provides AI-driven Wingo30 predictions with real-time pattern analysis, trend charts, hot and cold signals, and a live analytics dashboard."
         canonical="https://wingo30.com/"
       >
-        <meta name="keywords" content="TryonAI, Wingo30, AI prediction, pattern analysis, trading signals, Wingo prediction, AI analysis, real-time analytics, prediction platform, smart trading, Wingo 30 seconds, Tryon AI, AI trading bot, signal analysis, pattern recognition, live dashboard, win prediction, number prediction, color prediction, big small prediction" />
+        <meta name="keywords" content="Wingo AI, Wingo prediction, Wingo30, TrionAI, Kal mods, Wingo VIP, Wingo analyst, Wingo app, Wingo colour prediction, Wingo real AI bot, AI wingo prediction, wingo ai prediction app, wingo ai prediction generator apk, wingo ai bot apk latest version, ai wingo prediction generator, ai wingo analysis, ai wingo game, wingo game, wingo 30, wingo 30 second, wingo 30 second live, wingo 30 second prediction chart today, wingo 30 sec prediction, wingo 30s prediction, win go 30s, trionAI, trillionaire, tri nation series, trio AI, tronair, trion it park, sailing melody, trionaid, triona, trion air filters, Kal mods, Kal mod apk, wingo vip, wingo prediction, TryonAI, AI prediction, pattern analysis, trading signals, real-time analytics, prediction platform, smart trading, AI trading bot, signal analysis, pattern recognition, live dashboard, win prediction, number prediction, color prediction, big small prediction" />
       </PageHead>
       <OrganizationSchema />
       <WebsiteSchema />

@@ -238,7 +238,7 @@ export default function Login() {
         description="Sign in to TryonAI to access AI-powered Wingo30 predictions, real-time pattern analysis, smart trading signals, and live analytics dashboard."
         canonical="https://wingo30.com/login"
       >
-        <meta name="keywords" content="TryonAI login, Wingo30 sign in, AI prediction login, trading platform, Wingo prediction access" />
+        <meta name="keywords" content="Wingo AI login, TryonAI login, Wingo30 sign in, AI prediction login, trading platform, Wingo prediction access, Kal mods, wingo vip, wingo analyst, wingo app, trionAI, wingo colour prediction, AI wingo prediction, wingo ai prediction app" />
       </PageHead>
       <OrganizationSchema />
       <WebsiteSchema />
@@ -311,6 +311,26 @@ export default function Login() {
 
           <button className="login-btn" type="button" onClick={() => { setError(""); setSheetOpen(true); }}>
             <div className="login-btn-inner">
+              <div className="login-btn-blob" aria-hidden="true">
+                <svg id="visual" viewBox="0 0 960 540" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1">
+                  <defs>
+                    <linearGradient id="grad1_0" x1="43.8%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="14.444444444444446%" stopColor="#ffffff" stopOpacity="1" />
+                      <stop offset="85.55555555555554%" stopColor="#ffffff" stopOpacity="1" />
+                    </linearGradient>
+                    <linearGradient id="grad2_0" x1="0%" y1="0%" x2="56.3%" y2="100%">
+                      <stop offset="14.444444444444446%" stopColor="#ffffff" stopOpacity="1" />
+                      <stop offset="85.55555555555554%" stopColor="#ffffff" stopOpacity="1" />
+                    </linearGradient>
+                  </defs>
+                  <g transform="translate(960, 0)">
+                    <path d="M0 351C-50.9 351.5 -101.8 352.1 -134.3 324.3C-166.9 296.5 -181.2 240.4 -202.9 202.9C-224.7 165.5 -254 146.7 -279.9 116C-305.9 85.2 -328.4 42.6 -351 0L0 0Z" fill="#3238f8" />
+                  </g>
+                  <g transform="translate(0, 540)">
+                    <path d="M0 -351C36.6 -320.4 73.3 -289.8 113.3 -273.5C153.3 -257.1 196.6 -254.9 234.8 -234.8C272.9 -214.6 305.8 -176.4 324.3 -134.3C342.8 -92.2 346.9 -46.1 351 0L0 0Z" fill="#3238f8" />
+                  </g>
+                </svg>
+              </div>
               <span className="login-btn-text">Login</span>
               <div className="login-btn-arrow">
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">

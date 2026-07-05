@@ -10,6 +10,9 @@ const BANNERS = [
   { src: "/Bannerv1.jpg", alt: "TRION AI Wingo signal banner" },
   { src: "/Bannerv2.jpg", alt: "Wingo prediction tools banner" },
   { src: "/Bannerv3.jpg", alt: "Wingo color game insights banner" },
+  { src: "/Howtologii.jpg", alt: "How to play Wingo guide banner" },
+  { src: "/Pvt.jpg", alt: "Private VIP signals banner" },
+  { src: "/Tg.jpg", alt: "Telegram community banner" },
 ];
 
 const OVERVIEW_ITEMS = [
@@ -66,6 +69,45 @@ const MARKET_CARDS = [
     image: "/Nepal.jpg",
     text: "Regional support - reliable performance",
   },
+];
+
+function AndroidIcon() {
+  return (
+    <svg className="loader-platform-icon-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="24" height="24">
+      <path d="M17.6 9.48l1.84-3.18c.16-.31.06-.7-.25-.86a.566.566 0 0 0-.77.22l-1.88 3.24A11.51 11.51 0 0 0 12 8c-1.84 0-3.56.43-5.06 1.2L5.06 5.96a.566.566 0 0 0-.77-.22c-.31.16-.41.55-.25.86l1.84 3.18C3.12 11.75 1.25 14.88 1 18.5h22c-.25-3.62-2.12-6.75-4.9-9.02zM8 14.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm8 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+    </svg>
+  );
+}
+
+function AppleIcon() {
+  return (
+    <svg className="loader-platform-icon-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="24" height="24">
+      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-1 .04-2.2.67-2.92 1.51-.63.73-1.18 1.87-1.03 2.98.66.08 1.9-.55 2.96-1.43z" />
+    </svg>
+  );
+}
+
+function WindowsIcon() {
+  return (
+    <svg className="loader-platform-icon-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="24" height="24">
+      <path d="M3 3h8.5v8.5H3V3zm9.5 0H21v8.5h-8.5V3zM3 12.5h8.5V21H3v-8.5zm9.5 0H21V21h-8.5v-8.5z" />
+    </svg>
+  );
+}
+
+function MacIcon() {
+  return (
+    <svg className="loader-platform-icon-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="24" height="24">
+      <path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z" />
+    </svg>
+  );
+}
+
+const PLATFORM_CARDS = [
+  { name: "Android", icon: <AndroidIcon />, brand: "android" },
+  { name: "iOS", icon: <AppleIcon />, brand: "ios" },
+  { name: "Windows PC", icon: <WindowsIcon />, brand: "windows" },
+  { name: "macOS", icon: <MacIcon />, brand: "macos" },
 ];
 
 /* ─── Icons ──────────────────────────────────────────────────────────────── */
@@ -233,6 +275,7 @@ export default function LoadingScreen({ onComplete, autoDismiss = false, error =
   const [dismissing, setDismissing] = useState(false);
   const startButtonRef = useRef(null);
   const exitTimerRef = useRef(null);
+  const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
 
   const handleDismiss = useCallback(() => {
     setDismissing((alreadyDismissing) => {
@@ -255,6 +298,13 @@ export default function LoadingScreen({ onComplete, autoDismiss = false, error =
       window.clearTimeout(enterTimer);
       window.clearTimeout(exitTimerRef.current);
     };
+  }, []);
+
+  useEffect(() => {
+    const bannerTimer = setInterval(() => {
+      setCurrentBannerIndex((prev) => (prev + 1) % BANNERS.length);
+    }, 3500);
+    return () => clearInterval(bannerTimer);
   }, []);
 
   useEffect(() => {
@@ -307,19 +357,20 @@ export default function LoadingScreen({ onComplete, autoDismiss = false, error =
           {/* ── HERO ── */}
           <section className="loader-hero" aria-labelledby="loader-title">
             <div className="loader-banner" aria-label="TRION AI banner gallery">
-              <div className="loader-banner-track">
-                {[...BANNERS, BANNERS[0]].map((banner, index) => (
-                  <figure className="loader-banner-slide" key={`${banner.src}-${index}`}>
-                    <Image
-                      src={banner.src}
-                      alt={index === BANNERS.length ? "" : banner.alt}
-                      fill
-                      priority={index === 0}
-                      sizes="(max-width: 575px) 100vw, 575px"
-                    />
-                  </figure>
-                ))}
-              </div>
+              {BANNERS.map((banner, index) => (
+                <figure
+                  className={`loader-banner-slide ${index === currentBannerIndex ? "loader-banner-slide--active" : ""}`}
+                  key={banner.src}
+                >
+                  <Image
+                    src={banner.src}
+                    alt={banner.alt}
+                    fill
+                    priority={index === 0}
+                    sizes="(max-width: 575px) 100vw, 575px"
+                  />
+                </figure>
+              ))}
 
               {/* Corner badge SVG overlay */}
               <svg
@@ -352,18 +403,61 @@ export default function LoadingScreen({ onComplete, autoDismiss = false, error =
               ) : null}
 
               <div className="loader-actions">
-                <button
-                  className="loader-action loader-action--primary"
-                  type="button"
-                  onClick={handleDismiss}
-                  disabled={dismissing}
-                  aria-busy={dismissing}
-                  ref={startButtonRef}
-                  id="loader-start-btn"
-                >
-                  <span>{dismissing ? "Opening…" : "Get Started"}</span>
-                  <ArrowIcon />
-                </button>
+                <div className="h-full w-full flex items-center justify-center text-black dark:text-white">
+                  <div className="group cursor-pointer border bg-zinc-200 dark:bg-zinc-900 border-zinc-400 dark:border-zinc-500/30 bg-card gap-2 h-[60px] flex items-center p-[10px] rounded-full">
+                    <button
+                      data-slot="button"
+                      className="cursor-pointer gap-2 whitespace-nowrap text-sm font-medium transition-all shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive backdrop-blur-sm shadow-[inset_0_3px_2px_rgba(255,255,255,0.1),inset_0_-3px_6px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.30),inset_0_-8px_12px_rgba(0,0,0,0.12),0_6px_14px_-8px_rgba(0,0,0,0.18)] hover:bg-[#6336f7] hover:border-black/15 hover:shadow-[inset_0_3px_2px_rgba(255,255,255,0.15),inset_0_1px_0_rgba(255,255,255,0.40),inset_0_-10px_14px_rgba(0,0,0,0.16),0_8px_18px_-10px_rgba(0,0,0,0.22)] active:shadow-[inset_0_3px_2px_rgba(255,255,255,0.1),inset_0_1px_3px_rgba(0,0,0,0.22),inset_0_-6px_10px_rgba(0,0,0,0.18)] active:translate-y-[1px] dark:bg-[#6336f7]/55 px-4 py-2 bg-[#6336f7] h-[40px] rounded-full flex items-center justify-center text-white"
+                      type="button"
+                      onClick={handleDismiss}
+                      disabled={dismissing}
+                      aria-busy={dismissing}
+                      ref={startButtonRef}
+                      id="loader-start-btn"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="lucide lucide-life-buoy h-4 w-4 animate-spin"
+                        aria-hidden="true"
+                      >
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="m4.93 4.93 4.24 4.24"></path>
+                        <path d="m14.83 9.17 4.24-4.24"></path>
+                        <path d="m14.83 14.83 4.24 4.24"></path>
+                        <path d="m9.17 14.83-4.24 4.24"></path>
+                        <circle cx="12" cy="12" r="4"></circle>
+                      </svg>
+                      <p className="flex items-center gap-2 justify-center">
+                        {dismissing ? "Opening…" : "Get Started"}
+                      </p>
+                    </button>
+                    <div className="group-hover:ml-4 ease-in-out transition-all size-[24px] flex items-center justify-center rounded-full border border-zinc-400 dark:border-zinc-600">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="lucide lucide-arrow-right group-hover:rotate-180 ease-in-out transition-all"
+                      >
+                        <path d="M5 12h14"></path>
+                        <path d="m12 5 7 7-7 7"></path>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
 
                 <a
                   className="loader-action loader-action--telegram"
@@ -450,6 +544,34 @@ export default function LoadingScreen({ onComplete, autoDismiss = false, error =
                   </span>
                   <h3>{market.country}</h3>
                   <p>{market.text}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          {/* ── PLATFORM SUPPORT ── */}
+          <section className="loader-platforms" aria-labelledby="loader-platforms-title">
+            <p className="loader-section-eyebrow">Multi-Platform support</p>
+            <h2 className="loader-section-title" id="loader-platforms-title">
+              Available on All Platforms
+            </h2>
+            <p className="loader-section-copy">
+              Enjoy a seamless experience across all your devices.
+            </p>
+
+            <div className="loader-platform-grid">
+              {PLATFORM_CARDS.map((platform) => (
+                <article className={`loader-platform-card loader-platform-card--${platform.brand}`} key={platform.name}>
+                  <div className="loader-platform-icon-wrapper">
+                    {platform.icon}
+                  </div>
+                  <div className="loader-platform-info">
+                    <h3>{platform.name}</h3>
+                    <div className="loader-platform-status">
+                      <span className="loader-platform-dot" />
+                      <span>Supported</span>
+                    </div>
+                  </div>
                 </article>
               ))}
             </div>

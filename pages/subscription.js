@@ -15,7 +15,7 @@ export default function Subscription() {
         description="Subscribe to TryonAI for unlimited AI-powered Wingo30 predictions, premium signals, real-time pattern analysis, and advanced trading insights."
         canonical="https://wingo30.com/subscription"
       >
-        <meta name="keywords" content="TryonAI subscription, Wingo30 premium, unlimited predictions, AI signal subscription, trading plan, prediction access" />
+        <meta name="keywords" content="Wingo AI subscription, TryonAI subscription, Wingo30 premium, unlimited predictions, AI signal subscription, trading plan, prediction access, Kal mods, wingo vip, wingo analyst, wingo real ai bot, wingo colour prediction, trionAI, trillionaire" />
         <style dangerouslySetInnerHTML={{ __html: bgStyle }} />
       </PageHead>
       <OrganizationSchema />
