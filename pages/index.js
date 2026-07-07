@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+﻿import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { useRouter } from "next/router";
 import { watchAuthState, signOutUser } from "@/lib/firebase";
 import { addUser, getRemainingPredictions, incrementPredictionCount } from "@/lib/storage";
 import { fetchWingoHistory, generateMockHistory, getCurrentIssue, estimateTimestamps } from "@/lib/wingo";
 import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema, FAQSchema } from "@/components/SEO";
 
-// ── Logic gate helper: get Firebase ID token for API auth ──────────────────────
+// â”€â”€ Logic gate helper: get Firebase ID token for API auth â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function getIdToken() {
   try {
     const { getFirebaseAuth } = await import("@/lib/firebase");
@@ -366,6 +366,52 @@ function Icon({ name, className = "" }) {
     back: (
       <path d="M15.5 4.75 8.25 12l7.25 7.25" />
     ),
+    menu: (
+      <>
+        <path d="M4.5 6.75h15" />
+        <path d="M4.5 12h15" />
+        <path d="M4.5 17.25h15" />
+      </>
+    ),
+    x: (
+      <>
+        <path d="m6.5 6.5 11 11" />
+        <path d="m17.5 6.5-11 11" />
+      </>
+    ),
+    code: (
+      <>
+        <path d="m8.75 8-4 4 4 4" />
+        <path d="m15.25 8 4 4-4 4" />
+        <path d="m13.25 5.75-2.5 12.5" />
+      </>
+    ),
+    upload: (
+      <>
+        <path d="M12 16.25V4.75" />
+        <path d="m7.75 9 4.25-4.25L16.25 9" />
+        <path d="M5.25 18.5h13.5" />
+      </>
+    ),
+    crown: (
+      <>
+        <path d="m4.75 8.25 4.2 3.2L12 5.2l3.05 6.25 4.2-3.2-1.55 9.35H6.3Z" />
+        <path d="M6.25 20h11.5" />
+      </>
+    ),
+    logout: (
+      <>
+        <path d="M9.75 4.75h-3.5v14.5h3.5" />
+        <path d="M14 8.25 17.75 12 14 15.75" />
+        <path d="M17.5 12H9.75" />
+      </>
+    ),
+    user: (
+      <>
+        <circle cx="12" cy="8" r="3.25" />
+        <path d="M5.75 19.25c.75-3.1 2.82-4.65 6.25-4.65s5.5 1.55 6.25 4.65" />
+      </>
+    ),
     book: (
       <>
         <path d="M4.75 5.75A2.75 2.75 0 0 1 7.5 3.95h9.75v15.6H7.5a2.75 2.75 0 0 0-2.75 1.8Z" />
@@ -474,11 +520,14 @@ function MoreButton() {
   );
 }
 
-function Header({ onRulesClick }) {
+function Header({ onMenuClick, onRulesClick }) {
   return (
     <header className="app-header">
       <div className="top-nav">
         <div className="header-left">
+          <button className="menu-button" type="button" onClick={onMenuClick} aria-label="Open menu">
+            <Icon name="menu" />
+          </button>
           <KalmodsAnim />
         </div>
         <div className="brand" aria-label="TryonAI">
@@ -495,6 +544,72 @@ function Header({ onRulesClick }) {
   );
 }
 
+function NavigationDrawer({ open, activeView, user, onClose, onNavigate, onLogicClick, onRulesClick, onLogout }) {
+  const profileName = user?.displayName || user?.email?.split("@")[0] || "TryonAI User";
+  const navItems = [
+    { label: "Predict", icon: "brain", active: activeView === "predict", action: () => onNavigate("predict") },
+    { label: "Chart", icon: "chart", active: activeView === "dashboard", action: () => onNavigate("dashboard") },
+    { label: "Custom Logic", icon: "upload", action: onLogicClick },
+    { label: "Developer API", icon: "code", action: () => onNavigate("developer") },
+    { label: "Subscription", icon: "crown", action: () => onNavigate("subscription") },
+    { label: "Rules", icon: "book", action: onRulesClick },
+  ];
+
+  function runAction(action) {
+    action?.();
+    onClose();
+  }
+
+  return (
+    <>
+      <div
+        className={`drawer-backdrop ${open ? "open" : ""}`}
+        onClick={onClose}
+        aria-hidden="true"
+      />
+      <aside className={`nav-drawer ${open ? "open" : ""}`} aria-hidden={!open} aria-label="Main menu">
+        <div className="drawer-head">
+          <div>
+            <span>TryonAI</span>
+            <strong>Control Center</strong>
+          </div>
+          <button className="drawer-close" type="button" onClick={onClose} aria-label="Close menu">
+            <Icon name="x" />
+          </button>
+        </div>
+
+        <div className="drawer-profile">
+          <span>
+            <Icon name="user" />
+          </span>
+          <div>
+            <strong>{profileName}</strong>
+            <em>{user?.email || "Active session"}</em>
+          </div>
+        </div>
+
+        <nav className="drawer-links" aria-label="Drawer navigation">
+          {navItems.map((item) => (
+            <button
+              key={item.label}
+              className={`drawer-link ${item.active ? "active" : ""}`}
+              type="button"
+              onClick={() => runAction(item.action)}
+            >
+              <Icon name={item.icon} />
+              <span>{item.label}</span>
+            </button>
+          ))}
+        </nav>
+
+        <button className="drawer-logout" type="button" onClick={() => runAction(onLogout)}>
+          <Icon name="logout" />
+          <span>Logout</span>
+        </button>
+      </aside>
+    </>
+  );
+}
 function HowToPlay({ latestBalls }) {
   return (
     <section className="card play-card">
@@ -1084,7 +1199,7 @@ function RulesPopup({ onClose, remaining, user }) {
               <path d="M12 16h0" />
             </svg>
           </div>
-          <h2>🚨 TRION AI - STRICT RULES</h2>
+          <h2>ðŸš¨ TRION AI - STRICT RULES</h2>
           <ul className="rules-strict-list">
             <li>Use ONLY the user&apos;s uploaded custom logic.</li>
             <li className="rules-strict-no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg> No custom logic = No Prediction.</li>
@@ -1135,7 +1250,7 @@ function Toast({ message, visible }) {
   );
 }
 
-// ── No Logic Popup ─────────────────────────────────────────────────────────────
+// â”€â”€ No Logic Popup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function NoLogicPopup({ onClose, onUpload }) {
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -1153,7 +1268,7 @@ function NoLogicPopup({ onClose, onUpload }) {
             background: "linear-gradient(135deg,rgba(255,152,0,0.15),rgba(255,152,0,0.25))",
             display: "flex", alignItems: "center", justifyContent: "center",
             margin: "0 auto 18px", fontSize: 36,
-          }}>⚠️</div>
+          }}>âš ï¸</div>
           <h2 style={{ margin: "0 0 10px", fontSize: 18, color: "#0f1f18" }}>Custom Logic Required</h2>
           <p style={{ margin: "0 0 20px", fontSize: 14, color: "#6f7a75", lineHeight: 1.6 }}>
             Please upload your <strong>Custom Logic (.trionai)</strong> before generating predictions.
@@ -1265,6 +1380,7 @@ function MainApp({ user }) {
   const [predictionResult, setPredictionResult] = useState(null);
   const [showServerAnim, setShowServerAnim] = useState(false);
   const [userPredictions, setUserPredictions] = useState([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const toastTimer = useRef(null);
   const lastPredictedPeriod = useRef(null);
   const screenRef = useRef(null);
@@ -1272,7 +1388,7 @@ function MainApp({ user }) {
   const { apiCurrent, history, serverNow, status } = useLiveHistory();
   const savedUser = useRef(false);
 
-  // ── Logic gate state ──────────────────────────────────────────────────────
+  // â”€â”€ Logic gate state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const [logicStatus, setLogicStatus] = useState(null); // null = not loaded yet
   const [logicLoaded, setLogicLoaded] = useState(false);
   const [showNoLogicPopup, setShowNoLogicPopup] = useState(false);
@@ -1291,7 +1407,7 @@ function MainApp({ user }) {
       setLogicLoaded(true);
     }
   }, []);
-  // ─────────────────────────────────────────────────────────────────────────
+  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   useEffect(() => {
     if (user?.email && !savedUser.current) {
@@ -1358,7 +1474,7 @@ function MainApp({ user }) {
       router.push('/subscription');
       return;
     }
-    // ── Logic gate: check before even hitting the server ──
+    // â”€â”€ Logic gate: check before even hitting the server â”€â”€
     if (logicLoaded && !logicStatus) {
       setShowNoLogicPopup(true);
       return;
@@ -1434,6 +1550,44 @@ function MainApp({ user }) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [activeView]);
 
+
+  useEffect(() => {
+    if (!drawerOpen) return undefined;
+
+    function closeOnEscape(event) {
+      if (event.key === "Escape") setDrawerOpen(false);
+    }
+
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [drawerOpen]);
+
+  const handleLogicNav = useCallback(async () => {
+    const { isUnlimited } = await import("@/lib/storage");
+    const unlimited = await isUnlimited(user.email);
+    if (!unlimited) {
+      router.push("/subscription");
+    } else {
+      router.push("/logic");
+    }
+  }, [router, user.email]);
+
+  const handleDrawerNavigate = useCallback((target) => {
+    if (target === "developer") {
+      router.push("/developer");
+      return;
+    }
+    if (target === "subscription") {
+      router.push("/subscription");
+      return;
+    }
+    setActiveView(target);
+  }, [router]);
+
+  const handleLogout = useCallback(async () => {
+    await signOutUser();
+    router.replace("/login");
+  }, [router]);
   return (
     <>
       <PageHead
@@ -1463,9 +1617,19 @@ function MainApp({ user }) {
         />
       )}
       <Toast message={toastMessage} visible={toastVisible} />
+      <NavigationDrawer
+        open={drawerOpen}
+        activeView={activeView}
+        user={user}
+        onClose={() => setDrawerOpen(false)}
+        onNavigate={handleDrawerNavigate}
+        onLogicClick={handleLogicNav}
+        onRulesClick={() => setShowRules(true)}
+        onLogout={handleLogout}
+      />
       <div className="page-shell">
         <div className="app-screen" ref={screenRef}>
-          <Header onRulesClick={() => setShowRules(true)} />
+          <Header onMenuClick={() => setDrawerOpen(true)} onRulesClick={() => setShowRules(true)} />
           <main className="content">
             {activeView === "predict" ? (
               <>
@@ -1520,15 +1684,7 @@ function MainApp({ user }) {
         <BottomNav
           activeView={activeView}
           onChangeView={setActiveView}
-          onLogicClick={async () => {
-            const { isUnlimited } = await import("@/lib/storage");
-            const unlimited = await isUnlimited(user.email);
-            if (!unlimited) {
-              router.push("/subscription");
-            } else {
-              router.push("/logic");
-            }
-          }}
+          onLogicClick={handleLogicNav}
         />
       </div>
     </>
@@ -1580,3 +1736,5 @@ export default function Home() {
 
   return <MainApp user={user} />;
 }
+
+
