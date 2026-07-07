@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import "@/styles/loading.css";
 import "@/styles/logic.css";
+import "@/styles/developer.css";
 import { useCallback, useState, useEffect } from "react";
 import Head from "next/head";
 import Script from "next/script";
