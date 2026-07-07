@@ -11,7 +11,7 @@ async function getIdToken() {
   return null;
 }
 
-function Icon({ name, className }) {
+function Icon({ name, className = "" }) {
   const icons = {
     code: (<><path d="m16 18 6-6-6-6"/><path d="M8 6l-6 6 6 6"/></>),
     key: (<><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2"/><path d="M17 14v4"/></>),
@@ -34,7 +34,7 @@ function Icon({ name, className }) {
     play: (<><polygon points="6 3 20 12 6 21 6 3"/></>),
   };
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg className={`dev-icon ${className}`.trim()} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       {icons[name] || icons.code}
     </svg>
   );
@@ -180,7 +180,7 @@ function CopyButton({ text }) {
 }
 
 function Skeleton({ width, height }) {
-  return <div className="dev-skeleton" style={{ width: width || "100%", height: height || "20px" }} />;
+  return <span className="dev-skeleton" style={{ width: width || "100%", height: height || "20px", display: "inline-block" }} />;
 }
 
 function formatTime(dateStr) {
@@ -239,19 +239,20 @@ export default function DeveloperPage() {
 
   const liveRef = useRef(null);
 
-  useEffect(() => {
-    const unsub = watchAuthState((firebaseUser) => {
-      setUser(firebaseUser);
-      setAuthLoading(false);
-    });
-    return () => unsub();
-  }, []);
-
   const refreshToken = useCallback(async () => {
     const token = await getIdToken();
     setIdToken(token);
     return token;
   }, []);
+
+  useEffect(() => {
+    const unsub = watchAuthState((firebaseUser) => {
+      setUser(firebaseUser);
+      setAuthLoading(false);
+      if (firebaseUser) refreshToken();
+    });
+    return () => unsub();
+  }, [refreshToken]);
 
   const fetchKeyData = useCallback(async (token) => {
     if (!token) return;
