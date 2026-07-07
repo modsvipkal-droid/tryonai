@@ -259,10 +259,11 @@ export default function DeveloperPage() {
       const res = await fetch("/api/developer/key", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!res.ok) throw new Error(`Failed to fetch key data: ${res.status}`);
-      const data = await res.json();
-      setKeyData(data.key);
-      setStats(data.stats);
+      let body = null;
+      try { body = await res.json(); } catch {}
+      if (!res.ok) throw new Error(body?.error || `Server error (${res.status})`);
+      setKeyData(body.key);
+      setStats(body.stats);
       setError(null);
     } catch (err) {
       setError(err.message);
@@ -290,11 +291,12 @@ export default function DeveloperPage() {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!res.ok) throw new Error("Failed to generate key");
-      const data = await res.json();
-      setGeneratedKey(data.apiKey);
-      setKeyData(data.key);
-      setStats(data.stats);
+      let body = null;
+      try { body = await res.json(); } catch {}
+      if (!res.ok) throw new Error(body?.error || `Server error (${res.status})`);
+      setGeneratedKey(body.apiKey);
+      setKeyData(body.key);
+      setStats(body.stats);
     } catch (err) {
       setError(err.message);
     }
@@ -308,10 +310,11 @@ export default function DeveloperPage() {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!res.ok) throw new Error("Failed to revoke key");
-      const data = await res.json();
+      let body = null;
+      try { body = await res.json(); } catch {}
+      if (!res.ok) throw new Error(body?.error || `Server error (${res.status})`);
       setKeyData(null);
-      setStats(data.stats);
+      setStats(body.stats);
       setGeneratedKey(null);
     } catch (err) {
       setError(err.message);
@@ -329,11 +332,12 @@ export default function DeveloperPage() {
       const res = await fetch(`/api/developer/30-sec-game-history?${params}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!res.ok) throw new Error(`API error: ${res.status}`);
-      const data = await res.json();
-      setHistoryData(data.data || []);
-      setHistoryPagination(data.pagination);
-      setHistoryMeta(data.meta);
+      let body = null;
+      try { body = await res.json(); } catch {}
+      if (!res.ok) throw new Error(body?.error || `Server error (${res.status})`);
+      setHistoryData(body.data || []);
+      setHistoryPagination(body.pagination);
+      setHistoryMeta(body.meta);
     } catch (err) {
       setHistoryError(err.message);
     } finally {
