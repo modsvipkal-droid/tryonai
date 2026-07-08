@@ -32,6 +32,42 @@ const OVERVIEW_ITEMS = [
   },
 ];
 
+const OVERVIEW_PILLS = [
+  ["Smart", "Fast", "Accurate"],
+  ["Signals", "Analysis", "Prediction"],
+  ["Prediction", "Trends", "History"],
+];
+
+const OVERVIEW_STATS = [
+  { value: "99.9%", label: "Prediction Accuracy" },
+  { value: "30s", label: "Lightning Fast" },
+  { value: "24/7", label: "AI Monitoring" },
+  { value: "10K+", label: "Built for Accuracy" },
+];
+
+const TRUST_CARDS = [
+  {
+    icon: <ShieldIcon />,
+    title: "Trusted AI Platform",
+    text: "Enterprise-grade prediction tools trusted by thousands of users.",
+  },
+  {
+    icon: <ZapIcon />,
+    title: "Fast & Intelligent",
+    text: "Lightning-fast analysis with optimized performance.",
+  },
+  {
+    icon: <LockIcon />,
+    title: "Privacy & Security",
+    text: "Designed with modern security and privacy standards.",
+  },
+  {
+    icon: <HeartIcon />,
+    title: "Continuous Innovation",
+    text: "We continuously improve features, performance, and user experience.",
+  },
+];
+
 const PROCESS_STEPS = [
   {
     number: "1",
@@ -54,22 +90,30 @@ const MARKET_CARDS = [
   {
     country: "India",
     image: "/india.jpg",
-    text: "Primary server - low latency across all regions",
+    role: "Primary Server",
+    latency: "<35ms",
+    uptime: "99.99%",
   },
   {
     country: "Bangladesh",
     image: "/Bangladesh.jpg",
-    text: "Dedicated node - fast signal delivery",
+    role: "Dedicated Node",
+    latency: "<42ms",
+    uptime: "99.97%",
   },
   {
     country: "Pakistan",
     image: "/Pakistan.jpg",
-    text: "Optimized routing - stable connections",
+    role: "Optimized Routing",
+    latency: "<48ms",
+    uptime: "99.95%",
   },
   {
     country: "Nepal",
     image: "/Nepal.jpg",
-    text: "Regional support - reliable performance",
+    role: "Regional Edge",
+    latency: "<38ms",
+    uptime: "99.98%",
   },
 ];
 
@@ -106,10 +150,10 @@ function MacIcon() {
 }
 
 const PLATFORM_CARDS = [
-  { name: "Android", icon: <AndroidIcon />, brand: "android" },
-  { name: "iOS", icon: <AppleIcon />, brand: "ios" },
-  { name: "Windows PC", icon: <WindowsIcon />, brand: "windows" },
-  { name: "macOS", icon: <MacIcon />, brand: "macos" },
+  { name: "Android", icon: <AndroidIcon />, brand: "android", gradient: "linear-gradient(90deg, #3DDC84, #00d07a)" },
+  { name: "iOS", icon: <AppleIcon />, brand: "ios", gradient: "linear-gradient(90deg, #4361EE, #8b5cf6)" },
+  { name: "Windows PC", icon: <WindowsIcon />, brand: "windows", gradient: "linear-gradient(90deg, #4361EE, #3b82f6)" },
+  { name: "macOS", icon: <MacIcon />, brand: "macos", gradient: "linear-gradient(90deg, #8b5cf6, #f472b6)" },
 ];
 
 /* ─── Icons ──────────────────────────────────────────────────────────────── */
@@ -130,6 +174,77 @@ function TelegramIcon() {
         d="M21.5 4.2 17.8 20c-.22.94-.96 1.18-1.74.73l-4.86-3.57-2.34 2.26c-.26.26-.48.48-.98.48l.35-4.97 9.03-8.16c.39-.35-.09-.54-.6-.2L5.26 13.27.38 11.76c-1.04-.32-.98-.96.22-1.42L19.88 2.7c.87-.3 1.64.2 1.62 1.5Z"
         fill="currentColor"
       />
+    </svg>
+  );
+}
+
+function ShieldIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      <path d="M9 12l2 2 4-4" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  );
+}
+
+function ZapIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+    </svg>
+  );
+}
+
+function LightbulbIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M9 18h6" />
+      <path d="M10 22h4" />
+      <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14" />
+    </svg>
+  );
+}
+
+function TargetIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="12" r="6" />
+      <circle cx="12" cy="12" r="2" />
+    </svg>
+  );
+}
+
+function CompassIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10" />
+      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+    </svg>
+  );
+}
+
+function LockIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    </svg>
+  );
+}
+
+function HeartIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
     </svg>
   );
 }
@@ -278,6 +393,12 @@ export default function LoadingScreen({ onComplete, autoDismiss = false, error =
   const startButtonRef = useRef(null);
   const exitTimerRef = useRef(null);
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
+  const timelineRef = useRef(null);
+  const timelineItems = useRef([]);
+  const coverageRef = useRef(null);
+  const coverageItems = useRef([]);
+  const platformRef = useRef(null);
+  const platformItems = useRef([]);
 
   const handleDismiss = useCallback(() => {
     setDismissing((alreadyDismissing) => {
@@ -325,6 +446,66 @@ export default function LoadingScreen({ onComplete, autoDismiss = false, error =
 
     return () => window.clearTimeout(focusTimer);
   }, [autoDismiss, phase]);
+
+  useEffect(() => {
+    if (typeof IntersectionObserver === "undefined") return;
+
+    const items = timelineItems.current.filter(Boolean);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("loader-timeline-step--visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    items.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (typeof IntersectionObserver === "undefined") return;
+
+    const items = coverageItems.current.filter(Boolean);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("loader-coverage-card--visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    items.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (typeof IntersectionObserver === "undefined") return;
+
+    const items = platformItems.current.filter(Boolean);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("loader-platform-card--visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    items.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 
   function handleKeyDown(event) {
     if (event.key === "Escape") {
@@ -480,12 +661,34 @@ export default function LoadingScreen({ onComplete, autoDismiss = false, error =
               users compare results or study patterns.
             </p>
 
-            <div className="loader-overview-list">
-              {OVERVIEW_ITEMS.map((item) => (
-                <article className="loader-overview-item" key={item.title}>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
+            <div className="loader-overview-cards">
+              {OVERVIEW_ITEMS.map((item, index) => (
+                <article className={`loader-overview-card loader-overview-card--${index + 1}`} key={item.title}>
+                  <div className="loader-overview-card-header">
+                    <div className="loader-overview-card-icon">
+                      {index === 0 && <LightbulbIcon />}
+                      {index === 1 && <TargetIcon />}
+                      {index === 2 && <CompassIcon />}
+                    </div>
+                    <h3>{item.title}</h3>
+                  </div>
+                  <p className="loader-overview-card-body">{item.text}</p>
+                  <div className="loader-overview-card-pills">
+                    {OVERVIEW_PILLS[index].map((pill) => (
+                      <span className="loader-overview-card-pill" key={pill}>{pill}</span>
+                    ))}
+                  </div>
+                  <span className="loader-overview-card-num">{index + 1}</span>
                 </article>
+              ))}
+            </div>
+
+            <div className="loader-overview-stats">
+              {OVERVIEW_STATS.map((stat, index) => (
+                <div className={`loader-overview-stat loader-overview-stat--${index + 1}`} key={stat.label}>
+                  <div className="loader-overview-stat-value">{stat.value}</div>
+                  <div className="loader-overview-stat-label">{stat.label}</div>
+                </div>
               ))}
             </div>
           </section>
@@ -500,13 +703,17 @@ export default function LoadingScreen({ onComplete, autoDismiss = false, error =
               format. Here is how you can use our calculators to evaluate your next move.
             </p>
 
-            <div className="loader-step-list">
-              {PROCESS_STEPS.map((step) => (
-                <article className="loader-step" key={step.number}>
-                  <div className="loader-step-number">
+            <div className="loader-timeline" ref={timelineRef}>
+              {PROCESS_STEPS.map((step, index) => (
+                <article
+                  className="loader-timeline-step"
+                  key={step.number}
+                  ref={(el) => { timelineItems.current[index] = el; }}
+                >
+                  <div className="loader-timeline-icon">
                     <span>{step.number}</span>
                   </div>
-                  <div>
+                  <div className="loader-timeline-content">
                     <h3>{step.title}</h3>
                     <p>{step.text}</p>
                   </div>
@@ -517,6 +724,7 @@ export default function LoadingScreen({ onComplete, autoDismiss = false, error =
 
           {/* ── MARKETS ── */}
           <section className="loader-markets" aria-labelledby="loader-markets-title">
+            <p className="loader-coverage-badge">MULTI-REGION COVERAGE</p>
             <h2 className="loader-section-title" id="loader-markets-title">
               Available Across South Asia
             </h2>
@@ -525,47 +733,81 @@ export default function LoadingScreen({ onComplete, autoDismiss = false, error =
               response.
             </p>
 
-            <div className="loader-market-grid">
-              {MARKET_CARDS.map((market) => (
-                <article className="loader-market-card" key={market.country}>
-                  <span className="loader-market-flag">
-                    <Image
-                      src={market.image}
-                      alt={`${market.country} server`}
-                      width={80}
-                      height={80}
-                    />
-                  </span>
-                  <h3>{market.country}</h3>
-                  <p>{market.text}</p>
+            <div className="loader-coverage" ref={coverageRef}>
+              <div className="loader-coverage-line" aria-hidden="true" />
+              {MARKET_CARDS.map((market, index) => (
+                <article
+                  className="loader-coverage-card"
+                  key={market.country}
+                  ref={(el) => { coverageItems.current[index] = el; }}
+                >
+                  <div className="loader-coverage-node" aria-hidden="true" />
+                  <div className="loader-coverage-node-inner" aria-hidden="true" />
+                  <div className="loader-coverage-card-inner">
+                    <div className="loader-coverage-left">
+                      <span className="loader-coverage-flag">
+                        <Image
+                          src={market.image}
+                          alt={`${market.country} server`}
+                          width={80}
+                          height={80}
+                        />
+                      </span>
+                    </div>
+                    <div className="loader-coverage-center">
+                      <h3>{market.country}</h3>
+                      <p className="loader-coverage-role">{market.role}</p>
+                      <div className="loader-coverage-status">
+                        <span className="loader-coverage-dot" aria-hidden="true" />
+                        <span>Online</span>
+                        <span className="loader-coverage-sep">|</span>
+                        <span>{market.latency}</span>
+                        <span className="loader-coverage-sep">|</span>
+                        <span>{market.uptime} Uptime</span>
+                      </div>
+                    </div>
+                    <div className="loader-coverage-right">
+                      <span className="loader-coverage-shield">
+                        <ShieldIcon />
+                      </span>
+                    </div>
+                  </div>
                 </article>
               ))}
             </div>
           </section>
 
           {/* ── PLATFORM SUPPORT ── */}
-          <section className="loader-platforms" aria-labelledby="loader-platforms-title">
-            <p className="loader-section-eyebrow">Multi-Platform support</p>
+          <section className="loader-platforms" aria-labelledby="loader-platforms-title" ref={platformRef}>
+            <p className="loader-platform-badge">MULTI-PLATFORM SUPPORT</p>
             <h2 className="loader-section-title" id="loader-platforms-title">
               Available on All Platforms
             </h2>
-            <p className="loader-section-copy">
+            <p className="loader-platform-desc">
               Enjoy a seamless experience across all your devices.
             </p>
 
             <div className="loader-platform-grid">
-              {PLATFORM_CARDS.map((platform) => (
-                <article className={`loader-platform-card loader-platform-card--${platform.brand}`} key={platform.name}>
-                  <div className="loader-platform-icon-wrapper">
+              {PLATFORM_CARDS.map((platform, index) => (
+                <article
+                  className="loader-platform-card"
+                  key={platform.name}
+                  ref={(el) => { platformItems.current[index] = el; }}
+                >
+                  <div className="loader-platform-watermark" aria-hidden="true">
+                    {platform.icon}
+                  </div>
+                  <div className="loader-platform-icon-container" data-brand={platform.brand}>
                     {platform.icon}
                   </div>
                   <div className="loader-platform-info">
                     <h3>{platform.name}</h3>
                     <div className="loader-platform-status">
-                      <span className="loader-platform-dot" />
+                      <span className="loader-platform-check"><CheckIcon /></span>
                       <span>Supported</span>
                     </div>
                   </div>
+                  <div className="loader-platform-bar" style={{ background: platform.gradient }} aria-hidden="true" />
                 </article>
               ))}
             </div>
@@ -609,25 +851,62 @@ export default function LoadingScreen({ onComplete, autoDismiss = false, error =
             </div>
           </section>
 
-          {/* ── THANK YOU ── */}
+          {/* ── THANK YOU / TRUST ── */}
           <section className="loader-thankyou" aria-labelledby="loader-thankyou-title">
+            {/* Ambient background */}
+            <div className="loader-ty-ambient" aria-hidden="true">
+              <div className="loader-ty-glow loader-ty-glow--1" />
+              <div className="loader-ty-glow loader-ty-glow--2" />
+              <div className="loader-ty-glow loader-ty-glow--3" />
+            </div>
+
+            {/* Floating particles */}
+            <div className="loader-ty-particles" aria-hidden="true">
+              <span className="loader-ty-particle loader-ty-particle--1" />
+              <span className="loader-ty-particle loader-ty-particle--2" />
+              <span className="loader-ty-particle loader-ty-particle--3" />
+              <span className="loader-ty-particle loader-ty-particle--4" />
+            </div>
+
             <div className="loader-thankyou-inner">
-              <div className="loader-thankyou-sparkles" aria-hidden="true">
-                <span className="loader-ty-spark loader-ty-spark--1">✦</span>
-                <span className="loader-ty-spark loader-ty-spark--2">✦</span>
-                <span className="loader-ty-spark loader-ty-spark--3">✦</span>
-                <span className="loader-ty-spark loader-ty-spark--4">✦</span>
-                <span className="loader-ty-spark loader-ty-spark--5">✦</span>
+              {/* Premium top badge */}
+              <p className="loader-ty-label">FROM TRION AI</p>
+
+              {/* Hero title with blurred watermark */}
+              <div className="loader-ty-title-wrap">
+                <span className="loader-ty-watermark" aria-hidden="true">THANK YOU</span>
+                <h2 className="loader-ty-heading" id="loader-thankyou-title">THANK YOU</h2>
               </div>
-              <p className="loader-ty-label">From TRION AI</p>
-              <h2 className="loader-ty-heading" id="loader-thankyou-title">THANK YOU</h2>
+
+              {/* Appreciation message */}
               <p className="loader-ty-sub">
                 Thank you for choosing TRION AI — your trusted Wingo signal &amp; prediction
                 companion. We are constantly improving to give you the best signals, tools, and
                 insights. Stay tuned, play smart, and keep winning! 🚀
               </p>
+
+              {/* 2×2 Trust grid */}
+              <div className="loader-ty-grid">
+                {TRUST_CARDS.map((card, index) => (
+                  <article className="loader-ty-grid-card" key={card.title}>
+                    <div className="loader-ty-grid-icon">{card.icon}</div>
+                    <h4 className="loader-ty-grid-title">{card.title}</h4>
+                    <p className="loader-ty-grid-text">{card.text}</p>
+                  </article>
+                ))}
+              </div>
+
+              {/* Animated gradient divider */}
               <div className="loader-ty-divider" aria-hidden="true" />
-              <p className="loader-ty-footer">With ❤️ — The TRION AI Team</p>
+
+              {/* Signature + verified badge */}
+              <div className="loader-ty-signature">
+                <p className="loader-ty-footer">With ❤️ — The TRION AI Team</p>
+                <span className="loader-ty-verified">
+                  <CheckIcon />
+                  Verified Platform
+                </span>
+              </div>
             </div>
           </section>
 
