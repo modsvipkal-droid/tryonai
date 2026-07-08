@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import InfiniteGrid from "./InfiniteGrid";
-import { DotPattern } from "./DotPattern";
+import SparklesText from "./SparklesText";
 
 const TELEGRAM_URL = "https://t.me/+spWu5CnIDrViNDRl";
 const EXIT_MS = 600;
@@ -384,16 +384,16 @@ export default function LoadingScreen({ onComplete, autoDismiss = false, error =
             </div>
 
             <div className="loader-hero-copy">
-              <div className="relative overflow-hidden rounded-2xl border border-zinc-200/60 dark:border-zinc-700/40 bg-white/60 dark:bg-zinc-900/50 backdrop-blur-sm p-5">
-                <DotPattern className="opacity-30 dark:opacity-20" />
-                <div className="relative z-10">
-                  <h1 className="loader-title" id="loader-title">TRION AI</h1>
-
-                  <p className="loader-description" id="loader-description">
-                    Get live Wingo signal updates and Wingo AI prediction insights for BIG/SMALL and color
-                    games. Track rounds, compare patterns, and use the Wingo tools for free.
-                  </p>
-                </div>
+              <div>
+                <SparklesText
+                  text="TRION AI"
+                  className="loader-title !text-6xl sm:!text-7xl"
+                  colors={{ first: "#8b5cf6", second: "#00d07a" }}
+                />
+                <p className="loader-description" id="loader-description">
+                  Get live Wingo signal updates and Wingo AI prediction insights for BIG/SMALL and color
+                  games. Track rounds, compare patterns, and use the Wingo tools for free.
+                </p>
               </div>
 
               <div className="loader-actions">
