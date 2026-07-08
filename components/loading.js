@@ -387,7 +387,7 @@ export default function LoadingScreen({ onComplete, autoDismiss = false, error =
               <div>
                 <SparklesText
                   text="TRION AI"
-                  className="loader-title !text-6xl sm:!text-7xl"
+                  className="text-6xl sm:text-7xl font-black tracking-tighter uppercase"
                   colors={{ first: "#8b5cf6", second: "#00d07a" }}
                 />
                 <p className="loader-description" id="loader-description">
