@@ -387,21 +387,12 @@ export default function LoadingScreen({ onComplete, autoDismiss = false, error =
               <div className="relative overflow-hidden rounded-2xl border border-zinc-200/60 dark:border-zinc-700/40 bg-white/60 dark:bg-zinc-900/50 backdrop-blur-sm p-5">
                 <DotPattern className="opacity-30 dark:opacity-20" />
                 <div className="relative z-10">
-                  <p className="loader-kicker">trion ai</p>
-
-                  <div className="loader-title-row">
-                    <TrionIcon />
-                    <h1 className="loader-title" id="loader-title">TRION AI</h1>
-                  </div>
+                  <h1 className="loader-title" id="loader-title">TRION AI</h1>
 
                   <p className="loader-description" id="loader-description">
                     Get live Wingo signal updates and Wingo AI prediction insights for BIG/SMALL and color
                     games. Track rounds, compare patterns, and use the Wingo tools for free.
                   </p>
-
-                  {error ? (
-                    <p className="loader-error" role="alert">{error}</p>
-                  ) : null}
                 </div>
               </div>
 
