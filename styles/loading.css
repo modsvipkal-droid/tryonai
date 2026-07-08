@@ -105,71 +105,6 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   BACKGROUND — layered ambient orbs + SVG noise
-   ═══════════════════════════════════════════════════════════════════════════ */
-.loader-bg {
-  position: fixed;
-  inset: 0;
-  z-index: -10;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-/* Noise texture overlay */
-.loader-bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0.028;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 256px 256px;
-  z-index: 1;
-}
-
-/* Periwinkle-blue orb — top right */
-.loader-bg::after {
-  content: "";
-  position: absolute;
-  width: 600px;
-  height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 40%, #b9c3ff 0%, transparent 65%);
-  top: -160px;
-  right: -140px;
-  filter: blur(80px);
-  opacity: 0.38;
-  animation: loaderOrbDrift 10s ease-in-out infinite;
-}
-
-/* Lavender orb — bottom left */
-.loader-bg-orb2 {
-  position: absolute;
-  width: 480px;
-  height: 480px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, #c5ceff 0%, transparent 65%);
-  bottom: -100px;
-  left: -80px;
-  filter: blur(70px);
-  opacity: 0.30;
-  animation: loaderOrbDrift 13s ease-in-out infinite reverse;
-}
-
-/* Soft violet orb — center */
-.loader-bg-orb3 {
-  position: absolute;
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #d0d5ff 0%, transparent 65%);
-  top: 40%;
-  left: 55%;
-  filter: blur(80px);
-  opacity: 0.22;
-  animation: loaderOrbDrift 17s ease-in-out infinite 2s;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
    SHELL & CONTENT
    ═══════════════════════════════════════════════════════════════════════════ */
 .loader-shell {
@@ -1418,12 +1353,6 @@
   52%, 100% { left: 120%; opacity: 0; }
 }
 
-@keyframes loaderOrbDrift {
-  0%, 100% { transform: translate(0, 0)       scale(1); }
-  33%       { transform: translate(24px, 18px) scale(1.06); }
-  66%       { transform: translate(-16px, 24px) scale(0.96); }
-}
-
 @keyframes loaderDiamondPulse {
   0%, 100% {
     opacity: 1;
@@ -1615,9 +1544,6 @@
   .loader-ai-icon-ring,
   .loader-ai-icon-ring2,
   .loader-action::before,
-  .loader-bg::after,
-  .loader-bg-orb2,
-  .loader-bg-orb3,
   .loader-kicker::before,
   .loader-ty-spark,
   .loader-ty-heading,

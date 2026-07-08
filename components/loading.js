@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import InfiniteGrid from "./InfiniteGrid";
 
 const TELEGRAM_URL = "https://t.me/+spWu5CnIDrViNDRl";
 const EXIT_MS = 600;
@@ -345,11 +346,7 @@ export default function LoadingScreen({ onComplete, autoDismiss = false, error =
       aria-busy={dismissing}
       onKeyDown={handleKeyDown}
     >
-      {/* Layered ambient background */}
-      <div className="loader-bg" aria-hidden="true">
-        <div className="loader-bg-orb2" />
-        <div className="loader-bg-orb3" />
-      </div>
+      <InfiniteGrid />
 
       <div className="loader-shell">
         <main className={`loader-content${isVisible ? " loader-content--visible" : ""}`}>
