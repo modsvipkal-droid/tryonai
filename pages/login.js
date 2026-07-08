@@ -194,7 +194,6 @@ export default function Login() {
       await signInWithGoogle();
       router.replace("/");
     } catch (err) {
-      console.error("Google sign-in error:", err);
       const msg = err?.message || "";
       const code = err?.code || "";
       if (msg.includes("timed out")) {

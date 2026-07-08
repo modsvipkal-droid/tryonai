@@ -11,8 +11,10 @@
   "dependencies": {
     "@marsidev/react-turnstile": "^1.5.3",
     "clsx": "^2.1.1",
+    "cookie": "^2.0.1",
     "firebase": "^12.14.0",
     "framer-motion": "^12.42.2",
+    "jsonwebtoken": "^9.0.3",
     "lottie-web": "^5.13.0",
     "lucide-react": "^1.23.0",
     "mongodb": "^7.4.0",

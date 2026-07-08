@@ -1,4 +1,5 @@
 import { findUserByEmail } from "../../../../lib/db";
+import { sanitizeEmail } from "@/lib/validate";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
@@ -7,7 +8,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { email } = req.query;
+    const email = sanitizeEmail(req.query.email);
     if (!email) {
       return res.status(400).json({ error: "Email is required" });
     }
@@ -18,8 +19,7 @@ export default async function handler(req, res) {
       unlimited: user?.unlimited || false,
       found: !!user,
     });
-  } catch (error) {
-    console.error("Admin check error:", error);
+  } catch {
     return res.status(200).json({ unlimited: false, found: false });
   }
 }

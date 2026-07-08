@@ -1,10 +1,19 @@
 import fs from "fs";
 import path from "path";
+import { sanitizeString } from "@/lib/validate";
+import { createRateLimiter } from "@/lib/rateLimit";
+
+const trackLimiter = createRateLimiter({ windowMs: 1000, max: 5, name: "track" });
 
 const DB_DIR = path.join(process.cwd(), ".data");
 const VISITS_FILE = path.join(DB_DIR, "visits.json");
 
 export default async function handler(req, res) {
+  const { limited } = trackLimiter(req, res);
+  if (limited) {
+    return res.status(429).json({ success: false });
+  }
+
   if (req.method !== "POST") {
     res.setHeader("Allow", ["POST"]);
     return res.status(405).json({ error: "Method not allowed" });
@@ -13,72 +22,45 @@ export default async function handler(req, res) {
   try {
     const { path: pagePath, referrer, userAgent, isNew } = req.body || {};
 
-    // Device categorization
+    const safePath = sanitizeString(pagePath, 200) || "/";
+
     let device = "Desktop";
-    if (/Mobi|Android|iPhone|iPad/i.test(userAgent)) {
-      device = /Tablet|iPad/i.test(userAgent) ? "Tablet" : "Mobile";
+    const ua = sanitizeString(userAgent || "", 500);
+    if (/Mobi|Android|iPhone|iPad/i.test(ua)) {
+      device = /Tablet|iPad/i.test(ua) ? "Tablet" : "Mobile";
     }
 
-    // Browser categorization
     let browser = "Chrome";
-    const ua = userAgent || "";
-    if (/Firefox/i.test(ua)) {
-      browser = "Firefox";
-    } else if (/SamsungBrowser/i.test(ua)) {
-      browser = "Samsung Internet";
-    } else if (/Opera|OPR/i.test(ua)) {
-      browser = "Opera";
-    } else if (/Edge|Edg/i.test(ua)) {
-      browser = "Edge";
-    } else if (/Android/i.test(ua) && /Version/i.test(ua)) {
-      browser = "Android Webview";
-    } else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) {
-      browser = "Safari";
-    } else if (/Chrome/i.test(ua)) {
-      browser = "Chrome";
-    }
+    if (/Firefox/i.test(ua)) browser = "Firefox";
+    else if (/SamsungBrowser/i.test(ua)) browser = "Samsung Internet";
+    else if (/Opera|OPR/i.test(ua)) browser = "Opera";
+    else if (/Edge|Edg/i.test(ua)) browser = "Edge";
+    else if (/Android/i.test(ua) && /Version/i.test(ua)) browser = "Android Webview";
+    else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = "Safari";
+    else if (/Chrome/i.test(ua)) browser = "Chrome";
 
-    // Country detection (IP geoloc fallback or Vercel header)
-    const country = req.headers["x-vercel-ip-country"] || "India";
+    const country = req.headers["x-vercel-ip-country"] || "Unknown";
 
-    // Channel/Source detection
     let channel = "Direct";
     let source = "Direct";
-    if (referrer) {
+    const safeReferrer = sanitizeString(referrer || "", 500);
+    if (safeReferrer) {
       try {
-        const refUrl = new URL(referrer);
+        const refUrl = new URL(safeReferrer);
         const host = refUrl.hostname.toLowerCase();
-        
         if (host.includes("google.com")) {
-          if (host.includes("accounts.google")) {
-            channel = "Referral";
-            source = "Google accounts";
-          } else {
-            channel = "Organic Search";
-            source = "Google";
-          }
-        } else if (host.includes("duckduckgo.com")) {
-          channel = "Organic Search";
-          source = "DuckDuckGo";
-        } else if (host.includes("instagram.com")) {
-          channel = "Social Media";
-          source = "Instagram";
-        } else if (host.includes("facebook.com")) {
-          channel = "Social Media";
-          source = "Facebook";
-        } else {
-          channel = "Referral";
-          source = refUrl.hostname;
-        }
-      } catch (err) {
-        channel = "Referral";
-        source = referrer;
-      }
+          if (host.includes("accounts.google")) { channel = "Referral"; source = "Google accounts"; }
+          else { channel = "Organic Search"; source = "Google"; }
+        } else if (host.includes("duckduckgo.com")) { channel = "Organic Search"; source = "DuckDuckGo"; }
+        else if (host.includes("instagram.com")) { channel = "Social Media"; source = "Instagram"; }
+        else if (host.includes("facebook.com")) { channel = "Social Media"; source = "Facebook"; }
+        else { channel = "Referral"; source = refUrl.hostname; }
+      } catch { channel = "Referral"; source = safeReferrer; }
     }
 
     const visit = {
       timestamp: Date.now(),
-      path: pagePath || "/",
+      path: safePath,
       device,
       browser,
       country,
@@ -87,30 +69,19 @@ export default async function handler(req, res) {
       source,
     };
 
-    if (!fs.existsSync(DB_DIR)) {
-      fs.mkdirSync(DB_DIR, { recursive: true });
-    }
+    if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR, { recursive: true });
 
     let visits = [];
     if (fs.existsSync(VISITS_FILE)) {
-      try {
-        visits = JSON.parse(fs.readFileSync(VISITS_FILE, "utf8"));
-      } catch (e) {
-        visits = [];
-      }
+      try { visits = JSON.parse(fs.readFileSync(VISITS_FILE, "utf8")); } catch { visits = []; }
     }
 
     visits.push(visit);
-
-    if (visits.length > 10000) {
-      visits = visits.slice(-10000);
-    }
-
-    fs.writeFileSync(VISITS_FILE, JSON.stringify(visits, null, 2));
+    if (visits.length > 10000) visits = visits.slice(-10000);
+    fs.writeFileSync(VISITS_FILE, JSON.stringify(visits));
 
     return res.status(200).json({ success: true });
-  } catch (error) {
-    console.error("Track error:", error);
-    return res.status(500).json({ success: false, error: error.message });
+  } catch {
+    return res.status(200).json({ success: true });
   }
 }

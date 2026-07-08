@@ -1,4 +1,7 @@
-import { fetchWingoHistory, generateMockHistory, getCurrentIssue, estimateTimestamps } from "../../lib/wingo";
+import { fetchWingoHistory, generateMockHistory } from "../../lib/wingo";
+import { createRateLimiter } from "@/lib/rateLimit";
+
+const historyLimiter = createRateLimiter({ windowMs: 10000, max: 20, name: "history" });
 
 const FETCH_HEADERS = {
   "accept": "application/json,text/plain,*/*",
@@ -9,6 +12,11 @@ const FETCH_HEADERS = {
 };
 
 export default async function handler(req, res) {
+  const { limited } = historyLimiter(req, res);
+  if (limited) {
+    return res.status(429).json({ error: "Too many requests" });
+  }
+
   if (req.method !== "GET") {
     res.setHeader("Allow", "GET");
     return res.status(405).json({ error: "Method not allowed" });
@@ -49,13 +57,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ history, current, serviceTime });
   } catch {
-    const mock = generateMockHistory();
     const serviceTime = Date.now();
-    const timed = mock.map((row, i) => ({ ...row, blockTimestamp: serviceTime - 3000 - i * 30000 }));
-    const latest = timed[0];
-    const current = latest?.period && latest?.blockTimestamp
-      ? (() => { const e = Math.max(0, serviceTime - latest.blockTimestamp); return { issueNumber: (() => { try { return (BigInt(latest.period) + BigInt(Math.floor(e / 30000) + 1)).toString(); } catch { return latest.period; } })(), remainingMs: 30000 - (e % 30000) }; })()
-      : { issueNumber: "", remainingMs: 0 };
-    return res.status(200).json({ history: timed, current, serviceTime });
+    return res.status(200).json({ history: [], current: { issueNumber: "", remainingMs: 0 }, serviceTime });
   }
 }

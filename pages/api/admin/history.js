@@ -8,9 +8,8 @@ export default async function handler(req, res) {
 
   try {
     const history = await getActivations();
-    return res.status(200).json({ history });
-  } catch (error) {
-    console.error("Admin history fetch error:", error);
+    return res.status(200).json({ history: Array.isArray(history) ? history : [] });
+  } catch {
     return res.status(200).json({ history: [] });
   }
 }

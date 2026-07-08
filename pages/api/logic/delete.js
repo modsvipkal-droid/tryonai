@@ -9,23 +9,21 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  // Auth check
   let user;
   try {
     user = await requireAuth(req);
   } catch (err) {
-    return res.status(err.status || 401).json({ error: err.message });
+    return res.status(err.status || 401).json({ error: "Authentication required" });
   }
 
   if (!hasActiveLogic(user.email)) {
-    return res.status(404).json({ error: "No active logic found." });
+    return res.status(404).json({ error: "No active logic found" });
   }
 
   const success = deleteLogic(user.email);
-
   if (!success) {
-    return res.status(500).json({ error: "Failed to delete logic. Please try again." });
+    return res.status(500).json({ error: "Operation failed" });
   }
 
-  return res.status(200).json({ success: true, message: "Logic deleted successfully." });
+  return res.status(200).json({ success: true, message: "Logic deleted successfully" });
 }

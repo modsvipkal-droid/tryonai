@@ -1,12 +1,13 @@
 import { getUsers, findUserByEmail, insertUser } from "../../../../lib/db";
+import { sanitizeEmail, sanitizeString } from "@/lib/validate";
+import { logSecurityEvent } from "@/lib/securityLog";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
     try {
       const users = await getUsers();
-      return res.status(200).json({ users });
-    } catch (error) {
-      console.error("Admin users fetch error:", error.message);
+      return res.status(200).json({ users: Array.isArray(users) ? users : [] });
+    } catch {
       return res.status(200).json({ users: [] });
     }
   }
@@ -14,19 +15,20 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
       const { email, displayName, photoURL } = req.body || {};
-      if (!email) {
-        return res.status(400).json({ error: "Email is required" });
+      const safeEmail = sanitizeEmail(email);
+      if (!safeEmail) {
+        return res.status(400).json({ error: "Valid email is required" });
       }
 
-      const existing = await findUserByEmail(email);
+      const existing = await findUserByEmail(safeEmail);
       if (existing) {
         return res.status(200).json({ user: existing });
       }
 
       const user = {
-        email,
-        displayName: displayName || email.split("@")[0],
-        photoURL: photoURL || "",
+        email: safeEmail,
+        displayName: sanitizeString(displayName || safeEmail.split("@")[0], 100),
+        photoURL: sanitizeString(photoURL || "", 500),
         unlimited: false,
         unlimitedAt: null,
         createdAt: Date.now(),
@@ -34,9 +36,8 @@ export default async function handler(req, res) {
 
       await insertUser(user);
       return res.status(201).json({ user });
-    } catch (error) {
-      console.error("Admin users add error:", error.message);
-      return res.status(200).json({ user: null, error: error.message });
+    } catch {
+      return res.status(200).json({ user: null, error: "Failed to create user" });
     }
   }
 
