@@ -1,32 +1,27 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import {
   motion,
   useMotionValue,
   useMotionTemplate,
   useAnimationFrame,
 } from "framer-motion";
-import { Settings2 } from "lucide-react";
-import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
 
-function cn(...inputs) {
-  return twMerge(clsx(inputs));
-}
+const GRID_SIZE = 40;
 
-function GridPattern({ offsetX, offsetY, size }) {
+function GridPattern({ offsetX, offsetY }) {
   return (
     <svg className="w-full h-full">
       <defs>
         <motion.pattern
           id="grid-pattern"
-          width={size}
-          height={size}
+          width={GRID_SIZE}
+          height={GRID_SIZE}
           patternUnits="userSpaceOnUse"
           x={offsetX}
           y={offsetY}
         >
           <path
-            d={`M ${size} 0 L 0 0 0 ${size}`}
+            d={`M ${GRID_SIZE} 0 L 0 0 0 ${GRID_SIZE}`}
             fill="none"
             stroke="currentColor"
             strokeWidth="1"
@@ -40,7 +35,6 @@ function GridPattern({ offsetX, offsetY, size }) {
 }
 
 export default function InfiniteGrid({ children }) {
-  const [gridSize, setGridSize] = useState(40);
   const containerRef = useRef(null);
 
   const mouseX = useMotionValue(0);
@@ -55,14 +49,9 @@ export default function InfiniteGrid({ children }) {
   const gridOffsetX = useMotionValue(0);
   const gridOffsetY = useMotionValue(0);
 
-  const speedX = 0.5;
-  const speedY = 0.5;
-
   useAnimationFrame(() => {
-    const currentX = gridOffsetX.get();
-    const currentY = gridOffsetY.get();
-    gridOffsetX.set((currentX + speedX) % gridSize);
-    gridOffsetY.set((currentY + speedY) % gridSize);
+    gridOffsetX.set((gridOffsetX.get() + 0.5) % GRID_SIZE);
+    gridOffsetY.set((gridOffsetY.get() + 0.5) % GRID_SIZE);
   });
 
   const maskImage = useMotionTemplate`radial-gradient(300px circle at ${mouseX}px ${mouseY}px, black, transparent)`;
@@ -71,46 +60,24 @@ export default function InfiniteGrid({ children }) {
     <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className={cn(
-        "fixed inset-0 z-[-1] flex flex-col items-center justify-center overflow-hidden bg-[#f4f6f5] dark:bg-[#0a0e1a]"
-      )}
+      className="fixed inset-0 z-[-1] bg-[#f4f6f5] dark:bg-[#0a0e1a]"
+      style={{ willChange: "transform" }}
     >
-      <div className="absolute inset-0 z-0 opacity-[0.05] dark:opacity-[0.08]">
-        <GridPattern offsetX={gridOffsetX} offsetY={gridOffsetY} size={gridSize} />
+      <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.08]">
+        <GridPattern offsetX={gridOffsetX} offsetY={gridOffsetY} />
       </div>
 
       <motion.div
-        className="absolute inset-0 z-0 opacity-30 dark:opacity-40"
+        className="absolute inset-0 opacity-30 dark:opacity-40"
         style={{ maskImage, WebkitMaskImage: maskImage }}
       >
-        <GridPattern offsetX={gridOffsetX} offsetY={gridOffsetY} size={gridSize} />
+        <GridPattern offsetX={gridOffsetX} offsetY={gridOffsetY} />
       </motion.div>
 
-      <div className="absolute inset-0 pointer-events-none z-0">
+      <div className="absolute inset-0 pointer-events-none">
         <div className="absolute right-[-20%] top-[-20%] w-[40%] h-[40%] rounded-full bg-orange-500/30 dark:bg-orange-600/20 blur-[120px]" />
         <div className="absolute right-[10%] top-[-10%] w-[20%] h-[20%] rounded-full bg-indigo-500/20 blur-[100px]" />
         <div className="absolute left-[-10%] bottom-[-20%] w-[40%] h-[40%] rounded-full bg-blue-500/30 dark:bg-blue-600/20 blur-[120px]" />
-      </div>
-
-      <div className="absolute bottom-10 right-4 z-30 pointer-events-auto">
-        <div className="bg-white/80 dark:bg-black/40 backdrop-blur-md border border-zinc-200 dark:border-zinc-700 p-3 rounded-xl shadow-2xl space-y-2 min-w-[160px]">
-          <div className="flex items-center gap-2 text-xs font-medium text-zinc-700 dark:text-zinc-300">
-            <Settings2 className="w-3.5 h-3.5" />
-            Grid Density
-          </div>
-          <input
-            type="range"
-            min="20"
-            max="100"
-            value={gridSize}
-            onChange={(e) => setGridSize(Number(e.target.value))}
-            className="w-full h-1.5 bg-zinc-300 dark:bg-zinc-600 rounded-lg appearance-none cursor-pointer accent-indigo-600"
-          />
-          <div className="flex justify-between text-[9px] text-zinc-500 dark:text-zinc-500 uppercase tracking-widest font-mono">
-            <span>Dense</span>
-            <span>({gridSize}px)</span>
-          </div>
-        </div>
       </div>
 
       {children}
