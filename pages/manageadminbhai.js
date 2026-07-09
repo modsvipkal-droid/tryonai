@@ -135,6 +135,7 @@ export default function ManageAdmin() {
   const [maintenance, setMaintenance] = useState({ enabled: false, title: "", message: "", eta: "" });
   const [maintenanceSaving, setMaintenanceSaving] = useState(false);
   const [maintenanceMsg, setMaintenanceMsg] = useState("");
+  const [adminPw, setAdminPw] = useState("");
   const inputRef = useRef(null);
 
   // Re-enable scrolling on mounting this component
@@ -152,6 +153,7 @@ export default function ManageAdmin() {
   useEffect(() => {
     if (localStorage.getItem(AUTH_KEY) === "1") {
       setAuthed(true);
+      setAdminPw(localStorage.getItem("_mab_pw") || "");
     }
   }, []);
 
@@ -195,7 +197,7 @@ export default function ManageAdmin() {
     setMaintenanceSaving(true);
     setMaintenanceMsg("");
     try {
-      const pw = localStorage.getItem("_mab_pw") || "";
+      const pw = adminPw || localStorage.getItem("_mab_pw") || "";
       const res = await fetch("/api/admin/maintenance", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1239,6 +1241,17 @@ export default function ManageAdmin() {
                       placeholder="30 Minutes"
                       value={maintenance.eta}
                       onChange={(e) => setMaintenance({ ...maintenance, eta: e.target.value })}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1.5">Admin Password</label>
+                    <input
+                      type="password"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-800 outline-none focus:border-[#2e7d32] focus:bg-white transition-colors"
+                      placeholder="Enter admin password to save"
+                      value={adminPw}
+                      onChange={(e) => setAdminPw(e.target.value)}
                     />
                   </div>
                 </div>
