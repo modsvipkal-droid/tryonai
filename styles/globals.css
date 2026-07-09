@@ -523,7 +523,10 @@ nextjs-portal,
   margin: 0 auto;
 }
 
-.history-number-svg {
+.history-number-img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
   display: block;
   vertical-align: middle;
 }
@@ -2872,9 +2875,31 @@ nextjs-portal,
 }
 
 .history-number {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  color: var(--main);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.history-number.red {
+  --main: var(--history-red);
+}
+
+.history-number.green,
+.history-number.green-violet {
+  --main: var(--history-green);
+}
+
+.history-number.green-violet,
+.history-number.red-violet {
+  color: transparent;
+  background: linear-gradient(180deg, var(--main) 0 48%, var(--history-dot-violet) 52% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.history-number.red-violet {
+  background-image: linear-gradient(180deg, var(--history-red) 0 48%, var(--history-dot-violet) 52% 100%);
 }
 
 .color-dots {

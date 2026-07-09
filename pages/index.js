@@ -1129,34 +1129,6 @@ function Dashboard({ history, hotCold, currentPeriod, remainingMs, stats }) {
   );
 }
 
-function HistoryNumberSVG({ value, colors }) {
-  const toneHex = { green: "#10a95f", red: "#e23a3e", violet: "#e84ddb" };
-  const c0 = toneHex[colors[0]] || toneHex.green;
-  const c1 = colors.length > 1 ? toneHex[colors[1]] : c0;
-  const isSplit = colors.length > 1 && colors[1] !== colors[0];
-
-  return (
-    <svg width="26" height="26" viewBox="0 0 26 26" className="history-number-svg">
-      <defs>
-        <clipPath id="numClip">
-          <circle cx="13" cy="13" r="12" />
-        </clipPath>
-      </defs>
-      {isSplit ? (
-        <>
-          <rect x="1" y="1" width="24" height="12" rx="12" fill={c0} clipPath="url(#numClip)" />
-          <rect x="1" y="13" width="24" height="12" rx="12" fill={c1} clipPath="url(#numClip)" />
-        </>
-      ) : (
-        <circle cx="13" cy="13" r="12" fill={c0} />
-      )}
-      <text x="13" y="17.5" textAnchor="middle" fill="white" fontSize="12" fontWeight="800" fontFamily="BestFont, Inter, sans-serif">
-        {value}
-      </text>
-    </svg>
-  );
-}
-
 function HistoryTable({ history, status }) {
   const emptyMessage =
     status === "loading" ? "Loading live results..." : "Live results unavailable";
@@ -1178,7 +1150,7 @@ function HistoryTable({ history, status }) {
               <div className="history-row" key={row.period}>
                 <span>{row.period}</span>
                 <strong className="history-number">
-                  <HistoryNumberSVG value={row.number} colors={colors} />
+                  <img src={`/${row.number}.svg`} alt={row.number} className="history-number-img" />
                 </strong>
                 <span>{row.size}</span>
                 <span className="color-dots">

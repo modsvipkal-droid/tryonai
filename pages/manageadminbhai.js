@@ -195,7 +195,7 @@ export default function ManageAdmin() {
     setMaintenanceSaving(true);
     setMaintenanceMsg("");
     try {
-      const pw = sessionStorage.getItem("_mab_pw") || "";
+      const pw = localStorage.getItem("_mab_pw") || "";
       const res = await fetch("/api/admin/maintenance", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -238,7 +238,7 @@ export default function ManageAdmin() {
       const data = await res.json();
       if (data.success) {
         localStorage.setItem(AUTH_KEY, "1");
-        sessionStorage.setItem("_mab_pw", pw);
+        localStorage.setItem("_mab_pw", pw);
         setAuthed(true);
       } else {
         setErr(data.error || "Wrong password");
@@ -251,6 +251,7 @@ export default function ManageAdmin() {
 
   function logout() {
     localStorage.removeItem(AUTH_KEY);
+    localStorage.removeItem("_mab_pw");
     setAuthed(false);
     setPw("");
   }
