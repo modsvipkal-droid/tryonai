@@ -6,6 +6,7 @@ import { useCallback, useState, useEffect, createContext } from "react";
 import Head from "next/head";
 import Script from "next/script";
 import LoadingScreen from "@/components/loading";
+import MaintenanceDialog from "@/components/MaintenanceDialog";
 
 export const LoaderContext = createContext(true);
 
@@ -70,6 +71,7 @@ gtag('config', 'G-QCS58YBCWF');`}
         <Component {...pageProps} />
       </LoaderContext.Provider>
       {showIntroLoader && <LoadingScreen onComplete={handleIntroComplete} />}
+      <MaintenanceDialog />
     </>
   );
 }

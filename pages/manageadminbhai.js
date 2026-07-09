@@ -114,6 +114,13 @@ const IconOrganic = () => (
   </svg>
 );
 
+const IconSettings = () => (
+  <svg className="w-3.5 h-3.5 stroke-current flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="3" />
+    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
+  </svg>
+);
+
 export default function ManageAdmin() {
   const [authed, setAuthed] = useState(false);
   const [pw, setPw] = useState("");
@@ -124,7 +131,10 @@ export default function ManageAdmin() {
   const [emailInput, setEmailInput] = useState("");
   const [showAdd, setShowAdd] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState("analytics"); // "analytics" or "users"
+  const [activeTab, setActiveTab] = useState("analytics"); // "analytics", "users", or "settings"
+  const [maintenance, setMaintenance] = useState({ enabled: false, title: "", message: "", eta: "" });
+  const [maintenanceSaving, setMaintenanceSaving] = useState(false);
+  const [maintenanceMsg, setMaintenanceMsg] = useState("");
   const inputRef = useRef(null);
 
   // Re-enable scrolling on mounting this component
@@ -150,6 +160,7 @@ export default function ManageAdmin() {
     if (authed) {
       fetchAnalytics();
       fetchUsers();
+      fetchMaintenance();
 
       const interval = setInterval(() => {
         fetchAnalytics();
@@ -168,6 +179,39 @@ export default function ManageAdmin() {
     } catch {
       setUsers([]);
     }
+  }
+
+  async function fetchMaintenance() {
+    try {
+      const res = await fetch("/api/admin/maintenance");
+      const data = await res.json();
+      if (!data.error) {
+        setMaintenance(data);
+      }
+    } catch {}
+  }
+
+  async function saveMaintenance() {
+    setMaintenanceSaving(true);
+    setMaintenanceMsg("");
+    try {
+      const pw = sessionStorage.getItem("_mab_pw") || "";
+      const res = await fetch("/api/admin/maintenance", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: pw, ...maintenance }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setMaintenanceMsg("saved");
+        fetchMaintenance();
+      } else {
+        setMaintenanceMsg(data.error || "Failed to save");
+      }
+    } catch {
+      setMaintenanceMsg("Server error");
+    }
+    setMaintenanceSaving(false);
   }
 
   async function fetchAnalytics() {
@@ -194,6 +238,7 @@ export default function ManageAdmin() {
       const data = await res.json();
       if (data.success) {
         localStorage.setItem(AUTH_KEY, "1");
+        sessionStorage.setItem("_mab_pw", pw);
         setAuthed(true);
       } else {
         setErr(data.error || "Wrong password");
@@ -568,6 +613,16 @@ export default function ManageAdmin() {
                     }`}
                   >
                     <IconUsers /> User Accounts
+                  </button>
+                  <button
+                    onClick={() => setActiveTab("settings")}
+                    className={`text-xs font-semibold px-3 py-1.5 rounded-md transition-all cursor-pointer ${
+                      activeTab === "settings"
+                        ? "bg-white text-slate-900 shadow-sm"
+                        : "text-slate-600 hover:text-slate-900"
+                    }`}
+                  >
+                    <IconSettings /> Settings
                   </button>
                 </nav>
                 <button
@@ -1007,7 +1062,7 @@ export default function ManageAdmin() {
 
               </div>
             </div>
-          ) : (
+          ) : activeTab === "users" ? (
             /* User Management Panel */
             <div className="bg-white border border-slate-100 rounded-2xl shadow-sm p-6 max-w-4xl mx-auto">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-100 pb-4 mb-6 gap-4">
@@ -1115,6 +1170,95 @@ export default function ManageAdmin() {
                     </div>
                   ))
                 )}
+              </div>
+            </div>
+          ) : (
+            /* Settings Panel */
+            <div className="max-w-2xl mx-auto">
+              <div className="border-b border-slate-100 pb-4 mb-6">
+                <h2 className="text-xl font-bold text-slate-900">Server Maintenance</h2>
+                <p className="text-sm text-slate-500 mt-1">Manage global maintenance mode for all users.</p>
+              </div>
+
+              <div className="bg-white border border-slate-100 rounded-2xl shadow-sm p-6 space-y-6">
+                {/* Toggle Switch */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-900">Maintenance Status</h3>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      {maintenance.enabled ? (
+                        <><span className="inline-block w-2 h-2 rounded-full bg-red-500 mr-1.5 animate-pulse" /> Active — users will see the maintenance dialog</>
+                      ) : (
+                        <><span className="inline-block w-2 h-2 rounded-full bg-green-500 mr-1.5" /> Inactive — website works normally</>
+                      )}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setMaintenance({ ...maintenance, enabled: !maintenance.enabled })}
+                    className={`relative w-12 h-7 rounded-full transition-colors cursor-pointer ${
+                      maintenance.enabled ? "bg-red-500" : "bg-slate-200"
+                    }`}
+                  >
+                    <span
+                      className={`absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full shadow-sm transition-transform ${
+                        maintenance.enabled ? "translate-x-5" : "translate-x-0"
+                      }`}
+                    />
+                  </button>
+                </div>
+
+                <div className="border-t border-slate-100 pt-6 space-y-5">
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1.5">Maintenance Title</label>
+                    <input
+                      type="text"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-800 outline-none focus:border-[#2e7d32] focus:bg-white transition-colors"
+                      placeholder="Server Under Maintenance"
+                      value={maintenance.title}
+                      onChange={(e) => setMaintenance({ ...maintenance, title: e.target.value })}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1.5">Maintenance Message</label>
+                    <textarea
+                      className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-800 outline-none focus:border-[#2e7d32] focus:bg-white transition-colors resize-none"
+                      rows={3}
+                      placeholder="We are currently performing server maintenance..."
+                      value={maintenance.message}
+                      onChange={(e) => setMaintenance({ ...maintenance, message: e.target.value })}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-1.5">Estimated Time <span className="text-slate-400 font-normal">(Optional)</span></label>
+                    <input
+                      type="text"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-800 outline-none focus:border-[#2e7d32] focus:bg-white transition-colors"
+                      placeholder="30 Minutes"
+                      value={maintenance.eta}
+                      onChange={(e) => setMaintenance({ ...maintenance, eta: e.target.value })}
+                    />
+                  </div>
+                </div>
+
+                <div className="border-t border-slate-100 pt-5 flex items-center justify-between">
+                  <div>
+                    {maintenanceMsg === "saved" && (
+                      <span className="text-xs font-semibold text-green-600">Settings saved successfully.</span>
+                    )}
+                    {maintenanceMsg && maintenanceMsg !== "saved" && (
+                      <span className="text-xs font-semibold text-red-500">{maintenanceMsg}</span>
+                    )}
+                  </div>
+                  <button
+                    onClick={saveMaintenance}
+                    disabled={maintenanceSaving}
+                    className="bg-[#2e7d32] hover:bg-[#25632a] text-white text-xs font-semibold px-6 py-2.5 rounded-lg shadow-sm disabled:opacity-50 transition-colors cursor-pointer"
+                  >
+                    {maintenanceSaving ? "Saving..." : "Save"}
+                  </button>
+                </div>
               </div>
             </div>
           )}
