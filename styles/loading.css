@@ -74,6 +74,7 @@
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
+  transform: translateZ(0);
 
   /* Soft Lavender gradient background */
   background:
@@ -116,6 +117,7 @@
   min-height: 100dvh;
   margin: 0 auto;
   padding: 18px 16px 40px;
+  transform: translateZ(0);
 }
 
 .loader-content {
@@ -126,6 +128,7 @@
   transition:
     opacity var(--dur-lg) var(--ease-smooth),
     transform var(--dur-lg) var(--ease-smooth);
+  will-change: transform, opacity;
 }
 
 .loader-content--visible {

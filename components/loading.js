@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, memo } from "react";
 import InfiniteGrid from "./InfiniteGrid";
 import SparklesText from "./SparklesText";
 
@@ -250,7 +250,7 @@ function HeartIcon() {
 }
 
 /* Premium multi-layer TRION AI icon */
-function TrionIcon() {
+const TrionIcon = memo(function TrionIcon() {
   return (
     <svg className="loader-ai-icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
       <defs>
@@ -383,11 +383,11 @@ function TrionIcon() {
       />
     </svg>
   );
-}
+});
 
 /* ─── Loading Screen Component ───────────────────────────────────────────── */
 
-export default function LoadingScreen({ onComplete, autoDismiss = false, error = "" }) {
+const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = false, error = "" }) {
   const [phase, setPhase] = useState("idle");
   const [dismissing, setDismissing] = useState(false);
   const startButtonRef = useRef(null);
@@ -507,12 +507,12 @@ export default function LoadingScreen({ onComplete, autoDismiss = false, error =
     return () => observer.disconnect();
   }, []);
 
-  function handleKeyDown(event) {
+  const handleKeyDown = useCallback((event) => {
     if (event.key === "Escape") {
       event.preventDefault();
       handleDismiss();
     }
-  }
+  }, [handleDismiss]);
 
   const isVisible = phase !== "enter";
   const state = error ? "error" : dismissing ? "loading" : "default";
@@ -914,4 +914,6 @@ export default function LoadingScreen({ onComplete, autoDismiss = false, error =
       </div>
     </section>
   );
-}
+});
+
+export default LoadingScreen;

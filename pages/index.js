@@ -1,9 +1,10 @@
-﻿import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+﻿import { useEffect, useMemo, useRef, useState, useCallback, useContext } from "react";
 import { useRouter } from "next/router";
 import { watchAuthState, signOutUser } from "@/lib/firebase";
 import { addUser, getRemainingPredictions, incrementPredictionCount } from "@/lib/storage";
 import { fetchWingoHistory, generateMockHistory, getCurrentIssue, estimateTimestamps } from "@/lib/wingo";
 import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema, FAQSchema } from "@/components/SEO";
+import { LoaderContext } from "./_app";
 
 // â”€â”€ Logic gate helper: get Firebase ID token for API auth â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function getIdToken() {
@@ -1372,6 +1373,7 @@ function BottomNav({ activeView, onChangeView, onLogicClick }) {
 }
 
 function MainApp({ user }) {
+  const loaderActive = useContext(LoaderContext);
   const [activeView, setActiveView] = useState("predict");
   const [showRules, setShowRules] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
@@ -1681,11 +1683,13 @@ function MainApp({ user }) {
             )}
           </main>
         </div>
-        <BottomNav
-          activeView={activeView}
-          onChangeView={setActiveView}
-          onLogicClick={handleLogicNav}
-        />
+        {!loaderActive && (
+          <BottomNav
+            activeView={activeView}
+            onChangeView={setActiveView}
+            onLogicClick={handleLogicNav}
+          />
+        )}
       </div>
     </>
   );

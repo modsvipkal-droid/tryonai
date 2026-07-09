@@ -2,10 +2,12 @@ import "@/styles/globals.css";
 import "@/styles/loading.css";
 import "@/styles/logic.css";
 import "@/styles/developer.css";
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect, createContext } from "react";
 import Head from "next/head";
 import Script from "next/script";
 import LoadingScreen from "@/components/loading";
+
+export const LoaderContext = createContext(true);
 
 export default function App({ Component, pageProps }) {
   const [showIntroLoader, setShowIntroLoader] = useState(true);
@@ -64,7 +66,9 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-QCS58YBCWF');`}
       </Script>
-      <Component {...pageProps} />
+      <LoaderContext.Provider value={showIntroLoader}>
+        <Component {...pageProps} />
+      </LoaderContext.Provider>
       {showIntroLoader && <LoadingScreen onComplete={handleIntroComplete} />}
     </>
   );
