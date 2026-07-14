@@ -236,6 +236,7 @@ export default function Login() {
         title="Sign In"
         description="Sign in to TryonAI to access AI-powered Wingo30 predictions, real-time pattern analysis, smart trading signals, and live analytics dashboard."
         canonical="https://wingo30.com/login"
+        noindex
       >
         <meta name="keywords" content="Wingo AI login, TryonAI login, Wingo30 sign in, AI prediction login, trading platform, Wingo prediction access, Kal mods, wingo vip, wingo analyst, wingo app, trionAI, wingo colour prediction, AI wingo prediction, wingo ai prediction app" />
       </PageHead>

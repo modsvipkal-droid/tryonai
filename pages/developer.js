@@ -455,10 +455,10 @@ export default function DeveloperPage() {
   if (!user) {
     return (
       <div className="dev-page">
-        <PageHead title="Developer API - TryonAI" description="TryonAI Developer API portal - build with Wingo30 real-time game data." canonical="https://wingo30.com/developer" />
+        <PageHead title="Developer API" description="TryonAI Developer API portal - build with Wingo30 real-time game data." canonical="https://wingo30.com/developer" />
         <div className="dev-loading-full">
           <Icon name="key" className="dev-big-icon" />
-          <h2>Sign in to access the Developer API</h2>
+          <h1 style={{ fontSize: "20px", fontWeight: "700", color: "#1e293b", margin: "16px 0" }}>Sign in to access the Developer API</h1>
           <button className="dev-btn dev-btn-primary" onClick={() => router.push("/login")}>
             Go to Login
           </button>
@@ -470,7 +470,7 @@ export default function DeveloperPage() {
   return (
     <div className="dev-page">
       <PageHead
-        title="Developer API - TryonAI"
+        title="Developer API"
         description="Access the TryonAI Developer API to integrate Wingo30 real-time game data into your applications. Generate API keys, view documentation, and test endpoints."
         canonical="https://wingo30.com/developer"
       />

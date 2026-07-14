@@ -1,12 +1,13 @@
-﻿import { useEffect, useMemo, useRef, useState, useCallback, useContext } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback, useContext } from "react";
 import { useRouter } from "next/router";
 import { watchAuthState, signOutUser } from "@/lib/firebase";
 import { addUser, getRemainingPredictions, incrementPredictionCount } from "@/lib/storage";
 import { fetchWingoHistory, generateMockHistory, getCurrentIssue, estimateTimestamps } from "@/lib/wingo";
 import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema, FAQSchema } from "@/components/SEO";
 import { LoaderContext } from "./_app";
+import PublicLandingPage from "@/components/PublicLandingPage";
 
-// â”€â”€ Logic gate helper: get Firebase ID token for API auth â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ──── Logic gate helper: get Firebase ID token for API auth ────────────────────────
 async function getIdToken() {
   try {
     const { getFirebaseAuth } = await import("@/lib/firebase");
@@ -1185,7 +1186,7 @@ function RulesPopup({ onClose, remaining, user }) {
   return (
     <div className="rules-overlay" onClick={onClose}>
       <div className="rules-modal" onClick={(e) => e.stopPropagation()}>
-        <button className="rules-close" type="button" onClick={onClose}>
+        <button className="rules-close" type="button" onClick={onClose} aria-label="Close">
           <Icon name="back" />
         </button>
         <div className="rules-content">
@@ -1196,7 +1197,7 @@ function RulesPopup({ onClose, remaining, user }) {
               <path d="M12 16h0" />
             </svg>
           </div>
-          <h2>ðŸš¨ TRION AI - STRICT RULES</h2>
+          <h2>🚨 TRION AI - STRICT RULES</h2>
           <ul className="rules-strict-list">
             <li>Use ONLY the user&apos;s uploaded custom logic.</li>
             <li className="rules-strict-no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg> No custom logic = No Prediction.</li>
@@ -1247,7 +1248,7 @@ function Toast({ message, visible }) {
   );
 }
 
-// â”€â”€ No Logic Popup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ──────────────── No Logic Popup ──────────────────────────────────────────────────
 function NoLogicPopup({ onClose, onUpload }) {
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -1256,7 +1257,7 @@ function NoLogicPopup({ onClose, onUpload }) {
   return (
     <div className="rules-overlay" onClick={onClose}>
       <div className="rules-modal" onClick={(e) => e.stopPropagation()} style={{ textAlign: "center" }}>
-        <button className="rules-close" type="button" onClick={onClose}>
+        <button className="rules-close" type="button" onClick={onClose} aria-label="Close">
           <Icon name="back" />
         </button>
         <div className="rules-content">
@@ -1265,7 +1266,7 @@ function NoLogicPopup({ onClose, onUpload }) {
             background: "linear-gradient(135deg,rgba(255,152,0,0.15),rgba(255,152,0,0.25))",
             display: "flex", alignItems: "center", justifyContent: "center",
             margin: "0 auto 18px", fontSize: 36,
-          }}>âš ï¸</div>
+          }}>⚠️</div>
           <h2 style={{ margin: "0 0 10px", fontSize: 18, color: "#0f1f18" }}>Custom Logic Required</h2>
           <p style={{ margin: "0 0 20px", fontSize: 14, color: "#6f7a75", lineHeight: 1.6 }}>
             Please upload your <strong>Custom Logic (.trionai)</strong> before generating predictions.
@@ -1386,7 +1387,7 @@ function MainApp({ user }) {
   const { apiCurrent, history, serverNow, status } = useLiveHistory();
   const savedUser = useRef(false);
 
-  // â”€â”€ Logic gate state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ──── Logic gate state ──────────────────────────────────────────────────────────
   const [logicStatus, setLogicStatus] = useState(null); // null = not loaded yet
   const [logicLoaded, setLogicLoaded] = useState(false);
   const [showNoLogicPopup, setShowNoLogicPopup] = useState(false);
@@ -1405,7 +1406,7 @@ function MainApp({ user }) {
       setLogicLoaded(true);
     }
   }, []);
-  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ────────────────────────────────────────────────────────────────────────────────
 
   useEffect(() => {
     if (user?.email && !savedUser.current) {
@@ -1472,7 +1473,7 @@ function MainApp({ user }) {
       router.push('/subscription');
       return;
     }
-    // â”€â”€ Logic gate: check before even hitting the server â”€â”€
+    // ──── Logic gate: check before even hitting the server ────────────────────────
     if (logicLoaded && !logicStatus) {
       setShowNoLogicPopup(true);
       return;
@@ -1627,67 +1628,6 @@ function MainApp({ user }) {
       />
       <div className="page-shell">
         <div className="app-screen" ref={screenRef}>
-          <Header onMenuClick={() => setDrawerOpen(true)} onRulesClick={() => setShowRules(true)} />
-          <main className="content">
-            {activeView === "predict" ? (
-              <>
-                <div className="top-cards">
-                  <HowToPlay latestBalls={latestBalls} />
-                  <TimeRemaining
-                    issueNumber={currentPeriod.issueNumber}
-                    remainingMs={currentPeriod.remainingMs}
-                  />
-                </div>
-                <BettingPanel onBetClick={handleBetClick} />
-                <PredictionCard
-                  hotCold={hotCold}
-                  issueNumber={currentPeriod.issueNumber}
-                  remainingMs={currentPeriod.remainingMs}
-                  predictionResult={predictionResult}
-                  showServerAnim={showServerAnim}
-                />
-                <button
-                  className="relative flex items-center px-6 py-3 overflow-hidden font-medium transition-all bg-emerald-600 rounded-md group w-full mt-[13px] mb-[38px]"
-                  type="button"
-                  onClick={handleGeneratePrediction}
-                >
-                    <span className="absolute top-0 right-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-emerald-800 rounded group-hover:-mr-4 group-hover:-mt-4">
-                    <span className="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"></span>
-                  </span>
-                    <span className="absolute bottom-0 rotate-180 left-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-emerald-800 rounded group-hover:-ml-4 group-hover:-mb-4">
-                    <span className="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"></span>
-                  </span>
-                                      <span className="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full bg-emerald-700 rounded-md group-hover:translate-x-0"></span>
-                    <span className="relative w-full text-center text-white transition-colors duration-200 ease-in-out group-hover:text-white">
-                    GENERATE PREDICTION
-                  </span>
-                </button>
-                <div className="insights-grid">
-                  <TrendChart trendPoints={trendPoints} />
-                  <HotColdCard hotCold={hotCold} />
-                </div>
-                <HistoryTable history={history} status={status} />
-              </>
-            ) : (
-              <Dashboard
-                currentPeriod={currentPeriod}
-                history={history}
-                hotCold={hotCold}
-                remainingMs={currentPeriod.remainingMs}
-                stats={dashboardStats}
-              />
-            )}
-          </main>
-        </div>
-        {!loaderActive && (
-          <BottomNav
-            activeView={activeView}
-            onChangeView={setActiveView}
-            onLogicClick={handleLogicNav}
-          />
-        )}
-      </div>
-    </>
   );
 }
 

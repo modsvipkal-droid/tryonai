@@ -26,9 +26,9 @@ export default function Subscription() {
         { name: "Subscription", url: "https://wingo30.com/subscription" }
       ]} />
       <SoftwareAppSchema />
-      <div className="grid-wrapper" style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
-        <div className="grid-background" />
-        <div className="card" style={showPayment ? { display: "none" } : {}}>
+      <div style={{ minHeight: "100vh", padding: "40px 20px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+        <h1 style={{ fontSize: "28px", fontWeight: "800", color: "#0f172a", marginBottom: "24px", textAlign: "center" }}>TryonAI Premium Subscription Plans</h1>
+        <div className="grid-wrapper" style={showPayment ? { display: "none" } : {}}>
           <div className="card-pattern-grid"></div>
           <div className="card-overlay-dots"></div>
 
@@ -156,7 +156,7 @@ export default function Subscription() {
               <div className="payment-qr-wrap">
                 <div className="payment-qr-blob"></div>
                 <div className="payment-qr-bg">
-                  <img src="/799qr.jpg" alt="Payment QR Code" className="payment-qr" />
+                  <img src="/799qr.jpg" alt="Payment QR Code" className="payment-qr" width="240" height="240" loading="lazy" />
                 </div>
               </div>
 
@@ -164,15 +164,15 @@ export default function Subscription() {
                 <span className="payment-upi-label">Pay with your preferred UPI app</span>
                 <div className="payment-upi-icons">
                   <div className="upi-icon" title="Google Pay">
-                    <img src="/google-pay-logo.webp" alt="Google Pay" className="upi-img" />
+                    <img src="/google-pay-logo.webp" alt="Google Pay" className="upi-img" width="36" height="24" loading="lazy" />
                     <span>Google Pay</span>
                   </div>
                   <div className="upi-icon" title="Paytm">
-                    <img src="/paytm-india-logo.webp" alt="Paytm" className="upi-img" />
+                    <img src="/paytm-india-logo.webp" alt="Paytm" className="upi-img" width="36" height="24" loading="lazy" />
                     <span>Paytm</span>
                   </div>
                   <div className="upi-icon" title="PhonePe">
-                    <img src="/phonepe-india-logo.webp" alt="PhonePe" className="upi-img" />
+                    <img src="/phonepe-india-logo.webp" alt="PhonePe" className="upi-img" width="36" height="24" loading="lazy" />
                     <span>PhonePe</span>
                   </div>
                   <div className="upi-icon" title="Amazon Pay">
@@ -188,19 +188,20 @@ export default function Subscription() {
                     <span>Amazon Pay</span>
                   </div>
                   <div className="upi-icon" title="Super Pay">
-                    <img src="/super-app-logo-india.webp" alt="Super Pay" className="upi-img" />
+                    <img src="/super-app-logo-india.webp" alt="Super Pay" className="upi-img" width="36" height="24" loading="lazy" />
                     <span>Super Pay</span>
                   </div>
                 </div>
               </div>
 
               <div className="payment-utr">
-                <label className="payment-utr-label">Enter your 12-digit UTR Number</label>
+                <label className="payment-utr-label" htmlFor="utrInput">Enter your 12-digit UTR Number</label>
                 <div className="payment-utr-input-wrap">
                   <svg viewBox="0 0 24 24" width="20" height="20" className="payment-utr-icon">
                     <path fill="currentColor" d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zM6 10h12v2H6zm0 3h10v2H6z"/>
                   </svg>
                   <input
+                    id="utrInput"
                     type="text"
                     className="payment-utr-input"
                     placeholder="e.g. HDFC123456789"

@@ -1,0 +1,29 @@
+# TryonAI - AI Wingo Prediction Platform
+
+TryonAI is an advanced AI-powered prediction and signals platform for the Wingo30 lottery game. It features real-time trend analytics, candlestick pattern recognition, and smart trading signals.
+
+## Core Pages
+
+### [Home Page (Root)](https://wingo30.com/)
+* **Description:** Public landing page detailing TryonAI's features, signal charts, and a user authentication gateway. Logged-in users access the interactive dashboard with live 30-second game predictions.
+* **Keywords:** Wingo AI, Wingo30 prediction, live signals.
+
+### [Subscription Plans](https://wingo30.com/subscription)
+* **Description:** Pricing and enrollment portal for TryonAI VIP signals.
+* **Pricing:** ₹799 (PRO PLANS) for unlimited predictions, real-time analytics, and expert signal dashboards.
+* **Checkout:** Managed securely via UPI, Paytm, Google Pay, and PhonePe with UTR verification.
+
+### [Developer API Portal](https://wingo30.com/developer)
+* **Description:** Developer hub to integrate real-time Wingo30 game data into third-party apps.
+* **Endpoints:**
+  - `GET /api/developer/30-sec-game-history`: Historical draw numbers, colors, sizes, and pattern results.
+  - `GET /api/developer/30-sec-game-stats`: Frequency metrics and hot/cold number analytics.
+* **Authentication:** SECURE API Key authentication via `x-api-key` header.
+
+### [Support & Contacts](https://wingo30.com/contact)
+* **Description:** Customer support portal. Provides official Telegram channel (`https://t.me/kal_mods`) and email support links.
+
+## Legal and Compliance
+* [Privacy Policy](https://wingo30.com/privacy) - Information regarding user data collection and storage.
+* [Terms & Conditions](https://wingo30.com/terms) - User agreement guidelines for Wingo game analytics.
+* [Refund Policy](https://wingo30.com/refund) - Terms for VIP subscription payment cancellations.

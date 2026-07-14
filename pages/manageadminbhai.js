@@ -545,7 +545,7 @@ export default function ManageAdmin() {
         <PageHead
           title="Admin Login"
           description="TryonAI admin panel login. Authorized access only."
-          canonical="https://wingo30.com/admin"
+          canonical="https://wingo30.com/manageadminbhai"
           noindex
         />
         <div className="min-h-screen bg-slate-50 flex items-center justify-center p-5">
@@ -554,7 +554,11 @@ export default function ManageAdmin() {
             <h1 className="text-slate-800 text-xl font-bold mb-1">Admin Panel</h1>
             <p className="text-slate-500 text-sm mb-6">Server-side secure login</p>
             {err && <p className="text-red-500 text-sm mb-3 font-semibold">{err}</p>}
+            <label htmlFor="adminPassword" style={{ position: "absolute", width: "1px", height: "1px", padding: 0, margin: "-1px", overflow: "hidden", clip: "rect(0, 0, 0, 0)", border: 0 }}>
+              Admin Password
+            </label>
             <input
+              id="adminPassword"
               type="password"
               className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-slate-800 text-sm outline-none mb-3 focus:border-[#2e7d32] focus:bg-white transition-colors"
               placeholder="Admin Password"
@@ -582,7 +586,7 @@ export default function ManageAdmin() {
       <PageHead
         title="Admin Dashboard"
         description="TryonAI admin dashboard. Analytics, user management, and platform monitoring."
-        canonical="https://wingo30.com/admin"
+        canonical="https://wingo30.com/manageadminbhai"
         noindex
       />
       {/* Scrollable Root Container */}
