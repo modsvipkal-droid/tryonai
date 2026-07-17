@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+import { CheckCircle, Clock, Circle } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, memo } from "react";
 import InfiniteGrid from "./InfiniteGrid";
@@ -73,16 +75,22 @@ const PROCESS_STEPS = [
     number: "1",
     title: "Input Historical Data",
     text: "Take the final three drawn numbers from your current game log and enter them into the prediction calculator widget.",
+    status: "completed",
+    category: "Data Entry",
   },
   {
     number: "2",
     title: "Algorithmic Processing",
     text: "The software cross-references these digits against thousands of past drawing patterns to identify mathematical correlations.",
+    status: "current",
+    category: "Analysis",
   },
   {
     number: "3",
     title: "Evaluate the Output",
     text: "Review the suggested BIG or SMALL indicator, noting the confidence percentage provided, to help inform your personal gameplay strategy.",
+    status: "upcoming",
+    category: "Decision",
   },
 ];
 
@@ -390,15 +398,24 @@ const TrionIcon = memo(function TrionIcon() {
 const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = false, error = "" }) {
   const [phase, setPhase] = useState("idle");
   const [dismissing, setDismissing] = useState(false);
+  const [telegramClicked, setTelegramClicked] = useState(false);
   const startButtonRef = useRef(null);
   const exitTimerRef = useRef(null);
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
-  const timelineRef = useRef(null);
-  const timelineItems = useRef([]);
   const coverageRef = useRef(null);
   const coverageItems = useRef([]);
   const platformRef = useRef(null);
   const platformItems = useRef([]);
+
+  const handleTelegramClick = (e) => {
+    e.preventDefault();
+    if (telegramClicked) return;
+    setTelegramClicked(true);
+    setTimeout(() => {
+      window.open(TELEGRAM_URL, "_blank", "noopener,noreferrer");
+      setTelegramClicked(false);
+    }, 1000);
+  };
 
   const handleDismiss = useCallback(() => {
     setDismissing((alreadyDismissing) => {
@@ -446,26 +463,6 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
 
     return () => window.clearTimeout(focusTimer);
   }, [autoDismiss, phase]);
-
-  useEffect(() => {
-    if (typeof IntersectionObserver === "undefined") return;
-
-    const items = timelineItems.current.filter(Boolean);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("loader-timeline-step--visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    items.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     if (typeof IntersectionObserver === "undefined") return;
@@ -579,10 +576,10 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
 
               <div className="loader-actions">
                 <div className="h-full w-full flex items-center justify-center text-black dark:text-white">
-                  <div className="group cursor-pointer border bg-zinc-200 dark:bg-zinc-900 border-zinc-400 dark:border-zinc-500/30 bg-card gap-3 h-[68px] flex items-center p-[12px] rounded-full">
+                  <div className="group cursor-pointer border bg-zinc-200 dark:bg-zinc-900 border-zinc-400 dark:border-zinc-500/30 bg-card gap-3 h-[68px] flex items-center p-[12px] rounded-2xl">
                   <button
                     data-slot="button"
-                    className="cursor-pointer gap-2 whitespace-nowrap text-base font-semibold transition-all shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive backdrop-blur-sm shadow-[inset_0_3px_2px_rgba(255,255,255,0.1),inset_0_-3px_6px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.30),inset_0_-8px_12px_rgba(0,0,0,0.12),0_6px_14px_-8px_rgba(0,0,0,0.18)] hover:bg-[#6336f7] hover:border-black/15 hover:shadow-[inset_0_3px_2px_rgba(255,255,255,0.15),inset_0_1px_0_rgba(255,255,255,0.40),inset_0_-10px_14px_rgba(0,0,0,0.16),0_8px_18px_-10px_rgba(0,0,0,0.22)] active:shadow-[inset_0_3px_2px_rgba(255,255,255,0.1),inset_0_1px_3px_rgba(0,0,0,0.22),inset_0_-6px_10px_rgba(0,0,0,0.18)] active:translate-y-[1px] dark:bg-[#6336f7]/55 px-6 py-3 bg-[#6336f7] h-[48px] rounded-full flex items-center justify-center text-white"
+                    className="cursor-pointer gap-2 whitespace-nowrap text-base font-semibold transition-all shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive backdrop-blur-sm shadow-[inset_0_3px_2px_rgba(255,255,255,0.1),inset_0_-3px_6px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.30),inset_0_-8px_12px_rgba(0,0,0,0.12),0_6px_14px_-8px_rgba(0,0,0,0.18)] hover:bg-[#6336f7] hover:border-black/15 hover:shadow-[inset_0_3px_2px_rgba(255,255,255,0.15),inset_0_1px_0_rgba(255,255,255,0.40),inset_0_-10px_14px_rgba(0,0,0,0.16),0_8px_18px_-10px_rgba(0,0,0,0.22)] active:shadow-[inset_0_3px_2px_rgba(255,255,255,0.1),inset_0_1px_3px_rgba(0,0,0,0.22),inset_0_-6px_10px_rgba(0,0,0,0.18)] active:translate-y-[1px] dark:bg-[#6336f7]/55 px-6 py-3 bg-[#6336f7] h-[48px] rounded-2xl flex items-center justify-center text-white"
                     type="button"
                     onClick={handleDismiss}
                     disabled={dismissing}
@@ -614,7 +611,7 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
                       {dismissing ? "Opening…" : "Get Started"}
                     </p>
                   </button>
-                  <div className="group-hover:ml-4 ease-in-out transition-all size-[30px] flex items-center justify-center rounded-full border border-zinc-400 dark:border-zinc-600">
+                  <div className="group-hover:ml-4 ease-in-out transition-all size-[30px] flex items-center justify-center rounded-2xl border border-zinc-400 dark:border-zinc-600">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -635,16 +632,25 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
               </div>
               </div>
 
-              <a
-                className="loader-action loader-action--telegram"
-                href={TELEGRAM_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                id="loader-telegram-btn"
-              >
-                <TelegramIcon />
-                <span>Join Telegram</span>
-              </a>
+              <div className={`loader-tg-wrapper${telegramClicked ? " loader-tg-wrapper--active" : ""}`}>
+                <div className="loader-tg-line horizontal top" />
+                <div className="loader-tg-line vertical right" />
+                <div className="loader-tg-line horizontal bottom" />
+                <div className="loader-tg-line vertical left" />
+                <div className="loader-tg-dot top left" />
+                <div className="loader-tg-dot top right" />
+                <div className="loader-tg-dot bottom right" />
+                <div className="loader-tg-dot bottom left" />
+                <button className="loader-tg-btn" onClick={handleTelegramClick} type="button">
+                  <span className="loader-tg-btn-text">Join Telegram</span>
+                  <svg className="loader-tg-btn-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M17.6744 11.4075L15.7691 17.1233C15.7072 17.309 15.5586 17.4529 15.3709 17.5087L3.69348 20.9803C3.22819 21.1186 2.79978 20.676 2.95328 20.2155L6.74467 8.84131C6.79981 8.67588 6.92419 8.54263 7.08543 8.47624L12.472 6.25822C12.696 6.166 12.9535 6.21749 13.1248 6.38876L17.5294 10.7935C17.6901 10.9542 17.7463 11.1919 17.6744 11.4075Z" />
+                    <path d="M3.2959 20.6016L9.65986 14.2376" />
+                    <path d="M17.7917 11.0557L20.6202 8.22724C21.4012 7.44619 21.4012 6.17986 20.6202 5.39881L18.4989 3.27749C17.7178 2.49645 16.4515 2.49645 15.6704 3.27749L12.842 6.10592" />
+                    <path d="M11.7814 12.1163C11.1956 11.5305 10.2458 11.5305 9.66004 12.1163C9.07426 12.7021 9.07426 13.6519 9.66004 14.2376C10.2458 14.8234 11.1956 14.8234 11.7814 14.2376C12.3671 13.6519 12.3671 12.7021 11.7814 12.1163Z" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </section>
 
@@ -703,21 +709,54 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
               format. Here is how you can use our calculators to evaluate your next move.
             </p>
 
-            <div className="loader-timeline" ref={timelineRef}>
+            <div className="loader-timeline">
+              <div className="loader-timeline-line" aria-hidden="true" />
+              <motion.div
+                className="loader-timeline-line-progress"
+                initial={{ scaleY: 0 }}
+                whileInView={{ scaleY: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
+                style={{ transformOrigin: "top" }}
+                aria-hidden="true"
+              />
               {PROCESS_STEPS.map((step, index) => (
-                <article
+                <motion.div
                   className="loader-timeline-step"
                   key={step.number}
-                  ref={(el) => { timelineItems.current[index] = el; }}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ delay: index * 0.15, duration: 0.5, ease: "easeOut" }}
                 >
                   <div className="loader-timeline-icon">
-                    <span>{step.number}</span>
+                    {step.status === "completed" ? (
+                      <CheckCircle size={18} className="loader-timeline-icon-completed" />
+                    ) : step.status === "current" ? (
+                      <Clock size={18} className="loader-timeline-icon-current" />
+                    ) : (
+                      <Circle size={18} className="loader-timeline-icon-upcoming" />
+                    )}
                   </div>
                   <div className="loader-timeline-content">
-                    <h3>{step.title}</h3>
+                    <div className="loader-timeline-content-header">
+                      <div className="loader-timeline-content-info">
+                        <h3>{step.title}</h3>
+                        {step.category && <span className="loader-timeline-category">{step.category}</span>}
+                      </div>
+                      <span className={`loader-timeline-badge loader-timeline-badge--${step.status}`}>
+                        {step.status === "completed" ? "Completed" : step.status === "current" ? "In Progress" : "Pending"}
+                      </span>
+                    </div>
                     <p>{step.text}</p>
+                    <div className="loader-timeline-progress">
+                      <div
+                        className={`loader-timeline-progress-bar loader-timeline-progress-bar--${step.status}`}
+                        style={{ width: step.status === "completed" ? "100%" : step.status === "current" ? "50%" : "0%" }}
+                      />
+                    </div>
                   </div>
-                </article>
+                </motion.div>
               ))}
             </div>
           </section>
