@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 
 const SENSITIVE_PATHS = ["/api/admin/", "/api/logic/", "/api/developer/", "/api/auth/"];
-
 const ADMIN_PATHS = ["/manageadminbhai", "/api/admin/"];
 
 const BOT_PATTERNS = [
@@ -16,15 +15,23 @@ function detectBot(userAgent) {
   return BOT_PATTERNS.some((pattern) => pattern.test(userAgent));
 }
 
+function getRawAllowed() {
+  const val = process.env.ALLOWED_IPS || "";
+  return val.replace(/^["']|["']$/g, "");
+}
+
 function isAllowedIP(ip) {
-  const allowed = (process.env.ALLOWED_IPS || "").split(",").map((s) => s.trim()).filter(Boolean);
-  if (allowed.length === 0) return false;
-  return allowed.includes(ip);
+  const raw = getRawAllowed();
+  if (!raw) return false;
+  const list = raw.split(",").map((s) => s.trim()).filter(Boolean);
+  return list.includes(ip);
 }
 
 function getClientIP(request) {
-  return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+  return request.headers.get("cf-connecting-ip")
+    || request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
     || request.headers.get("x-real-ip")
+    || request.headers.get("true-client-ip")
     || request.ip
     || "unknown";
 }
@@ -39,7 +46,9 @@ export function middleware(request) {
   if (isAdmin) {
     const clientIP = getClientIP(request);
     if (!isAllowedIP(clientIP)) {
-      return new NextResponse(null, { status: 404 });
+      const response = new NextResponse(null, { status: 404 });
+      response.headers.set("x-blocked-reason", "ip");
+      return response;
     }
   }
 
