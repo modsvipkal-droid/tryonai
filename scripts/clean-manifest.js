@@ -36,6 +36,7 @@ for (const file of manifestFiles) {
       const cleaned = raw.filter((p) => {
         if (p === "/_app" || p === "/_error") return true;
         if (p.startsWith("/api/")) return false;
+        if (p === "/manageadminbhai") return false;
         return true;
       });
 
