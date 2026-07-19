@@ -22,8 +22,9 @@ function getRawAllowed() {
 
 function isAllowedIP(ip) {
   const raw = getRawAllowed();
-  if (!raw) return false;
+  if (!raw) return true;
   const list = raw.split(",").map((s) => s.trim()).filter(Boolean);
+  if (list.length === 0) return true;
   return list.includes(ip);
 }
 
