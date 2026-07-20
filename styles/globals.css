@@ -1422,6 +1422,9 @@ nextjs-portal,
 .dashboard-metric.violet {
   --accent: #9f25eb;
   grid-column: 1 / -1;
+  background: linear-gradient(135deg, #e7d7ff 0%, #f2eaff 50%, #ecdfff 100%);
+  background-size: 200% 200%;
+  animation: vioGradientShift 8s ease-in-out infinite;
 }
 
 /* ── Premium vector patterns inside metric cards ── */
@@ -1455,7 +1458,25 @@ nextjs-portal,
 }
 
 .dashboard-metric.violet::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cpath d='M0 0 L200 200 M50 0 L200 150 M0 50 L150 200 M100 0 L200 100 M0 100 L100 200 M0 150 L50 200 M150 0 L200 50' fill='none' stroke='%239f25eb' stroke-width='0.7' opacity='0.07'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  background-size: auto;
+  background-position: 0 0;
+  background-repeat: repeat;
+  -webkit-mask-image: none;
+  mask-image: none;
+  background-image:
+    repeating-radial-gradient(circle at 30% 40%,
+      transparent 0px, transparent 7px,
+      rgba(255,255,255,0.5) 8px, rgba(255,255,255,0.5) 9px),
+    repeating-radial-gradient(circle at 85% 65%,
+      transparent 0px, transparent 7px,
+      rgba(255,255,255,0.4) 8px, rgba(255,255,255,0.4) 9px);
+}
+
+@keyframes vioGradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .dashboard-metric-icon {
