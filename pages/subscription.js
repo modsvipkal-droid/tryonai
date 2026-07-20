@@ -151,7 +151,7 @@ export default function Subscription() {
                 </div>
                 <div className="pay-plan-badge">
                   <span className="pay-plan-badge-label">PREMIUM AI</span>
-                  <span className="pay-plan-badge-sub">30 days life time access</span>
+                  <span className="pay-plan-badge-sub">life time access</span>
                 </div>
               </div>
             </div>
