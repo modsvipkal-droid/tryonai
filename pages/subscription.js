@@ -6,14 +6,18 @@ import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbS
 const bgStyle = `
   html, body {
     background: #eef7f3 !important;
-    overflow: auto !important;
-    height: auto !important;
-    min-height: 100vh;
+    height: 100% !important;
+    overflow: hidden !important;
   }
   #__next {
-    height: auto !important;
-    min-height: 100vh;
-    overflow: auto !important;
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+  .page-shell .app-screen {
+    height: 100vh !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
   }
 `;
 
@@ -90,7 +94,7 @@ export default function Subscription() {
       <SoftwareAppSchema />
 
       <div className="page-shell">
-        <div className="app-screen" style={{ height: "auto", minHeight: "100vh", background: "#f8fafc", paddingBottom: "40px" }}>
+        <div className="app-screen" style={{ background: "#f8fafc", paddingBottom: "40px" }}>
           
           <div className="pay-screen" style={{ boxShadow: "none", borderRadius: 0, background: "#fcfefe" }}>
             
@@ -116,7 +120,7 @@ export default function Subscription() {
                 <span className="pay-amount-label">Amount to Pay</span>
                 <div className="pay-amount-value">
                   <span className="pay-rupee">₹</span>
-                  <span className="pay-price">599.00</span>
+                  <span className="pay-price">749.00</span>
                 </div>
                 <div className="pay-order-row">
                   <span>Order ID: <strong>{orderId}</strong></span>
@@ -147,7 +151,7 @@ export default function Subscription() {
                 </div>
                 <div className="pay-plan-badge">
                   <span className="pay-plan-badge-label">PREMIUM AI</span>
-                  <span className="pay-plan-badge-sub">30 days 35/day access</span>
+                  <span className="pay-plan-badge-sub">30 days life time access</span>
                 </div>
               </div>
             </div>
@@ -278,7 +282,7 @@ export default function Subscription() {
               className="pay-submit-btn" 
               onClick={() => {
                 setShowToast(true);
-                const msg = encodeURIComponent(`Hello Admin, I have submitted the payment request on the website.\nPlan: PRO PLANS (₹599)\nUTR ID: ${utr}\nPlease verify and activate my Wingo Signals Premium access now. Thanks!`);
+                const msg = encodeURIComponent(`Hello Admin, I have submitted the payment request on the website.\nPlan: PRO PLANS (₹749)\nUTR ID: ${utr}\nPlease verify and activate my Wingo Signals Premium access now. Thanks!`);
                 window.open(`https://t.me/kal_mods?text=${msg}`, '_blank');
                 setTimeout(() => setShowToast(false), 3000);
               }}
