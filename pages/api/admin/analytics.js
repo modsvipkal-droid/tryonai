@@ -1,9 +1,4 @@
-import fs from "fs";
-import path from "path";
-
-const DB_DIR = path.join(process.cwd(), ".data");
-const USERS_FILE = path.join(DB_DIR, "users.json");
-const VISITS_FILE = path.join(DB_DIR, "visits.json");
+import { getUsers, getVisits } from "@/lib/db";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
@@ -12,16 +7,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    let users = [];
-    if (fs.existsSync(USERS_FILE)) {
-      try { users = JSON.parse(fs.readFileSync(USERS_FILE, "utf8")); } catch { users = []; }
-    }
+    const users = await getUsers();
     const registeredUsersCount = users.length;
 
-    let realVisits = [];
-    if (fs.existsSync(VISITS_FILE)) {
-      try { realVisits = JSON.parse(fs.readFileSync(VISITS_FILE, "utf8")); } catch { realVisits = []; }
-    }
+    let realVisits = await getVisits();
 
     const now = Date.now();
     const todayStart = new Date();

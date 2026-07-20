@@ -1424,6 +1424,40 @@ nextjs-portal,
   grid-column: 1 / -1;
 }
 
+/* ── Premium vector patterns inside metric cards ── */
+.dashboard-metric::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  background-size: 160px auto;
+  -webkit-mask-image: linear-gradient(135deg, transparent 30%, #000 70%);
+  mask-image: linear-gradient(135deg, transparent 30%, #000 70%);
+}
+
+.dashboard-metric.mint::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='180' viewBox='0 0 200 180'%3E%3Cpath d='M10 180 Q 60 130 110 145 T 190 110' fill='none' stroke='%2314b88c' stroke-width='1.5' opacity='0.12'/%3E%3Cpath d='M0 160 Q 50 110 100 120 T 195 85' fill='none' stroke='%2314b88c' stroke-width='1' opacity='0.08'/%3E%3Cpath d='M5 135 Q 70 90 120 100 T 200 60' fill='none' stroke='%2314b88c' stroke-width='0.7' opacity='0.06'/%3E%3C/svg%3E");
+}
+
+.dashboard-metric.green::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cpath d='M90 0 L90 180 M0 90 L180 90 M45 0 L45 180 M135 0 L135 180 M0 45 L180 45 M0 135 L180 135 M22.5 0 L22.5 180 M67.5 0 L67.5 180 M112.5 0 L112.5 180 M157.5 0 L157.5 180 M0 22.5 L180 22.5 M0 67.5 L180 67.5 M0 112.5 L180 112.5 M0 157.5 L180 157.5' fill='none' stroke='%2308a966' stroke-width='0.6' opacity='0.07'/%3E%3C/svg%3E");
+}
+
+.dashboard-metric.coral::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cpath d='M0 200 L100 100 L200 0 M100 200 L200 100 M0 100 L100 0 M0 150 L50 100 L100 150 L150 100 M20 200 L40 180 M40 200 L60 180' fill='none' stroke='%23ff5a65' stroke-width='0.8' opacity='0.09'/%3E%3C/svg%3E");
+}
+
+.dashboard-metric.gold::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Ccircle cx='180' cy='180' r='30' fill='none' stroke='%23e8a520' stroke-width='1' opacity='0.07'/%3E%3Ccircle cx='180' cy='180' r='50' fill='none' stroke='%23e8a520' stroke-width='0.8' opacity='0.06'/%3E%3Ccircle cx='180' cy='180' r='70' fill='none' stroke='%23e8a520' stroke-width='0.6' opacity='0.05'/%3E%3Ccircle cx='180' cy='180' r='90' fill='none' stroke='%23e8a520' stroke-width='0.5' opacity='0.04'/%3E%3Ccircle cx='180' cy='180' r='110' fill='none' stroke='%23e8a520' stroke-width='0.4' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+.dashboard-metric.violet::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cpath d='M0 0 L200 200 M50 0 L200 150 M0 50 L150 200 M100 0 L200 100 M0 100 L100 200 M0 150 L50 200 M150 0 L200 50' fill='none' stroke='%239f25eb' stroke-width='0.7' opacity='0.07'/%3E%3C/svg%3E");
+}
+
 .dashboard-metric-icon {
   width: 40px;
   height: 40px;

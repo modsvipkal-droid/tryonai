@@ -1,12 +1,8 @@
-import fs from "fs";
-import path from "path";
+import { insertVisit } from "@/lib/db";
 import { sanitizeString } from "@/lib/validate";
 import { createRateLimiter } from "@/lib/rateLimit";
 
 const trackLimiter = createRateLimiter({ windowMs: 1000, max: 5, name: "track" });
-
-const DB_DIR = path.join(process.cwd(), ".data");
-const VISITS_FILE = path.join(DB_DIR, "visits.json");
 
 export default async function handler(req, res) {
   const { limited } = trackLimiter(req, res);
@@ -69,16 +65,7 @@ export default async function handler(req, res) {
       source,
     };
 
-    if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR, { recursive: true });
-
-    let visits = [];
-    if (fs.existsSync(VISITS_FILE)) {
-      try { visits = JSON.parse(fs.readFileSync(VISITS_FILE, "utf8")); } catch { visits = []; }
-    }
-
-    visits.push(visit);
-    if (visits.length > 10000) visits = visits.slice(-10000);
-    fs.writeFileSync(VISITS_FILE, JSON.stringify(visits));
+    await insertVisit(visit);
 
     return res.status(200).json({ success: true });
   } catch {
