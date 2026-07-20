@@ -1,12 +1,52 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema } from "@/components/SEO";
 
 const bgStyle = `html, body { background: #f8fafc !important; overflow: auto !important; } #__next { height: auto; min-height: 100vh; overflow: auto; }`;
+
+function generateOrderId() {
+  return "ORD" + Date.now() + Math.floor(Math.random() * 1000);
+}
 
 export default function Subscription() {
   const [showPayment, setShowPayment] = useState(false);
   const [utr, setUtr] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [activeTab, setActiveTab] = useState("qr");
+  const [orderId, setOrderId] = useState("");
+  const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
+  const [copied, setCopied] = useState(false);
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    if (showPayment) {
+      setOrderId(generateOrderId());
+      setTimeLeft(600);
+      timerRef.current = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev <= 1) {
+            clearInterval(timerRef.current);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [showPayment]);
+
+  const formatTime = (s) => {
+    const m = Math.floor(s / 60);
+    const sec = s % 60;
+    return `${m}:${sec.toString().padStart(2, "0")}`;
+  };
+
+  const handleCopyOrderId = () => {
+    navigator.clipboard.writeText(orderId);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <>
@@ -135,155 +175,239 @@ export default function Subscription() {
         </div>
 
         {showPayment && (
-          <div className="payment-overlay">
-            <div className="payment-modal">
-              <button className="payment-close" onClick={() => setShowPayment(false)}>
-                <svg viewBox="0 0 24 24" width="24" height="24">
-                  <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          <div className="pay-screen">
+            {/* Header */}
+            <div className="pay-screen-header">
+              <div className="pay-screen-header-left">
+                <button className="pay-back-btn" onClick={() => setShowPayment(false)}>
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <div>
+                  <h2 className="pay-screen-title">Payment</h2>
+                  <p className="pay-screen-subtitle">Complete your payment</p>
+                </div>
+              </div>
+              <div className="pay-secure-badge">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
                 </svg>
-              </button>
-
-              <div className="payment-header">
-                <div className="payment-lock-icon">
-                  <svg viewBox="0 0 24 24" width="22" height="22">
-                    <path fill="currentColor" d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM12 17.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM15.1 8H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/>
-                  </svg>
-                </div>
-                <h2 className="payment-title">Secure Your Premium Access</h2>
-                <p className="payment-subtitle">Complete your payment to unlock instant access to all premium features, exclusive signals, and 24/7 expert support. Your transaction is 100% secure and encrypted.</p>
+                <span>100% Secure</span>
               </div>
+            </div>
 
-              <div className="payment-qr-wrap">
-                <div className="payment-qr-blob"></div>
-                <div className="payment-qr-bg">
-                  <img src="/799qr.jpg" alt="Payment QR Code" className="payment-qr" width="240" height="240" loading="lazy" />
+            {/* Amount Card */}
+            <div className="pay-amount-card">
+              <div className="pay-amount-card-bg"></div>
+              <div className="pay-amount-left">
+                <span className="pay-amount-label">Amount to Pay</span>
+                <div className="pay-amount-value">
+                  <span className="pay-rupee">₹</span>
+                  <span className="pay-price">599.00</span>
                 </div>
-              </div>
-
-              <div className="payment-upi-apps">
-                <span className="payment-upi-label">Pay with your preferred UPI app</span>
-                <div className="payment-upi-icons">
-                  <div className="upi-icon" title="Google Pay">
-                    <img src="/google-pay-logo.webp" alt="Google Pay" className="upi-img" width="36" height="24" loading="lazy" />
-                    <span>Google Pay</span>
-                  </div>
-                  <div className="upi-icon" title="Paytm">
-                    <img src="/paytm-india-logo.webp" alt="Paytm" className="upi-img" width="36" height="24" loading="lazy" />
-                    <span>Paytm</span>
-                  </div>
-                  <div className="upi-icon" title="PhonePe">
-                    <img src="/phonepe-india-logo.webp" alt="PhonePe" className="upi-img" width="36" height="24" loading="lazy" />
-                    <span>PhonePe</span>
-                  </div>
-                  <div className="upi-icon" title="Amazon Pay">
-                    <svg viewBox="0 0 120 48" width="60" height="24">
-                      <rect x="2" y="2" width="116" height="44" rx="8" fill="white" stroke="#ddd" strokeWidth="0.5"/>
-                      <path d="M34 16h-4v8h-2v-8h-4v-2h10v2z" fill="#FF9900"/>
-                      <path d="M42 14c2.2 0 4 1.8 4 4s-1.8 4-4 4-4-1.8-4-4 1.8-4 4-4zm0 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z" fill="#FF9900"/>
-                      <path d="M50 14h2v6l3-3h2.5l-3 3 3 3H55l-3-3v3h-2v-9z" fill="#FF9900"/>
-                      <path d="M60 14h2v1.5c.5-.9 1.3-1.5 2.3-1.5.7 0 1.3.2 1.7.6.4.4.7 1 .7 1.8V22h-2v-4.5c0-.7-.3-1-.8-1-.5 0-.9.3-1.2.8V22h-2v-8h-.7z" fill="#FF9900"/>
-                      <path d="M76 24c-2.8 0-5-1.6-5-4h2c0 1.3 1.3 2.3 3 2.3s3-1 3-2.3-1.3-2.3-3-2.3h-1v-2h1c1.3 0 2.5-.8 2.5-2s-.8-1.7-2-1.7c-1.1 0-2 .7-2.3 1.7h-2c.3-2 2-3.3 4.3-3.3 2.3 0 4 1.3 4 3 0 1.3-.8 2.3-2 2.7 1.3.3 2.3 1.3 2.3 2.7 0 2.2-2 3.9-5 3.9z" fill="#FF9900"/>
-                      <text x="90" y="25" textAnchor="middle" fill="#FF9900" fontSize="10" fontWeight="bold" fontFamily="Arial">pay</text>
-                    </svg>
-                    <span>Amazon Pay</span>
-                  </div>
-                  <div className="upi-icon" title="Super Pay">
-                    <img src="/super-app-logo-india.webp" alt="Super Pay" className="upi-img" width="36" height="24" loading="lazy" />
-                    <span>Super Pay</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="payment-utr">
-                <label className="payment-utr-label" htmlFor="utrInput">Enter your 12-digit UTR Number</label>
-                <div className="payment-utr-input-wrap">
-                  <svg viewBox="0 0 24 24" width="20" height="20" className="payment-utr-icon">
-                    <path fill="currentColor" d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zM6 10h12v2H6zm0 3h10v2H6z"/>
-                  </svg>
-                  <input
-                    id="utrInput"
-                    type="text"
-                    className="payment-utr-input"
-                    placeholder="e.g. HDFC123456789"
-                    value={utr}
-                    onChange={(e) => setUtr(e.target.value)}
-                    maxLength={30}
-                  />
-                </div>
-              </div>
-
-              <button className="relative flex items-center px-6 py-3 overflow-hidden font-medium transition-all bg-indigo-500 rounded-md group w-full justify-center" onClick={() => {
-                setShowToast(true);
-                const msg = encodeURIComponent(`Hello Admin, I have submitted the payment request on the website.\nPlan: PRO PLANS (₹799)\nUTR ID: ${utr}\nPlease verify and activate my Wingo Signals Premium access now. Thanks!`);
-                window.open(`https://t.me/kal_mods?text=${msg}`, '_blank');
-                setTimeout(() => setShowToast(false), 3000);
-              }}>
-                <span className="absolute top-0 right-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-indigo-700 rounded group-hover:-mr-4 group-hover:-mt-4">
-                  <span className="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"></span>
-                </span>
-                <span className="absolute bottom-0 rotate-180 left-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-indigo-700 rounded group-hover:-ml-4 group-hover:-mb-4">
-                  <span className="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"></span>
-                </span>
-                <span className="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full bg-indigo-600 rounded-md group-hover:translate-x-0"></span>
-                <span className="relative w-full text-center text-white transition-colors duration-200 ease-in-out group-hover:text-white">Submit UTR</span>
-              </button>
-
-              {showToast && (
-                <>
-                  <div className="payment-toast-overlay" onClick={() => setShowToast(false)} />
-                  <div className="payment-toast">
-                    <svg width="16" height="96" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M 8 0 Q 4 4.8, 8 9.6 T 8 19.2 Q 4 24, 8 28.8 T 8 38.4 Q 4 43.2, 8 48 T 8 57.6 Q 4 62.4, 8 67.2 T 8 76.8 Q 4 81.6, 8 86.4 T 8 96 L 0 96 L 0 0 Z" fill="#66cdaa" stroke="#66cdaa" strokeWidth="2" strokeLinecap="round"></path>
-                    </svg>
-                    <div className="payment-toast-body">
-                      <p className="payment-toast-title">Success !</p>
-                      <p className="payment-toast-msg">hey!<br />PROCESSING YOUR UTR</p>
-                    </div>
-                    <button className="payment-toast-close" onClick={() => setShowToast(false)}>
-                      <svg className="w-7 h-7" fill="none" stroke="mediumseagreen" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"></path>
+                <div className="pay-order-row">
+                  <span>Order ID: {orderId}</span>
+                  <button className="pay-copy-btn" onClick={handleCopyOrderId} title="Copy Order ID">
+                    {copied ? (
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
                       </svg>
-                    </button>
-                  </div>
-                </>
-              )}
-
-              <div className="payment-guide">
-                <h3 className="payment-guide-title">Payment Guide</h3>
-                <p className="payment-guide-sub">How to pay via UPI</p>
-
-                <div className="payment-step">
-                  <div className="payment-step-num">1</div>
-                  <div className="payment-step-content">
-                    <strong>Scan QR or tap a UPI app</strong>
-                    <p>Open your preferred UPI app and scan the QR code, or tap the app icon to auto-fill payment details.</p>
-                  </div>
+                    ) : (
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                      </svg>
+                    )}
+                  </button>
                 </div>
-
-                <div className="payment-step">
-                  <div className="payment-step-num">2</div>
-                  <div className="payment-step-content">
-                    <strong>Complete the payment</strong>
-                    <p>Pay the exact invoice amount to <span className="payment-upi-id">data-earn@ybl</span>. Your UPI app will show a confirmation screen after success.</p>
-                  </div>
+                <div className="pay-expires-row">
+                  Expires in: <span className="pay-expires-time">{formatTime(timeLeft)}</span>
                 </div>
-
-                <div className="payment-step">
-                  <div className="payment-step-num">3</div>
-                  <div className="payment-step-content">
-                    <strong>Submit your 12-digit UTR</strong>
-                    <p>Copy the UTR (transaction reference) from your payment receipt and paste it in the form. Our system verifies and activates your license automatically.</p>
-                  </div>
-                </div>
-
-                <div className="payment-support">
-                  <svg viewBox="0 0 24 24" width="18" height="18">
-                    <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+              </div>
+              <div className="pay-amount-right">
+                <div className="pay-secure-pill">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
                   </svg>
-                  <span>Need help with payment? Contact our support team — we are available 24/7.</span>
+                  <span>Secure payment</span>
+                </div>
+                <div className="pay-plan-badge">
+                  <span className="pay-plan-badge-label">PREMIUM AI</span>
+                  <span className="pay-plan-badge-sub">30 days 35/day access</span>
                 </div>
               </div>
             </div>
+
+            {/* Payment Method Tabs */}
+            <h3 className="pay-method-title">Choose Payment Method</h3>
+            <div className="pay-method-tabs">
+              <button
+                className={`pay-method-tab ${activeTab === "qr" ? "active" : ""}`}
+                onClick={() => setActiveTab("qr")}
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="6" height="6" rx="1" />
+                  <rect x="16" y="2" width="6" height="6" rx="1" />
+                  <rect x="2" y="16" width="6" height="6" rx="1" />
+                  <rect x="16" y="16" width="4" height="4" rx="0.5" />
+                  <path d="M12 2h2v4h-2zM2 12h4v2H2zM12 12h2v4h-2zM18 12h4v2h-4z" />
+                </svg>
+                QR Code
+              </button>
+              <button
+                className={`pay-method-tab ${activeTab === "upi" ? "active" : ""}`}
+                onClick={() => setActiveTab("upi")}
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="#FF9800">
+                  <path d="M7.5 3L12 7.5 16.5 3 21 7.5 16.5 12 21 16.5 16.5 21 12 16.5 7.5 21 3 16.5 7.5 12 3 7.5z" />
+                </svg>
+                UPI
+              </button>
+            </div>
+
+            {/* QR Code Section */}
+            {activeTab === "qr" && (
+              <div className="pay-qr-section">
+                <div className="pay-qr-section-header">
+                  <div>
+                    <h4 className="pay-qr-title">Scan & Pay</h4>
+                    <div className="pay-qr-title-line"></div>
+                  </div>
+                  <button className="pay-download-btn" title="Download QR">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div className="pay-qr-container">
+                  <div className="pay-qr-frame">
+                    <div className="pay-qr-corner pay-qr-corner-tl"></div>
+                    <div className="pay-qr-corner pay-qr-corner-tr"></div>
+                    <div className="pay-qr-corner pay-qr-corner-bl"></div>
+                    <div className="pay-qr-corner pay-qr-corner-br"></div>
+                    <img src="/799qr.jpg" alt="Payment QR Code" className="pay-qr-image" width="200" height="200" loading="lazy" />
+                  </div>
+                </div>
+
+                <p className="pay-qr-instruction">Scan this QR using any UPI app</p>
+
+                <div className="pay-auto-verify">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                  </svg>
+                  <span>Payment is auto-verified in the background. No UTR needed unless autopay fails.</span>
+                </div>
+              </div>
+            )}
+
+            {/* UPI Section */}
+            {activeTab === "upi" && (
+              <div className="pay-upi-section">
+                <div className="pay-upi-apps-row">
+                  <div className="pay-upi-app" title="Google Pay">
+                    <img src="/google-pay-logo.webp" alt="Google Pay" width="40" height="40" loading="lazy" />
+                    <span>Google Pay</span>
+                  </div>
+                  <div className="pay-upi-app" title="Paytm">
+                    <img src="/paytm-india-logo.webp" alt="Paytm" width="40" height="40" loading="lazy" />
+                    <span>Paytm</span>
+                  </div>
+                  <div className="pay-upi-app" title="PhonePe">
+                    <img src="/phonepe-india-logo.webp" alt="PhonePe" width="40" height="40" loading="lazy" />
+                    <span>PhonePe</span>
+                  </div>
+                  <div className="pay-upi-app" title="Super Pay">
+                    <img src="/super-app-logo-india.webp" alt="Super Pay" width="40" height="40" loading="lazy" />
+                    <span>Super Pay</span>
+                  </div>
+                </div>
+                <p className="pay-upi-instruction">Select your preferred UPI app to complete payment</p>
+              </div>
+            )}
+
+            {/* UTR Submission */}
+            <div className="pay-utr-section">
+              <div className="pay-utr-header">
+                <h4 className="pay-utr-title">Submit UTR Number</h4>
+                <p className="pay-utr-hint">Enter 12-digit payment reference if aut...</p>
+              </div>
+              <div className="pay-utr-input-row">
+                <input
+                  id="utrInput"
+                  type="text"
+                  className="pay-utr-input"
+                  placeholder="562412895621"
+                  value={utr}
+                  onChange={(e) => setUtr(e.target.value)}
+                  maxLength={30}
+                />
+              </div>
+            </div>
+
+            {/* Cloudflare / Success indicator */}
+            <div className="pay-verify-row">
+              <div className="pay-success-check">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+                  <circle cx="12" cy="12" r="10" fill="#16a34a" />
+                  <polyline points="8 12 11 15 16 9" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <span className="pay-success-text">Success!</span>
+              </div>
+              <div className="pay-cloudflare">
+                <svg viewBox="0 0 80 32" width="110" height="28">
+                  <path d="M56.3 16.7c.3-1.1-.1-2.1-.9-2.6-.7-.5-1.7-.4-2.5.1l-22.5.3c-.1 0-.2-.1-.2-.1 0-.1 0-.2.1-.2.3-.4.8-.7 1.3-.7l22.3-.3c2.1-.1 4.3 1.4 5 3.5l.7 2c0 .1 0 .1 0 .2 0 0 0 .1-.1.1-1 1.8-2.8 3-4.9 3H17c-.2 0-.3-.2-.3-.3.5-3.5 3.6-6.2 7.2-6.2h1.2c.5-2.3 2.5-4 4.9-4 1.2 0 2.3.4 3.1 1.1.5-.1 1-.2 1.5-.2 2.7 0 5 1.9 5.5 4.4l.2-.1z" fill="#F38020" />
+                  <path d="M60.4 14.1c-.1 0-.3 0-.4.1l-.3.9c-.3 1.1.1 2.1.9 2.6.7.5 1.7.4 2.5-.1l1.1-.1c.1 0 .2.1.2.1 0 .1 0 .1-.1.2-1 1.7-2.8 2.9-4.8 2.9h-1c-.2 0-.3-.2-.3-.3.5-3.5 3.6-6.2 7.2-6.2h.1c-.8-.7-1.9-1.1-3.1-1.1-.7 0-1.4.1-2 .4z" fill="#FAAE40" />
+                </svg>
+                <div className="pay-cloudflare-text">
+                  <span className="pay-cf-brand">CLOUDFLARE</span>
+                  <span className="pay-cf-links">Privacy · Help</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <button className="pay-submit-btn" onClick={() => {
+              setShowToast(true);
+              const msg = encodeURIComponent(`Hello Admin, I have submitted the payment request on the website.\nPlan: PRO PLANS (₹599)\nUTR ID: ${utr}\nPlease verify and activate my Wingo Signals Premium access now. Thanks!`);
+              window.open(`https://t.me/kal_mods?text=${msg}`, '_blank');
+              setTimeout(() => setShowToast(false), 3000);
+            }}>
+              Submit UTR
+            </button>
+
+            {/* Security Footer */}
+            <div className="pay-security-footer">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="#94a3b8">
+                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z" />
+              </svg>
+              <span>Your payment details are secure with us.</span>
+            </div>
+
+            {/* Toast */}
+            {showToast && (
+              <>
+                <div className="payment-toast-overlay" onClick={() => setShowToast(false)} />
+                <div className="payment-toast">
+                  <svg width="16" height="96" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 8 0 Q 4 4.8, 8 9.6 T 8 19.2 Q 4 24, 8 28.8 T 8 38.4 Q 4 43.2, 8 48 T 8 57.6 Q 4 62.4, 8 67.2 T 8 76.8 Q 4 81.6, 8 86.4 T 8 96 L 0 96 L 0 0 Z" fill="#66cdaa" stroke="#66cdaa" strokeWidth="2" strokeLinecap="round"></path>
+                  </svg>
+                  <div className="payment-toast-body">
+                    <p className="payment-toast-title">Success !</p>
+                    <p className="payment-toast-msg">hey!<br />PROCESSING YOUR UTR</p>
+                  </div>
+                  <button className="payment-toast-close" onClick={() => setShowToast(false)}>
+                    <svg className="w-7 h-7" fill="none" stroke="mediumseagreen" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         )}
       </div>
