@@ -67,7 +67,7 @@ export default function Subscription() {
 
   const handleDownloadQR = () => {
     const link = document.createElement("a");
-    link.href = "/799qr.jpg";
+    link.href = "/749qrcode.jpg";
     link.download = "payment_qr.jpg";
     document.body.appendChild(link);
     link.click();
@@ -205,7 +205,7 @@ export default function Subscription() {
                     <div className="pay-qr-corner pay-qr-corner-tr"></div>
                     <div className="pay-qr-corner pay-qr-corner-bl"></div>
                     <div className="pay-qr-corner pay-qr-corner-br"></div>
-                    <img src="/799qr.jpg" alt="Payment QR Code" className="pay-qr-image" width="200" height="200" loading="lazy" />
+                    <img src="/749qrcode.jpg" alt="Payment QR Code" className="pay-qr-image" width="200" height="200" loading="lazy" />
                   </div>
                 </div>
 
