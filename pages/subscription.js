@@ -90,7 +90,7 @@ export default function Subscription() {
       <SoftwareAppSchema />
 
       <div className="page-shell">
-        <div className="app-screen" style={{ minHeight: "100vh", background: "#f8fafc", paddingBottom: "40px" }}>
+        <div className="app-screen" style={{ height: "auto", minHeight: "100vh", background: "#f8fafc", paddingBottom: "40px" }}>
           
           <div className="pay-screen" style={{ boxShadow: "none", borderRadius: 0, background: "#fcfefe" }}>
             
