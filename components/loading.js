@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { CheckCircle, Clock, Circle } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, memo } from "react";
-import InfiniteGrid from "./InfiniteGrid";
 import SparklesText from "./SparklesText";
 
 const TELEGRAM_URL = "https://t.me/+spWu5CnIDrViNDRl";
@@ -525,8 +524,6 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
       aria-busy={dismissing}
       onKeyDown={handleKeyDown}
     >
-      <InfiniteGrid />
-
       <div className="loader-shell">
         <main className={`loader-content${isVisible ? " loader-content--visible" : ""}`}>
 

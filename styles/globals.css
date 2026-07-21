@@ -948,7 +948,7 @@ nextjs-portal,
   0%,
   100% {
     r: 9;
-    opacity: 0.25;
+  opacity: 0.35;
   }
 
   50% {
@@ -2220,6 +2220,24 @@ nextjs-portal,
   pointer-events: none;
 }
 
+.pay-wave-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  line-height: 0;
+  display: block;
+}
+.pay-wave-bottom svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .pay-amount-left {
   position: relative;
   z-index: 1;
@@ -2390,12 +2408,23 @@ nextjs-portal,
 
 /* ── QR Code Section ── */
 .pay-qr-section {
+  position: relative;
   margin: 16px 16px 0;
   background: #ffffff;
   border-radius: 16px;
   border: 1px solid #e2e8f0;
   padding: 20px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+.pay-qr-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: url('/qr-bg.svg') no-repeat center / cover;
+  opacity: 0.25;
 }
 
 .pay-qr-section-header {
@@ -4430,7 +4459,7 @@ nextjs-portal,
   height: 60px;
   bottom: 15%;
   left: 20px;
-  opacity: 0.35;
+  opacity: 0.28;
   animation: shapeFloat 9s ease-in-out 2s infinite;
 }
 

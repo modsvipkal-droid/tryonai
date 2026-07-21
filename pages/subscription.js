@@ -116,6 +116,22 @@ export default function Subscription() {
             {/* Amount Card */}
             <div className="pay-amount-card">
               <div className="pay-amount-card-bg"></div>
+              <div className="pay-wave-bottom">
+                <svg viewBox="0 24 150 28" preserveAspectRatio="none">
+                  <style>{`@keyframes m{from{transform:translateX(-90px)}to{transform:translateX(85px)}}.l0{animation:m 11s linear infinite 0s}.l1{animation:m 14s linear infinite -2s}`}</style>
+                  <defs>
+                    <linearGradient id="wave-grad">
+                      <stop stopColor="#00995c" />
+                      <stop offset="1" stopColor="#00d47a" />
+                    </linearGradient>
+                    <path id="w" d="M -160 40 Q -116 24 -72 40 Q -28 56 16 40 Q 60 24 104 40 Q 148 56 192 40 L 192 80 L -160 80 Z" />
+                  </defs>
+                  <g>
+                    <use href="#w" x="48" y="0" fill="url(#wave-grad)" opacity="0.3" className="l0" />
+                    <use href="#w" x="70" y="3" fill="url(#wave-grad)" opacity="0.4" className="l1" />
+                  </g>
+                </svg>
+              </div>
               <div className="pay-amount-left">
                 <span className="pay-amount-label">Amount to Pay</span>
                 <div className="pay-amount-value">

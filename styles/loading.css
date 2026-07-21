@@ -88,13 +88,8 @@
   scroll-behavior: smooth;
   transform: translateZ(0);
 
-  /* Soft Lavender gradient background */
-  background:
-    linear-gradient(160deg,
-      #EEF0FF 0%,
-      #E8EAF6 50%,
-      #F0F2FF 100%
-    );
+  /* Dot-pattern background */
+  background: #ffffff url('/bg-pattern.svg') center/cover no-repeat;
   color: var(--c-ink);
   font-family: "BestFont", "Inter", system-ui, -apple-system, sans-serif;
   letter-spacing: -0.012em;
@@ -992,7 +987,7 @@
 /* ── Stats bar ───────────────────────────────────────────────────────────── */
 .loader-overview-stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--sp-sm);
 }
 
@@ -1001,11 +996,11 @@
   gap: var(--sp-2xs);
   padding: var(--sp-sm) var(--sp-xs);
   border-radius: var(--r-card);
-  background: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.85);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.6);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.7) inset, 0 1px 3px rgba(0,0,0,0.03);
+  border: 2px dashed rgba(0,0,0,0.12);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.7) inset, 0 2px 8px rgba(0,0,0,0.04);
   text-align: center;
 }
 
@@ -2000,6 +1995,7 @@
 }
 
 .loader-ty-grid-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2018,6 +2014,28 @@
     box-shadow var(--dur-sm) var(--ease-out),
     border-color var(--dur-sm) ease;
   text-align: center;
+  overflow: hidden;
+}
+.loader-ty-grid-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+  background: url('/stat-bg-purple.svg') no-repeat top center / cover;
+}
+.loader-ty-grid-card:nth-child(2)::before {
+  background: url('/stat-bg-green.svg') no-repeat top center / cover;
+}
+.loader-ty-grid-card:nth-child(3)::before {
+  background: url('/stat-bg-amber.svg') no-repeat top center / cover;
+}
+.loader-ty-grid-card:nth-child(4)::before {
+  background: url('/stat-bg-blue.svg') no-repeat top center / cover;
 }
 
 .loader-ty-grid-card:hover {
