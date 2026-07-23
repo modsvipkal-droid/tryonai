@@ -31,7 +31,7 @@ export default function App({ Component, pageProps }) {
 
       const trackVisit = async () => {
         try {
-          await fetch("/api/admin/track", {
+          await fetch("/api/track", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const SENSITIVE_PATHS = ["/api/admin/", "/api/logic/", "/api/developer/", "/api/auth/"];
+const SENSITIVE_PATHS = ["/api/logic/", "/api/developer/", "/api/auth/", "/api/track", "/api/users/"];
 
 const BOT_PATTERNS = [
   /ahrefs/i, /semrush/i, /dotbot/i, /mj12bot/i, /majestic/i,

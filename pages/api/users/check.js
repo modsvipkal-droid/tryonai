@@ -1,4 +1,4 @@
-import { findUserByEmail } from "../../../../lib/db";
+import { findUserByEmail } from "@/lib/db";
 import { sanitizeEmail } from "@/lib/validate";
 
 export default async function handler(req, res) {

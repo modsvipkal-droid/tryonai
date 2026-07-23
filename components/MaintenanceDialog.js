@@ -12,10 +12,7 @@ export default function MaintenanceDialog() {
       if (!res.ok) return;
       const data = await res.json();
       setConfig(data);
-      if (typeof window !== "undefined") {
-        const isAdminPage = window.location.pathname === "/manageadminbhai";
-        setVisible(!!data.enabled && !isAdminPage);
-      }
+      setVisible(!!data.enabled);
     } catch {
       // ignore
     }
