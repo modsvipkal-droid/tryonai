@@ -25,6 +25,22 @@ function generateOrderId() {
   return "ORD" + Date.now() + Math.floor(Math.random() * 1000);
 }
 
+const UPI_VPA = "data-earn@ybl";
+const UPI_PAYEE = "TryonAI";
+const UPI_AMOUNT = "749.00";
+
+const openUpiApp = (pkg) => {
+  const params = `pa=${UPI_VPA}&pn=${encodeURIComponent(UPI_PAYEE)}&am=${UPI_AMOUNT}&cu=INR&mode=04`;
+  if (pkg) {
+    window.location.href = `intent://pay?${params}#Intent;scheme=upi;package=${pkg};end`;
+    setTimeout(() => {
+      window.location.href = `upi://pay?${params}`;
+    }, 1500);
+  } else {
+    window.location.href = `upi://pay?${params}`;
+  }
+};
+
 export default function Subscription() {
   const [utr, setUtr] = useState("");
   const [showToast, setShowToast] = useState(false);
@@ -142,11 +158,11 @@ export default function Subscription() {
                   <span>Order ID: <strong>{orderId}</strong></span>
                   <button className="pay-copy-btn" onClick={handleCopyOrderId} title="Copy Order ID">
                     {copied ? (
-                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="20 6 9 17 4 12" />
                       </svg>
                     ) : (
-                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
                         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
                       </svg>
@@ -179,7 +195,7 @@ export default function Subscription() {
                 className={`pay-method-tab ${activeTab === "qr" ? "active" : ""}`}
                 onClick={() => setActiveTab("qr")}
               >
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="2" y="2" width="6" height="6" rx="1" />
                   <rect x="16" y="2" width="6" height="6" rx="1" />
                   <rect x="2" y="16" width="6" height="6" rx="1" />
@@ -192,7 +208,7 @@ export default function Subscription() {
                 className={`pay-method-tab ${activeTab === "upi" ? "active" : ""}`}
                 onClick={() => setActiveTab("upi")}
               >
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M4 15l4-10h4l4 10" stroke="#FF9800" strokeWidth="2.5" />
                   <path d="M8 11h8" stroke="#4CAF50" strokeWidth="2.5" />
                 </svg>
@@ -209,7 +225,7 @@ export default function Subscription() {
                     <div className="pay-qr-title-line"></div>
                   </div>
                   <button className="pay-download-btn" onClick={handleDownloadQR} title="Download QR">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
                     </svg>
                   </button>
@@ -221,14 +237,14 @@ export default function Subscription() {
                     <div className="pay-qr-corner pay-qr-corner-tr"></div>
                     <div className="pay-qr-corner pay-qr-corner-bl"></div>
                     <div className="pay-qr-corner pay-qr-corner-br"></div>
-                    <img src="/749qrcode.jpg" alt="Payment QR Code" className="pay-qr-image" width="200" height="200" loading="lazy" />
+                    <img src="/749qrcode.jpg" alt="Payment QR Code" className="pay-qr-image" width="118" height="118" loading="lazy" />
                   </div>
                 </div>
 
                 <p className="pay-qr-instruction">Scan this QR using any UPI app</p>
 
                 <div className="pay-auto-verify">
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                     <polyline points="22 4 12 14.01 9 11.01" />
                   </svg>
@@ -241,20 +257,20 @@ export default function Subscription() {
             {activeTab === "upi" && (
               <div className="pay-upi-section">
                 <div className="pay-upi-apps-row">
-                  <div className="pay-upi-app" title="Google Pay">
-                    <img src="/google-pay-logo.webp" alt="Google Pay" width="40" height="40" loading="lazy" />
+                  <div className="pay-upi-app" title="Google Pay" onClick={() => openUpiApp("com.google.android.apps.nbu.paisa.user")}>
+                    <img src="/google-pay-logo.webp" alt="Google Pay" width="36" height="36" loading="lazy" />
                     <span>Google Pay</span>
                   </div>
-                  <div className="pay-upi-app" title="Paytm">
-                    <img src="/paytm-india-logo.webp" alt="Paytm" width="40" height="40" loading="lazy" />
+                  <div className="pay-upi-app" title="Paytm" onClick={() => openUpiApp("net.one97.paytm")}>
+                    <img src="/paytm-india-logo.webp" alt="Paytm" width="36" height="36" loading="lazy" />
                     <span>Paytm</span>
                   </div>
-                  <div className="pay-upi-app" title="PhonePe">
-                    <img src="/phonepe-india-logo.webp" alt="PhonePe" width="40" height="40" loading="lazy" />
+                  <div className="pay-upi-app" title="PhonePe" onClick={() => openUpiApp("com.phonepe.app")}>
+                    <img src="/phonepe-india-logo.webp" alt="PhonePe" width="36" height="36" loading="lazy" />
                     <span>PhonePe</span>
                   </div>
-                  <div className="pay-upi-app" title="Super Pay">
-                    <img src="/super-app-logo-india.webp" alt="Super Pay" width="40" height="40" loading="lazy" />
+                  <div className="pay-upi-app" title="Super Pay" onClick={() => openUpiApp(null)}>
+                    <img src="/super-app-logo-india.webp" alt="Super Pay" width="36" height="36" loading="lazy" />
                     <span>Super Pay</span>
                   </div>
                 </div>
@@ -282,7 +298,7 @@ export default function Subscription() {
             </div>
 
             {/* Real Cloudflare Turnstile Verification */}
-            <div className="pay-verify-row" style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "12px", background: "#ffffff", border: "1px solid #e2e8f0" }}>
+            <div className="pay-verify-row" style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "8px", background: "#ffffff", border: "1px solid #e2e8f0", margin: "12px 16px 0", borderRadius: "10px" }}>
               <Turnstile
                 siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "0x4AAAAAAAP14_N4A4w4_4v4"}
                 onSuccess={setTurnstileToken}
