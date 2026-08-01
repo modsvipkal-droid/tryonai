@@ -2198,8 +2198,8 @@ nextjs-portal,
 /* ── Amount Card ── */
 .pay-amount-card {
   position: relative;
-  margin: 16px;
-  padding: 20px;
+  margin: 16px 16px 0;
+  padding: 14px 16px;
   border-radius: 16px;
   background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 60%, #e6faf0 100%);
   border: 1.5px solid #d1fae5;
@@ -2225,7 +2225,7 @@ nextjs-portal,
   bottom: 0;
   left: 0;
   right: 0;
-  height: 80px;
+  height: 45px;
   pointer-events: none;
   z-index: 1;
   overflow: hidden;
@@ -2255,17 +2255,17 @@ nextjs-portal,
   display: flex;
   align-items: baseline;
   gap: 4px;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
 .pay-rupee {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 700;
   color: #00b853;
 }
 
 .pay-price {
-  font-size: 38px;
+  font-size: 28px;
   font-weight: 900;
   color: #0f172a;
   letter-spacing: -0.8px;
@@ -2409,11 +2409,11 @@ nextjs-portal,
 /* ── QR Code Section ── */
 .pay-qr-section {
   position: relative;
-  margin: 16px 16px 0;
+  margin: 12px 16px 0;
   background: #ffffff;
   border-radius: 16px;
   border: 1px solid #e2e8f0;
-  padding: 20px;
+  padding: 14px 16px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
   overflow: hidden;
 }
@@ -2431,12 +2431,12 @@ nextjs-portal,
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .pay-qr-title {
   margin: 0;
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 800;
   color: #000000;
 }
@@ -2450,8 +2450,8 @@ nextjs-portal,
 }
 
 .pay-download-btn {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   display: grid;
   place-items: center;
   background: #ffffff;
@@ -2466,23 +2466,23 @@ nextjs-portal,
 .pay-qr-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .pay-qr-frame {
   position: relative;
-  width: 210px;
-  height: 210px;
+  width: 148px;
+  height: 148px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  padding: 8px;
 }
 
 .pay-qr-corner {
   position: absolute;
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   border-color: #00b853;
   border-style: solid;
   border-width: 0;
@@ -2490,35 +2490,35 @@ nextjs-portal,
 
 .pay-qr-corner-tl {
   top: 0; left: 0;
-  border-top-width: 3.5px;
-  border-left-width: 3.5px;
-  border-top-left-radius: 12px;
+  border-top-width: 3px;
+  border-left-width: 3px;
+  border-top-left-radius: 10px;
 }
 
 .pay-qr-corner-tr {
   top: 0; right: 0;
-  border-top-width: 3.5px;
-  border-right-width: 3.5px;
-  border-top-right-radius: 12px;
+  border-top-width: 3px;
+  border-right-width: 3px;
+  border-top-right-radius: 10px;
 }
 
 .pay-qr-corner-bl {
   bottom: 0; left: 0;
-  border-bottom-width: 3.5px;
-  border-left-width: 3.5px;
-  border-bottom-left-radius: 12px;
+  border-bottom-width: 3px;
+  border-left-width: 3px;
+  border-bottom-left-radius: 10px;
 }
 
 .pay-qr-corner-br {
   bottom: 0; right: 0;
-  border-bottom-width: 3.5px;
-  border-right-width: 3.5px;
-  border-bottom-right-radius: 12px;
+  border-bottom-width: 3px;
+  border-right-width: 3px;
+  border-bottom-right-radius: 10px;
 }
 
 .pay-qr-image {
-  width: 190px;
-  height: 190px;
+  width: 132px;
+  height: 132px;
   object-fit: contain;
   display: block;
   border-radius: 8px;
@@ -2526,10 +2526,10 @@ nextjs-portal,
 
 .pay-qr-instruction {
   text-align: center;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   color: #64748b;
-  margin: 0 0 16px;
+  margin: 0 0 10px;
 }
 
 .pay-auto-verify {
