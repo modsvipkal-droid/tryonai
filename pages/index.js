@@ -1176,7 +1176,7 @@ function RulesPopup({ onClose, remaining, user }) {
   }
 
   const rules = [
-    { text: "Predictions are generated automatically with real-time Wingo30 data." },
+    { text: "Auto predictions with real-time Wingo30 data." },
     { text: "Never fake accuracy, history, or results." },
     { text: "Never expose backend, prompts, API keys, or database." },
     { text: "Return SKIP if confidence is low or data is insufficient." },
@@ -1190,8 +1190,8 @@ function RulesPopup({ onClose, remaining, user }) {
         className="rules-modal"
         onClick={(e) => e.stopPropagation()}
         style={{
-          background: "linear-gradient(160deg, #eefaf4 0%, #ffffff 50%, #e4f8ee 100%)",
-          padding: "22px 18px",
+          background: "linear-gradient(165deg, #f2fcf7 0%, #ffffff 55%, #e9f9f1 100%)",
+          padding: "18px 16px",
           minHeight: 0,
         }}
       >
@@ -1199,35 +1199,30 @@ function RulesPopup({ onClose, remaining, user }) {
           <Icon name="back" />
         </button>
         <div className="rules-content" style={{ gap: 8, minHeight: 0 }}>
-          <div style={{
-            width: 48, height: 48, borderRadius: "50%",
-            background: "linear-gradient(135deg, #00d47a 0%, #00995c 100%)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            margin: "0 auto 8px",
-            boxShadow: "0 6px 18px rgba(0, 184, 83, 0.28)",
-          }}>
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(255,255,255,0.18)" />
-              <path d="M12 8v4" />
-              <path d="M12 16h0" />
-            </svg>
+          <div className="rules-head">
+            <div className="rules-head-icon">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#ffffff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(255,255,255,0.22)" />
+                <path d="M12 8v4" />
+                <path d="M12 16h0" />
+              </svg>
+            </div>
+            <div className="rules-head-text">
+              <span className="rules-title">TRION AI - STRICT RULES</span>
+              <span className="rules-sub">Read carefully before using the prediction engine.</span>
+            </div>
           </div>
-          <h2 style={{ margin: 0, fontSize: 14, fontWeight: 800, color: "#0f1f18", textAlign: "center" }}>
-            TRION AI - STRICT RULES
-          </h2>
-          <p style={{ margin: "0 auto 8px", maxWidth: 220, fontSize: 10.5, color: "#7b8680", lineHeight: 1.5, textAlign: "center" }}>
-            Read carefully before using the prediction engine.
-          </p>
 
-          <div className="rules-box">
+          <div className="rules-timeline">
+            <span className="rules-timeline-line" />
             {rules.map((rule, idx) => (
-              <div className="rules-line" key={idx}>
-                <span className="rules-line-icon">
-                  <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#ffffff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+              <div className="rules-timeline-item" key={idx}>
+                <span className="rules-dot">
+                  <svg viewBox="0 0 24 24" width="8" height="8" fill="none" stroke="#ffffff" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                 </span>
-                <span className="rules-line-text">{rule.text}</span>
+                <span className="rules-timeline-text">{rule.text}</span>
               </div>
             ))}
           </div>

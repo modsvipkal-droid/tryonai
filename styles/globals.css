@@ -5966,64 +5966,142 @@ nextjs-portal,
   color: #0d1f16;
 }
 
-/* ── Rules single box with soft timeline ── */
-.rules-box {
-  margin: 0 0 14px;
-  padding: 6px 14px 8px;
-  border-radius: 16px;
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.92), rgba(240, 253, 247, 0.9));
+/* ── Compact header row ── */
+.rules-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(0, 175, 107, 0.09), rgba(0, 175, 107, 0.04));
   border: 1px solid rgba(0, 175, 107, 0.16);
-  box-shadow:
-    0 2px 10px rgba(0, 152, 91, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  animation: rulesHeadIn 380ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes rulesHeadIn {
+  from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.rules-head-icon {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #00d47a, #00995c);
+  box-shadow: 0 4px 12px rgba(0, 178, 88, 0.32);
+}
+
+.rules-head-text {
   display: flex;
   flex-direction: column;
+  gap: 1px;
+  min-width: 0;
 }
 
-.rules-line {
+.rules-title {
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.1px;
+  color: #0d1f16;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rules-sub {
+  font-size: 10px;
+  font-weight: 500;
+  color: #7b8a83;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Premium timeline ── */
+.rules-timeline {
+  position: relative;
+  margin: 2px 0 2px;
+  padding: 2px 4px 2px 2px;
+}
+
+.rules-timeline-line {
+  position: absolute;
+  left: 15px;
+  top: 14px;
+  bottom: 14px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #00d47a 0%, #7cf0bd 55%, #00a566 100%);
+  box-shadow: 0 0 8px rgba(0, 200, 100, 0.45);
+  transform-origin: top;
+  animation: timelineGrow 900ms cubic-bezier(0.22, 1, 0.36, 1) 160ms both;
+}
+
+@keyframes timelineGrow {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+
+.rules-timeline-item {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  padding: 7px 2px;
-  border-bottom: 1px dashed rgba(0, 152, 91, 0.12);
+  gap: 11px;
+  padding: 6px 2px;
   opacity: 0;
-  transform: translateY(7px);
-  animation: rulesLineIn 420ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation: timelineItemIn 440ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
-.rules-line:last-child {
-  border-bottom: none;
+.rules-timeline-item:nth-child(2) { animation-delay: 220ms; }
+.rules-timeline-item:nth-child(3) { animation-delay: 310ms; }
+.rules-timeline-item:nth-child(4) { animation-delay: 400ms; }
+.rules-timeline-item:nth-child(5) { animation-delay: 490ms; }
+.rules-timeline-item:nth-child(6) { animation-delay: 580ms; }
+
+@keyframes timelineItemIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
-.rules-line:nth-child(1) { animation-delay: 120ms; }
-.rules-line:nth-child(2) { animation-delay: 200ms; }
-.rules-line:nth-child(3) { animation-delay: 280ms; }
-.rules-line:nth-child(4) { animation-delay: 360ms; }
-.rules-line:nth-child(5) { animation-delay: 440ms; }
-.rules-line:nth-child(6) { animation-delay: 520ms; }
-
-@keyframes rulesLineIn {
-  from { opacity: 0; transform: translateY(7px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.rules-line-icon {
+.rules-dot {
   flex-shrink: 0;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   margin-top: 1px;
   border-radius: 50%;
   display: grid;
   place-items: center;
   background: linear-gradient(135deg, #00d47a, #00995c);
-  box-shadow: 0 2px 6px rgba(0, 178, 88, 0.3);
+  box-shadow: 0 0 0 2.5px #ffffff, 0 3px 8px rgba(0, 178, 88, 0.4);
+  animation: dotPop 380ms cubic-bezier(0.22, 1.4, 0.36, 1) both;
 }
 
-.rules-line-text {
-  font-size: 12.5px;
-  font-weight: 500;
+.rules-dot svg {
+  display: block;
+}
+
+.rules-timeline-item:nth-child(2) .rules-dot { animation-delay: 220ms; }
+.rules-timeline-item:nth-child(3) .rules-dot { animation-delay: 310ms; }
+.rules-timeline-item:nth-child(4) .rules-dot { animation-delay: 400ms; }
+.rules-timeline-item:nth-child(5) .rules-dot { animation-delay: 490ms; }
+.rules-timeline-item:nth-child(6) .rules-dot { animation-delay: 580ms; }
+
+@keyframes dotPop {
+  0%   { transform: scale(0); }
+  70%  { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+.rules-timeline-text {
+  font-size: 11.8px;
+  font-weight: 550;
   color: #24352d;
   line-height: 1.5;
+  padding-top: 1px;
 }
 
 /* ── Access / Limit badge ── */
@@ -6138,18 +6216,42 @@ nextjs-portal,
 }
 
 .rules-modal {
-  width: min(92vw, 360px);
+  width: min(90vw, 330px);
   border-radius: 22px;
-  max-height: 86vh;
+  max-height: 90vh;
 }
 
 .rules-content {
-  padding: 4px 8px 14px;
+  padding: 2px 6px 12px;
 }
 
 .rules-limit {
-  margin-bottom: 10px;
-  padding: 11px 14px;
+  margin-bottom: 9px;
+  padding: 10px 13px;
+  border-radius: 12px;
+}
+
+.rules-user {
+  padding: 10px 13px;
+  border-radius: 12px;
+}
+
+@media (max-width: 360px) {
+  .rules-modal {
+    width: 94vw;
+  }
+
+  .rules-title {
+    font-size: 11.5px;
+  }
+
+  .rules-sub {
+    display: none;
+  }
+
+  .rules-timeline-text {
+    font-size: 11.2px;
+  }
 }
 
 /* Developer navigation drawer */
