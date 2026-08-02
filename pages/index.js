@@ -1271,7 +1271,11 @@ function ModelSelectPopup({ onClose, onSelect }) {
   ];
   return (
     <div className="rules-overlay" onClick={onClose}>
-      <div className="rules-modal" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="rules-modal"
+        onClick={(e) => e.stopPropagation()}
+        style={{ background: "linear-gradient(160deg, #eefaf4 0%, #ffffff 50%, #e4f8ee 100%)" }}
+      >
         <button className="rules-close" type="button" onClick={onClose} aria-label="Close">
           <Icon name="back" />
         </button>
@@ -1291,9 +1295,9 @@ function ModelSelectPopup({ onClose, onSelect }) {
               <path d="M4 4l.35.95.95.35-.95.35L4 6.6l-.35-.95-.95-.35.95-.35Z" fill="#ffd166" stroke="none" />
             </svg>
           </div>
-          <h2 style={{ margin: "0 0 4px", fontSize: 16, fontWeight: 800, color: "#0f1f18", textAlign: "center" }}>Choose Your Plan</h2>
-          <p style={{ margin: "0 auto 16px", maxWidth: 260, fontSize: 12, color: "#7b8680", lineHeight: 1.55, textAlign: "center" }}>
-            Unlock lifetime access to your chosen model. Secure payments with instant verification.
+          <h2 style={{ margin: "0 0 4px", fontSize: 15, fontWeight: 800, color: "#0f1f18", textAlign: "center" }}>Choose Your Plan</h2>
+          <p style={{ margin: "0 auto 14px", maxWidth: 220, fontSize: 11, color: "#7b8680", lineHeight: 1.5, textAlign: "center" }}>
+            Unlock lifetime access to your chosen model. Secure payments, instant verification.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {models.map((m) => (
