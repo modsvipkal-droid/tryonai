@@ -1246,62 +1246,103 @@ function ModelSelectPopup({ onClose, onSelect }) {
   const models = [
     {
       key: "korven",
-      title: "🟢 Korven Model 🤖",
+      title: "Korven Model",
+      titleIcon: "chip",
+      perfIcon: "target",
       price: "₹749",
-      perfEmoji: "🎯",
       performance: "Usually fixes the result within 3–4 levels.",
       badge: "Current",
+      accent: "#00b853",
+      iconBg: "linear-gradient(135deg, #00d47a 0%, #00995c 100%)",
       cardBg: "linear-gradient(135deg, #ffffff 0%, #f2fdf7 100%)",
       cardBorder: "#d1fae5",
-      accent: "#00b853",
       badgeBg: "#e9fbf1",
       badgeColor: "#00a047",
     },
     {
       key: "fx1",
-      title: "🔥 FX1 Model 🤖",
+      title: "FX1 Model",
+      titleIcon: "flame",
+      perfIcon: "zap",
       price: "₹1,100",
-      perfEmoji: "⚡️",
       performance: "Usually fixes the result within 2 levels.",
       badge: "New",
+      accent: "#f59e0b",
+      iconBg: "linear-gradient(135deg, #fbbf24 0%, #d97706 100%)",
       cardBg: "linear-gradient(135deg, #ffffff 0%, #fff9ee 100%)",
       cardBorder: "#fde8c4",
-      accent: "#f59e0b",
       badgeBg: "#fef4e6",
       badgeColor: "#d97706",
     },
   ];
+
+  const renderTitleIcon = (key) => {
+    if (key === "flame") {
+      return (
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
+        </svg>
+      );
+    }
+    return (
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="6" y="6" width="12" height="12" rx="2" />
+        <rect x="10" y="10" width="4" height="4" />
+        <path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4" />
+      </svg>
+    );
+  };
+
+  const renderPerfIcon = (key, color) => {
+    if (key === "zap") {
+      return (
+        <svg viewBox="0 0 24 24" width="12" height="12" fill={color}>
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+        </svg>
+      );
+    }
+    return (
+      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="9" />
+        <circle cx="12" cy="12" r="5" />
+        <circle cx="12" cy="12" r="1" fill={color} />
+      </svg>
+    );
+  };
   return (
     <div className="rules-overlay" onClick={onClose}>
       <div
         className="rules-modal"
         onClick={(e) => e.stopPropagation()}
-        style={{ background: "linear-gradient(160deg, #eefaf4 0%, #ffffff 50%, #e4f8ee 100%)" }}
+        style={{
+          background: "linear-gradient(160deg, #eefaf4 0%, #ffffff 50%, #e4f8ee 100%)",
+          padding: "22px 18px",
+          minHeight: 0,
+        }}
       >
         <button className="rules-close" type="button" onClick={onClose} aria-label="Close">
           <Icon name="back" />
         </button>
-        <div className="rules-content">
+        <div className="rules-content" style={{ gap: 8, minHeight: 0 }}>
           <div style={{
-            width: 56, height: 56, borderRadius: "50%",
+            width: 48, height: 48, borderRadius: "50%",
             background: "linear-gradient(135deg, #00d47a 0%, #00995c 100%)",
             display: "flex", alignItems: "center", justifyContent: "center",
-            margin: "0 auto 12px",
-            boxShadow: "0 8px 22px rgba(0, 184, 83, 0.28)",
-            position: "relative",
+            margin: "0 auto 8px",
+            boxShadow: "0 6px 18px rgba(0, 184, 83, 0.28)",
           }}>
-            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <path d="m4.75 8.25 4.2 3.2L12 5.2l3.05 6.25 4.2-3.2-1.55 9.35H6.3Z" fill="rgba(255,255,255,0.18)" />
               <path d="M6.25 20h11.5" />
               <path d="M19.5 3.5l.45 1.2 1.2.45-1.2.45-.45 1.2-.45-1.2-1.2-.45 1.2-.45Z" fill="#ffd166" stroke="none" />
               <path d="M4 4l.35.95.95.35-.95.35L4 6.6l-.35-.95-.95-.35.95-.35Z" fill="#ffd166" stroke="none" />
             </svg>
           </div>
-          <h2 style={{ margin: "0 0 4px", fontSize: 15, fontWeight: 800, color: "#0f1f18", textAlign: "center" }}>Choose Your Plan</h2>
-          <p style={{ margin: "0 auto 14px", maxWidth: 220, fontSize: 11, color: "#7b8680", lineHeight: 1.5, textAlign: "center" }}>
+          <h2 style={{ margin: 0, fontSize: 14, fontWeight: 800, color: "#0f1f18", textAlign: "center" }}>Choose Your Plan</h2>
+          <p style={{ margin: "0 auto 8px", maxWidth: 210, fontSize: 10.5, color: "#7b8680", lineHeight: 1.5, textAlign: "center" }}>
             Unlock lifetime access to your chosen model. Secure payments, instant verification.
           </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
             {models.map((m) => (
               <button
                 key={m.key}
@@ -1309,54 +1350,69 @@ function ModelSelectPopup({ onClose, onSelect }) {
                 onClick={() => onSelect(m.key)}
                 style={{
                   position: "relative",
-                  overflow: "hidden",
-                  display: "flex", alignItems: "center", justifyContent: "space-between",
-                  width: "100%", padding: "12px 14px", borderRadius: 16, cursor: "pointer",
+                  display: "flex", alignItems: "center", width: "100%",
+                  padding: "11px 13px", cursor: "pointer",
                   border: `1.5px solid ${m.cardBorder}`,
                   background: m.cardBg,
-                  boxShadow: "0 4px 16px rgba(15, 31, 24, 0.05)",
+                  boxShadow: "0 4px 14px rgba(15, 31, 24, 0.06)",
                   textAlign: "left",
+                  clipPath: "polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px))",
                   transition: "all 250ms cubic-bezier(0.2, 0.8, 0.2, 1)",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = m.accent;
-                  e.currentTarget.style.boxShadow = "0 8px 24px rgba(0, 184, 83, 0.14)";
+                  e.currentTarget.style.boxShadow = "0 8px 22px rgba(0, 184, 83, 0.16)";
                   e.currentTarget.style.transform = "translateY(-1px)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = m.cardBorder;
-                  e.currentTarget.style.boxShadow = "0 4px 16px rgba(15, 31, 24, 0.05)";
+                  e.currentTarget.style.boxShadow = "0 4px 14px rgba(15, 31, 24, 0.06)";
                   e.currentTarget.style.transform = "translateY(0)";
                 }}
               >
-                <div style={{ display: "flex", flexDirection: "column", gap: 5, width: "100%" }}>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+                <div style={{
+                  width: 36, height: 36, borderRadius: 10, flex: "0 0 auto",
+                  background: m.iconBg,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  boxShadow: `0 3px 10px ${m.accent}30`,
+                }}>
+                  {renderTitleIcon(m.titleIcon)}
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 4, flex: 1, minWidth: 0, paddingLeft: 10 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
                     <span style={{ fontSize: 13, fontWeight: 800, color: "#0f1f18", letterSpacing: "0.2px" }}>{m.title}</span>
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke={m.accent} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="4" y="8" width="16" height="12" rx="3" />
+                      <circle cx="9" cy="14" r="1" fill={m.accent} stroke="none" />
+                      <circle cx="15" cy="14" r="1" fill={m.accent} stroke="none" />
+                      <path d="M9.5 17.5h5" />
+                      <path d="M12 8V5.5" />
+                      <circle cx="12" cy="4.5" r="1.2" />
+                    </svg>
                     <span style={{
-                      flex: "0 0 auto",
+                      marginLeft: "auto", flex: "0 0 auto",
                       fontSize: 9, fontWeight: 800, letterSpacing: "0.4px", textTransform: "uppercase",
-                      padding: "2px 9px", borderRadius: 999,
+                      padding: "2px 8px", borderRadius: 999,
                       background: m.badgeBg, color: m.badgeColor,
                     }}>{m.badge}</span>
                   </div>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: "#475569", lineHeight: 1.5 }}>
-                    💰 Price: <strong style={{ fontWeight: 800, color: m.accent }}>{m.price}</strong>
+                  <span style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11, fontWeight: 600, color: "#475569" }}>
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke={m.accent} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="1.5" y="4.5" width="21" height="15" rx="2.5" />
+                      <line x1="1.5" y1="10" x2="22.5" y2="10" />
+                      <line x1="6" y1="15.5" x2="10" y2="15.5" />
+                    </svg>
+                    <span>Price: <strong style={{ fontWeight: 800, color: m.accent }}>{m.price}</strong></span>
                   </span>
-                  <span style={{ fontSize: 11, fontWeight: 500, color: "#64748b", lineHeight: 1.5 }}>
-                    {m.perfEmoji} Expected Performance: {m.performance}
+                  <span style={{ display: "flex", alignItems: "flex-start", gap: 5, fontSize: 11, fontWeight: 500, color: "#64748b", lineHeight: 1.45 }}>
+                    <span style={{ marginTop: 2 }}>{renderPerfIcon(m.perfIcon, m.accent)}</span>
+                    <span>Expected Performance: {m.performance}</span>
                   </span>
                 </div>
-                <div style={{
-                  position: "absolute", top: -18, right: -18, width: 56, height: 56, borderRadius: "50%",
-                  background: `radial-gradient(circle, ${m.accent}14 0%, transparent 70%)`,
-                  pointerEvents: "none",
-                }} />
               </button>
             ))}
           </div>
           <div style={{
-            display: "flex", alignItems: "center", justifyContent: "center", gap: 14,
-            marginTop: 14, paddingTop: 12, borderTop: "1px solid #f1f5f9",
+            display: "flex", alignItems: "center", justifyContent: "center", gap: 12,
+            marginTop: 8, paddingTop: 10, borderTop: "1px solid #f1f5f9",
           }}>
             <span style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 10, fontWeight: 600, color: "#94a3b8" }}>
               <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#00b853" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
