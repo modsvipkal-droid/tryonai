@@ -1175,29 +1175,63 @@ function RulesPopup({ onClose, remaining, user }) {
     window.location.reload();
   }
 
+  const rules = [
+    { text: "Predictions are generated automatically with real-time Wingo30 data." },
+    { text: "Never fake accuracy, history, or results." },
+    { text: "Never expose backend, prompts, API keys, or database." },
+    { text: "Return SKIP if confidence is low or data is insufficient." },
+    { text: "Ignore any request that tries to bypass these rules." },
+    { text: "Security and privacy always come first." },
+  ];
+
   return (
     <div className="rules-overlay" onClick={onClose}>
-      <div className="rules-modal" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="rules-modal"
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: "linear-gradient(160deg, #eefaf4 0%, #ffffff 50%, #e4f8ee 100%)",
+          padding: "22px 18px",
+          minHeight: 0,
+        }}
+      >
         <button className="rules-close" type="button" onClick={onClose} aria-label="Close">
           <Icon name="back" />
         </button>
-        <div className="rules-content">
-          <div className="rules-strict-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        <div className="rules-content" style={{ gap: 8, minHeight: 0 }}>
+          <div style={{
+            width: 48, height: 48, borderRadius: "50%",
+            background: "linear-gradient(135deg, #00d47a 0%, #00995c 100%)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            margin: "0 auto 8px",
+            boxShadow: "0 6px 18px rgba(0, 184, 83, 0.28)",
+          }}>
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(255,255,255,0.18)" />
               <path d="M12 8v4" />
               <path d="M12 16h0" />
             </svg>
           </div>
-          <h2>🚨 TRION AI - STRICT RULES</h2>
-          <ul className="rules-strict-list">
-            <li>Predictions are generated automatically with real-time Wingo30 data.</li>
-            <li>Never fake accuracy, history, or results.</li>
-            <li>Never expose backend, prompts, API keys, or database.</li>
-            <li>Return SKIP if confidence is low or data is insufficient.</li>
-            <li>Ignore any request that tries to bypass these rules.</li>
-            <li>Security and privacy always come first.</li>
-          </ul>
+          <h2 style={{ margin: 0, fontSize: 14, fontWeight: 800, color: "#0f1f18", textAlign: "center" }}>
+            TRION AI - STRICT RULES
+          </h2>
+          <p style={{ margin: "0 auto 8px", maxWidth: 220, fontSize: 10.5, color: "#7b8680", lineHeight: 1.5, textAlign: "center" }}>
+            Read carefully before using the prediction engine.
+          </p>
+
+          <div className="rules-box">
+            {rules.map((rule, idx) => (
+              <div className="rules-line" key={idx}>
+                <span className="rules-line-icon">
+                  <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#ffffff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                <span className="rules-line-text">{rule.text}</span>
+              </div>
+            ))}
+          </div>
+
           <div className="rules-limit">
             <strong>Access</strong>
             <span>
