@@ -1,6 +1,7 @@
 import { requireAuth } from "@/lib/authMiddleware";
 import { createRateLimiter } from "@/lib/rateLimit";
 import { logSecurityEvent } from "@/lib/securityLog";
+import { findUserByEmail } from "@/lib/db";
 
 const predictLimiter = createRateLimiter({ windowMs: 10000, max: 30, name: "predict" });
 
@@ -116,6 +117,11 @@ export default async function handler(req, res) {
     authUser = await requireAuth(req);
   } catch {
     return res.status(401).json({ error: "Authentication required", code: "UNAUTHENTICATED" });
+  }
+
+  const dbUser = await findUserByEmail(authUser.email);
+  if (!dbUser?.unlimited) {
+    return res.status(403).json({ error: "Unlimited access required to generate predictions.", code: "NO_ACCESS" });
   }
 
   if (req.method === "POST") {

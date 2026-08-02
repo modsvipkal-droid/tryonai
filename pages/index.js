@@ -1347,6 +1347,12 @@ function MainApp({ user }) {
         body: JSON.stringify({ numbers }),
       });
       const data = await res.json();
+      if (res.status === 403 && data.code === "NO_ACCESS") {
+        setShowServerAnim(false);
+        lastPredictedPeriod.current = null;
+        router.push("/subscription");
+        return;
+      }
       const size = data.prediction || (Math.random() >= 0.5 ? "Big" : "Small");
       setUserPredictions(prev => [...prev, { period: periodNum, prediction: size }]);
       setTimeout(() => { setShowServerAnim(false); setPredictionResult(size); }, 5000);
