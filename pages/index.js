@@ -1244,8 +1244,30 @@ function ModelSelectPopup({ onClose, onSelect }) {
     return () => { document.body.style.overflow = ""; };
   }, []);
   const models = [
-    { key: "korven", name: "Korven Model", price: "₹749", desc: "Standard prediction engine", badge: "Current" },
-    { key: "fx1", name: "FX1 MODEL", price: "₹1100", desc: "Advanced FX1 prediction engine", badge: "New" },
+    {
+      key: "korven",
+      name: "Korven Model",
+      price: "₹749",
+      desc: "Reliable all-round engine",
+      badge: "Current",
+      cardBg: "linear-gradient(135deg, #ffffff 0%, #f2fdf7 100%)",
+      cardBorder: "#d1fae5",
+      priceColor: "#00b853",
+      badgeBg: "#e9fbf1",
+      badgeColor: "#00a047",
+    },
+    {
+      key: "fx1",
+      name: "FX1 MODEL",
+      price: "₹1100",
+      desc: "Advanced FX1 engine",
+      badge: "New",
+      cardBg: "linear-gradient(135deg, #ffffff 0%, #fff9ee 100%)",
+      cardBorder: "#fde8c4",
+      priceColor: "#f59e0b",
+      badgeBg: "#fef4e6",
+      badgeColor: "#d97706",
+    },
   ];
   return (
     <div className="rules-overlay" onClick={onClose}>
@@ -1255,40 +1277,96 @@ function ModelSelectPopup({ onClose, onSelect }) {
         </button>
         <div className="rules-content">
           <div style={{
-            width: 72, height: 72, borderRadius: 20,
-            background: "linear-gradient(135deg,rgba(0,184,83,0.12),rgba(0,184,83,0.22))",
+            width: 56, height: 56, borderRadius: "50%",
+            background: "linear-gradient(135deg, #00d47a 0%, #00995c 100%)",
             display: "flex", alignItems: "center", justifyContent: "center",
-            margin: "0 auto 18px", fontSize: 34,
-          }}>🤖</div>
-          <h2 style={{ margin: "0 0 6px", fontSize: 18, color: "#0f1f18", textAlign: "center" }}>Choose Your Model</h2>
-          <p style={{ margin: "0 0 20px", fontSize: 13, color: "#6f7a75", lineHeight: 1.6, textAlign: "center" }}>
-            Select a prediction model to continue with subscription.
+            margin: "0 auto 12px",
+            boxShadow: "0 8px 22px rgba(0, 184, 83, 0.28)",
+            position: "relative",
+          }}>
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m4.75 8.25 4.2 3.2L12 5.2l3.05 6.25 4.2-3.2-1.55 9.35H6.3Z" fill="rgba(255,255,255,0.18)" />
+              <path d="M6.25 20h11.5" />
+              <path d="M19.5 3.5l.45 1.2 1.2.45-1.2.45-.45 1.2-.45-1.2-1.2-.45 1.2-.45Z" fill="#ffd166" stroke="none" />
+              <path d="M4 4l.35.95.95.35-.95.35L4 6.6l-.35-.95-.95-.35.95-.35Z" fill="#ffd166" stroke="none" />
+            </svg>
+          </div>
+          <h2 style={{ margin: "0 0 4px", fontSize: 16, fontWeight: 800, color: "#0f1f18", textAlign: "center" }}>Choose Your Plan</h2>
+          <p style={{ margin: "0 auto 16px", maxWidth: 260, fontSize: 12, color: "#7b8680", lineHeight: 1.55, textAlign: "center" }}>
+            Unlock lifetime access to your chosen model. Secure payments with instant verification.
           </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {models.map((m) => (
               <button
                 key={m.key}
                 type="button"
                 onClick={() => onSelect(m.key)}
                 style={{
+                  position: "relative",
+                  overflow: "hidden",
                   display: "flex", alignItems: "center", justifyContent: "space-between",
-                  width: "100%", padding: "14px 16px", borderRadius: 14, cursor: "pointer",
-                  border: "2px solid #e2e8f0", background: "#ffffff", textAlign: "left",
-                  transition: "all 200ms",
+                  width: "100%", padding: "12px 14px", borderRadius: 16, cursor: "pointer",
+                  border: `1.5px solid ${m.cardBorder}`,
+                  background: m.cardBg,
+                  boxShadow: "0 4px 16px rgba(15, 31, 24, 0.05)",
+                  textAlign: "left",
+                  transition: "all 250ms cubic-bezier(0.2, 0.8, 0.2, 1)",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#00b853")}
-                onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#e2e8f0")}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = m.priceColor;
+                  e.currentTarget.style.boxShadow = "0 8px 24px rgba(0, 184, 83, 0.14)";
+                  e.currentTarget.style.transform = "translateY(-1px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = m.cardBorder;
+                  e.currentTarget.style.boxShadow = "0 4px 16px rgba(15, 31, 24, 0.05)";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}
               >
                 <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                  <span style={{ fontSize: 15, fontWeight: 800, color: "#0f1f18" }}>{m.name}</span>
-                  <span style={{ fontSize: 12, fontWeight: 500, color: "#94a3b8" }}>{m.desc}</span>
+                  <span style={{ fontSize: 14, fontWeight: 800, color: "#0f1f18", letterSpacing: "0.2px" }}>{m.name}</span>
+                  <span style={{ fontSize: 11, fontWeight: 500, color: "#94a3b8" }}>{m.desc}</span>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
-                  <span style={{ fontSize: 16, fontWeight: 900, color: "#00b853" }}>{m.price}</span>
-                  <span style={{ fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 999, background: "#f0fdf4", color: "#00a047" }}>{m.badge}</span>
+                  <span style={{ fontSize: 15, fontWeight: 900, color: m.priceColor }}>{m.price}</span>
+                  <span style={{
+                    fontSize: 9, fontWeight: 800, letterSpacing: "0.4px", textTransform: "uppercase",
+                    padding: "2px 9px", borderRadius: 999,
+                    background: m.badgeBg, color: m.badgeColor,
+                  }}>{m.badge}</span>
                 </div>
+                <div style={{
+                  position: "absolute", top: -18, right: -18, width: 56, height: 56, borderRadius: "50%",
+                  background: `radial-gradient(circle, ${m.priceColor}14 0%, transparent 70%)`,
+                  pointerEvents: "none",
+                }} />
               </button>
             ))}
+          </div>
+          <div style={{
+            display: "flex", alignItems: "center", justifyContent: "center", gap: 14,
+            marginTop: 14, paddingTop: 12, borderTop: "1px solid #f1f5f9",
+          }}>
+            <span style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 10, fontWeight: 600, color: "#94a3b8" }}>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#00b853" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <path d="m9 11.5 2 2 4-4" />
+              </svg>
+              Secure
+            </span>
+            <span style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 10, fontWeight: 600, color: "#94a3b8" }}>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#00b853" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+              </svg>
+              Instant
+            </span>
+            <span style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 10, fontWeight: 600, color: "#94a3b8" }}>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#00b853" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="m8.5 12.5 2.5 2.5 5-5.5" />
+              </svg>
+              Verified
+            </span>
           </div>
         </div>
       </div>
