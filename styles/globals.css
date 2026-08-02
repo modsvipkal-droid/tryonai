@@ -6279,12 +6279,12 @@ nextjs-portal,
 
 .plan-modal {
   position: relative;
-  width: min(94vw, 380px);
+  width: min(94vw, 360px);
   max-height: 92vh;
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: none;
-  border-radius: 32px;
+  border-radius: 26px;
   background: #ffffff;
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.14),
@@ -6323,18 +6323,18 @@ nextjs-portal,
 /* ── Dark emerald header ── */
 .plan-header {
   position: relative;
-  height: 104px;
+  height: 62px;
   background: linear-gradient(165deg, #01281a 0%, #05512f 55%, #0a7a44 100%);
-  border-radius: 32px 32px 0 0;
+  border-radius: 26px 26px 0 0;
   overflow: hidden;
 }
 
 .plan-header-glow {
   position: absolute;
   left: 50%;
-  top: -46px;
-  width: 220px;
-  height: 160px;
+  top: -40px;
+  width: 190px;
+  height: 120px;
   transform: translateX(-50%);
   background: radial-gradient(closest-side, rgba(52, 255, 160, 0.38) 0%, rgba(52, 255, 160, 0.12) 55%, transparent 100%);
   pointer-events: none;
@@ -6342,8 +6342,8 @@ nextjs-portal,
 
 .plan-header-spark {
   position: absolute;
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
   background: rgba(120, 255, 190, 0.85);
   box-shadow: 0 0 10px rgba(120, 255, 190, 0.9);
@@ -6351,9 +6351,9 @@ nextjs-portal,
   pointer-events: none;
 }
 
-.plan-header-spark-1 { left: 18%; top: 30px; animation-delay: 0s; }
-.plan-header-spark-2 { right: 20%; top: 44px; animation-delay: 1.1s; }
-.plan-header-spark-3 { right: 12%; top: 18px; animation-delay: 2.1s; }
+.plan-header-spark-1 { left: 16%; top: 18px; animation-delay: 0s; }
+.plan-header-spark-2 { right: 18%; top: 26px; animation-delay: 1.1s; }
+.plan-header-spark-3 { right: 10%; top: 10px; animation-delay: 2.1s; }
 
 @keyframes planSpark {
   0%, 100% { opacity: 0.15; transform: scale(0.7); }
@@ -6364,10 +6364,10 @@ nextjs-portal,
 .plan-crown {
   position: absolute;
   left: 50%;
-  bottom: -34px;
+  bottom: -26px;
   transform: translateX(-50%);
-  width: 68px;
-  height: 68px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -6388,8 +6388,8 @@ nextjs-portal,
 }
 
 .plan-crown-glass {
-  width: 54px;
-  height: 54px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -6402,17 +6402,17 @@ nextjs-portal,
 .plan-content {
   position: relative;
   z-index: 1;
-  padding: 40px 18px 18px;
+  padding: 30px 14px 12px;
   background: #ffffff;
-  border-radius: 0 0 32px 32px;
+  border-radius: 0 0 26px 26px;
 }
 
 .plan-title {
-  margin: 0 0 8px;
+  margin: 0 0 5px;
   text-align: center;
-  font-size: 23px;
+  font-size: 18px;
   font-weight: 800;
-  letter-spacing: -0.4px;
+  letter-spacing: -0.3px;
   color: #0b1f16;
   animation: planFadeUp 460ms cubic-bezier(0.2, 0.8, 0.2, 1) 260ms both;
 }
@@ -6422,11 +6422,11 @@ nextjs-portal,
 }
 
 .plan-sub {
-  margin: 0 0 18px;
+  margin: 0 0 12px;
   text-align: center;
-  font-size: 11px;
+  font-size: 9.8px;
   font-weight: 500;
-  line-height: 1.55;
+  line-height: 1.5;
   color: #8a9a92;
   animation: planFadeUp 460ms cubic-bezier(0.2, 0.8, 0.2, 1) 320ms both;
 }
@@ -6440,8 +6440,8 @@ nextjs-portal,
 .plan-cards {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  margin-bottom: 16px;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
 .plan-card {
@@ -6449,8 +6449,8 @@ nextjs-portal,
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 15px 14px 12px;
-  border-radius: 20px;
+  padding: 10px 11px 8px;
+  border-radius: 16px;
   background: #ffffff;
   cursor: pointer;
   text-align: left;
@@ -6461,7 +6461,7 @@ nextjs-portal,
 }
 
 .plan-card:nth-child(1) { animation-delay: 380ms; }
-.plan-card:nth-child(2) { animation-delay: 470ms; }
+.plan-card:nth-child(2) { animation-delay: 450ms; }
 
 @keyframes planCardIn {
   from { opacity: 0; transform: translateY(18px); }
@@ -6473,34 +6473,34 @@ nextjs-portal,
 
 .plan-card-corven {
   border: 1.5px solid #b7ecd3;
-  box-shadow: 0 12px 28px rgba(0, 178, 88, 0.12);
+  box-shadow: 0 8px 20px rgba(0, 178, 88, 0.12);
 }
 
 .plan-card-corven:hover {
-  box-shadow: 0 16px 34px rgba(0, 178, 88, 0.2);
+  box-shadow: 0 12px 26px rgba(0, 178, 88, 0.2);
 }
 
 .plan-card-fx1 {
   border: 1.5px solid #fce3bd;
-  box-shadow: 0 12px 28px rgba(245, 158, 11, 0.12);
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.12);
 }
 
 .plan-card-fx1:hover {
-  box-shadow: 0 16px 34px rgba(245, 158, 11, 0.2);
+  box-shadow: 0 12px 26px rgba(245, 158, 11, 0.2);
 }
 
 /* Ribbon */
 .plan-ribbon {
   position: absolute;
-  top: -9px;
-  right: 14px;
-  padding: 3.5px 11px;
+  top: -8px;
+  right: 12px;
+  padding: 3px 10px;
   border-radius: 999px;
   background: linear-gradient(135deg, #00d47a, #00995c);
   color: #ffffff;
-  font-size: 8.5px;
+  font-size: 7.5px;
   font-weight: 800;
-  letter-spacing: 0.9px;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
   box-shadow: 0 4px 12px rgba(0, 178, 88, 0.4);
   animation: planRibbonIn 480ms cubic-bezier(0.22, 1.4, 0.36, 1) 620ms both;
@@ -6514,14 +6514,14 @@ nextjs-portal,
 .plan-card-head {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 9px;
 }
 
 .plan-card-icon {
   flex: 0 0 auto;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
   display: grid;
   place-items: center;
 }
@@ -6539,12 +6539,12 @@ nextjs-portal,
 .plan-card-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   min-width: 0;
 }
 
 .plan-card-name {
-  font-size: 14.5px;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: -0.2px;
   color: #0b1f16;
@@ -6552,10 +6552,10 @@ nextjs-portal,
 
 .plan-card-badge {
   align-self: flex-start;
-  padding: 2.5px 9px;
+  padding: 2px 8px;
   border-radius: 999px;
   color: #ffffff;
-  font-size: 8px;
+  font-size: 7.2px;
   font-weight: 800;
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -6565,9 +6565,9 @@ nextjs-portal,
 .plan-card-price {
   margin-left: auto;
   flex: 0 0 auto;
-  font-size: 21px;
+  font-size: 17px;
   font-weight: 800;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.4px;
   white-space: nowrap;
 }
 
@@ -6577,7 +6577,7 @@ nextjs-portal,
 .plan-card-divider {
   display: block;
   height: 1px;
-  margin: 11px 0 10px;
+  margin: 7px 0 6px;
   background: #f1f5f4;
 }
 
@@ -6586,7 +6586,7 @@ nextjs-portal,
   display: flex;
   align-items: stretch;
   justify-content: space-between;
-  gap: 6px;
+  gap: 4px;
 }
 
 .plan-feature {
@@ -6595,7 +6595,7 @@ nextjs-portal,
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   text-align: center;
 }
 
@@ -6604,9 +6604,9 @@ nextjs-portal,
 }
 
 .plan-feature-icon {
-  width: 26px;
-  height: 26px;
-  border-radius: 9px;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
   display: grid;
   place-items: center;
   color: #ffffff;
@@ -6623,9 +6623,9 @@ nextjs-portal,
 }
 
 .plan-feature-text {
-  font-size: 8.8px;
+  font-size: 8.2px;
   font-weight: 600;
-  line-height: 1.35;
+  line-height: 1.3;
   color: #64748b;
 }
 
@@ -6635,13 +6635,13 @@ nextjs-portal,
   align-items: center;
   justify-content: space-between;
   gap: 4px;
-  margin-bottom: 16px;
-  padding: 13px 10px;
-  border-radius: 18px;
+  margin-bottom: 10px;
+  padding: 9px 8px;
+  border-radius: 14px;
   background: linear-gradient(160deg, #ffffff, #f0fdf7);
   border: 1px solid #d9f3e7;
   box-shadow: 0 6px 20px rgba(0, 152, 91, 0.07);
-  animation: planFadeUp 520ms cubic-bezier(0.2, 0.8, 0.2, 1) 560ms both;
+  animation: planFadeUp 520ms cubic-bezier(0.2, 0.8, 0.2, 1) 540ms both;
 }
 
 .plan-trust-item {
@@ -6649,13 +6649,13 @@ nextjs-portal,
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   text-align: center;
 }
 
 .plan-trust-icon {
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -6664,7 +6664,7 @@ nextjs-portal,
 }
 
 .plan-trust-label {
-  font-size: 9.5px;
+  font-size: 8.6px;
   font-weight: 700;
   line-height: 1.3;
   color: #334e42;
@@ -6672,7 +6672,7 @@ nextjs-portal,
 
 .plan-trust-sep {
   width: 1px;
-  height: 34px;
+  height: 26px;
   background: #e3f4ec;
 }
 
@@ -6681,15 +6681,15 @@ nextjs-portal,
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
+  gap: 8px;
   width: 100%;
-  height: 54px;
-  border-radius: 18px;
+  height: 46px;
+  border-radius: 15px;
   border: none;
   background: linear-gradient(135deg, #00d47a 0%, #00a85f 100%);
   color: #ffffff;
   font-family: inherit;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
   letter-spacing: 0.2px;
   cursor: pointer;
@@ -6697,7 +6697,7 @@ nextjs-portal,
     0 14px 30px rgba(0, 178, 88, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.28);
   transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 200ms ease, filter 200ms ease;
-  animation: planFadeUp 520ms cubic-bezier(0.2, 0.8, 0.2, 1) 640ms both;
+  animation: planFadeUp 520ms cubic-bezier(0.2, 0.8, 0.2, 1) 620ms both;
 }
 
 .plan-cta:hover {
@@ -6718,11 +6718,11 @@ nextjs-portal,
   align-items: center;
   justify-content: center;
   gap: 6px;
-  margin: 13px 0 2px;
-  font-size: 10.5px;
+  margin: 10px 0 0;
+  font-size: 10px;
   font-weight: 600;
   color: #8a9a92;
-  animation: planFadeUp 520ms cubic-bezier(0.2, 0.8, 0.2, 1) 720ms both;
+  animation: planFadeUp 520ms cubic-bezier(0.2, 0.8, 0.2, 1) 700ms both;
 }
 
 @media (max-width: 360px) {
@@ -6731,11 +6731,11 @@ nextjs-portal,
   }
 
   .plan-title {
-    font-size: 20px;
+    font-size: 17px;
   }
 
   .plan-card-price {
-    font-size: 18px;
+    font-size: 16px;
   }
 }
 
