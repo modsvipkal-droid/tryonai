@@ -1246,25 +1246,27 @@ function ModelSelectPopup({ onClose, onSelect }) {
   const models = [
     {
       key: "korven",
-      name: "Korven Model",
+      title: "🟢 Korven Model 🤖",
       price: "₹749",
-      desc: "Reliable all-round engine",
+      perfEmoji: "🎯",
+      performance: "Usually fixes the result within 3–4 levels.",
       badge: "Current",
       cardBg: "linear-gradient(135deg, #ffffff 0%, #f2fdf7 100%)",
       cardBorder: "#d1fae5",
-      priceColor: "#00b853",
+      accent: "#00b853",
       badgeBg: "#e9fbf1",
       badgeColor: "#00a047",
     },
     {
       key: "fx1",
-      name: "FX1 MODEL",
-      price: "₹1100",
-      desc: "Advanced FX1 engine",
+      title: "🔥 FX1 Model 🤖",
+      price: "₹1,100",
+      perfEmoji: "⚡️",
+      performance: "Usually fixes the result within 2 levels.",
       badge: "New",
       cardBg: "linear-gradient(135deg, #ffffff 0%, #fff9ee 100%)",
       cardBorder: "#fde8c4",
-      priceColor: "#f59e0b",
+      accent: "#f59e0b",
       badgeBg: "#fef4e6",
       badgeColor: "#d97706",
     },
@@ -1317,7 +1319,7 @@ function ModelSelectPopup({ onClose, onSelect }) {
                   transition: "all 250ms cubic-bezier(0.2, 0.8, 0.2, 1)",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = m.priceColor;
+                  e.currentTarget.style.borderColor = m.accent;
                   e.currentTarget.style.boxShadow = "0 8px 24px rgba(0, 184, 83, 0.14)";
                   e.currentTarget.style.transform = "translateY(-1px)";
                 }}
@@ -1327,21 +1329,26 @@ function ModelSelectPopup({ onClose, onSelect }) {
                   e.currentTarget.style.transform = "translateY(0)";
                 }}
               >
-                <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                  <span style={{ fontSize: 14, fontWeight: 800, color: "#0f1f18", letterSpacing: "0.2px" }}>{m.name}</span>
-                  <span style={{ fontSize: 11, fontWeight: 500, color: "#94a3b8" }}>{m.desc}</span>
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
-                  <span style={{ fontSize: 15, fontWeight: 900, color: m.priceColor }}>{m.price}</span>
-                  <span style={{
-                    fontSize: 9, fontWeight: 800, letterSpacing: "0.4px", textTransform: "uppercase",
-                    padding: "2px 9px", borderRadius: 999,
-                    background: m.badgeBg, color: m.badgeColor,
-                  }}>{m.badge}</span>
+                <div style={{ display: "flex", flexDirection: "column", gap: 5, width: "100%" }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+                    <span style={{ fontSize: 13, fontWeight: 800, color: "#0f1f18", letterSpacing: "0.2px" }}>{m.title}</span>
+                    <span style={{
+                      flex: "0 0 auto",
+                      fontSize: 9, fontWeight: 800, letterSpacing: "0.4px", textTransform: "uppercase",
+                      padding: "2px 9px", borderRadius: 999,
+                      background: m.badgeBg, color: m.badgeColor,
+                    }}>{m.badge}</span>
+                  </div>
+                  <span style={{ fontSize: 11, fontWeight: 600, color: "#475569", lineHeight: 1.5 }}>
+                    💰 Price: <strong style={{ fontWeight: 800, color: m.accent }}>{m.price}</strong>
+                  </span>
+                  <span style={{ fontSize: 11, fontWeight: 500, color: "#64748b", lineHeight: 1.5 }}>
+                    {m.perfEmoji} Expected Performance: {m.performance}
+                  </span>
                 </div>
                 <div style={{
                   position: "absolute", top: -18, right: -18, width: 56, height: 56, borderRadius: "50%",
-                  background: `radial-gradient(circle, ${m.priceColor}14 0%, transparent 70%)`,
+                  background: `radial-gradient(circle, ${m.accent}14 0%, transparent 70%)`,
                   pointerEvents: "none",
                 }} />
               </button>
