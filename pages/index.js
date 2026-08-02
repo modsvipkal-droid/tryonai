@@ -1272,169 +1272,53 @@ function ModelSelectPopup({ onClose, onSelect }) {
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = ""; };
   }, []);
-
   const models = [
-    {
-      key: "korven",
-      title: "Korven Model",
-      price: "₹749",
-      ribbon: "CURRENT",
-      badge: "Most Popular",
-      badgeBg: "linear-gradient(135deg, #00d47a 0%, #00995c 100%)",
-      cardClass: "plan-card-corven",
-      icon: (
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="6" y="6" width="12" height="12" rx="2" />
-          <rect x="10" y="10" width="4" height="4" />
-          <path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4" />
-        </svg>
-      ),
-      features: [
-        { icon: <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1" fill="currentColor" /></svg>, text: "Usually fixes in 3–4 levels" },
-        { icon: <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>, text: "High Accuracy" },
-        { icon: <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 1 0 10 10" /><path d="M12 12 21 3" /><circle cx="17" cy="7" r="1.5" fill="currentColor" stroke="none" /></svg>, text: "Optimized Algorithm" },
-      ],
-    },
-    {
-      key: "fx1",
-      title: "FX1 Model",
-      price: "₹1,100",
-      badge: "New Release",
-      badgeBg: "linear-gradient(135deg, #fbbf24 0%, #d97706 100%)",
-      cardClass: "plan-card-fx1",
-      icon: (
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
-        </svg>
-      ),
-      features: [
-        { icon: <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>, text: "Usually fixes in 2 levels" },
-        { icon: <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>, text: "Higher Performance" },
-        { icon: <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="4" width="16" height="16" rx="3" /><path d="M12 8v8M8 12h8" /></svg>, text: "Advanced Technology" },
-      ],
-    },
+    { key: "korven", name: "Korven Model", price: "₹749", desc: "Standard prediction engine", badge: "Current" },
+    { key: "fx1", name: "FX1 MODEL", price: "₹1100", desc: "Advanced FX1 prediction engine", badge: "New" },
   ];
-
-  const crown = (
-    <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#ffffff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 4.5 9 9 4.5 6.5 6 17h12l1.5-10.5L15 9Z" fill="rgba(255,255,255,0.18)" />
-      <path d="M9.2 20h5.6" />
-      <path d="M19.8 3.2l.4 1.1 1.1.4-1.1.4-.4 1.1-.4-1.1-1.1-.4 1.1-.4Z" fill="#ffd166" stroke="none" />
-      <path d="M3.6 5l.3.8.8.3-.8.3-.3.8-.3-.8-.8-.3.8-.3Z" fill="#ffd166" stroke="none" />
-    </svg>
-  );
-
-  const lockIcon = (
-    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#00b853" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="4" y="11" width="16" height="10" rx="2.5" />
-      <path d="M8 11V7a4 4 0 0 1 8 0v4" />
-      <circle cx="12" cy="16" r="1.3" fill="#00b853" stroke="none" />
-    </svg>
-  );
-
   return (
-    <div className="plan-overlay" onClick={onClose}>
-      <div className="plan-modal" onClick={(e) => e.stopPropagation()}>
-        <button className="plan-close" type="button" onClick={onClose} aria-label="Close">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
+    <div className="rules-overlay" onClick={onClose}>
+      <div className="rules-modal" onClick={(e) => e.stopPropagation()}>
+        <button className="rules-close" type="button" onClick={onClose} aria-label="Close">
+          <Icon name="back" />
         </button>
-
-        <div className="plan-header">
-          <span className="plan-header-glow" />
-          <span className="plan-header-spark plan-header-spark-1" />
-          <span className="plan-header-spark plan-header-spark-2" />
-          <span className="plan-header-spark plan-header-spark-3" />
-          <div className="plan-crown">
-            <div className="plan-crown-glass">{crown}</div>
-          </div>
-        </div>
-
-        <div className="plan-content">
-          <h2 className="plan-title">
-            Choose Your <span className="plan-title-em">Plan</span>
-          </h2>
-          <p className="plan-sub">
-            Unlock lifetime access to your chosen model.
-            <br />
-            Secure payments • Instant verification • 100% Trusted
+        <div className="rules-content">
+          <div style={{
+            width: 72, height: 72, borderRadius: 20,
+            background: "linear-gradient(135deg,rgba(0,184,83,0.12),rgba(0,184,83,0.22))",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            margin: "0 auto 18px", fontSize: 34,
+          }}>🤖</div>
+          <h2 style={{ margin: "0 0 6px", fontSize: 18, color: "#0f1f18", textAlign: "center" }}>Choose Your Model</h2>
+          <p style={{ margin: "0 0 20px", fontSize: 13, color: "#6f7a75", lineHeight: 1.6, textAlign: "center" }}>
+            Select a prediction model to continue with subscription.
           </p>
-
-          <div className="plan-cards">
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {models.map((m) => (
               <button
                 key={m.key}
                 type="button"
-                className={`plan-card ${m.cardClass}`}
                 onClick={() => onSelect(m.key)}
+                style={{
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  width: "100%", padding: "14px 16px", borderRadius: 14, cursor: "pointer",
+                  border: "2px solid #e2e8f0", background: "#ffffff", textAlign: "left",
+                  transition: "all 200ms",
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#00b853")}
+                onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#e2e8f0")}
               >
-                {m.ribbon && <span className="plan-ribbon">{m.ribbon}</span>}
-                <div className="plan-card-head">
-                  <span className="plan-card-icon">{m.icon}</span>
-                  <span className="plan-card-info">
-                    <span className="plan-card-name">{m.title}</span>
-                    <span className="plan-card-badge" style={{ background: m.badgeBg }}>{m.badge}</span>
-                  </span>
-                  <span className="plan-card-price">{m.price}</span>
+                <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                  <span style={{ fontSize: 15, fontWeight: 800, color: "#0f1f18" }}>{m.name}</span>
+                  <span style={{ fontSize: 12, fontWeight: 500, color: "#94a3b8" }}>{m.desc}</span>
                 </div>
-                <span className="plan-card-divider" />
-                <span className="plan-features">
-                  {m.features.map((f, i) => (
-                    <span className="plan-feature" key={i}>
-                      <span className="plan-feature-icon">{f.icon}</span>
-                      <span className="plan-feature-text">{f.text}</span>
-                    </span>
-                  ))}
-                </span>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
+                  <span style={{ fontSize: 16, fontWeight: 900, color: "#00b853" }}>{m.price}</span>
+                  <span style={{ fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 999, background: "#f0fdf4", color: "#00a047" }}>{m.badge}</span>
+                </div>
               </button>
             ))}
           </div>
-
-          <div className="plan-trust">
-            <div className="plan-trust-item">
-              <span className="plan-trust-icon">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#059669" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                  <path d="m9 11.5 2 2 4-4" />
-                </svg>
-              </span>
-              <span className="plan-trust-label">100% Secure<br />Payments</span>
-            </div>
-            <span className="plan-trust-sep" />
-            <div className="plan-trust-item">
-              <span className="plan-trust-icon">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#059669" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-                </svg>
-              </span>
-              <span className="plan-trust-label">Instant<br />Activation</span>
-            </div>
-            <span className="plan-trust-sep" />
-            <div className="plan-trust-item">
-              <span className="plan-trust-icon">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#059669" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="9" />
-                  <path d="m8.5 12.5 2.5 2.5 5-5.5" />
-                </svg>
-              </span>
-              <span className="plan-trust-label">Verified &amp;<br />Trusted</span>
-            </div>
-          </div>
-
-          <button className="plan-cta" type="button" onClick={() => onSelect(models[0].key)}>
-            Continue Securely
-            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="4" y1="12" x2="19" y2="12" />
-              <polyline points="13 5 20 12 13 19" />
-            </svg>
-          </button>
-
-          <p className="plan-footer">
-            {lockIcon}
-            <span>One-time payment • Lifetime access</span>
-          </p>
         </div>
       </div>
     </div>
