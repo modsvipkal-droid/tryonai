@@ -1237,6 +1237,65 @@ function Toast({ message, visible }) {
   );
 }
 
+// ──────────────── Model Select Popup ──────────────────────────────────────
+function ModelSelectPopup({ onClose, onSelect }) {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
+  const models = [
+    { key: "korven", name: "Korven Model", price: "₹749", desc: "Standard prediction engine", badge: "Current" },
+    { key: "fx1", name: "FX1 MODEL", price: "₹1100", desc: "Advanced FX1 prediction engine", badge: "New" },
+  ];
+  return (
+    <div className="rules-overlay" onClick={onClose}>
+      <div className="rules-modal" onClick={(e) => e.stopPropagation()}>
+        <button className="rules-close" type="button" onClick={onClose} aria-label="Close">
+          <Icon name="back" />
+        </button>
+        <div className="rules-content">
+          <div style={{
+            width: 72, height: 72, borderRadius: 20,
+            background: "linear-gradient(135deg,rgba(0,184,83,0.12),rgba(0,184,83,0.22))",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            margin: "0 auto 18px", fontSize: 34,
+          }}>🤖</div>
+          <h2 style={{ margin: "0 0 6px", fontSize: 18, color: "#0f1f18", textAlign: "center" }}>Choose Your Model</h2>
+          <p style={{ margin: "0 0 20px", fontSize: 13, color: "#6f7a75", lineHeight: 1.6, textAlign: "center" }}>
+            Select a prediction model to continue with subscription.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {models.map((m) => (
+              <button
+                key={m.key}
+                type="button"
+                onClick={() => onSelect(m.key)}
+                style={{
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  width: "100%", padding: "14px 16px", borderRadius: 14, cursor: "pointer",
+                  border: "2px solid #e2e8f0", background: "#ffffff", textAlign: "left",
+                  transition: "all 200ms",
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#00b853")}
+                onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#e2e8f0")}
+              >
+                <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                  <span style={{ fontSize: 15, fontWeight: 800, color: "#0f1f18" }}>{m.name}</span>
+                  <span style={{ fontSize: 12, fontWeight: 500, color: "#94a3b8" }}>{m.desc}</span>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
+                  <span style={{ fontSize: 16, fontWeight: 900, color: "#00b853" }}>{m.price}</span>
+                  <span style={{ fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 999, background: "#f0fdf4", color: "#00a047" }}>{m.badge}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function AuthGate() {
   return (
     <>
@@ -1308,6 +1367,7 @@ function MainApp({ user }) {
   const router = useRouter();
   const { apiCurrent, history, serverNow, status } = useLiveHistory();
   const savedUser = useRef(false);
+  const [showModelPopup, setShowModelPopup] = useState(false);
 
   useEffect(() => {
     if (user?.email && !savedUser.current) {
@@ -1322,11 +1382,20 @@ function MainApp({ user }) {
     }
   }, [user]);
 
+  const openSubscription = useCallback(() => {
+    setShowModelPopup(true);
+  }, []);
+
+  const handleModelSelect = useCallback((modelKey) => {
+    setShowModelPopup(false);
+    router.push(modelKey === "fx1" ? "/subscription?model=fx1" : "/subscription");
+  }, [router]);
+
   async function handleBetClick() {
     if (!user?.email) return;
     const r = await getRemainingPredictions(user.email);
     if (r !== -1) {
-      router.push('/subscription');
+      openSubscription();
       return;
     }
     setToastVisible(true);
@@ -1350,7 +1419,7 @@ function MainApp({ user }) {
       if (res.status === 403 && data.code === "NO_ACCESS") {
         setShowServerAnim(false);
         lastPredictedPeriod.current = null;
-        router.push("/subscription");
+        openSubscription();
         return;
       }
       const size = data.prediction || (Math.random() >= 0.5 ? "Big" : "Small");
@@ -1365,7 +1434,7 @@ function MainApp({ user }) {
     if (!user?.email) return;
     const r = await getRemainingPredictions(user.email);
     if (r !== -1) {
-      router.push('/subscription');
+      openSubscription();
       return;
     }
     if (lastPredictedPeriod.current === currentPeriod.issueNumber) {
@@ -1457,11 +1526,11 @@ function MainApp({ user }) {
       return;
     }
     if (target === "subscription") {
-      router.push("/subscription");
+      openSubscription();
       return;
     }
     setActiveView(target);
-  }, [router]);
+  }, [router, openSubscription]);
 
   const handleLogout = useCallback(async () => {
     await signOutUser();
@@ -1489,6 +1558,12 @@ function MainApp({ user }) {
         { question: "How accurate are TryonAI predictions?", answer: "TryonAI uses advanced pattern analysis and machine learning algorithms to provide high-accuracy predictions. The accuracy rate is displayed live on the dashboard." }
       ]} />
       {showRules && <RulesPopup onClose={() => setShowRules(false)} remaining={remaining} user={user} />}
+      {showModelPopup && (
+        <ModelSelectPopup
+          onClose={() => setShowModelPopup(false)}
+          onSelect={handleModelSelect}
+        />
+      )}
       <Toast message={toastMessage} visible={toastVisible} />
       <NavigationDrawer
         open={drawerOpen}

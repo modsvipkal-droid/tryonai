@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema } from "@/components/SEO";
 
@@ -27,10 +28,14 @@ function generateOrderId() {
 
 const UPI_VPA = "data-earn@ybl";
 const UPI_PAYEE = "TryonAI";
-const UPI_AMOUNT = "749.00";
 
-const openUpiApp = (pkg) => {
-  const params = `pa=${UPI_VPA}&pn=${encodeURIComponent(UPI_PAYEE)}&am=${UPI_AMOUNT}&cu=INR&mode=04`;
+const PLANS = {
+  korven: { label: "Korven Model", amount: "749.00", qr: "/749qrcode.jpg" },
+  fx1: { label: "FX1 MODEL", amount: "1100.00", qr: "/Fx1qrdode.jpg" },
+};
+
+const openUpiApp = (pkg, amount) => {
+  const params = `pa=${UPI_VPA}&pn=${encodeURIComponent(UPI_PAYEE)}&am=${amount}&cu=INR&mode=04`;
   if (pkg) {
     window.location.href = `intent://pay?${params}#Intent;scheme=upi;package=${pkg};end`;
     setTimeout(() => {
@@ -42,6 +47,9 @@ const openUpiApp = (pkg) => {
 };
 
 export default function Subscription() {
+  const router = useRouter();
+  const model = router.query.model === "fx1" ? "fx1" : "korven";
+  const plan = PLANS[model];
   const [utr, setUtr] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [activeTab, setActiveTab] = useState("qr");
@@ -83,7 +91,7 @@ export default function Subscription() {
 
   const handleDownloadQR = () => {
     const link = document.createElement("a");
-    link.href = "/749qrcode.jpg";
+    link.href = plan.qr;
     link.download = "payment_qr.jpg";
     document.body.appendChild(link);
     link.click();
@@ -149,10 +157,10 @@ export default function Subscription() {
                 </svg>
               </div>
               <div className="pay-amount-left">
-                <span className="pay-amount-label">Amount to Pay</span>
+                <span className="pay-amount-label">Amount to Pay ({plan.label})</span>
                 <div className="pay-amount-value">
                   <span className="pay-rupee">₹</span>
-                  <span className="pay-price">749.00</span>
+                  <span className="pay-price">{plan.amount}</span>
                 </div>
                 <div className="pay-order-row">
                   <span>Order ID: <strong>{orderId}</strong></span>
@@ -237,7 +245,7 @@ export default function Subscription() {
                     <div className="pay-qr-corner pay-qr-corner-tr"></div>
                     <div className="pay-qr-corner pay-qr-corner-bl"></div>
                     <div className="pay-qr-corner pay-qr-corner-br"></div>
-                    <img src="/749qrcode.jpg" alt="Payment QR Code" className="pay-qr-image" width="118" height="118" loading="lazy" />
+                    <img src={plan.qr} alt="Payment QR Code" className="pay-qr-image" width="118" height="118" loading="lazy" />
                   </div>
                 </div>
 
@@ -257,19 +265,19 @@ export default function Subscription() {
             {activeTab === "upi" && (
               <div className="pay-upi-section">
                 <div className="pay-upi-apps-row">
-                  <div className="pay-upi-app" title="Google Pay" onClick={() => openUpiApp("com.google.android.apps.nbu.paisa.user")}>
+                  <div className="pay-upi-app" title="Google Pay" onClick={() => openUpiApp("com.google.android.apps.nbu.paisa.user", plan.amount)}>
                     <img src="/google-pay-logo.webp" alt="Google Pay" width="36" height="36" loading="lazy" />
                     <span>Google Pay</span>
                   </div>
-                  <div className="pay-upi-app" title="Paytm" onClick={() => openUpiApp("net.one97.paytm")}>
+                  <div className="pay-upi-app" title="Paytm" onClick={() => openUpiApp("net.one97.paytm", plan.amount)}>
                     <img src="/paytm-india-logo.webp" alt="Paytm" width="36" height="36" loading="lazy" />
                     <span>Paytm</span>
                   </div>
-                  <div className="pay-upi-app" title="PhonePe" onClick={() => openUpiApp("com.phonepe.app")}>
+                  <div className="pay-upi-app" title="PhonePe" onClick={() => openUpiApp("com.phonepe.app", plan.amount)}>
                     <img src="/phonepe-india-logo.webp" alt="PhonePe" width="36" height="36" loading="lazy" />
                     <span>PhonePe</span>
                   </div>
-                  <div className="pay-upi-app" title="Super Pay" onClick={() => openUpiApp(null)}>
+                  <div className="pay-upi-app" title="Super Pay" onClick={() => openUpiApp(null, plan.amount)}>
                     <img src="/super-app-logo-india.webp" alt="Super Pay" width="36" height="36" loading="lazy" />
                     <span>Super Pay</span>
                   </div>
@@ -314,7 +322,7 @@ export default function Subscription() {
               className="pay-submit-btn" 
               onClick={() => {
                 setShowToast(true);
-                const msg = encodeURIComponent(`Hello Admin, I have submitted the payment request on the website.\nPlan: PRO PLANS (₹749)\nUTR ID: ${utr}\nPlease verify and activate my Wingo Signals Premium access now. Thanks!`);
+                const msg = encodeURIComponent(`Hello Admin, I have submitted the payment request on the website.\nPlan: ${plan.label} (₹${plan.amount})\nUTR ID: ${utr}\nPlease verify and activate my Wingo Signals Premium access now. Thanks!`);
                 window.open(`https://t.me/kal_mods?text=${msg}`, '_blank');
                 setTimeout(() => setShowToast(false), 3000);
               }}
