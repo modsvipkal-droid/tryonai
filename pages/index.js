@@ -1316,7 +1316,7 @@ function ModelSelectPopup({ onClose, onSelect }) {
   ];
 
   const crown = (
-    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#ffffff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="#ffffff" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 4.5 9 9 4.5 6.5 6 17h12l1.5-10.5L15 9Z" fill="rgba(255,255,255,0.18)" />
       <path d="M9.2 20h5.6" />
       <path d="M19.8 3.2l.4 1.1 1.1.4-1.1.4-.4 1.1-.4-1.1-1.1-.4 1.1-.4Z" fill="#ffd166" stroke="none" />
