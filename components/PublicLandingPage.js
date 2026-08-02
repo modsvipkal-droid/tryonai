@@ -123,8 +123,8 @@ export default function PublicLandingPage() {
                   <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                 </svg>
               </div>
-              <h3>Custom Logic Upload</h3>
-              <p>Upload your custom `.trionai` prediction models to run localized, tailored algorithms on our execution engine.</p>
+              <h3>Fast Auto Predictions</h3>
+              <p>Predictions are generated automatically in real time. No setup required — just subscribe and start predicting.</p>
             </div>
           </div>
         </section>

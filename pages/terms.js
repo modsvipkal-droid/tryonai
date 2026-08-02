@@ -59,7 +59,7 @@ export default function TermsAndConditions() {
         </ul>
 
         <h2>4. Permitted Use & Account Sharing</h2>
-        <p>Your subscription is personal and non-transferable. You may not share your account login, developer API keys, or custom logic configurations with third parties. Any detected account sharing or scraping operations will result in immediate suspension without refund.</p>
+        <p>Your subscription is personal and non-transferable. You may not share your account login or developer API keys with third parties. Any detected account sharing or scraping operations will result in immediate suspension without refund.</p>
 
         <h2>5. Payment & Activation</h2>
         <p>Subscription activation requires the manual submission of a valid Transaction UTR ID. We reserve the right to audit and deny activation requests if transaction codes are determined to be fraudulent or duplicate.</p>

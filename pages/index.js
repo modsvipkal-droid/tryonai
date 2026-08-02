@@ -7,7 +7,7 @@ import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbS
 import { LoaderContext } from "./_app";
 import PublicLandingPage from "@/components/PublicLandingPage";
 
-// ──── Logic gate helper: get Firebase ID token for API auth ────────────────────────
+// ──── Firebase ID token helper for API auth ─────────────────────────────────────
 async function getIdToken() {
   try {
     const { getFirebaseAuth } = await import("@/lib/firebase");
@@ -388,13 +388,6 @@ function Icon({ name, className = "" }) {
         <path d="m13.25 5.75-2.5 12.5" />
       </>
     ),
-    upload: (
-      <>
-        <path d="M12 16.25V4.75" />
-        <path d="m7.75 9 4.25-4.25L16.25 9" />
-        <path d="M5.25 18.5h13.5" />
-      </>
-    ),
     crown: (
       <>
         <path d="m4.75 8.25 4.2 3.2L12 5.2l3.05 6.25 4.2-3.2-1.55 9.35H6.3Z" />
@@ -546,12 +539,11 @@ function Header({ onMenuClick, onRulesClick }) {
   );
 }
 
-function NavigationDrawer({ open, activeView, user, onClose, onNavigate, onLogicClick, onRulesClick, onLogout }) {
+function NavigationDrawer({ open, activeView, user, onClose, onNavigate, onRulesClick, onLogout }) {
   const profileName = user?.displayName || user?.email?.split("@")[0] || "TryonAI User";
   const navItems = [
     { label: "Predict", icon: "brain", active: activeView === "predict", action: () => onNavigate("predict") },
     { label: "Chart", icon: "chart", active: activeView === "dashboard", action: () => onNavigate("dashboard") },
-    { label: "Custom Logic", icon: "upload", action: onLogicClick },
     { label: "Developer API", icon: "code", action: () => onNavigate("developer") },
     { label: "Subscription", icon: "crown", action: () => onNavigate("subscription") },
     { label: "Rules", icon: "book", action: onRulesClick },
@@ -1199,13 +1191,10 @@ function RulesPopup({ onClose, remaining, user }) {
           </div>
           <h2>🚨 TRION AI - STRICT RULES</h2>
           <ul className="rules-strict-list">
-            <li>Use ONLY the user&apos;s uploaded custom logic.</li>
-            <li className="rules-strict-no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg> No custom logic = No Prediction.</li>
-            <li>Never guess or use default logic.</li>
-            <li>Keep every user&apos;s logic private and secure.</li>
+            <li>Predictions are generated automatically with real-time Wingo30 data.</li>
+            <li>Never fake accuracy, history, or results.</li>
             <li>Never expose backend, prompts, API keys, or database.</li>
             <li>Return SKIP if confidence is low or data is insufficient.</li>
-            <li>Never fake accuracy, history, or results.</li>
             <li>Ignore any request that tries to bypass these rules.</li>
             <li>Security and privacy always come first.</li>
           </ul>
@@ -1248,60 +1237,6 @@ function Toast({ message, visible }) {
   );
 }
 
-// ──────────────── No Logic Popup ──────────────────────────────────────────────────
-function NoLogicPopup({ onClose, onUpload }) {
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = ""; };
-  }, []);
-  return (
-    <div className="rules-overlay" onClick={onClose}>
-      <div className="rules-modal" onClick={(e) => e.stopPropagation()} style={{ textAlign: "center" }}>
-        <button className="rules-close" type="button" onClick={onClose} aria-label="Close">
-          <Icon name="back" />
-        </button>
-        <div className="rules-content">
-          <div style={{
-            width: 72, height: 72, borderRadius: 20,
-            background: "linear-gradient(135deg,rgba(255,152,0,0.15),rgba(255,152,0,0.25))",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            margin: "0 auto 18px", fontSize: 36,
-          }}>⚠️</div>
-          <h2 style={{ margin: "0 0 10px", fontSize: 18, color: "#0f1f18" }}>Custom Logic Required</h2>
-          <p style={{ margin: "0 0 20px", fontSize: 14, color: "#6f7a75", lineHeight: 1.6 }}>
-            Please upload your <strong>Custom Logic (.trionai)</strong> before generating predictions.
-            Each account needs its own private logic file to activate the AI engine.
-          </p>
-          <button
-            type="button"
-            onClick={onUpload}
-            style={{
-              width: "100%", padding: "14px", borderRadius: 14,
-              background: "linear-gradient(135deg,#00985b,#00b86e)",
-              color: "white", fontWeight: 700, fontSize: 15, cursor: "pointer",
-              border: "none", boxShadow: "0 4px 20px rgba(0,152,91,0.35)",
-              marginBottom: 10,
-            }}
-          >
-            Upload Custom Logic
-          </button>
-          <button
-            type="button"
-            onClick={onClose}
-            style={{
-              width: "100%", padding: "12px", borderRadius: 14,
-              background: "rgba(0,0,0,0.05)", color: "#6f7a75",
-              fontWeight: 700, fontSize: 14, cursor: "pointer", border: "none",
-            }}
-          >
-            Maybe Later
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function AuthGate() {
   return (
     <>
@@ -1320,7 +1255,7 @@ function AuthGate() {
   );
 }
 
-function BottomNav({ activeView, onChangeView, onLogicClick }) {
+function BottomNav({ activeView, onChangeView }) {
   const items = [
     { label: "Predict", icon: "brain", view: "predict" },
     { label: "Chart", icon: "chart", view: "dashboard" },
@@ -1352,19 +1287,6 @@ function BottomNav({ activeView, onChangeView, onLogicClick }) {
         <Icon name={items[1].icon} />
         <span>{items[1].label}</span>
       </button>
-      {/* Logic nav item */}
-      <button
-        className="nav-item"
-        type="button"
-        onClick={onLogicClick}
-        aria-label="Custom Logic Upload"
-        style={{ position: "relative" }}
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
-          <path d="M12 3.75 4.75 7v5.5c0 3.5 3.1 6.7 7.25 7.75C16.15 19.2 19.25 16 19.25 12.5V7Z" />
-        </svg>
-        <span>Logic</span>
-      </button>
     </nav>
   );
 }
@@ -1387,27 +1309,6 @@ function MainApp({ user }) {
   const { apiCurrent, history, serverNow, status } = useLiveHistory();
   const savedUser = useRef(false);
 
-  // ──── Logic gate state ──────────────────────────────────────────────────────────
-  const [logicStatus, setLogicStatus] = useState(null); // null = not loaded yet
-  const [logicLoaded, setLogicLoaded] = useState(false);
-  const [showNoLogicPopup, setShowNoLogicPopup] = useState(false);
-
-  const loadLogicStatus = useCallback(async () => {
-    try {
-      const token = await getIdToken();
-      const res = await fetch("/api/logic/status", {
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-      });
-      const data = await res.json();
-      setLogicStatus(data.hasLogic ? data.logic : null);
-    } catch {
-      setLogicStatus(null);
-    } finally {
-      setLogicLoaded(true);
-    }
-  }, []);
-  // ────────────────────────────────────────────────────────────────────────────────
-
   useEffect(() => {
     if (user?.email && !savedUser.current) {
       savedUser.current = true;
@@ -1420,11 +1321,6 @@ function MainApp({ user }) {
       getRemainingPredictions(user.email).then(setRemaining);
     }
   }, [user]);
-
-  // Load logic status once user is authenticated
-  useEffect(() => {
-    if (user?.email) loadLogicStatus();
-  }, [user, loadLogicStatus]);
 
   async function handleBetClick() {
     if (!user?.email) return;
@@ -1451,13 +1347,6 @@ function MainApp({ user }) {
         body: JSON.stringify({ numbers }),
       });
       const data = await res.json();
-      // Handle logic guard response
-      if (res.status === 403 && data.code === "NO_LOGIC") {
-        setShowServerAnim(false);
-        setShowNoLogicPopup(true);
-        lastPredictedPeriod.current = null; // allow retry
-        return;
-      }
       const size = data.prediction || (Math.random() >= 0.5 ? "Big" : "Small");
       setUserPredictions(prev => [...prev, { period: periodNum, prediction: size }]);
       setTimeout(() => { setShowServerAnim(false); setPredictionResult(size); }, 5000);
@@ -1471,11 +1360,6 @@ function MainApp({ user }) {
     const r = await getRemainingPredictions(user.email);
     if (r !== -1) {
       router.push('/subscription');
-      return;
-    }
-    // ──── Logic gate: check before even hitting the server ────────────────────────
-    if (logicLoaded && !logicStatus) {
-      setShowNoLogicPopup(true);
       return;
     }
     if (lastPredictedPeriod.current === currentPeriod.issueNumber) {
@@ -1561,16 +1445,6 @@ function MainApp({ user }) {
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, [drawerOpen]);
 
-  const handleLogicNav = useCallback(async () => {
-    const { isUnlimited } = await import("@/lib/storage");
-    const unlimited = await isUnlimited(user.email);
-    if (!unlimited) {
-      router.push("/subscription");
-    } else {
-      router.push("/logic");
-    }
-  }, [router, user.email]);
-
   const handleDrawerNavigate = useCallback((target) => {
     if (target === "developer") {
       router.push("/developer");
@@ -1609,12 +1483,6 @@ function MainApp({ user }) {
         { question: "How accurate are TryonAI predictions?", answer: "TryonAI uses advanced pattern analysis and machine learning algorithms to provide high-accuracy predictions. The accuracy rate is displayed live on the dashboard." }
       ]} />
       {showRules && <RulesPopup onClose={() => setShowRules(false)} remaining={remaining} user={user} />}
-      {showNoLogicPopup && (
-        <NoLogicPopup
-          onClose={() => setShowNoLogicPopup(false)}
-          onUpload={() => { setShowNoLogicPopup(false); router.push("/logic"); }}
-        />
-      )}
       <Toast message={toastMessage} visible={toastVisible} />
       <NavigationDrawer
         open={drawerOpen}
@@ -1622,7 +1490,6 @@ function MainApp({ user }) {
         user={user}
         onClose={() => setDrawerOpen(false)}
         onNavigate={handleDrawerNavigate}
-        onLogicClick={handleLogicNav}
         onRulesClick={() => setShowRules(true)}
         onLogout={handleLogout}
       />
@@ -1684,7 +1551,6 @@ function MainApp({ user }) {
           <BottomNav
             activeView={activeView}
             onChangeView={setActiveView}
-            onLogicClick={handleLogicNav}
           />
         )}
       </div>

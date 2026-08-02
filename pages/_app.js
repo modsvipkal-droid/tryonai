@@ -1,6 +1,5 @@
 import "@/styles/globals.css";
 import "@/styles/loading.css";
-import "@/styles/logic.css";
 import "@/styles/developer.css";
 import "@/styles/landing.css";
 import { useCallback, useState, useEffect, createContext } from "react";

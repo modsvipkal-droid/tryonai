@@ -1,5 +1,4 @@
 import { requireAuth } from "@/lib/authMiddleware";
-import { hasActiveLogic, loadLogicForPrediction } from "@/lib/logicStore";
 import { createRateLimiter } from "@/lib/rateLimit";
 import { logSecurityEvent } from "@/lib/securityLog";
 
@@ -118,12 +117,6 @@ export default async function handler(req, res) {
   } catch {
     return res.status(401).json({ error: "Authentication required", code: "UNAUTHENTICATED" });
   }
-
-  if (!hasActiveLogic(authUser.email)) {
-    return res.status(403).json({ error: "Please upload your Custom Logic (.trionai) before generating predictions.", code: "NO_LOGIC" });
-  }
-
-  const userLogic = loadLogicForPrediction(authUser.email);
 
   if (req.method === "POST") {
     const { numbers } = req.body || {};

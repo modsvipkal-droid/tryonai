@@ -4019,24 +4019,6 @@ nextjs-portal,
   color: #0a3d28;
 }
 
-.rules-strict-list li.rules-strict-no {
-  background: #fef2f2;
-  color: #991b1b;
-}
-
-.rules-strict-list li.rules-strict-no::before {
-  display: none;
-}
-
-.rules-strict-list li.rules-strict-no svg {
-  position: absolute;
-  left: 10px;
-  top: 8px;
-  width: 16px;
-  height: 16px;
-  color: #dc2626;
-  flex-shrink: 0;
-}
 
 .rules-limit {
   width: 100%;
@@ -6015,26 +5997,6 @@ nextjs-portal,
   font-size: 18px;
   color: #00a566;
   line-height: 1;
-}
-
-.rules-strict-list li.rules-strict-no {
-  background: rgba(255, 46, 56, 0.05);
-  border-color: rgba(255, 46, 56, 0.14);
-  color: #b01020;
-  font-weight: 600;
-  padding-left: 42px;
-}
-
-.rules-strict-list li.rules-strict-no::before { display: none; }
-
-.rules-strict-list li.rules-strict-no svg {
-  position: absolute;
-  left: 13px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 17px;
-  height: 17px;
-  stroke: #d52030;
 }
 
 /* ── Access / Limit badge ── */
