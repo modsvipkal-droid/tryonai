@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, useCallback, useContext } from "react";
 import { useRouter } from "next/router";
 import { watchAuthState, signOutUser } from "@/lib/firebase";
-import { addUser, getRemainingPredictions, incrementPredictionCount } from "@/lib/storage";
+import { addUser, getRemainingPredictions, incrementPredictionCount, getProfilePlan, getTodayPredictions, addTodayPrediction } from "@/lib/storage";
 import { fetchWingoHistory, generateMockHistory, getCurrentIssue, estimateTimestamps } from "@/lib/wingo";
 import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema, FAQSchema } from "@/components/SEO";
 import { LoaderContext } from "./_app";
@@ -453,6 +453,16 @@ function Icon({ name, className = "" }) {
         <path d="M18.5 19.5V7.5" />
       </>
     ),
+    chip: (
+      <>
+        <rect x="6" y="6" width="12" height="12" rx="2" />
+        <rect x="10" y="10" width="4" height="4" />
+        <path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4" />
+      </>
+    ),
+    flame: (
+      <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
+    ),
     send: (
       <>
         <path d="M21 3 10.8 13.2" />
@@ -537,6 +547,7 @@ function NavigationDrawer({ open, activeView, user, onClose, onNavigate, onRules
   const navItems = [
     { label: "Predict", icon: "brain", active: activeView === "predict", action: () => onNavigate("predict") },
     { label: "Chart", icon: "chart", active: activeView === "dashboard", action: () => onNavigate("dashboard") },
+    { label: "Profile", icon: "user", active: activeView === "profile", action: () => onNavigate("profile") },
     { label: "Subscription", icon: "crown", action: () => onNavigate("subscription") },
     { label: "Rules", icon: "book", action: onRulesClick },
   ];
@@ -1236,7 +1247,6 @@ function RulesPopup({ onClose, remaining, user }) {
                 )}
                 <div className="rules-user-details">
                   <span className="rules-user-name">{user.displayName || user.email?.split("@")[0]}</span>
-                  <span className="rules-user-email">{user.email}</span>
                 </div>
               </div>
               <button className="rules-logout-btn" type="button" onClick={handleLogout}>
@@ -1480,6 +1490,186 @@ function AuthGate() {
   );
 }
 
+const PLAN_META = {
+  korven: { label: "Korven Model", price: "₹749", accent: "#00b853", icon: "chip" },
+  fx1: { label: "FX1 Model", price: "₹1,100", accent: "#f59e0b", icon: "flame" },
+};
+
+function ProfileFeature({ label, value, detail, tone, icon, suffix }) {
+  return (
+    <div className={`profile-feature ${tone}`}>
+      <span className="profile-feature-icon">
+        <Icon name={icon} />
+      </span>
+      <p>{label}</p>
+      <strong>{value}{suffix}</strong>
+      <em>{detail}</em>
+    </div>
+  );
+}
+
+function ProfileView({ user, history, userPredictions }) {
+  const [plan, setPlan] = useState("");
+
+  useEffect(() => {
+    if (user?.email) {
+      getProfilePlan(user.email).then(setPlan);
+    }
+  }, [user]);
+
+  const todayStats = useMemo(() => {
+    const stored = user?.email ? getTodayPredictions(user.email) : [];
+    const merged = [...stored];
+    userPredictions.forEach((up) => {
+      if (!merged.some((m) => m.period === up.period)) merged.push(up);
+    });
+    const settled = merged.filter((up) =>
+      history.some((row) => row.period === up.period)
+    );
+    const wins = settled.filter(({ period, prediction }) => {
+      const result = history.find((row) => row.period === period);
+      return result && result.size === prediction;
+    }).length;
+    const losses = settled.length - wins;
+    const accuracy = settled.length ? Math.round((wins / settled.length) * 100) : 0;
+    return { total: merged.length, wins, losses, accuracy };
+  }, [user, history, userPredictions]);
+
+  const planMeta = PLAN_META[plan] || null;
+  const displayName = user?.displayName || user?.email?.split("@")[0] || "TryonAI User";
+
+  return (
+    <section className="profile-view">
+      <div className="profile-hero">
+        <div className="profile-avatar">
+          {user?.photoURL ? (
+            <img src={user.photoURL} alt={displayName} />
+          ) : (
+            <span>
+              <Icon name="user" />
+            </span>
+          )}
+        </div>
+        <h1>{displayName}</h1>
+        <p>{user?.email}</p>
+        <span className="profile-hero-badge">
+          <LiveDot />
+          Active account
+        </span>
+      </div>
+
+      <div className="profile-card profile-plan-card">
+        <div className="profile-card-head">
+          <span>
+            <Icon name="crown" />
+          </span>
+          <div>
+            <h2>Current Plan</h2>
+            <p>Model selected by admin for your account</p>
+          </div>
+        </div>
+        {planMeta ? (
+          <div className="profile-plan-active">
+            <div className="profile-plan-model">
+              <span className="profile-plan-model-icon" style={{ background: `linear-gradient(135deg, ${planMeta.accent} 0%, ${planMeta.accent}cc 100%)` }}>
+                <Icon name={planMeta.icon} />
+              </span>
+              <div>
+                <strong>{planMeta.label}</strong>
+                <em>{planMeta.price} · Lifetime access</em>
+              </div>
+            </div>
+            <span className="profile-plan-status">
+              <LiveDot />
+              Active
+            </span>
+            <p className="profile-plan-note">
+              Admin has unlocked premium predictions on this model for you.
+            </p>
+          </div>
+        ) : (
+          <div className="profile-plan-free">
+            <strong>Free Plan</strong>
+            <span>No premium model selected yet.</span>
+            <p>Buy a subscription to unlock Korven / FX1 premium models.</p>
+          </div>
+        )}
+      </div>
+
+      <div className="profile-card profile-account-card">
+        <div className="profile-card-head">
+          <span>
+            <Icon name="user" />
+          </span>
+          <div>
+            <h2>Account Details</h2>
+            <p>Your login information</p>
+          </div>
+        </div>
+        <div className="profile-detail-row">
+          <span>Name</span>
+          <strong>{displayName}</strong>
+        </div>
+        <div className="profile-detail-row">
+          <span>Email</span>
+          <strong>{user?.email || "—"}</strong>
+        </div>
+        <div className="profile-detail-row">
+          <span>Current Plan</span>
+          <strong>{planMeta ? planMeta.label : "Free Plan"}</strong>
+        </div>
+        <div className="profile-detail-row">
+          <span>Login Method</span>
+          <strong>Google OAuth</strong>
+        </div>
+      </div>
+
+      <div className="profile-card profile-features-card">
+        <div className="profile-card-head">
+          <span>
+            <Icon name="layers" />
+          </span>
+          <div>
+            <h2>Explore Features</h2>
+            <p>Your prediction performance today</p>
+          </div>
+        </div>
+        <div className="profile-features-grid">
+          <ProfileFeature
+            label="Today Total Prediction"
+            value={todayStats.total}
+            detail="Predictions made today"
+            tone="mint"
+            icon="layers"
+          />
+          <ProfileFeature
+            label="Today Total Prediction Win"
+            value={todayStats.wins}
+            detail="Settled wins today"
+            tone="green"
+            icon="target"
+          />
+          <ProfileFeature
+            label="Today Total Prediction Loss"
+            value={todayStats.losses}
+            detail="Settled losses today"
+            tone="coral"
+            icon="bolt"
+          />
+          <ProfileFeature
+            label="Today Winning Accuracy"
+            value={todayStats.accuracy}
+            detail="Live accuracy today"
+            tone="gold"
+            icon="chart"
+            suffix="%"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function BottomNav({ activeView, onChangeView }) {
   const items = [
     { label: "Predict", icon: "brain", view: "predict" },
@@ -1589,7 +1779,9 @@ function MainApp({ user }) {
         return;
       }
       const size = data.prediction || (Math.random() >= 0.5 ? "Big" : "Small");
-      setUserPredictions(prev => [...prev, { period: periodNum, prediction: size }]);
+      const entry = { period: periodNum, prediction: size };
+      setUserPredictions(prev => [...prev, entry]);
+      if (user?.email) addTodayPrediction(user.email, entry);
       setTimeout(() => { setShowServerAnim(false); setPredictionResult(size); }, 5000);
     } catch {
       setShowServerAnim(false);
@@ -1779,6 +1971,12 @@ function MainApp({ user }) {
                 </div>
                 <HistoryTable history={history} status={status} />
               </>
+            ) : activeView === "profile" ? (
+              <ProfileView
+                user={user}
+                history={history}
+                userPredictions={userPredictions}
+              />
             ) : (
               <Dashboard
                 currentPeriod={currentPeriod}
