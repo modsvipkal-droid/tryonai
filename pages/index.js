@@ -381,13 +381,6 @@ function Icon({ name, className = "" }) {
         <path d="m17.5 6.5-11 11" />
       </>
     ),
-    code: (
-      <>
-        <path d="m8.75 8-4 4 4 4" />
-        <path d="m15.25 8 4 4-4 4" />
-        <path d="m13.25 5.75-2.5 12.5" />
-      </>
-    ),
     crown: (
       <>
         <path d="m4.75 8.25 4.2 3.2L12 5.2l3.05 6.25 4.2-3.2-1.55 9.35H6.3Z" />
@@ -544,7 +537,6 @@ function NavigationDrawer({ open, activeView, user, onClose, onNavigate, onRules
   const navItems = [
     { label: "Predict", icon: "brain", active: activeView === "predict", action: () => onNavigate("predict") },
     { label: "Chart", icon: "chart", active: activeView === "dashboard", action: () => onNavigate("dashboard") },
-    { label: "Developer API", icon: "code", action: () => onNavigate("developer") },
     { label: "Subscription", icon: "crown", action: () => onNavigate("subscription") },
     { label: "Rules", icon: "book", action: onRulesClick },
   ];
@@ -1695,10 +1687,6 @@ function MainApp({ user }) {
   }, [drawerOpen]);
 
   const handleDrawerNavigate = useCallback((target) => {
-    if (target === "developer") {
-      router.push("/developer");
-      return;
-    }
     if (target === "subscription") {
       openSubscription();
       return;
