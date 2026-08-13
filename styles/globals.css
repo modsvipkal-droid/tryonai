@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 @font-face {
   font-family: "BestFont";
@@ -1427,7 +1427,7 @@ nextjs-portal,
   animation: vioGradientShift 8s ease-in-out infinite;
 }
 
-/* ── Premium vector patterns inside metric cards ── */
+/* â”€â”€ Premium vector patterns inside metric cards â”€â”€ */
 .dashboard-metric::before {
   content: "";
   position: absolute;
@@ -1805,7 +1805,7 @@ nextjs-portal,
   }
 
   .grid-wrapper .card::after {
-    content: "★";
+    content: "â˜…";
     position: absolute;
     top: 0.4em;
     right: 0.4em;
@@ -1972,7 +1972,7 @@ nextjs-portal,
   }
 
   .grid-wrapper .card-actions::before {
-    content: "✂";
+    content: "âœ‚";
     position: absolute;
     top: -0.8em;
     left: 50%;
@@ -2128,7 +2128,7 @@ nextjs-portal,
   }
 }
 
-/* ─── Payment Screen (New Green Design) ─── */
+/* â”€â”€â”€ Payment Screen (New Green Design) â”€â”€â”€ */
 
 .pay-screen {
   width: 100%;
@@ -2144,7 +2144,7 @@ nextjs-portal,
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Header ── */
+/* â”€â”€ Header â”€â”€ */
 .pay-screen-header {
   display: flex;
   align-items: center;
@@ -2195,7 +2195,7 @@ nextjs-portal,
   white-space: nowrap;
 }
 
-/* ── Amount Card ── */
+/* â”€â”€ Amount Card â”€â”€ */
 .pay-amount-card {
   position: relative;
   margin: 12px 16px 0;
@@ -2371,7 +2371,7 @@ nextjs-portal,
   color: #94a3b8;
 }
 
-/* ── Payment Method Tabs ── */
+/* â”€â”€ Payment Method Tabs â”€â”€ */
 .pay-method-title {
   margin: 10px 16px 8px;
   font-size: 14px;
@@ -2413,7 +2413,7 @@ nextjs-portal,
   border-color: #cbd5e1;
 }
 
-/* ── QR Code Section ── */
+/* â”€â”€ QR Code Section â”€â”€ */
 .pay-qr-section {
   position: relative;
   margin: 10px 16px 0;
@@ -2567,7 +2567,7 @@ nextjs-portal,
   line-height: 1.45;
 }
 
-/* ── UPI Section ── */
+/* â”€â”€ UPI Section â”€â”€ */
 .pay-upi-section {
   margin: 12px 16px 0;
   background: #ffffff;
@@ -2622,7 +2622,7 @@ nextjs-portal,
   margin: 0;
 }
 
-/* ── UTR Section ── */
+/* â”€â”€ UTR Section â”€â”€ */
 .pay-utr-section {
   margin: 12px 16px 0;
   display: flex;
@@ -2687,7 +2687,7 @@ nextjs-portal,
   font-weight: 500;
 }
 
-/* ── Submit Button ── */
+/* â”€â”€ Submit Button â”€â”€ */
 .pay-submit-btn {
   display: block;
   width: calc(100% - 32px);
@@ -2715,7 +2715,7 @@ nextjs-portal,
   transform: translateY(1px) scale(0.985);
 }
 
-/* ── Security Footer ── */
+/* â”€â”€ Security Footer â”€â”€ */
 .pay-security-footer {
   display: flex;
   align-items: center;
@@ -2730,7 +2730,7 @@ nextjs-portal,
   color: #94a3b8;
 }
 
-/* ── Toast (keep existing) ── */
+/* â”€â”€ Toast (keep existing) â”€â”€ */
 .payment-toast-overlay {
   position: fixed;
   inset: 0;
@@ -2861,7 +2861,7 @@ nextjs-portal,
   height: 22px;
 }
 
-/* ── Profile Screen ─────────────────────────────────────────── */
+/* â”€â”€ Profile Screen â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .profile-view {
   display: flex;
   flex-direction: column;
@@ -4318,7 +4318,7 @@ nextjs-portal,
   font-weight: 500;
 }
 
-/* —— Strict Rules popup styles —— */
+/* â€”â€” Strict Rules popup styles â€”â€” */
 
 .rules-strict-icon {
   display: flex;
@@ -4351,7 +4351,7 @@ nextjs-portal,
 }
 
 .rules-strict-list li::before {
-  content: "✓";
+  content: "âœ“";
   position: absolute;
   left: 11px;
   top: 8px;
@@ -4642,7 +4642,7 @@ nextjs-portal,
   }
 }
 
-/* ─── Auth BG Shapes ─── */
+/* â”€â”€â”€ Auth BG Shapes â”€â”€â”€ */
 
 .auth-bg-shapes {
   position: fixed;
@@ -4682,7 +4682,7 @@ nextjs-portal,
   transform: rotate(7deg);
 }
 
-/* ─── Agree Toggle ─── */
+/* â”€â”€â”€ Agree Toggle â”€â”€â”€ */
 
 .agree-toggle {
   display: flex;
@@ -4748,7 +4748,7 @@ nextjs-portal,
   outline-offset: 2px;
 }
 
-/* ─── Login BG Shapes ─── */
+/* â”€â”€â”€ Login BG Shapes â”€â”€â”€ */
 
 .login-bg-shapes {
   position: absolute;
@@ -4832,7 +4832,7 @@ nextjs-portal,
   --rot: 15deg;
 }
 
-/* ─── Login Premium Gradient Background (SVG Defs) ─── */
+/* â”€â”€â”€ Login Premium Gradient Background (SVG Defs) â”€â”€â”€ */
 
 .login-page .background {
   position: absolute;
@@ -4843,7 +4843,7 @@ nextjs-portal,
   z-index: -10;
 }
 
-/* ─── Login Hero Image ─── */
+/* â”€â”€â”€ Login Hero Image â”€â”€â”€ */
 
 .login-hero-image {
   width: 100%;
@@ -5037,7 +5037,7 @@ nextjs-portal,
   stroke: #fff;
 }
 
-/* ─── Bottom Sheet ─── */
+/* â”€â”€â”€ Bottom Sheet â”€â”€â”€ */
 
 .sheet-overlay {
   position: fixed;
@@ -5209,13 +5209,13 @@ nextjs-portal,
   filter: drop-shadow(0 14px 24px rgba(0, 102, 62, 0.14));
 }
 
-/* ─── Bottom Sheet Google button overrides ─── */
+/* â”€â”€â”€ Bottom Sheet Google button overrides â”€â”€â”€ */
 
 .sheet-body .gu-btn {
   max-width: 100%;
 }
 
-/* ─── Auth Screens ─── */
+/* â”€â”€â”€ Auth Screens â”€â”€â”€ */
 
 .login-shell-compact {
   min-height: auto !important;
@@ -5303,161 +5303,8 @@ nextjs-portal,
   max-width: 320px;
 }
 
-/* ─── Splash Screen ─── */
 
-.auth-splash {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  background: #ffffff;
-  z-index: 50;
-  animation: splashFade 400ms ease both;
-}
-
-@keyframes splashFade {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-.splash-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background:
-    linear-gradient(134deg, rgba(34, 197, 94, 0.08) 0 20%, transparent 20% 100%),
-    linear-gradient(316deg, rgba(187, 247, 208, 0.28) 0 18%, transparent 18% 100%),
-    linear-gradient(180deg, #ffffff 0%, #eff8f3 100%);
-  pointer-events: none;
-}
-
-.auth-splash .auth-bg-shapes {
-  z-index: 1;
-}
-
-.splash-content {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  gap: 16px;
-  justify-items: center;
-  text-align: center;
-  animation: splashContentIn 600ms cubic-bezier(0.2, 0.8, 0.2, 1) 200ms both;
-}
-
-@keyframes splashContentIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.splash-logo-wrap {
-  position: relative;
-  width: 88px;
-  height: 88px;
-  display: grid;
-  place-items: center;
-}
-
-.splash-logo-glow {
-  position: absolute;
-  inset: -12px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(34, 197, 94, 0.25), transparent 70%);
-  animation: logoGlow 2s ease-in-out infinite;
-}
-
-@keyframes logoGlow {
-
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.6;
-  }
-
-  50% {
-    transform: scale(1.15);
-    opacity: 1;
-  }
-}
-
-.splash-logo {
-  width: 88px;
-  height: 88px;
-  position: relative;
-  z-index: 1;
-  filter: drop-shadow(0 8px 24px rgba(34, 197, 94, 0.3));
-}
-
-.splash-logo svg {
-  width: 100%;
-  height: 100%;
-}
-
-.splash-title {
-  margin: 4px 0 0;
-  font-size: 42px;
-  font-weight: 900;
-  color: #1a1a1a;
-  letter-spacing: 0;
-}
-
-.splash-sub {
-  margin: -6px 0 0;
-  color: #6a7a73;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.splash-loader {
-  display: flex;
-  gap: 8px;
-  margin-top: 20px;
-}
-
-.splash-loader span {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #22c55e;
-  animation: splashDot 1.4s ease-in-out infinite;
-}
-
-.splash-loader span:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.splash-loader span:nth-child(3) {
-  animation-delay: 0.4s;
-}
-
-@keyframes splashDot {
-
-  0%,
-  80%,
-  100% {
-    transform: scale(0.5);
-    opacity: 0.3;
-  }
-
-  40% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/* ─── Success Screen ─── */
+/* â”€â”€â”€ Success Screen â”€â”€â”€ */
 
 .auth-success {
   padding: 60px 24px;
@@ -5531,7 +5378,7 @@ nextjs-portal,
   }
 }
 
-/* ─── Auth Checking ─── */
+/* â”€â”€â”€ Auth Checking â”€â”€â”€ */
 
 .auth-checking {
   position: relative;
@@ -5558,7 +5405,7 @@ nextjs-portal,
   animation: authSpin 700ms linear infinite;
 }
 
-/* ─── Loading / Signing In ─── */
+/* â”€â”€â”€ Loading / Signing In â”€â”€â”€ */
 
 .loading-stage {
   display: grid;
@@ -5613,7 +5460,7 @@ nextjs-portal,
   letter-spacing: 0;
 }
 
-/* ─── Google Button (Uiverse style) ─── */
+/* â”€â”€â”€ Google Button (Uiverse style) â”€â”€â”€ */
 
 .gu-btn {
   width: 100%;
@@ -5672,7 +5519,7 @@ nextjs-portal,
   color: #2563eb;
 }
 
-/* ─── Auth responsive ─── */
+/* â”€â”€â”€ Auth responsive â”€â”€â”€ */
 
 @media (max-width: 560px) {
   .auth-step {
@@ -5790,9 +5637,6 @@ nextjs-portal,
     font-size: 10px;
   }
 
-  .splash-title {
-    font-size: 34px;
-  }
 }
 
 @media (max-width: 380px) {
@@ -5829,7 +5673,7 @@ nextjs-portal,
   }
 }
 
-/* ─── Admin Panel ─── */
+/* â”€â”€â”€ Admin Panel â”€â”€â”€ */
 
 /* BIG - Orange/Amber - Soft Gradient */
 .big {
@@ -5871,7 +5715,7 @@ nextjs-portal,
 .topno .value  { color: #2e7d32; }
 .topno .glow   { background: radial-gradient(circle at 50% 50%, rgba(46, 125, 50, 0.1), transparent 70%); }
 
-/* ─── Admin panel card animations ─── */
+/* â”€â”€â”€ Admin panel card animations â”€â”€â”€ */
 @keyframes adminCardIn {
   from { opacity: 0; transform: translateY(18px) scale(0.97); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
@@ -5909,7 +5753,7 @@ nextjs-portal,
   opacity: 1;
 }
 
-/* ─── Chart Animation Keyframes ─── */
+/* â”€â”€â”€ Chart Animation Keyframes â”€â”€â”€ */
 @keyframes chartLineDraw {
   from { stroke-dashoffset: var(--path-length); }
   to   { stroke-dashoffset: 0; }
@@ -6002,9 +5846,9 @@ nextjs-portal,
   animation: shimmerSlide 0.8s ease forwards;
 }
 
-/* ═══════════════════════════════════════════════
-   LOGIN PAGE BACKGROUND — Organic Blobs & Dotted Grids
-   ═══════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   LOGIN PAGE BACKGROUND â€” Organic Blobs & Dotted Grids
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 /* Shared blob base */
 .login-blob {
@@ -6016,7 +5860,7 @@ nextjs-portal,
   will-change: transform;
 }
 
-/* ── TOP-LEFT blob — partially cut off, extending off-screen ── */
+/* â”€â”€ TOP-LEFT blob â€” partially cut off, extending off-screen â”€â”€ */
 .blob-tl {
   width: clamp(280px, 52vw, 440px);
   height: clamp(260px, 48vw, 400px);
@@ -6033,7 +5877,7 @@ nextjs-portal,
   animation: loginBlobFloat1 9s ease-in-out infinite;
 }
 
-/* ── BOTTOM-RIGHT blob — mirrored counterpart ── */
+/* â”€â”€ BOTTOM-RIGHT blob â€” mirrored counterpart â”€â”€ */
 .blob-br {
   width: clamp(280px, 52vw, 440px);
   height: clamp(260px, 48vw, 400px);
@@ -6050,7 +5894,7 @@ nextjs-portal,
   animation: loginBlobFloat2 9s ease-in-out infinite;
 }
 
-/* ── Secondary accent blobs ── */
+/* â”€â”€ Secondary accent blobs â”€â”€ */
 .blob-tr {
   width: clamp(160px, 28vw, 240px);
   height: clamp(140px, 24vw, 200px);
@@ -6081,9 +5925,9 @@ nextjs-portal,
   animation: loginBlobFloat2 13s ease-in-out infinite reverse;
 }
 
-/* ══════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    DOTTED GRID PATTERN
-   ══════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 .login-dots {
   position: absolute;
@@ -6123,9 +5967,9 @@ nextjs-portal,
   display: none;
 }
 
-/* ══════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    BLOB FLOAT ANIMATIONS
-   ══════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 @keyframes loginBlobFloat1 {
   0%   { transform: translate(0, 0)   scale(1)    rotate(0deg); }
@@ -6144,11 +5988,11 @@ nextjs-portal,
 }
 
 
-/* ═══════════════════════════════════════════════
-   RULES POPUP — Premium Modal
-   ═══════════════════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   RULES POPUP â€” Premium Modal
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-/* ── Overlay backdrop ── */
+/* â”€â”€ Overlay backdrop â”€â”€ */
 .rules-overlay {
   position: fixed;
   inset: 0;
@@ -6167,7 +6011,7 @@ nextjs-portal,
   to   { opacity: 1; }
 }
 
-/* ── Modal card ── */
+/* â”€â”€ Modal card â”€â”€ */
 .rules-modal {
   position: relative;
   width: 100%;
@@ -6236,7 +6080,7 @@ nextjs-portal,
   z-index: 0;
 }
 
-/* ── Close button ── */
+/* â”€â”€ Close button â”€â”€ */
 .rules-close {
   position: absolute;
   top: 18px;
@@ -6263,14 +6107,14 @@ nextjs-portal,
   stroke-width: 2.2;
 }
 
-/* ── Content wrapper ── */
+/* â”€â”€ Content wrapper â”€â”€ */
 .rules-content {
   position: relative;
   z-index: 1;
   padding: 28px 24px 36px;
 }
 
-/* ── Shield icon ── */
+/* â”€â”€ Shield icon â”€â”€ */
 .rules-strict-icon {
   width: 64px;
   height: 64px;
@@ -6297,7 +6141,7 @@ nextjs-portal,
   height: 30px;
 }
 
-/* ── Heading ── */
+/* â”€â”€ Heading â”€â”€ */
 .rules-content h2 {
   margin: 0 0 20px;
   text-align: center;
@@ -6307,7 +6151,7 @@ nextjs-portal,
   color: #0d1f16;
 }
 
-/* ── Compact header row ── */
+/* â”€â”€ Compact header row â”€â”€ */
 .rules-head {
   display: flex;
   align-items: center;
@@ -6361,7 +6205,7 @@ nextjs-portal,
   text-overflow: ellipsis;
 }
 
-/* ── Premium timeline ── */
+/* â”€â”€ Premium timeline â”€â”€ */
 .rules-timeline {
   position: relative;
   margin: 2px 0 2px;
@@ -6445,7 +6289,7 @@ nextjs-portal,
   padding-top: 1px;
 }
 
-/* ── Access / Limit badge ── */
+/* â”€â”€ Access / Limit badge â”€â”€ */
 .rules-limit {
   display: flex;
   align-items: center;
@@ -6473,7 +6317,7 @@ nextjs-portal,
   text-align: right;
 }
 
-/* ── User info row ── */
+/* â”€â”€ User info row â”€â”€ */
 .rules-user {
   display: flex;
   align-items: center;
@@ -6527,7 +6371,7 @@ nextjs-portal,
   text-overflow: ellipsis;
 }
 
-/* ── Logout button ── */
+/* â”€â”€ Logout button â”€â”€ */
 .rules-logout-btn {
   flex-shrink: 0;
   padding: 8px 18px;
@@ -6551,7 +6395,7 @@ nextjs-portal,
   transform: scale(0.94);
 }
 
-/* ── Compact centered popup ── */
+/* â”€â”€ Compact centered popup â”€â”€ */
 .rules-overlay {
   align-items: center;
 }
@@ -6981,3 +6825,4 @@ nextjs-portal,
   0%, 80%, 100% { transform: scale(0.6); }
   40% { transform: scale(1); }
 }
+

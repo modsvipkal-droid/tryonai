@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { signInWithGoogle, watchAuthState } from "@/lib/firebase";
@@ -12,35 +12,6 @@ function GoogleMark() {
       <path fill="#FBBC05" d="M5.84 14.1A6.6 6.6 0 0 1 5.5 12c0-.73.12-1.44.34-2.1V7.06H2.18A10.98 10.98 0 0 0 1 12c0 1.77.42 3.45 1.18 4.94l3.66-2.84Z" />
       <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1A10.98 10.98 0 0 0 2.18 7.06L5.84 9.9C6.71 7.3 9.14 5.38 12 5.38Z" />
     </svg>
-  );
-}
-
-function SplashScreen({ onComplete }) {
-  useEffect(() => {
-    const t = setTimeout(onComplete, 2500);
-    return () => clearTimeout(t);
-  }, [onComplete]);
-
-  return (
-    <div className="auth-splash">
-      <div className="splash-bg" />
-      <div className="splash-content">
-        <div className="splash-logo-wrap">
-          <div className="splash-logo-glow" />
-          <div className="splash-logo">
-            <svg viewBox="0 0 40 40" fill="none">
-              <rect x="2" y="2" width="36" height="36" rx="8" fill="#22c55e" />
-              <path d="M12 20h6l2-6 4 12 2-6h4" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
-        </div>
-        <h1 className="splash-title">TryonAI</h1>
-        <p className="splash-sub">Premium Trading Signals</p>
-        <div className="splash-loader">
-          <span /><span /><span />
-        </div>
-      </div>
-    </div>
   );
 }
 
@@ -146,7 +117,6 @@ function BottomSheet({ open, onClose, onGoogleLogin, loading, error }) {
 
 export default function Login() {
   const router = useRouter();
-  const [step, setStep] = useState("splash");
   const [checking, setChecking] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -164,11 +134,6 @@ export default function Login() {
 
     return () => { active = false; unsub(); };
   }, [router]);
-
-  const handleSplashComplete = useCallback(() => {
-    if (checking) return;
-    setStep("login");
-  }, [checking]);
 
   async function handleGoogleLogin(turnstileToken) {
     if (loading) return;
@@ -233,11 +198,6 @@ export default function Login() {
           <div className="auth-checking-spinner" />
           <p>Checking login...</p>
         </div>
-      </main>
-      ) : step === "splash" ? (
-      <main className="login-page">
-        <div className="background" />
-        <SplashScreen onComplete={handleSplashComplete} />
       </main>
       ) : (
       <main className="login-page">

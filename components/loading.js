@@ -157,10 +157,10 @@ function MacIcon() {
 }
 
 const PLATFORM_CARDS = [
-  { name: "Android", icon: <AndroidIcon />, brand: "android", gradient: "linear-gradient(90deg, #3DDC84, #00d07a)" },
-  { name: "iOS", icon: <AppleIcon />, brand: "ios", gradient: "linear-gradient(90deg, #4361EE, #8b5cf6)" },
-  { name: "Windows PC", icon: <WindowsIcon />, brand: "windows", gradient: "linear-gradient(90deg, #4361EE, #3b82f6)" },
-  { name: "macOS", icon: <MacIcon />, brand: "macos", gradient: "linear-gradient(90deg, #8b5cf6, #f472b6)" },
+  { name: "Android", icon: <AndroidIcon />, brand: "android", gradient: "linear-gradient(90deg, #3DDC84, #0A9F68)" },
+  { name: "iOS", icon: <AppleIcon />, brand: "ios", gradient: "linear-gradient(90deg, #0A9F68, #34C28B)" },
+  { name: "Windows PC", icon: <WindowsIcon />, brand: "windows", gradient: "linear-gradient(90deg, #087A52, #0A9F68)" },
+  { name: "macOS", icon: <MacIcon />, brand: "macos", gradient: "linear-gradient(90deg, #087A52, #34C28B)" },
 ];
 
 /* ─── Icons ──────────────────────────────────────────────────────────────── */
@@ -263,31 +263,31 @@ const TrionIcon = memo(function TrionIcon() {
       <defs>
         {/* Card fill */}
         <linearGradient id="tri-bg" x1="4" y1="4" x2="60" y2="60" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#f0eaff" />
-          <stop offset="0.45" stopColor="#e0f7ee" />
-          <stop offset="1" stopColor="#ece8ff" />
+          <stop stopColor="#F2FAF6" />
+          <stop offset="0.45" stopColor="#EAF7F1" />
+          <stop offset="1" stopColor="#EAF7F1" />
         </linearGradient>
 
         {/* Waveform stroke gradient */}
         <linearGradient id="tri-wave" x1="10" y1="34" x2="54" y2="34" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#00d07a" />
-          <stop offset="0.55" stopColor="#8b5cf6" />
-          <stop offset="1" stopColor="#3b82f6" />
+          <stop stopColor="#0A9F68" />
+          <stop offset="0.55" stopColor="#34C28B" />
+          <stop offset="1" stopColor="#087A52" />
         </linearGradient>
 
         {/* Outer ring stroke */}
         <linearGradient id="tri-ring" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
           <stop stopColor="rgba(255,255,255,0.95)" />
-          <stop offset="0.35" stopColor="rgba(196,181,253,0.7)" />
-          <stop offset="0.7" stopColor="rgba(110,231,183,0.6)" />
+          <stop offset="0.35" stopColor="rgba(52,194,139,0.7)" />
+          <stop offset="0.7" stopColor="rgba(10,159,104,0.6)" />
           <stop offset="1" stopColor="rgba(255,255,255,0.5)" />
         </linearGradient>
 
         {/* Inner ring stroke */}
         <linearGradient id="tri-ring2" x1="64" y1="0" x2="0" y2="64" gradientUnits="userSpaceOnUse">
-          <stop stopColor="rgba(139,92,246,0.4)" />
-          <stop offset="0.5" stopColor="rgba(0,208,122,0.3)" />
-          <stop offset="1" stopColor="rgba(59,130,246,0.4)" />
+          <stop stopColor="rgba(8,122,82,0.4)" />
+          <stop offset="0.5" stopColor="rgba(52,194,139,0.3)" />
+          <stop offset="1" stopColor="rgba(10,159,104,0.4)" />
         </linearGradient>
 
         {/* Glow filter */}
@@ -366,7 +366,7 @@ const TrionIcon = memo(function TrionIcon() {
       <path
         className="loader-ai-icon-spark"
         d="M19 22l3.6-3.6 3.6 3.6-3.6 3.6z"
-        fill="#8b5cf6"
+        fill="#0A9F68"
         opacity="0.85"
       />
 
@@ -375,7 +375,7 @@ const TrionIcon = memo(function TrionIcon() {
         className="loader-ai-icon-spark"
         cx="47" cy="19"
         r="2.6"
-        fill="#00d07a"
+        fill="#087A52"
         opacity="0.9"
         style={{ animationDelay: "1s" }}
       />
@@ -384,7 +384,7 @@ const TrionIcon = memo(function TrionIcon() {
       <polygon
         className="loader-ai-icon-spark"
         points="50,44 53,49 47,49"
-        fill="#3b82f6"
+        fill="#34C28B"
         opacity="0.65"
         style={{ animationDelay: "0.5s" }}
       />
@@ -554,7 +554,7 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
               >
                 <circle cx="22" cy="22" r="18" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.4)" strokeWidth="1" />
                 <path d="M22 14v8l5 3" stroke="rgba(255,255,255,0.85)" strokeWidth="2" strokeLinecap="round" />
-                <circle cx="22" cy="22" r="3" fill="rgba(0,208,122,0.9)" />
+                <circle cx="22" cy="22" r="3" fill="rgba(10,159,104,0.9)" />
               </svg>
             </div>
 
@@ -563,7 +563,7 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
                 <SparklesText
                   text="TRION AI"
                   className="text-6xl sm:text-7xl font-black tracking-tighter uppercase"
-                  colors={{ first: "#8b5cf6", second: "#00d07a" }}
+                  colors={{ first: "#087A52", second: "#0A9F68" }}
                 />
                 <p className="loader-description" id="loader-description">
                   Get live Wingo signal updates and Wingo AI prediction insights for BIG/SMALL and color
@@ -573,10 +573,10 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
 
               <div className="loader-actions">
                 <div className="h-full w-full flex items-center justify-center text-black dark:text-white">
-                  <div className="group cursor-pointer border bg-zinc-200 dark:bg-zinc-900 border-zinc-400 dark:border-zinc-500/30 bg-card gap-3 h-[68px] flex items-center p-[12px] rounded-2xl">
+                  <div className="group cursor-pointer border bg-[#EAF7F1] dark:bg-[#EAF7F1] border-[#C7E5D6] bg-card gap-3 h-[68px] flex items-center p-[12px] rounded-2xl">
                   <button
                     data-slot="button"
-                    className="cursor-pointer gap-2 whitespace-nowrap text-base font-semibold transition-all shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive backdrop-blur-sm shadow-[inset_0_3px_2px_rgba(255,255,255,0.1),inset_0_-3px_6px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.30),inset_0_-8px_12px_rgba(0,0,0,0.12),0_6px_14px_-8px_rgba(0,0,0,0.18)] hover:bg-[#6336f7] hover:border-black/15 hover:shadow-[inset_0_3px_2px_rgba(255,255,255,0.15),inset_0_1px_0_rgba(255,255,255,0.40),inset_0_-10px_14px_rgba(0,0,0,0.16),0_8px_18px_-10px_rgba(0,0,0,0.22)] active:shadow-[inset_0_3px_2px_rgba(255,255,255,0.1),inset_0_1px_3px_rgba(0,0,0,0.22),inset_0_-6px_10px_rgba(0,0,0,0.18)] active:translate-y-[1px] dark:bg-[#6336f7]/55 px-6 py-3 bg-[#6336f7] h-[48px] rounded-2xl flex items-center justify-center text-white"
+                    className="cursor-pointer gap-2 whitespace-nowrap text-base font-semibold transition-all shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive backdrop-blur-sm shadow-[inset_0_3px_2px_rgba(255,255,255,0.1),inset_0_-3px_6px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.30),inset_0_-8px_12px_rgba(0,0,0,0.12),0_6px_14px_-8px_rgba(0,0,0,0.18)] hover:bg-[#087A52] hover:border-black/15 hover:shadow-[inset_0_3px_2px_rgba(255,255,255,0.15),inset_0_1px_0_rgba(255,255,255,0.40),inset_0_-10px_14px_rgba(0,0,0,0.16),0_8px_18px_-10px_rgba(0,0,0,0.22)] active:shadow-[inset_0_3px_2px_rgba(255,255,255,0.1),inset_0_1px_3px_rgba(0,0,0,0.22),inset_0_-6px_10px_rgba(0,0,0,0.18)] active:translate-y-[1px] dark:bg-[#0A9F68] px-6 py-3 bg-[#0A9F68] h-[48px] rounded-2xl flex items-center justify-center text-white"
                     type="button"
                     onClick={handleDismiss}
                     disabled={dismissing}
@@ -608,7 +608,7 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
                       {dismissing ? "Opening…" : "Get Started"}
                     </p>
                   </button>
-                  <div className="group-hover:ml-4 ease-in-out transition-all size-[30px] flex items-center justify-center rounded-2xl border border-zinc-400 dark:border-zinc-600">
+                  <div className="group-hover:ml-4 ease-in-out transition-all size-[30px] flex items-center justify-center rounded-2xl border border-[#C7E5D6] dark:border-[#C7E5D6]">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
