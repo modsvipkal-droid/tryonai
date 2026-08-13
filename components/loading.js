@@ -1,5 +1,22 @@
 import { motion } from "framer-motion";
-import { CheckCircle, Clock, Circle } from "lucide-react";
+import {
+  CheckCircle,
+  Clock,
+  Circle,
+  Hash,
+  Palette,
+  Maximize2,
+  Flame,
+  Snowflake,
+  TrendingUp,
+  Timer,
+  BarChart3,
+  ListChecks,
+  CircleDot,
+  Crown,
+  Rocket,
+  ChevronDown,
+} from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, memo } from "react";
 import SparklesText from "./SparklesText";
@@ -161,6 +178,67 @@ const PLATFORM_CARDS = [
   { name: "iOS", icon: <AppleIcon />, brand: "ios", gradient: "linear-gradient(90deg, #0A9F68, #34C28B)" },
   { name: "Windows PC", icon: <WindowsIcon />, brand: "windows", gradient: "linear-gradient(90deg, #087A52, #0A9F68)" },
   { name: "macOS", icon: <MacIcon />, brand: "macos", gradient: "linear-gradient(90deg, #087A52, #34C28B)" },
+];
+
+const SIGNAL_TYPES = [
+  { title: "Number Signal", tag: "Digit 0-9", text: "The most relevant digit from the recent pattern, ranked as the primary recommendation for the current period." },
+  { title: "Color Signal", tag: "Green / Violet / Red", text: "Color estimate derived from the number mapping and the latest color distribution." },
+  { title: "Size Signal", tag: "Big (5-9) / Small (0-4)", text: "Size estimate that reflects whether the recent trend favors larger or smaller digits." },
+  { title: "Hot Signal", tag: "Most Frequent", text: "The number appearing most often in recent rounds, tracked live on the signal panel." },
+  { title: "Cold Signal", tag: "Long Quiet", text: "Numbers that have stayed quiet and may surface in trend analysis." },
+];
+
+const DASHBOARD_FEATURES = [
+  { title: "Win Accuracy", tag: "Real data", text: "The percentage of your settled predictions that matched the result, recalculated from real history." },
+  { title: "Prediction Totals", tag: "Live count", text: "Total predictions, wins, and losses during your current session." },
+  { title: "Period Timer", tag: "30s cycle", text: "Live countdown to the next Wingo30 result so you always predict the right period." },
+  { title: "Hot Signal", tag: "Frequency", text: "The number with the highest recent frequency across the live sample." },
+  { title: "Frequency Board", tag: "0-9", text: "How often each digit (0-9) has appeared, giving the full context behind a signal." },
+  { title: "Latest Result", tag: "Settled", text: "The most recent settled number and size for reference before the next period." },
+];
+
+const MODELS = [
+  {
+    name: "Korven",
+    price: "₹749",
+    tag: "Entry-level",
+    profile: "Usually fixes the result within 3-4 levels of analysis.",
+    features: ["Lifetime premium access", "Unlimited predictions", "Full analytics dashboard"],
+  },
+  {
+    name: "FX1",
+    price: "₹1,100",
+    tag: "Faster",
+    profile: "Usually fixes the result within about 2 levels - the quickest profile.",
+    features: ["Lifetime premium access", "Unlimited predictions", "Full analytics dashboard"],
+  },
+];
+
+const LOADER_FAQS = [
+  {
+    question: "What is TRION AI?",
+    answer: "TRION AI is an AI-powered prediction and signals platform for the Wingo 30-second game. It analyzes real-time drawing history and statistical patterns to generate number, color, and size signals for each new period.",
+  },
+  {
+    question: "How does the prediction tool work?",
+    answer: "The tool fetches the latest Wingo30 game history, runs pattern and statistical analysis, and returns a signal for the current period. Signals are shown as number (0-9), color (Green, Violet, Red), and size (Big/Small) on the prediction screen.",
+  },
+  {
+    question: "What is the difference between Korven and FX1?",
+    answer: "The Korven model (₹749) and FX1 model (₹1,100) use different analysis approaches. FX1 is positioned for faster result convergence. Both include lifetime premium access after payment verification.",
+  },
+  {
+    question: "How do I activate premium access after paying?",
+    answer: "Pay on the Subscription page, then submit the 12-digit UTR ID from your payment receipt (GPay, Paytm, PhonePe). Our team verifies the transaction and unlocks your account.",
+  },
+  {
+    question: "Does TRION AI guarantee wins?",
+    answer: "No. Predictions are statistical estimates based on history and patterns. No platform can guarantee Wingo results. TRION AI focuses on transparent signals and responsible play.",
+  },
+  {
+    question: "How can I contact support?",
+    answer: "Use the contact page or join the official Telegram channel. Support covers activation, payments, and product questions.",
+  },
 ];
 
 /* ─── Icons ──────────────────────────────────────────────────────────────── */
@@ -401,6 +479,7 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
   const startButtonRef = useRef(null);
   const exitTimerRef = useRef(null);
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
+  const [openFaq, setOpenFaq] = useState(0);
   const coverageRef = useRef(null);
   const coverageItems = useRef([]);
   const platformRef = useRef(null);
@@ -701,6 +780,108 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
             </div>
           </section>
 
+          {/* ── SIGNALS ── */}
+          <section className="loader-signals" aria-labelledby="loader-signals-title">
+            <p className="loader-section-eyebrow">Signals & Indicators</p>
+            <h2 className="loader-section-title" id="loader-signals-title">
+              Number, Color &amp; Size Wingo Signals
+            </h2>
+            <p className="loader-section-copy">
+              TRION AI turns Wingo30 history into readable signals: which numbers are hot, which
+              colors are trending, and whether the pattern favors Big or Small.
+            </p>
+
+            <div className="loader-signal-grid">
+              {SIGNAL_TYPES.map((signal, index) => (
+                <article className="loader-signal-card" key={signal.title}>
+                  <div className="loader-signal-icon">
+                    {index === 0 && <Hash size={16} />}
+                    {index === 1 && <Palette size={16} />}
+                    {index === 2 && <Maximize2 size={16} />}
+                    {index === 3 && <Flame size={16} />}
+                    {index === 4 && <Snowflake size={16} />}
+                  </div>
+                  <div className="loader-signal-body">
+                    <h3>{signal.title}</h3>
+                    <span className="loader-signal-tag">{signal.tag}</span>
+                    <p>{signal.text}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          {/* ── DASHBOARD ── */}
+          <section className="loader-dashboard" aria-labelledby="loader-dashboard-title">
+            <p className="loader-section-eyebrow">Analytics</p>
+            <h2 className="loader-section-title" id="loader-dashboard-title">
+              TRION AI Dashboard – Live Analytics
+            </h2>
+            <p className="loader-section-copy">
+              Win accuracy, prediction totals, the live period timer, hot signals, and the
+              frequency board - all computed from real Wingo30 results.
+            </p>
+
+            <div className="loader-dashboard-grid">
+              {DASHBOARD_FEATURES.map((feature, index) => (
+                <article className="loader-dashboard-card" key={feature.title}>
+                  <div className="loader-dashboard-icon">
+                    {index === 0 && <TrendingUp size={16} />}
+                    {index === 1 && <ListChecks size={16} />}
+                    {index === 2 && <Timer size={16} />}
+                    {index === 3 && <Flame size={16} />}
+                    {index === 4 && <BarChart3 size={16} />}
+                    {index === 5 && <CircleDot size={16} />}
+                  </div>
+                  <h3>{feature.title}</h3>
+                  <span className="loader-dashboard-tag">{feature.tag}</span>
+                  <p>{feature.text}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          {/* ── MODELS ── */}
+          <section className="loader-models" aria-labelledby="loader-models-title">
+            <p className="loader-section-eyebrow">Premium Models</p>
+            <h2 className="loader-section-title" id="loader-models-title">
+              Korven vs FX1 Prediction Models
+            </h2>
+            <p className="loader-section-copy">
+              Two lifetime premium profiles with unlimited predictions and full dashboard
+              analytics. Pick the one that fits your approach and budget.
+            </p>
+
+            <div className="loader-models-grid">
+              {MODELS.map((model, index) => (
+                <article className={`loader-model-card${index === 1 ? " loader-model-card--fx1" : ""}`} key={model.name}>
+                  <div className="loader-model-head">
+                    <div className="loader-model-icon">
+                      {index === 0 ? <Crown size={16} /> : <Rocket size={16} />}
+                    </div>
+                    <span className="loader-model-tag">{model.tag}</span>
+                  </div>
+                  <h3>{model.name}</h3>
+                  <div className="loader-model-price">{model.price}<span> lifetime</span></div>
+                  <p className="loader-model-profile">{model.profile}</p>
+                  <ul className="loader-model-features">
+                    {model.features.map((feat) => (
+                      <li key={feat}>
+                        <CheckIcon />
+                        {feat}
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+
+            <div className="loader-models-note">
+              Model performance reflects statistical estimation, not guaranteed outcomes. No
+              model can guarantee Wingo results.
+            </div>
+          </section>
+
           {/* ── PROCESS ── */}
           <section className="loader-process" aria-labelledby="loader-process-title">
             <h2 className="loader-section-title" id="loader-process-title">
@@ -889,6 +1070,40 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
                   </figure>
                 ))}
               </div>
+            </div>
+          </section>
+
+          {/* ── FAQ ── */}
+          <section className="loader-faq" aria-labelledby="loader-faq-title">
+            <p className="loader-section-eyebrow">Help & Support</p>
+            <h2 className="loader-section-title" id="loader-faq-title">
+              Frequently Asked Questions
+            </h2>
+            <p className="loader-section-copy">
+              Quick answers about the TRION AI prediction tool, premium models, payments, and
+              activation.
+            </p>
+
+            <div className="loader-faq-list">
+              {LOADER_FAQS.map((faq, idx) => {
+                const isOpen = openFaq === idx;
+                return (
+                  <div className={`loader-faq-item${isOpen ? " loader-faq-item--open" : ""}`} key={faq.question}>
+                    <button
+                      type="button"
+                      className="loader-faq-trigger"
+                      onClick={() => setOpenFaq(isOpen ? -1 : idx)}
+                      aria-expanded={isOpen}
+                    >
+                      <span>{faq.question}</span>
+                      <ChevronDown size={16} className="loader-faq-chevron" />
+                    </button>
+                    <div className="loader-faq-content">
+                      <p>{faq.answer}</p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </section>
 
