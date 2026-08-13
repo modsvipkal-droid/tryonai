@@ -45,12 +45,12 @@ export default function PublicLandingPage() {
   };
 
   const explore = [
-    { title: "AI Prediction Tool", text: "The main TRION AI prediction screen with number, color, and size signals.", href: "/ai-prediction" },
-    { title: "Wingo 30s Prediction", text: "How predictions work in the 30-second Wingo cycle with live history.", href: "/wingo-30-second-prediction" },
-    { title: "Wingo Signals", text: "Signal types, trend charts, and hot & cold indicators explained.", href: "/wingo-signal" },
-    { title: "AI Dashboard", text: "Win rate, round metrics, frequency board, and live signal panel.", href: "/ai-dashboard" },
-    { title: "Korven Model", text: "TRION AI Korven model at ₹749 with lifetime access.", href: "/korven-model" },
-    { title: "FX1 Model", text: "TRION AI FX1 model at ₹1,100 with lifetime access.", href: "/fx1-model" },
+    { title: "AI Prediction Tool", text: "The main TRION AI prediction screen with number, color, and size signals.", href: "/login" },
+    { title: "Wingo 30s Prediction", text: "How predictions work in the 30-second Wingo cycle with live history.", href: "/login" },
+    { title: "Wingo Signals", text: "Signal types, trend charts, and hot & cold indicators explained.", href: "/login" },
+    { title: "AI Dashboard", text: "Win rate, round metrics, frequency board, and live signal panel.", href: "/login" },
+    { title: "Korven Model", text: "TRION AI Korven model at ₹749 with lifetime access.", href: "/subscription" },
+    { title: "FX1 Model", text: "TRION AI FX1 model at ₹1,100 with lifetime access.", href: "/subscription" },
   ];
 
   return (
@@ -78,10 +78,9 @@ export default function PublicLandingPage() {
               <span className="landing-brand-text">TRION AI</span>
             </Link>
             <nav className="landing-nav">
-              <Link href="/ai-prediction" className="landing-nav-link">AI Prediction</Link>
-              <Link href="/models" className="landing-nav-link">Models</Link>
-              <Link href="/ai-dashboard" className="landing-nav-link">Dashboard</Link>
-              <Link href="/faq" className="landing-nav-link">FAQ</Link>
+              <Link href="/login" className="landing-nav-link">AI Prediction</Link>
+              <Link href="/subscription" className="landing-nav-link">Models</Link>
+              <Link href="/login" className="landing-nav-link">Dashboard</Link>
               <Link href="/contact" className="landing-nav-link">Contact</Link>
               <Link href="/login" className="landing-login-btn">Sign In</Link>
             </nav>
@@ -99,8 +98,8 @@ export default function PublicLandingPage() {
           <h1>TRION AI – Wingo Prediction &<br />Signals Platform</h1>
           <p>Analyze the Wingo 30-second game with real-time pattern analysis, statistical predictions, trend charts, and hot & cold signals — powered by the Korven and FX1 models.</p>
           <div className="landing-hero-ctas">
-            <Link href="/ai-prediction" className="landing-cta-primary">Explore the AI Prediction Tool</Link>
-            <Link href="/models" className="landing-cta-secondary">View Prediction Models</Link>
+            <Link href="/login" className="landing-cta-primary">Explore the AI Prediction Tool</Link>
+            <Link href="/subscription" className="landing-cta-secondary">View Prediction Models</Link>
           </div>
         </section>
 
@@ -189,7 +188,7 @@ export default function PublicLandingPage() {
               ))}
             </div>
             <p style={{ marginTop: 16, textAlign: "center" }}>
-              <Link href="/faq" className="landing-nav-link">View all TRION AI FAQ</Link>
+              <Link href="/contact" className="landing-nav-link">Still have questions? Contact support</Link>
             </p>
           </div>
         </section>
@@ -201,45 +200,42 @@ export default function PublicLandingPage() {
               <h4>TRION AI</h4>
               <p>AI-driven prediction and signals platform for Wingo30 game analysis, with developer API integration.</p>
             </div>
-            <div className="footer-navs">
-              <div className="footer-nav-col">
-                <h5>Platform</h5>
-                <ul className="footer-links">
-                  <li><Link href="/" className="footer-link">Home</Link></li>
-                  <li><Link href="/ai-prediction" className="footer-link">AI Prediction Tool</Link></li>
-                  <li><Link href="/wingo-30-second-prediction" className="footer-link">Wingo 30s Prediction</Link></li>
-                  <li><Link href="/wingo-signal" className="footer-link">Wingo Signals</Link></li>
-                  <li><Link href="/ai-dashboard" className="footer-link">AI Dashboard</Link></li>
-                </ul>
-              </div>
-              <div className="footer-nav-col">
-                <h5>Models</h5>
-                <ul className="footer-links">
-                  <li><Link href="/models" className="footer-link">All Models</Link></li>
-                  <li><Link href="/korven-model" className="footer-link">Korven Model</Link></li>
-                  <li><Link href="/fx1-model" className="footer-link">FX1 Model</Link></li>
-                  <li><Link href="/subscription" className="footer-link">Subscription</Link></li>
-                </ul>
-              </div>
-              <div className="footer-nav-col">
-                <h5>Company</h5>
-                <ul className="footer-links">
-                  <li><Link href="/about" className="footer-link">About TRION AI</Link></li>
-                  <li><Link href="/faq" className="footer-link">FAQ</Link></li>
-                  <li><Link href="/developer" className="footer-link">Developer API</Link></li>
-                  <li><Link href="/contact" className="footer-link">Contact Us</Link></li>
-                </ul>
-              </div>
-              <div className="footer-nav-col">
-                <h5>Legal</h5>
-                <ul className="footer-links">
-                  <li><Link href="/privacy" className="footer-link">Privacy Policy</Link></li>
-                  <li><Link href="/terms" className="footer-link">Terms & Conditions</Link></li>
-                  <li><Link href="/refund" className="footer-link">Refund Policy</Link></li>
-                  <li><a href="https://t.me/kal_mods" className="footer-link" target="_blank" rel="noopener noreferrer">Telegram Channel</a></li>
-                </ul>
-              </div>
+          <div className="footer-navs">
+            <div className="footer-nav-col">
+              <h5>Platform</h5>
+              <ul className="footer-links">
+                <li><Link href="/" className="footer-link">Home</Link></li>
+                <li><Link href="/login" className="footer-link">AI Prediction Tool</Link></li>
+                <li><Link href="/login" className="footer-link">Wingo 30s Prediction</Link></li>
+                <li><Link href="/login" className="footer-link">Wingo Signals</Link></li>
+                <li><Link href="/login" className="footer-link">AI Dashboard</Link></li>
+              </ul>
             </div>
+            <div className="footer-nav-col">
+              <h5>Models</h5>
+              <ul className="footer-links">
+                <li><Link href="/subscription" className="footer-link">Korven Model</Link></li>
+                <li><Link href="/subscription" className="footer-link">FX1 Model</Link></li>
+                <li><Link href="/subscription" className="footer-link">Subscription</Link></li>
+              </ul>
+            </div>
+            <div className="footer-nav-col">
+              <h5>Company</h5>
+              <ul className="footer-links">
+                <li><Link href="/contact" className="footer-link">Contact Us</Link></li>
+                <li><Link href="/developer" className="footer-link">Developer API</Link></li>
+                <li><a href="https://t.me/kal_mods" className="footer-link" target="_blank" rel="noopener noreferrer">Telegram Channel</a></li>
+              </ul>
+            </div>
+            <div className="footer-nav-col">
+              <h5>Legal</h5>
+              <ul className="footer-links">
+                <li><Link href="/privacy" className="footer-link">Privacy Policy</Link></li>
+                <li><Link href="/terms" className="footer-link">Terms & Conditions</Link></li>
+                <li><Link href="/refund" className="footer-link">Refund Policy</Link></li>
+              </ul>
+            </div>
+          </div>
           </div>
           <div className="footer-bottom">
             <p>&copy; {new Date().getFullYear()} TRION AI (TryonAI). All rights reserved. Game responsibly.</p>

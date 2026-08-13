@@ -224,6 +224,10 @@ const LOADER_FAQS = [
     answer: "The tool fetches the latest Wingo30 game history, runs pattern and statistical analysis, and returns a signal for the current period. Signals are shown as number (0-9), color (Green, Violet, Red), and size (Big/Small) on the prediction screen.",
   },
   {
+    question: "How long is a Wingo 30-second period?",
+    answer: "A new Wingo30 period starts every 30 seconds. TRION AI refreshes live history in sync with that cycle, so signals always target the current period with a live countdown.",
+  },
+  {
     question: "What is the difference between Korven and FX1?",
     answer: "The Korven model (₹749) and FX1 model (₹1,100) use different analysis approaches. FX1 is positioned for faster result convergence. Both include lifetime premium access after payment verification.",
   },
@@ -232,12 +236,72 @@ const LOADER_FAQS = [
     answer: "Pay on the Subscription page, then submit the 12-digit UTR ID from your payment receipt (GPay, Paytm, PhonePe). Our team verifies the transaction and unlocks your account.",
   },
   {
+    question: "Do I need a Google account to use the tool?",
+    answer: "Yes. TRION AI uses Google OAuth for secure sign-in. You never create a password on the platform.",
+  },
+  {
     question: "Does TRION AI guarantee wins?",
     answer: "No. Predictions are statistical estimates based on history and patterns. No platform can guarantee Wingo results. TRION AI focuses on transparent signals and responsible play.",
   },
   {
+    question: "Is there a developer API?",
+    answer: "Yes. TRION AI provides a developer portal with real-time Wingo30 game data, API keys, and endpoint documentation.",
+  },
+  {
     question: "How can I contact support?",
     answer: "Use the contact page or join the official Telegram channel. Support covers activation, payments, and product questions.",
+  },
+  {
+    question: "Where can I read the legal terms?",
+    answer: "Our privacy policy, terms and conditions, and refund policy are linked in the footer of every page.",
+  },
+];
+
+const ABOUT_FEATURES = [
+  {
+    title: "Live Prediction Tool",
+    tag: "One tap",
+    text: "Generate a signal for the current period with a single tap using real-time Wingo30 analysis.",
+  },
+  {
+    title: "Trend & Hot-Cold",
+    tag: "Patterns",
+    text: "See which numbers repeat most and which are due, tracked live on the signal panel.",
+  },
+  {
+    title: "Analytics Dashboard",
+    tag: "Honest stats",
+    text: "Win rate, prediction history, and frequency board computed from real settled results.",
+  },
+  {
+    title: "Premium Models",
+    tag: "Lifetime",
+    text: "Korven (₹749) and FX1 (₹1,100) profiles, both with lifetime premium access after verification.",
+  },
+  {
+    title: "Developer API",
+    tag: "For builders",
+    text: "Real-time Wingo30 game data, API keys, and endpoint documentation for developers.",
+  },
+  {
+    title: "Google Sign-In",
+    tag: "Secure",
+    text: "Passwordless sign-in with Google OAuth - no passwords stored on the platform.",
+  },
+];
+
+const CYCLE_POINTS = [
+  {
+    title: "Auto-refresh history",
+    text: "The latest Wingo30 results are pulled from the live game feed continuously, every few seconds.",
+  },
+  {
+    title: "Period-aware signals",
+    text: "Predictions always reference the exact current issue number and show a live countdown.",
+  },
+  {
+    title: "Result comparison",
+    text: "Your predictions are matched against settled periods, so win and loss stats are based on real results.",
   },
 ];
 
@@ -811,6 +875,29 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
             </div>
           </section>
 
+          {/* ── 30S CYCLE ── */}
+          <section className="loader-cycle" aria-labelledby="loader-cycle-title">
+            <p className="loader-section-eyebrow">Wingo30 Analysis</p>
+            <h2 className="loader-section-title" id="loader-cycle-title">
+              Wingo 30 Second Prediction Cycle
+            </h2>
+            <p className="loader-section-copy">
+              Every 30 seconds a new Wingo30 period begins. TRION AI tracks the cycle in real time,
+              shows the time remaining for the current period, and aligns every prediction with the
+              next result.
+            </p>
+
+            <div className="loader-cycle-grid">
+              {CYCLE_POINTS.map((point, index) => (
+                <article className="loader-cycle-card" key={point.title}>
+                  <div className="loader-cycle-num">{index + 1}</div>
+                  <h3>{point.title}</h3>
+                  <p>{point.text}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
           {/* ── DASHBOARD ── */}
           <section className="loader-dashboard" aria-labelledby="loader-dashboard-title">
             <p className="loader-section-eyebrow">Analytics</p>
@@ -1070,6 +1157,39 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
                   </figure>
                 ))}
               </div>
+            </div>
+          </section>
+
+          {/* ── ABOUT ── */}
+          <section className="loader-about" aria-labelledby="loader-about-title">
+            <p className="loader-section-eyebrow">Official Information</p>
+            <h2 className="loader-section-title" id="loader-about-title">
+              What TRION AI Does
+            </h2>
+            <p className="loader-section-copy">
+              TRION AI is an AI-powered prediction and signals platform built for the Wingo
+              30-second game. It analyzes live game history to produce number, color, and size
+              signals for every new period. All predictions are statistical estimates derived from
+              pattern and trend analysis.
+            </p>
+
+            <div className="loader-about-grid">
+              {ABOUT_FEATURES.map((feature, index) => (
+                <article className="loader-about-card" key={feature.title}>
+                  <div className="loader-about-head">
+                    <span className="loader-about-num">{String(index + 1).padStart(2, "0")}</span>
+                    <span className="loader-about-tag">{feature.tag}</span>
+                  </div>
+                  <h3>{feature.title}</h3>
+                  <p>{feature.text}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="loader-about-responsible">
+              <strong>Responsible use.</strong> TRION AI is an analysis tool, not a guarantee of
+              profit. Wingo games are chance-based, and even the best statistical signals can lose.
+              Use the platform responsibly and never rely on predictions for essential funds.
             </div>
           </section>
 
