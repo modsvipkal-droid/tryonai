@@ -3140,7 +3140,10 @@ nextjs-portal,
   padding: 13px 12px;
   border: 1px solid rgba(0, 152, 91, 0.10);
   border-radius: 12px;
-  background: #fff;
+  background-color: #fff;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   box-shadow: 0 4px 16px rgba(0, 90, 55, 0.06);
 }
 
@@ -3155,10 +3158,10 @@ nextjs-portal,
   border-radius: 0 0 12px 12px;
 }
 
-.profile-feature.mint { --accent: #14b88c; }
-.profile-feature.green { --accent: #08a966; }
-.profile-feature.coral { --accent: #ff5a65; }
-.profile-feature.gold { --accent: #e8a520; }
+.profile-feature.mint { --accent: #14b88c; background-image: url("/profile-feature-green.svg"); }
+.profile-feature.green { --accent: #08a966; background-image: url("/profile-feature-orange.svg"); }
+.profile-feature.coral { --accent: #ff5a65; background-image: url("/profile-feature-orange.svg"); }
+.profile-feature.gold { --accent: #e8a520; background-image: url("/profile-feature-green.svg"); }
 
 .profile-feature-icon {
   width: 30px;
