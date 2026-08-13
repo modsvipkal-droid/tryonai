@@ -3168,20 +3168,17 @@ nextjs-portal,
   height: 30px;
   display: grid;
   place-items: center;
-  color: #fff;
-  border-radius: 8px;
-  background: linear-gradient(135deg, var(--accent, #14b88c), color-mix(in srgb, var(--accent, #14b88c), #000 15%));
-  box-shadow: 0 5px 12px color-mix(in srgb, var(--accent, #14b88c), transparent 62%);
+  color: #3d5a2c;
 }
 
 .profile-feature-icon svg {
-  width: 15px;
-  height: 15px;
+  width: 22px;
+  height: 22px;
 }
 
 .profile-feature p {
   margin: 9px 0 0;
-  color: #6a7a73;
+  color: #3d5a2c;
   font-size: 10.5px;
   font-weight: 700;
   line-height: 1.35;
@@ -3190,7 +3187,7 @@ nextjs-portal,
 .profile-feature strong {
   display: block;
   margin-top: 4px;
-  color: #0a261e;
+  color: #3d5a2c;
   font-size: 25px;
   font-weight: 900;
   line-height: 1;
@@ -3199,7 +3196,7 @@ nextjs-portal,
 .profile-feature em {
   display: block;
   margin-top: 5px;
-  color: #83918b;
+  color: #3d5a2c;
   font-size: 10px;
   font-style: normal;
   font-weight: 600;

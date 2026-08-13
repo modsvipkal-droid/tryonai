@@ -475,6 +475,18 @@ function Icon({ name, className = "" }) {
         <path d="M12 2.8v3.1M12 18.1v3.1M2.8 12h3.1M18.1 12h3.1" />
       </>
     ),
+    checkcircle: (
+      <>
+        <circle cx="12" cy="12" r="8.25" />
+        <path d="m8.35 12.2 2.4 2.4 4.9-5.2" />
+      </>
+    ),
+    crosscircle: (
+      <>
+        <circle cx="12" cy="12" r="8.25" />
+        <path d="m9.3 9.3 5.4 5.4M14.7 9.3l-5.4 5.4" />
+      </>
+    ),
     layers: (
       <>
         <path d="m12 3.8 8.25 4.35L12 12.5 3.75 8.15Z" />
@@ -1637,28 +1649,28 @@ function ProfileView({ user, history, userPredictions }) {
             value={todayStats.total}
             detail="Predictions made today"
             tone="mint"
-            icon="layers"
+            icon="chart"
           />
           <ProfileFeature
             label="Today Total Prediction Win"
             value={todayStats.wins}
             detail="Settled wins today"
             tone="green"
-            icon="target"
+            icon="checkcircle"
           />
           <ProfileFeature
             label="Today Total Prediction Loss"
             value={todayStats.losses}
             detail="Settled losses today"
             tone="coral"
-            icon="bolt"
+            icon="crosscircle"
           />
           <ProfileFeature
             label="Today Winning Accuracy"
             value={todayStats.accuracy}
             detail="Live accuracy today"
             tone="gold"
-            icon="chart"
+            icon="target"
             suffix="%"
           />
         </div>
