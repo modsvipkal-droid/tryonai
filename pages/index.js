@@ -5,7 +5,6 @@ import { addUser, getRemainingPredictions, incrementPredictionCount, getProfileP
 import { fetchWingoHistory, generateMockHistory, getCurrentIssue, estimateTimestamps } from "@/lib/wingo";
 import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema, FAQSchema } from "@/components/SEO";
 import { LoaderContext } from "./_app";
-import PublicLandingPage from "@/components/PublicLandingPage";
 
 // ──── Firebase ID token helper for API auth ─────────────────────────────────────
 async function getIdToken() {
@@ -1989,6 +1988,7 @@ function MainApp({ user }) {
 }
 
 export default function Home() {
+  const router = useRouter();
   const [authReady, setAuthReady] = useState(false);
   const [user, setUser] = useState(null);
 
@@ -2024,12 +2024,18 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    if (authReady && !user) {
+      router.replace("/login");
+    }
+  }, [authReady, user, router]);
+
   if (!authReady) {
     return <AuthGate />;
   }
 
   if (!user) {
-    return <PublicLandingPage />;
+    return <AuthGate />;
   }
 
   return <MainApp user={user} />;

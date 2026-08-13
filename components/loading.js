@@ -18,6 +18,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, memo } from "react";
 import SparklesText from "./SparklesText";
 
@@ -1285,6 +1286,48 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
               </div>
             </div>
           </section>
+
+          {/* ── FOOTER ── */}
+          <footer className="loader-footer" aria-label="Footer">
+            <div className="loader-footer-top">
+              <div className="loader-footer-brand">
+                <div className="loader-footer-logo">
+                  <TrionIcon />
+                </div>
+                <div>
+                  <strong>TRION AI</strong>
+                  <p>AI-powered Wingo30 prediction &amp; signals platform.</p>
+                </div>
+              </div>
+
+              <div className="loader-footer-col">
+                <h4>Platform</h4>
+                <Link href="/subscription">Subscription &amp; Models</Link>
+                <Link href="/login">Prediction Tool</Link>
+                <Link href="/developer">Developer API</Link>
+              </div>
+
+              <div className="loader-footer-col">
+                <h4>Support</h4>
+                <Link href="/contact">Contact Us</Link>
+                <button type="button" className="loader-footer-link" onClick={handleTelegramClick}>
+                  Telegram Channel
+                </button>
+              </div>
+
+              <div className="loader-footer-col">
+                <h4>Legal</h4>
+                <Link href="/privacy">Privacy Policy</Link>
+                <Link href="/terms">Terms &amp; Conditions</Link>
+                <Link href="/refund">Refund Policy</Link>
+              </div>
+            </div>
+
+            <div className="loader-footer-bottom">
+              <span>© {new Date().getFullYear()} TRION AI. All rights reserved.</span>
+              <span>Predictions are statistical estimates, not guaranteed results.</span>
+            </div>
+          </footer>
 
         </main>
       </div>
