@@ -101,16 +101,16 @@ export default function Subscription() {
   return (
     <>
       <PageHead
-        title="Payment | TryonAI"
-        description="Complete your payment to unlock TryonAI premium plans."
+        title="Subscription – Korven ₹749 & FX1 ₹1,100"
+        description="Choose a TRION AI premium model: the Korven model at ₹749 or the FX1 model at ₹1,100, both with lifetime unlimited predictions and dashboard access."
         canonical="https://wingo30.com/subscription"
       >
-        <meta name="keywords" content="Wingo AI subscription, TryonAI subscription, Wingo30 premium, unlimited predictions, AI signal subscription" />
+        <meta name="keywords" content="TRION AI subscription, Korven model, FX1 model, Wingo30 premium, unlimited predictions, AI signal subscription" />
         <style dangerouslySetInnerHTML={{ __html: bgStyle }} />
       </PageHead>
       <OrganizationSchema />
       <WebsiteSchema />
-      <WebPageSchema title="Payment | TryonAI" description="Complete your payment to unlock TryonAI premium plans." url="https://wingo30.com/subscription" />
+      <WebPageSchema title="TRION AI Subscription – Korven ₹749 & FX1 ₹1,100" description="Choose a TRION AI premium model with lifetime unlimited predictions and dashboard access." url="https://wingo30.com/subscription" />
       <BreadcrumbSchema items={[
         { name: "Home", url: "https://wingo30.com/" },
         { name: "Subscription", url: "https://wingo30.com/subscription" }

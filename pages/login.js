@@ -209,27 +209,6 @@ export default function Login() {
     }
   }
 
-  if (checking) {
-    return (
-      <main className="login-page">
-        <div className="background" />
-        <div className="auth-checking">
-          <div className="auth-checking-spinner" />
-          <p>Checking login...</p>
-        </div>
-      </main>
-    );
-  }
-
-  if (step === "splash") {
-    return (
-      <main className="login-page">
-        <div className="background" />
-        <SplashScreen onComplete={handleSplashComplete} />
-      </main>
-    );
-  }
-
   return (
     <>
       <PageHead
@@ -247,6 +226,20 @@ export default function Login() {
         { name: "Home", url: "https://wingo30.com/" },
         { name: "Sign In", url: "https://wingo30.com/login" }
       ]} />
+      {checking ? (
+      <main className="login-page">
+        <div className="background" />
+        <div className="auth-checking">
+          <div className="auth-checking-spinner" />
+          <p>Checking login...</p>
+        </div>
+      </main>
+      ) : step === "splash" ? (
+      <main className="login-page">
+        <div className="background" />
+        <SplashScreen onComplete={handleSplashComplete} />
+      </main>
+      ) : (
       <main className="login-page">
         <div className="background" />
         <div className="login-hero-image" style={{ backgroundImage: 'url(/Loginbg.jpg)' }} />
@@ -350,6 +343,7 @@ export default function Login() {
           error={error}
         />
       </main>
+      )}
     </>
   );
 }

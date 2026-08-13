@@ -54,8 +54,6 @@ export default function App({ Component, pageProps }) {
       <Head>
         <meta name="author" content="TryonAI" />
         <meta name="publisher" content="TryonAI" />
-        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-        <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large" />
         <meta name="language" content="English" />
         <meta name="rating" content="general" />
         <meta name="revisit-after" content="1 days" />

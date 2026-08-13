@@ -1476,12 +1476,10 @@ function AuthGate() {
   return (
     <>
       <PageHead
-        title="AI Wingo Prediction Platform"
-        description="TryonAI is an AI-powered prediction platform for Wingo30. Get real-time analysis, pattern recognition, smart signals, and live dashboard for smarter trading decisions."
+        title="TRION AI – AI Wingo Prediction Platform"
+        description="TRION AI is an AI-powered Wingo30 prediction and signals platform. Real-time analysis, trend charts, hot & cold signals, Korven and FX1 models, and a live analytics dashboard."
         canonical="https://wingo30.com/"
-      >
-        <meta name="keywords" content="Wingo AI, Wingo prediction, Wingo30, TrionAI, Kal mods, Wingo VIP, Wingo analyst, Wingo app, Wingo colour prediction, Wingo real AI bot, AI wingo prediction, wingo ai prediction app, wingo ai prediction generator apk, wingo ai bot apk latest version, ai wingo prediction generator, ai wingo analysis, ai wingo game, wingo game, wingo 30, wingo 30 second, wingo 30 second live, wingo 30 second prediction chart today, wingo 30 sec prediction, wingo 30s prediction, win go 30s, trionAI, trillionaire, tri nation series, trio AI, tronair, trion it park, sailing melody, trionaid, triona, trion air filters, Kal mods, Kal mod apk, wingo vip, wingo prediction, TryonAI, AI prediction, pattern analysis, trading signals, real-time analytics, prediction platform, smart trading, AI trading bot, signal analysis, pattern recognition, live dashboard, win prediction, number prediction, color prediction, big small prediction" />
-      </PageHead>
+      />
       <div className="auth-gate">
         <span />
         <p>Checking login...</p>
@@ -1893,24 +1891,15 @@ function MainApp({ user }) {
   return (
     <>
       <PageHead
-        title="AI Wingo Prediction Platform"
-        description="TryonAI provides AI-driven Wingo30 predictions with real-time pattern analysis, trend charts, hot and cold signals, and a live analytics dashboard."
+        title="AI Wingo Prediction Tool"
+        description="TRION AI provides AI-driven Wingo30 predictions with real-time pattern analysis, trend charts, hot and cold signals, and a live analytics dashboard."
         canonical="https://wingo30.com/"
-      >
-        <meta name="keywords" content="Wingo AI, Wingo prediction, Wingo30, TrionAI, Kal mods, Wingo VIP, Wingo analyst, Wingo app, Wingo colour prediction, Wingo real AI bot, AI wingo prediction, wingo ai prediction app, wingo ai prediction generator apk, wingo ai bot apk latest version, ai wingo prediction generator, ai wingo analysis, ai wingo game, wingo game, wingo 30, wingo 30 second, wingo 30 second live, wingo 30 second prediction chart today, wingo 30 sec prediction, wingo 30s prediction, win go 30s, trionAI, trillionaire, tri nation series, trio AI, tronair, trion it park, sailing melody, trionaid, triona, trion air filters, Kal mods, Kal mod apk, wingo vip, wingo prediction, TryonAI, AI prediction, pattern analysis, trading signals, real-time analytics, prediction platform, smart trading, AI trading bot, signal analysis, pattern recognition, live dashboard, win prediction, number prediction, color prediction, big small prediction" />
-      </PageHead>
+      />
       <OrganizationSchema />
       <WebsiteSchema />
-      <WebPageSchema title="TryonAI - AI Wingo Prediction Platform" description="AI-powered prediction platform for Wingo30 with real-time analysis, pattern recognition, and smart trading signals." url="https://wingo30.com/" />
+      <WebPageSchema title="TRION AI – AI Wingo Prediction Platform" description="AI-powered Wingo30 prediction and signals platform with real-time analysis, pattern recognition, and smart signals." url="https://wingo30.com/" />
       <BreadcrumbSchema items={[{ name: "Home", url: "https://wingo30.com/" }]} />
       <SoftwareAppSchema />
-      <FAQSchema questions={[
-        { question: "What is TryonAI?", answer: "TryonAI is an AI-powered prediction platform for Wingo30 that provides real-time analysis, pattern recognition, and smart trading signals to help users make informed decisions." },
-        { question: "How does Wingo30 prediction work?", answer: "TryonAI uses advanced algorithms to analyze historical Wingo30 data, identify patterns, and generate predictions for the next period's outcome including number, color, and size." },
-        { question: "Is TryonAI free to use?", answer: "TryonAI offers unlimited predictions for subscribed users. Subscribe to unlock full access to all premium features and real-time analytics." },
-        { question: "What is Wingo 30 seconds?", answer: "Wingo30 is a fast-paced prediction game where a new period starts every 30 seconds. Players predict the outcome including number (0-9), color (Green, Violet, Red), and size (Big/Small)." },
-        { question: "How accurate are TryonAI predictions?", answer: "TryonAI uses advanced pattern analysis and machine learning algorithms to provide high-accuracy predictions. The accuracy rate is displayed live on the dashboard." }
-      ]} />
       {showRules && <RulesPopup onClose={() => setShowRules(false)} remaining={remaining} user={user} />}
       {showModelPopup && (
         <ModelSelectPopup
@@ -2000,7 +1989,6 @@ function MainApp({ user }) {
 }
 
 export default function Home() {
-  const router = useRouter();
   const [authReady, setAuthReady] = useState(false);
   const [user, setUser] = useState(null);
 
@@ -2013,7 +2001,6 @@ export default function Home() {
 
       if (!currentUser) {
         setAuthReady(true);
-        router.replace("/login");
         return;
       }
 
@@ -2028,7 +2015,6 @@ export default function Home() {
 
         if (active) {
           setAuthReady(true);
-          router.replace("/login");
         }
       });
 
@@ -2036,10 +2022,14 @@ export default function Home() {
       active = false;
       unsubscribe();
     };
-  }, [router]);
+  }, []);
 
-  if (!authReady || !user) {
+  if (!authReady) {
     return <AuthGate />;
+  }
+
+  if (!user) {
+    return <PublicLandingPage />;
   }
 
   return <MainApp user={user} />;

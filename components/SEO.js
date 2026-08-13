@@ -1,28 +1,32 @@
 import Head from "next/head";
+import { SITE, DEFAULT_ROBOTS } from "@/lib/seo";
 
-const SITE_URL = "https://wingo30.com";
-const SITE_NAME = "TryonAI";
-const DEFAULT_DESC = "AI-powered prediction platform for Wingo30. Real-time analysis, pattern recognition, and smart trading signals.";
-
-export function PageHead({ title, description, canonical, noindex, children }) {
-  const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} - AI Prediction Platform`;
-  const desc = description || DEFAULT_DESC;
-  const canon = canonical || SITE_URL;
+export function PageHead({ title, description, canonical, noindex, robots, children }) {
+  const fullTitle = title ? `${title} | ${SITE.titleSuffix}` : SITE.defaultTitle;
+  const desc = description || SITE.defaultDescription;
+  const canon = canonical || SITE.url;
+  const robotsValue = robots || (noindex ? "noindex, nofollow" : DEFAULT_ROBOTS);
 
   return (
     <Head>
       <title>{fullTitle}</title>
       <meta name="description" content={desc} />
       <link rel="canonical" href={canon} />
+      <meta name="robots" content={robotsValue} />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={desc} />
       <meta property="og:url" content={canon} />
-      <meta property="og:type" content="website" />
-      <meta property="og:site_name" content={SITE_NAME} />
-      <meta name="twitter:card" content="summary_large_image" />
+      <meta property="og:type" content={SITE.ogType} />
+      <meta property="og:site_name" content={SITE.name} />
+      <meta property="og:locale" content={SITE.locale} />
+      <meta property="og:image" content={SITE.ogImage} />
+      <meta property="og:image:width" content="1280" />
+      <meta property="og:image:height" content="720" />
+      <meta property="og:image:alt" content={SITE.name} />
+      <meta name="twitter:card" content={SITE.twitterCard} />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={desc} />
-      {noindex && <meta name="robots" content="noindex, nofollow" />}
+      <meta name="twitter:image" content={SITE.ogImage} />
       {children}
     </Head>
   );
@@ -32,15 +36,15 @@ export function OrganizationSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "@id": `${SITE_URL}/#organization`,
-    "name": SITE_NAME,
-    "url": SITE_URL,
-    "description": DEFAULT_DESC,
-    "foundingDate": "2024",
+    "@id": `${SITE.url}/#organization`,
+    "name": SITE.name,
+    "alternateName": "TryonAI",
+    "url": SITE.url,
+    "description": SITE.defaultDescription,
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "customer support",
-      "telegram": "https://t.me/kal_mods"
+      "url": "https://t.me/kal_mods"
     },
     "sameAs": [
       "https://t.me/+spWu5CnIDrViNDRl"
@@ -53,17 +57,13 @@ export function WebsiteSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "@id": `${SITE_URL}/#website`,
-    "url": SITE_URL,
-    "name": `${SITE_NAME} - AI Prediction Platform`,
-    "description": DEFAULT_DESC,
-    "publisher": { "@id": `${SITE_URL}/#organization` },
-    "inLanguage": "en",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": `${SITE_URL}/?q={search_term_string}`,
-      "query-input": "required name=search_term_string"
-    }
+    "@id": `${SITE.url}/#website`,
+    "url": SITE.url,
+    "name": SITE.name,
+    "alternateName": "TryonAI",
+    "description": SITE.defaultDescription,
+    "publisher": { "@id": `${SITE.url}/#organization` },
+    "inLanguage": "en"
   };
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
 }
@@ -72,12 +72,12 @@ export function WebPageSchema({ title, description, url }) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "@id": `${url || SITE_URL}/#webpage`,
-    "url": url || SITE_URL,
-    "name": title || `${SITE_NAME} - AI Prediction Platform`,
-    "description": description || DEFAULT_DESC,
-    "isPartOf": { "@id": `${SITE_URL}/#website` },
-    "about": { "@id": `${SITE_URL}/#organization` },
+    "@id": `${url || SITE.url}/#webpage`,
+    "url": url || SITE.url,
+    "name": title || SITE.defaultTitle,
+    "description": description || SITE.defaultDescription,
+    "isPartOf": { "@id": `${SITE.url}/#website` },
+    "about": { "@id": `${SITE.url}/#organization` },
     "inLanguage": "en"
   };
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
@@ -93,7 +93,7 @@ export function BreadcrumbSchema({ items }) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": itemListElement.length > 0 ? itemListElement : [
-      { "@type": "ListItem", "position": 1, "item": { "@id": `${SITE_URL}/`, "name": "Home" } }
+      { "@type": "ListItem", "position": 1, "item": { "@id": `${SITE.url}/`, "name": "Home" } }
     ]
   };
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
@@ -103,17 +103,29 @@ export function SoftwareAppSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "@id": `${SITE_URL}/#software`,
-    "name": SITE_NAME,
-    "applicationCategory": "GameApplication",
+    "@id": `${SITE.url}/#software`,
+    "name": SITE.name,
+    "alternateName": "TryonAI",
+    "applicationCategory": "BusinessApplication",
     "operatingSystem": "Web",
-    "description": DEFAULT_DESC,
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "author": { "@id": `${SITE_URL}/#organization` }
+    "description": SITE.defaultDescription,
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "Korven Model",
+        "price": "749",
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock"
+      },
+      {
+        "@type": "Offer",
+        "name": "FX1 Model",
+        "price": "1100",
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock"
+      }
+    ],
+    "author": { "@id": `${SITE.url}/#organization` }
   };
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
 }

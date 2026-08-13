@@ -385,3 +385,141 @@
     justify-content: space-between;
   }
 }
+
+/* SEO content pages */
+.seo-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 56px 20px 72px;
+  color: #334155;
+}
+.seo-page h1 {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #0f172a;
+  margin: 0 0 14px;
+}
+@media (min-width: 768px) {
+  .seo-page h1 {
+    font-size: 40px;
+  }
+}
+.seo-page .seo-lead {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #475569;
+  margin: 0 0 32px;
+}
+.seo-page .seo-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #15803d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+.seo-page h2 {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 36px 0 12px;
+}
+@media (min-width: 768px) {
+  .seo-page h2 {
+    font-size: 25px;
+  }
+}
+.seo-page h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 24px 0 8px;
+}
+.seo-page p {
+  font-size: 15px;
+  line-height: 1.75;
+  margin: 0 0 16px;
+}
+.seo-page ul,
+.seo-page ol {
+  margin: 0 0 18px;
+  padding-left: 22px;
+}
+.seo-page li {
+  font-size: 15px;
+  line-height: 1.75;
+  margin-bottom: 8px;
+}
+.seo-page a {
+  color: #15803d;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.seo-page a:hover {
+  color: #166534;
+}
+.seo-page .seo-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 28px 0 8px;
+}
+.seo-page .seo-callout {
+  margin: 24px 0;
+  padding: 18px 20px;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  background: #f0fdf4;
+}
+.seo-page .seo-callout strong {
+  color: #166534;
+}
+.seo-page .seo-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 18px 0 24px;
+  font-size: 14px;
+}
+.seo-page .seo-table th,
+.seo-page .seo-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+}
+.seo-page .seo-table th {
+  background: #f8fafc;
+  font-weight: 700;
+  color: #0f172a;
+}
+.seo-page .faq-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  background: #ffffff;
+}
+.seo-page .faq-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  background: none;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  text-align: left;
+  cursor: pointer;
+}
+.seo-page .faq-content {
+  padding: 0 16px 14px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #475569;
+}

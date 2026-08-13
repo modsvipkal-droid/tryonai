@@ -18,6 +18,14 @@ export function middleware(request) {
   const url = request.nextUrl.pathname;
   const userAgent = request.headers.get("user-agent") || "";
 
+  const host = request.headers.get("host") || "";
+  if (host.toLowerCase().startsWith("www.")) {
+    const canonical = request.nextUrl.clone();
+    canonical.host = host.replace(/^www\./i, "");
+    canonical.protocol = "https";
+    return NextResponse.redirect(canonical, 301);
+  }
+
   const isSensitive = SENSITIVE_PATHS.some((path) => url.startsWith(path));
 
   if (isSensitive && detectBot(userAgent)) {
