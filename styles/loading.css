@@ -77,16 +77,17 @@
 
   /* â”€â”€ Layout â”€â”€ */
   position: fixed;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
   isolation: isolate;
   z-index: 99999;
-  min-height: 100vh;
-  min-height: 100dvh;
   overflow-y: auto;
   overflow-x: hidden;
   overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
+  touch-action: pan-y;
   transform: translateZ(0);
 
   /* Soft off-white background */
@@ -776,6 +777,44 @@
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    OVERVIEW â€” premium hero sections
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* Scroll hint */
+.loader-scroll-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 0 2px;
+  color: var(--c-muted);
+  user-select: none;
+}
+
+.loader-scroll-hint-text {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.loader-scroll-hint-arrow {
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid var(--c-green);
+  border-bottom: 2px solid var(--c-green);
+  transform: rotate(45deg);
+  animation: loaderScrollHintBounce 1.6s ease-in-out infinite;
+}
+
+@keyframes loaderScrollHintBounce {
+  0%, 100% {
+    transform: rotate(45deg) translate(0, 0);
+    opacity: 0.35;
+  }
+  50% {
+    transform: rotate(45deg) translate(3px, 3px);
+    opacity: 1;
+  }
+}
+
 .loader-overview {
   position: relative;
   display: grid;

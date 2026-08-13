@@ -648,6 +648,11 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
                   </svg>
                 </button>
               </div>
+
+              <div className="loader-scroll-hint" aria-hidden="true">
+                <span className="loader-scroll-hint-text">Scroll for more</span>
+                <span className="loader-scroll-hint-arrow" />
+              </div>
             </div>
           </section>
 
