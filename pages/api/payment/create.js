@@ -78,6 +78,7 @@ export default withAuth(async (req, res, user) => {
     modelName: config.name,
     amount: config.amount,
     qrUrl: qr.qrUrl,
+    gatewayOrderId: qr.gatewayOrderId || orderId,
     upiId: qr.upiId,
     status: "PENDING",
   });

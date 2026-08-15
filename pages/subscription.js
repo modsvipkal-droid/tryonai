@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { Turnstile } from "@marsidev/react-turnstile";
+import QRCode from "qrcode";
 import { watchAuthState, getFirebaseAuth } from "@/lib/firebase";
 import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema } from "@/components/SEO";
 
@@ -37,6 +38,28 @@ async function getIdToken() {
     if (auth?.currentUser) return await auth.currentUser.getIdToken();
   } catch {}
   return null;
+}
+
+async function renderQrDataUrl(upiId, payee, amount, ref) {
+  try {
+    const intent = [
+      "upi://pay",
+      `pa=${encodeURIComponent(upiId)}`,
+      `pn=${encodeURIComponent(payee)}`,
+      `am=${encodeURIComponent(amount)}`,
+      `cu=INR`,
+      `tn=${encodeURIComponent(ref)}`,
+      `tr=${encodeURIComponent(ref)}`,
+    ].join("?");
+    return await QRCode.toDataURL(intent, {
+      errorCorrectionLevel: "M",
+      margin: 1,
+      width: 300,
+      color: { dark: "#0f172a", light: "#ffffff" },
+    });
+  } catch {
+    return null;
+  }
 }
 
 const openUpiApp = (pkg, amount) => {
@@ -103,7 +126,14 @@ export default function Subscription() {
       orderIdRef.current = data.orderId;
       setOrderId(data.orderId);
       setOrderAmount(String(data.amount));
-      setQrUrl(data.qrUrl || "");
+      const localQr = await renderQrDataUrl(
+        data.upiId || UPI_VPA,
+        data.gatewayOrderId || data.orderId,
+        String(data.amount),
+        data.gatewayOrderId || data.orderId
+      );
+      // Prefer the locally-rendered QR (always crisp, never expires), fall back to the gateway CDN image.
+      setQrUrl(localQr || data.qrUrl || "");
       setTimeLeft(600);
       return data.orderId;
     } catch {
@@ -387,7 +417,7 @@ export default function Subscription() {
                     <div className="pay-qr-corner pay-qr-corner-bl"></div>
                     <div className="pay-qr-corner pay-qr-corner-br"></div>
                     {qrUrl ? (
-                      <img src={qrUrl} alt="Payment QR Code" className="pay-qr-image" width="118" height="118" loading="lazy" />
+                      <img src={qrUrl} alt="Payment QR Code" className="pay-qr-image" width="168" height="168" loading="eager" decoding="async" referrerPolicy="no-referrer" />
                     ) : (
                       <div className="pay-qr-image" style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, color: "#94a3b8" }}>Generating QR...</div>
                     )}

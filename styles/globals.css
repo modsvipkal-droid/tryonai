@@ -2478,17 +2478,17 @@ nextjs-portal,
 .pay-qr-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .pay-qr-frame {
   position: relative;
-  width: 132px;
-  height: 132px;
+  width: 184px;
+  height: 184px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px;
+  padding: 8px;
 }
 
 .pay-qr-corner {
@@ -2529,8 +2529,8 @@ nextjs-portal,
 }
 
 .pay-qr-image {
-  width: 118px;
-  height: 118px;
+  width: 168px;
+  height: 168px;
   object-fit: contain;
   display: block;
   border-radius: 8px;
