@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { Turnstile } from "@marsidev/react-turnstile";
-import { watchAuthState } from "@/lib/firebase";
+import { watchAuthState, getFirebaseAuth } from "@/lib/firebase";
 import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema } from "@/components/SEO";
 
 // Custom styles override to ensure scroll works inside .app-screen container
@@ -30,6 +30,14 @@ const PLANS = {
   korven: { label: "Korven Model", amount: "749.00", qr: "/749qrcode.jpg" },
   fx1: { label: "FX1 MODEL", amount: "1100.00", qr: "/Fx1qrdode.jpg" },
 };
+
+async function getIdToken() {
+  try {
+    const auth = await getFirebaseAuth();
+    if (auth?.currentUser) return await auth.currentUser.getIdToken();
+  } catch {}
+  return null;
+}
 
 const openUpiApp = (pkg, amount) => {
   const params = `pa=${UPI_VPA}&pn=${encodeURIComponent(UPI_PAYEE)}&am=${amount}&cu=INR&mode=04`;
@@ -75,9 +83,13 @@ export default function Subscription() {
     setVerifyState(null);
     setVerifyMsg("");
     try {
+      const token = await getIdToken();
       const res = await fetch("/api/payment/create", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         credentials: "include",
         body: JSON.stringify({ model }),
       });
@@ -108,9 +120,13 @@ export default function Subscription() {
     if (!orderIdValue || verifyingRef.current) return;
     verifyingRef.current = true;
     try {
+      const token = await getIdToken();
       const res = await fetch("/api/payment/verify", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         credentials: "include",
         body: JSON.stringify({ orderId: orderIdValue, utr: utr.trim() || undefined }),
       });
