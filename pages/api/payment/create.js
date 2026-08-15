@@ -43,9 +43,11 @@ export default withAuth(async (req, res, user) => {
   }
 
   const now = Date.now();
+  // IMPORTANT: never store utr/paid as null here — the unique sparse index on
+  // `utr` still indexes explicit nulls, so a second order would hit duplicate-key.
+  // Omit the fields entirely until verification writes real values.
   const order = {
     order_id: orderId,
-    gateway_order_id: qr.gatewayOrderId || null,
     user_id: user.uid || user.email,
     user_email: user.email,
     model_id: config.id,
@@ -54,20 +56,19 @@ export default withAuth(async (req, res, user) => {
     status: "PENDING",
     qr_url: qr.qrUrl || null,
     upi_id: qr.upiId || null,
-    utr: null,
-    paid_amount: null,
     created_at: now,
-    verified_at: null,
-    expires_at: null,
     gateway_created_ist: qr.createdAtIst,
     gateway_expires_ist: qr.expiresAtIst,
   };
+  if (qr.gatewayOrderId) order.gateway_order_id = qr.gatewayOrderId;
 
-  await ensurePaymentIndexes();
   const saved = await createPaymentOrder(order);
   if (!saved) {
     return res.status(500).json({ error: "Could not create payment order. Please try again." });
   }
+
+  // Index creation must never block or fail an order.
+  ensurePaymentIndexes().catch(() => {});
 
   logSecurityEvent("payment_order_created", { email: user.email, orderId, modelId, amount: config.amount });
 

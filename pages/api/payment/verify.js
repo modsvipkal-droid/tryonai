@@ -109,15 +109,19 @@ export default withAuth(async (req, res, user) => {
     }
   }
 
-  await ensurePaymentIndexes();
+  ensurePaymentIndexes().catch(() => {});
 
   const verifiedAt = Date.now();
-  const updated = await updatePaymentByOrderId(safeOrderId, {
+  // Never write utr when missing — the unique sparse index would still index a
+  // literal null and break the next order.
+  const updates = {
     status: "VERIFIED",
-    utr,
     paid_amount: result.paidAmount ?? order.amount,
     verified_at: verifiedAt,
-  });
+  };
+  if (utr) updates.utr = utr;
+
+  const updated = await updatePaymentByOrderId(safeOrderId, updates);
   if (!updated) {
     return res.status(409).json({ verified: false, status: "PENDING", error: "Payment could not be finalized. Please try again." });
   }

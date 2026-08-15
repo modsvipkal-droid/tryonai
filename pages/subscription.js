@@ -61,8 +61,8 @@ export default function Subscription() {
   const [toastModel, setToastModel] = useState("");
   const [activeTab, setActiveTab] = useState("qr");
   const [orderId, setOrderId] = useState("");
-  const [orderAmount, setOrderAmount] = useState(plan.amount);
-  const [qrUrl, setQrUrl] = useState(plan.qr);
+  const [orderAmount, setOrderAmount] = useState("");
+  const [qrUrl, setQrUrl] = useState("");
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
   const [copied, setCopied] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState(null);
@@ -103,7 +103,7 @@ export default function Subscription() {
       orderIdRef.current = data.orderId;
       setOrderId(data.orderId);
       setOrderAmount(String(data.amount));
-      setQrUrl(data.qrUrl || plan.qr);
+      setQrUrl(data.qrUrl || "");
       setTimeLeft(600);
       return data.orderId;
     } catch {
@@ -301,7 +301,7 @@ export default function Subscription() {
                 <span className="pay-amount-label">Amount to Pay ({plan.label})</span>
                 <div className="pay-amount-value">
                   <span className="pay-rupee">₹</span>
-                  <span className="pay-price">{orderAmount}</span>
+                  <span className="pay-price">{orderAmount || "..."}</span>
                 </div>
                 <div className="pay-order-row">
                   <span>Order ID: <strong>{orderId || "Loading..."}</strong></span>
