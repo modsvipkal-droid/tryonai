@@ -43,15 +43,14 @@ async function getIdToken() {
 async function renderQrDataUrl(upiId, payee, amount, ref) {
   try {
     const intent = [
-      "upi://pay",
       `pa=${encodeURIComponent(upiId)}`,
       `pn=${encodeURIComponent(payee)}`,
       `am=${encodeURIComponent(amount)}`,
       `cu=INR`,
       `tn=${encodeURIComponent(ref)}`,
       `tr=${encodeURIComponent(ref)}`,
-    ].join("?");
-    return await QRCode.toDataURL(intent, {
+    ].join("&");
+    return await QRCode.toDataURL(`upi://pay?${intent}`, {
       errorCorrectionLevel: "M",
       margin: 1,
       width: 300,
