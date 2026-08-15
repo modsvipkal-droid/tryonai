@@ -2599,6 +2599,12 @@ nextjs-portal,
   background: #f8fafc;
 }
 
+.pay-upi-app-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .pay-upi-app img {
   width: 36px;
   height: 36px;

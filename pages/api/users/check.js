@@ -18,6 +18,7 @@ export default async function handler(req, res) {
     return res.status(200).json({
       unlimited: user?.unlimited || false,
       model: user?.model || "",
+      model_access: Array.isArray(user?.model_access) ? user.model_access : [],
       found: !!user,
     });
   } catch {

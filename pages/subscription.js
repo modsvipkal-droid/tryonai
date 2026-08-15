@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { Turnstile } from "@marsidev/react-turnstile";
+import { watchAuthState } from "@/lib/firebase";
 import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema } from "@/components/SEO";
 
 // Custom styles override to ensure scroll works inside .app-screen container
@@ -22,11 +23,7 @@ const bgStyle = `
   }
 `;
 
-function generateOrderId() {
-  return "ORD" + Date.now() + Math.floor(Math.random() * 1000);
-}
-
-const UPI_VPA = "data-earn@ybl";
+const UPI_VPA = "biswajitbhai@fam";
 const UPI_PAYEE = "TryonAI";
 
 const PLANS = {
@@ -52,15 +49,119 @@ export default function Subscription() {
   const plan = PLANS[model];
   const [utr, setUtr] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [toastSuccess, setToastSuccess] = useState(false);
+  const [toastModel, setToastModel] = useState("");
   const [activeTab, setActiveTab] = useState("qr");
   const [orderId, setOrderId] = useState("");
+  const [orderAmount, setOrderAmount] = useState(plan.amount);
+  const [qrUrl, setQrUrl] = useState(plan.qr);
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
   const [copied, setCopied] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState(null);
+  const [authReady, setAuthReady] = useState(false);
+  const [checking, setChecking] = useState(true);
+  const [creating, setCreating] = useState(false);
+  const [verifyState, setVerifyState] = useState(null); // null | "PENDING" | "VERIFIED" | "FAILED"
+  const [verifyMsg, setVerifyMsg] = useState("");
+  const orderIdRef = useRef("");
   const timerRef = useRef(null);
+  const pollRef = useRef(null);
+  const authUserRef = useRef(null);
+  const verifyingRef = useRef(false);
+
+  const createOrder = async (email) => {
+    if (creating) return;
+    setCreating(true);
+    setVerifyState(null);
+    setVerifyMsg("");
+    try {
+      const res = await fetch("/api/payment/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ model }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setVerifyMsg(data?.error || "Could not start payment. Please try again.");
+        setShowToast(true);
+        setToastSuccess(false);
+        return;
+      }
+      orderIdRef.current = data.orderId;
+      setOrderId(data.orderId);
+      setOrderAmount(String(data.amount));
+      setQrUrl(data.qrUrl || plan.qr);
+      setTimeLeft(600);
+      return data.orderId;
+    } catch {
+      setVerifyMsg("Network error while starting payment.");
+      setShowToast(true);
+      setToastSuccess(false);
+    } finally {
+      setCreating(false);
+    }
+  };
+
+  const verifyOrder = async () => {
+    const orderIdValue = orderIdRef.current;
+    if (!orderIdValue || verifyingRef.current) return;
+    verifyingRef.current = true;
+    try {
+      const res = await fetch("/api/payment/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ orderId: orderIdValue, utr: utr.trim() || undefined }),
+      });
+      const data = await res.json();
+      if (data?.verified) {
+        setVerifyState("VERIFIED");
+        setToastModel(data.modelName || data.modelId || plan.label);
+        setShowToast(true);
+        setToastSuccess(true);
+        if (pollRef.current) clearInterval(pollRef.current);
+      } else {
+        setVerifyState(data?.status || "PENDING");
+        if (data?.status === "FAILED") {
+          setVerifyMsg(data?.error || "Payment verification failed.");
+          setShowToast(true);
+          setToastSuccess(false);
+          if (pollRef.current) clearInterval(pollRef.current);
+        }
+      }
+    } catch {
+      // transient; keep polling
+    } finally {
+      verifyingRef.current = false;
+    }
+  };
 
   useEffect(() => {
-    setOrderId(generateOrderId());
+    let active = true;
+    let unsub = () => {};
+
+    watchAuthState((user) => {
+      if (!active) return;
+      if (!user) {
+        setChecking(false);
+        router.replace("/login");
+        return;
+      }
+      authUserRef.current = user;
+      setAuthReady(true);
+      setChecking(false);
+    })
+      .then((fn) => { unsub = fn; })
+      .catch(() => { if (active) { setChecking(false); } });
+
+    return () => { active = false; unsub(); };
+  }, [router]);
+
+  useEffect(() => {
+    if (!authReady) return;
+    createOrder(authUserRef.current?.email);
+
     setTimeLeft(600);
     timerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
@@ -75,7 +176,19 @@ export default function Subscription() {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authReady, model]);
+
+  useEffect(() => {
+    if (orderIdRef.current && authReady) {
+      verifyOrder();
+      pollRef.current = setInterval(verifyOrder, 6000);
+    }
+    return () => {
+      if (pollRef.current) clearInterval(pollRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orderId, authReady]);
 
   const formatTime = (s) => {
     const m = Math.floor(s / 60);
@@ -91,11 +204,23 @@ export default function Subscription() {
 
   const handleDownloadQR = () => {
     const link = document.createElement("a");
-    link.href = plan.qr;
+    link.href = qrUrl;
     link.download = "payment_qr.jpg";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const handleSubmitUtr = () => {
+    verifyOrder();
+    setShowToast(true);
+    setToastSuccess(false);
+    setTimeout(() => {
+      if (verifyState === "VERIFIED") {
+        setToastSuccess(true);
+        setToastModel(plan.label);
+      }
+    }, 2500);
   };
 
   return (
@@ -160,11 +285,11 @@ export default function Subscription() {
                 <span className="pay-amount-label">Amount to Pay ({plan.label})</span>
                 <div className="pay-amount-value">
                   <span className="pay-rupee">₹</span>
-                  <span className="pay-price">{plan.amount}</span>
+                  <span className="pay-price">{orderAmount}</span>
                 </div>
                 <div className="pay-order-row">
-                  <span>Order ID: <strong>{orderId}</strong></span>
-                  <button className="pay-copy-btn" onClick={handleCopyOrderId} title="Copy Order ID">
+                  <span>Order ID: <strong>{orderId || "Loading..."}</strong></span>
+                  <button className="pay-copy-btn" onClick={handleCopyOrderId} title="Copy Order ID" disabled={!orderId}>
                     {copied ? (
                       <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="20 6 9 17 4 12" />
@@ -245,7 +370,11 @@ export default function Subscription() {
                     <div className="pay-qr-corner pay-qr-corner-tr"></div>
                     <div className="pay-qr-corner pay-qr-corner-bl"></div>
                     <div className="pay-qr-corner pay-qr-corner-br"></div>
-                    <img src={plan.qr} alt="Payment QR Code" className="pay-qr-image" width="118" height="118" loading="lazy" />
+                    {qrUrl ? (
+                      <img src={qrUrl} alt="Payment QR Code" className="pay-qr-image" width="118" height="118" loading="lazy" />
+                    ) : (
+                      <div className="pay-qr-image" style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, color: "#94a3b8" }}>Generating QR...</div>
+                    )}
                   </div>
                 </div>
 
@@ -265,19 +394,19 @@ export default function Subscription() {
             {activeTab === "upi" && (
               <div className="pay-upi-section">
                 <div className="pay-upi-apps-row">
-                  <div className="pay-upi-app" title="Google Pay" onClick={() => openUpiApp("com.google.android.apps.nbu.paisa.user", plan.amount)}>
+                  <div className={`pay-upi-app ${!orderId ? "pay-upi-app-disabled" : ""}`} title="Google Pay" onClick={() => orderId && openUpiApp("com.google.android.apps.nbu.paisa.user", orderAmount)}>
                     <img src="/google-pay-logo.webp" alt="Google Pay" width="36" height="36" loading="lazy" />
                     <span>Google Pay</span>
                   </div>
-                  <div className="pay-upi-app" title="Paytm" onClick={() => openUpiApp("net.one97.paytm", plan.amount)}>
+                  <div className={`pay-upi-app ${!orderId ? "pay-upi-app-disabled" : ""}`} title="Paytm" onClick={() => orderId && openUpiApp("net.one97.paytm", orderAmount)}>
                     <img src="/paytm-india-logo.webp" alt="Paytm" width="36" height="36" loading="lazy" />
                     <span>Paytm</span>
                   </div>
-                  <div className="pay-upi-app" title="PhonePe" onClick={() => openUpiApp("com.phonepe.app", plan.amount)}>
+                  <div className={`pay-upi-app ${!orderId ? "pay-upi-app-disabled" : ""}`} title="PhonePe" onClick={() => orderId && openUpiApp("com.phonepe.app", orderAmount)}>
                     <img src="/phonepe-india-logo.webp" alt="PhonePe" width="36" height="36" loading="lazy" />
                     <span>PhonePe</span>
                   </div>
-                  <div className="pay-upi-app" title="Super Pay" onClick={() => openUpiApp(null, plan.amount)}>
+                  <div className={`pay-upi-app ${!orderId ? "pay-upi-app-disabled" : ""}`} title="Super Pay" onClick={() => orderId && openUpiApp(null, orderAmount)}>
                     <img src="/super-app-logo-india.webp" alt="Super Pay" width="36" height="36" loading="lazy" />
                     <span>Super Pay</span>
                   </div>
@@ -320,16 +449,11 @@ export default function Subscription() {
             {/* Submit Button */}
             <button 
               className="pay-submit-btn" 
-              onClick={() => {
-                setShowToast(true);
-                const msg = encodeURIComponent(`Hello Admin, I have submitted the payment request on the website.\nPlan: ${plan.label} (₹${plan.amount})\nUTR ID: ${utr}\nPlease verify and activate my Wingo Signals Premium access now. Thanks!`);
-                window.open(`https://t.me/kal_mods?text=${msg}`, '_blank');
-                setTimeout(() => setShowToast(false), 3000);
-              }}
-              disabled={!turnstileToken}
-              style={{ opacity: turnstileToken ? 1 : 0.6, cursor: turnstileToken ? "pointer" : "not-allowed" }}
+              onClick={handleSubmitUtr}
+              disabled={!turnstileToken || !orderId}
+              style={{ opacity: turnstileToken && orderId ? 1 : 0.6, cursor: turnstileToken && orderId ? "pointer" : "not-allowed" }}
             >
-              Submit UTR
+              {verifyState === "VERIFIED" ? "Payment Successful ✓" : "Submit UTR"}
             </button>
 
             {/* Security Footer */}
@@ -349,8 +473,8 @@ export default function Subscription() {
                     <path d="M 8 0 Q 4 4.8, 8 9.6 T 8 19.2 Q 4 24, 8 28.8 T 8 38.4 Q 4 43.2, 8 48 T 8 57.6 Q 4 62.4, 8 67.2 T 8 76.8 Q 4 81.6, 8 86.4 T 8 96 L 0 96 L 0 0 Z" fill="#66cdaa" stroke="#66cdaa" strokeWidth="2" strokeLinecap="round"></path>
                   </svg>
                   <div className="payment-toast-body">
-                    <p className="payment-toast-title">Success !</p>
-                    <p className="payment-toast-msg">hey!<br />PROCESSING YOUR UTR</p>
+                    <p className="payment-toast-title">{toastSuccess ? "Payment Successful ✓" : verifyMsg || "Processing your payment..."}</p>
+                    <p className="payment-toast-msg">{toastSuccess ? `${toastModel} Unlocked` : "Checking payment status"}</p>
                   </div>
                   <button className="payment-toast-close" onClick={() => setShowToast(false)}>
                     <svg className="w-7 h-7" fill="none" stroke="mediumseagreen" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
