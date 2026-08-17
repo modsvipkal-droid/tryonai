@@ -2644,12 +2644,16 @@
   display: grid;
   gap: var(--sp-lg);
   padding: var(--sp-xl);
-  border: 1px solid #E8EEEB;
-  border-radius: var(--r-card);
-  background: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 28px 28px 0 0;
+  background: #17191C;
+  background-image:
+    radial-gradient(1200px 260px at 50% -80px, rgba(0, 200, 120, 0.12), transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 40%);
   box-shadow:
-    0 1px 0 rgba(255,255,255,0.92) inset,
-    var(--sh-sm);
+    0 -24px 60px -18px rgba(0, 200, 120, 0.14),
+    0 -8px 34px -14px rgba(0, 0, 0, 0.35),
+    0 1px 0 rgba(255, 255, 255, 0.05) inset;
 }
 
 .loader-footer-top {
@@ -2670,6 +2674,7 @@
   flex: 0 0 auto;
   border-radius: var(--r-sm);
   overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 4px 14px rgba(0, 0, 0, 0.3);
 }
 
 .loader-footer-logo .loader-ai-icon {
@@ -2680,7 +2685,7 @@
 
 .loader-footer-brand strong {
   display: block;
-  color: var(--c-ink);
+  color: #FFFFFF;
   font-size: var(--fs-base);
   font-weight: 800;
   letter-spacing: -0.01em;
@@ -2688,7 +2693,7 @@
 
 .loader-footer-brand p {
   margin: 4px 0 0;
-  color: var(--c-muted);
+  color: #AEB4BB;
   font-size: var(--fs-sm);
   font-weight: 420;
   line-height: 1.5;
@@ -2702,10 +2707,11 @@
 
 .loader-footer-col h4 {
   margin: 0 0 4px;
-  color: var(--c-ink);
+  color: #FFFFFF;
   font-size: var(--fs-sm);
   font-weight: 800;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .loader-footer-col a,
@@ -2716,18 +2722,19 @@
   padding: 0;
   text-align: left;
   cursor: pointer;
-  color: var(--c-muted);
+  color: #AEB4BB;
   font-family: inherit;
   font-size: var(--fs-sm);
   font-weight: 440;
   line-height: 1.4;
   text-decoration: none;
-  transition: color var(--dur-sm) var(--ease-out);
+  transition: color var(--dur-sm) var(--ease-out), transform var(--dur-sm) var(--ease-out), padding-left var(--dur-sm) var(--ease-out);
 }
 
 .loader-footer-col a:hover,
 .loader-footer-link:hover {
-  color: var(--c-green-d);
+  color: #00C878;
+  transform: translateX(3px);
 }
 
 .loader-footer-bottom {
@@ -2737,8 +2744,8 @@
   align-items: center;
   justify-content: space-between;
   padding-top: var(--sp-md);
-  border-top: 1px solid #E8EEEB;
-  color: var(--c-muted-lt);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: #AEB4BB;
   font-size: var(--fs-xs);
   font-weight: 440;
   line-height: 1.5;
