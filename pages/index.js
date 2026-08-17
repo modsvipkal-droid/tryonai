@@ -3,18 +3,11 @@ import { useRouter } from "next/router";
 import { watchAuthState, signOutUser } from "@/lib/firebase";
 import { addUser, getRemainingPredictions, incrementPredictionCount, getProfilePlan, getTodayPredictions, addTodayPrediction } from "@/lib/storage";
 import { fetchWingoHistory, generateMockHistory, getCurrentIssue, estimateTimestamps } from "@/lib/wingo";
+import { generateSmartPrediction, PREDICTION_STAKES } from "@/lib/prediction";
 import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema, FAQSchema } from "@/components/SEO";
 import { LoaderContext } from "./_app";
 
 // ──── Firebase ID token helper for API auth ─────────────────────────────────────
-async function getIdToken() {
-  try {
-    const { getFirebaseAuth } = await import("@/lib/firebase");
-    const auth = await getFirebaseAuth();
-    if (auth?.currentUser) return await auth.currentUser.getIdToken();
-  } catch {}
-  return null;
-}
 
 function LottieTgs({ src, size = 48 }) {
   const containerRef = useRef(null);
@@ -696,8 +689,9 @@ function getSizeLabel(value) {
   return value >= 5 ? "Big" : "Small";
 }
 
-function PredictionCard({ issueNumber, remainingMs, hotCold, predictionResult, showServerAnim }) {
+function PredictionCard({ issueNumber, remainingMs, hotCold, predictionResult, showServerAnim, predictionLevel }) {
   const issue = splitIssueNumber(issueNumber);
+  const prediction = predictionResult;
 
   return (
     <section className="prediction-card">
@@ -718,7 +712,7 @@ function PredictionCard({ issueNumber, remainingMs, hotCold, predictionResult, s
         <div className="prediction-cell progress-cell">
           <span>Win Chance</span>
           <div className="progress-ring">
-            <b>92%</b>
+            <b>{prediction?.confidence || "92"}%</b>
           </div>
         </div>
         <div className="prediction-cell next-period">
@@ -729,12 +723,44 @@ function PredictionCard({ issueNumber, remainingMs, hotCold, predictionResult, s
           <span>Result</span>
           {showServerAnim ? (
             <ServerAnim />
+          ) : prediction ? (
+            <strong>{prediction.size}</strong>
           ) : (
-            <strong>{predictionResult || "\u2014\u2014"}</strong>
+            <strong>{"\u2014\u2014"}</strong>
           )}
         </div>
       </div>
 
+      {prediction && !showServerAnim && (
+        <div className="prediction-engine">
+          <div className="pe-row">
+            <span className="pe-pill pe-level">
+              <em>Level</em>
+              <b>{prediction.level} · {PREDICTION_STAKES[prediction.level] || "1x"}</b>
+            </span>
+            <span className="pe-pill">
+              <em>Sniper</em>
+              <b>{prediction.sniperDigit} <small>{prediction.sniperProb}%</small></b>
+            </span>
+            <span className="pe-pill">
+              <em>Hot</em>
+              <b>{prediction.numbers.join(" ")}</b>
+            </span>
+          </div>
+          <div className="pe-row pe-votes">
+            <span>Wave {prediction.votes?.wave || "—"}</span>
+            <span>Ngram {prediction.votes?.ngram || "—"}</span>
+            <span>Quant {prediction.votes?.quant || "—"}</span>
+            <span>Entropy {prediction.votes?.entropy || "—"}</span>
+            <span>Vedic {prediction.votes?.vedic || "—"}</span>
+          </div>
+          <div className="pe-foot">
+            <span className="pe-risk">{prediction.risk}</span>
+            <span className="pe-strategy">{prediction.strategy}</span>
+            <span className="pe-pattern">{prediction.patternName} · RSI {prediction.rsi}</span>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
@@ -1724,7 +1750,17 @@ function MainApp({ user }) {
   const [remaining, setRemaining] = useState(5);
   const [predictionResult, setPredictionResult] = useState(null);
   const [showServerAnim, setShowServerAnim] = useState(false);
+  const [predictionLevel, setPredictionLevel] = useState(() => {
+    if (user?.email) {
+      try {
+        const saved = Number(localStorage.getItem(`trion_level_${user.email}`));
+        if (Number.isFinite(saved) && saved >= 0 && saved <= 2) return saved;
+      } catch {}
+    }
+    return 0;
+  });
   const [userPredictions, setUserPredictions] = useState([]);
+  const settledPeriods = useRef(new Set());
   const [drawerOpen, setDrawerOpen] = useState(false);
   const toastTimer = useRef(null);
   const lastPredictedPeriod = useRef(null);
@@ -1746,6 +1782,29 @@ function MainApp({ user }) {
       getRemainingPredictions(user.email).then(setRemaining);
     }
   }, [user]);
+
+  useEffect(() => {
+    if (!user?.email) return;
+    try {
+      localStorage.setItem(`trion_level_${user.email}`, String(predictionLevel));
+    } catch {}
+  }, [predictionLevel, user]);
+
+  useEffect(() => {
+    if (!user?.email || !history.length) return;
+    let nextLevel = predictionLevel;
+    let changed = false;
+    userPredictions.forEach((up) => {
+      if (settledPeriods.current.has(up.period)) return;
+      const result = history.find((row) => row.period === up.period);
+      if (!result) return;
+      settledPeriods.current.add(up.period);
+      const won = result.size === up.prediction;
+      nextLevel = won ? 0 : Math.min(2, nextLevel + 1);
+      changed = true;
+    });
+    if (changed) setPredictionLevel(nextLevel);
+  }, [history, predictionLevel, user, userPredictions]);
 
   const openSubscription = useCallback(() => {
     setShowModelPopup(true);
@@ -1769,29 +1828,12 @@ function MainApp({ user }) {
   }
   async function doPrediction(periodNum) {
     try {
-      const { fetchWingoNumbers } = await import("@/lib/wingo");
-      const numbers = await fetchWingoNumbers();
-      const token = await getIdToken();
-      const res = await fetch("/api/predict", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-        body: JSON.stringify({ numbers }),
-      });
-      const data = await res.json();
-      if (res.status === 403 && data.code === "NO_ACCESS") {
-        setShowServerAnim(false);
-        lastPredictedPeriod.current = null;
-        openSubscription();
-        return;
-      }
-      const size = data.prediction || (Math.random() >= 0.5 ? "Big" : "Small");
-      const entry = { period: periodNum, prediction: size };
+      const prediction = generateSmartPrediction(periodNum, history, predictionLevel);
+      const size = prediction.size === "BIG" ? "Big" : "Small";
+      const entry = { period: periodNum, prediction: size, engine: prediction };
       setUserPredictions(prev => [...prev, entry]);
       if (user?.email) addTodayPrediction(user.email, entry);
-      setTimeout(() => { setShowServerAnim(false); setPredictionResult(size); }, 5000);
+      setTimeout(() => { setShowServerAnim(false); setPredictionResult(prediction); }, 5000);
     } catch {
       setShowServerAnim(false);
       lastPredictedPeriod.current = null;
@@ -1947,6 +1989,7 @@ function MainApp({ user }) {
                   issueNumber={currentPeriod.issueNumber}
                   remainingMs={currentPeriod.remainingMs}
                   predictionResult={predictionResult}
+                  predictionLevel={predictionLevel}
                   showServerAnim={showServerAnim}
                 />
                 <button

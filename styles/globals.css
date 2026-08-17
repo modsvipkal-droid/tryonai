@@ -798,6 +798,106 @@ nextjs-portal,
   font-weight: 700;
 }
 
+.prediction-engine {
+  position: relative;
+  z-index: 2;
+  margin: 0 7px 7px;
+  padding: 10px 11px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.prediction-engine .pe-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 7px;
+}
+
+.prediction-engine .pe-pill {
+  display: grid;
+  gap: 2px;
+  flex: 1;
+  padding: 6px 8px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.prediction-engine .pe-pill em {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.prediction-engine .pe-pill b {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.prediction-engine .pe-pill b small {
+  color: #b9f4d8;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.prediction-engine .pe-pill.pe-level b {
+  color: #ffd97a;
+}
+
+.prediction-engine .pe-votes {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: 8px;
+}
+
+.prediction-engine .pe-votes span {
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.prediction-engine .pe-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.prediction-engine .pe-risk {
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: rgba(17, 184, 116, 0.28);
+  color: #c9fbe4;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.prediction-engine .pe-strategy {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.prediction-engine .pe-pattern {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 9px;
+  font-weight: 600;
+}
+
 .insights-grid {
   display: grid;
   grid-template-columns: 1.14fr 0.86fr;
