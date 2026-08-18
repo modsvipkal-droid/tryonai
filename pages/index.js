@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { watchAuthState, signOutUser } from "@/lib/firebase";
 import { addUser, getRemainingPredictions, incrementPredictionCount, getProfilePlan, getTodayPredictions, addTodayPrediction } from "@/lib/storage";
 import { fetchWingoHistory, generateMockHistory, getCurrentIssue, estimateTimestamps } from "@/lib/wingo";
-import { generateSmartPrediction, PREDICTION_STAKES } from "@/lib/prediction";
+import { generateSmartPrediction } from "@/lib/prediction";
 import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema, FAQSchema } from "@/components/SEO";
 import { LoaderContext } from "./_app";
 
@@ -731,36 +731,6 @@ function PredictionCard({ issueNumber, remainingMs, hotCold, predictionResult, s
         </div>
       </div>
 
-      {prediction && !showServerAnim && (
-        <div className="prediction-engine">
-          <div className="pe-row">
-            <span className="pe-pill pe-level">
-              <em>Level</em>
-              <b>{prediction.level} · {PREDICTION_STAKES[prediction.level] || "1x"}</b>
-            </span>
-            <span className="pe-pill">
-              <em>Sniper</em>
-              <b>{prediction.sniperDigit} <small>{prediction.sniperProb}%</small></b>
-            </span>
-            <span className="pe-pill">
-              <em>Hot</em>
-              <b>{prediction.numbers.join(" ")}</b>
-            </span>
-          </div>
-          <div className="pe-row pe-votes">
-            <span>Wave {prediction.votes?.wave || "—"}</span>
-            <span>Ngram {prediction.votes?.ngram || "—"}</span>
-            <span>Quant {prediction.votes?.quant || "—"}</span>
-            <span>Entropy {prediction.votes?.entropy || "—"}</span>
-            <span>Vedic {prediction.votes?.vedic || "—"}</span>
-          </div>
-          <div className="pe-foot">
-            <span className="pe-risk">{prediction.risk}</span>
-            <span className="pe-strategy">{prediction.strategy}</span>
-            <span className="pe-pattern">{prediction.patternName} · RSI {prediction.rsi}</span>
-          </div>
-        </div>
-      )}
     </section>
   );
 }
@@ -1509,6 +1479,125 @@ function ModelSelectPopup({ onClose, onSelect }) {
   );
 }
 
+// ──────────────── FX1 Plan Select Popup ────────────────────────────────────
+function Fx1PlanPopup({ onClose, onSelect }) {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
+
+  const plans = [
+    { id: "fx1_d7", name: "7 Days", amount: "₹1,000", tag: "Starter", tagColor: "#0ea5e9", meta: "Instant activation · 7 days access" },
+    { id: "fx1_m1", name: "1 Month", amount: "₹3,000", tag: "Popular", tagColor: "#f59e0b", meta: "Instant activation · 30 days access" },
+    { id: "fx1_lt", name: "Lifetime", amount: "₹10,000", tag: "Best Value", tagColor: "#00b853", meta: "Unlimited access · never expires" },
+  ];
+
+  return (
+    <div className="rules-overlay" onClick={onClose}>
+      <div
+        className="rules-modal fx1-plan-modal"
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: "linear-gradient(160deg, #fff9f0 0%, #ffffff 50%, #fff3e2 100%)",
+          padding: "22px 18px",
+          minHeight: 0,
+        }}
+      >
+        <button className="rules-close" type="button" onClick={onClose} aria-label="Close">
+          <Icon name="back" />
+        </button>
+        <div className="rules-content" style={{ gap: 8, minHeight: 0 }}>
+          <div style={{
+            width: 48, height: 48, borderRadius: "50%",
+            background: "linear-gradient(135deg, #fbbf24 0%, #d97706 100%)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            margin: "0 auto 8px",
+            boxShadow: "0 6px 18px rgba(245, 158, 11, 0.3)",
+          }}>
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
+            </svg>
+          </div>
+          <h2 style={{ margin: 0, fontSize: 14, fontWeight: 800, color: "#1a1206", textAlign: "center" }}>
+            FX1 MODEL — SELECT YOUR PLAN
+          </h2>
+          <p style={{ margin: "0 auto 10px", maxWidth: 220, fontSize: 10.5, color: "#8a7a5e", lineHeight: 1.5, textAlign: "center" }}>
+            Choose a subscription. Prices and duration are verified on the server.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+            {plans.map((p) => (
+              <button
+                key={p.id}
+                type="button"
+                onClick={() => onSelect(p.id)}
+                style={{
+                  position: "relative",
+                  display: "flex", alignItems: "center", width: "100%",
+                  padding: "12px 13px", cursor: "pointer",
+                  border: "1.5px solid #fde8c4",
+                  background: "linear-gradient(135deg, #ffffff 0%, #fff9ee 100%)",
+                  boxShadow: "0 4px 14px rgba(15, 31, 24, 0.06)",
+                  textAlign: "left",
+                  borderRadius: 12,
+                  transition: "all 250ms cubic-bezier(0.2, 0.8, 0.2, 1)",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = "0 8px 22px rgba(245, 158, 11, 0.18)";
+                  e.currentTarget.style.transform = "translateY(-1px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = "0 4px 14px rgba(15, 31, 24, 0.06)";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}
+              >
+                <div style={{ display: "flex", flexDirection: "column", gap: 2, flex: 1, minWidth: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <span style={{ fontSize: 13, fontWeight: 800, color: "#1a1206" }}>{p.name}</span>
+                    <span style={{
+                      fontSize: 8.5, fontWeight: 800, letterSpacing: "0.4px", textTransform: "uppercase",
+                      padding: "2px 8px", borderRadius: 999,
+                      border: `1px solid ${p.tagColor}`, color: p.tagColor,
+                    }}>{p.tag}</span>
+                  </div>
+                  <span style={{ fontSize: 11, fontWeight: 500, color: "#8a7a5e" }}>{p.meta}</span>
+                </div>
+                <span style={{ fontSize: 18, fontWeight: 800, color: "#d97706", marginLeft: 10, whiteSpace: "nowrap" }}>
+                  {p.amount}
+                </span>
+              </button>
+            ))}
+          </div>
+          <div style={{
+            display: "flex", alignItems: "center", justifyContent: "center", gap: 12,
+            marginTop: 10, paddingTop: 10, borderTop: "1px solid #f1f5f9",
+          }}>
+            <span style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 10, fontWeight: 600, color: "#94a3b8" }}>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#00b853" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <path d="m9 11.5 2 2 4-4" />
+              </svg>
+              Secure
+            </span>
+            <span style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 10, fontWeight: 600, color: "#94a3b8" }}>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#00b853" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+              </svg>
+              Instant
+            </span>
+            <span style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 10, fontWeight: 600, color: "#94a3b8" }}>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#00b853" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="m8.5 12.5 2.5 2.5 5-5.5" />
+              </svg>
+              Verified
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function AuthGate() {
   return (
     <>
@@ -1545,10 +1634,18 @@ function ProfileFeature({ label, value, detail, tone, icon, suffix }) {
 
 function ProfileView({ user, history, userPredictions }) {
   const [plan, setPlan] = useState("");
+  const [fx1, setFx1] = useState(null);
 
   useEffect(() => {
     if (user?.email) {
-      getProfilePlan(user.email).then(setPlan);
+      getProfilePlan(user.email).then((p) => {
+        setPlan(p);
+        try {
+          const users = JSON.parse(localStorage.getItem("trx_users") || "[]");
+          const stored = users.find((u) => u.email === user.email);
+          setFx1(stored?.fx1_subscription || null);
+        } catch {}
+      });
     }
   }, [user]);
 
@@ -1571,6 +1668,11 @@ function ProfileView({ user, history, userPredictions }) {
   }, [user, history, userPredictions]);
 
   const planMeta = PLAN_META[plan] || null;
+  const fx1Active = !!fx1 && fx1.access_status === "ACTIVE";
+  const fx1Label = fx1?.plan_name ? `${fx1.plan_name} Plan` : "";
+  const fx1Expiry = fx1?.access_type === "LIFETIME" || fx1?.expires_at == null
+    ? "Never"
+    : new Date(fx1.expires_at).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
   const displayName = user?.displayName || user?.email?.split("@")[0] || "TryonAI User";
 
   return (
@@ -1611,16 +1713,30 @@ function ProfileView({ user, history, userPredictions }) {
               </span>
               <div>
                 <strong>{planMeta.label}</strong>
-                <em>{planMeta.price} · Lifetime access</em>
+                {plan === "fx1" && fx1 ? (
+                  <em>{fx1Label} · {fx1.access_type === "LIFETIME" ? "Lifetime access" : "Subscription"}</em>
+                ) : (
+                  <em>{planMeta.price} · Lifetime access</em>
+                )}
               </div>
             </div>
-            <span className="profile-plan-status">
+            <span className={`profile-plan-status ${plan === "fx1" && fx1 && fx1.access_status === "EXPIRED" ? "expired" : ""}`}>
               <LiveDot />
-              Active
+              {plan === "fx1" && fx1 ? (fx1.access_status === "ACTIVE" ? "Active" : "Expired") : "Active"}
             </span>
-            <p className="profile-plan-note">
-              Admin has unlocked premium predictions on this model for you.
-            </p>
+            {plan === "fx1" && fx1 ? (
+              <p className="profile-plan-note">
+                {fx1.access_status === "EXPIRED"
+                  ? "Your FX1 subscription has expired. Renew a plan to keep premium predictions."
+                  : fx1.access_type === "LIFETIME"
+                    ? "Unlimited FX1 predictions on your account."
+                    : `FX1 plan expires on ${fx1Expiry}.`}
+              </p>
+            ) : (
+              <p className="profile-plan-note">
+                Admin has unlocked premium predictions on this model for you.
+              </p>
+            )}
           </div>
         ) : (
           <div className="profile-plan-free">
@@ -1653,6 +1769,12 @@ function ProfileView({ user, history, userPredictions }) {
           <span>Current Plan</span>
           <strong>{planMeta ? planMeta.label : "Free Plan"}</strong>
         </div>
+        {plan === "fx1" && fx1 && (
+          <div className="profile-detail-row">
+            <span>Plan Expiry</span>
+            <strong>{fx1Expiry}</strong>
+          </div>
+        )}
         <div className="profile-detail-row">
           <span>Login Method</span>
           <strong>Google OAuth</strong>
@@ -1769,6 +1891,7 @@ function MainApp({ user }) {
   const { apiCurrent, history, serverNow, status } = useLiveHistory();
   const savedUser = useRef(false);
   const [showModelPopup, setShowModelPopup] = useState(false);
+  const [showFx1PlanPopup, setShowFx1PlanPopup] = useState(false);
 
   useEffect(() => {
     if (user?.email && !savedUser.current) {
@@ -1812,7 +1935,11 @@ function MainApp({ user }) {
 
   const handleModelSelect = useCallback((modelKey) => {
     setShowModelPopup(false);
-    router.push(modelKey === "fx1" ? "/subscription?model=fx1" : "/subscription");
+    if (modelKey === "fx1") {
+      setShowFx1PlanPopup(true);
+      return;
+    }
+    router.push("/subscription");
   }, [router]);
 
   async function handleBetClick() {
@@ -1958,6 +2085,15 @@ function MainApp({ user }) {
         <ModelSelectPopup
           onClose={() => setShowModelPopup(false)}
           onSelect={handleModelSelect}
+        />
+      )}
+      {showFx1PlanPopup && (
+        <Fx1PlanPopup
+          onClose={() => setShowFx1PlanPopup(false)}
+          onSelect={(planId) => {
+            setShowFx1PlanPopup(false);
+            router.push(`/subscription?model=fx1&plan=${planId}`);
+          }}
         />
       )}
       <Toast message={toastMessage} visible={toastVisible} />

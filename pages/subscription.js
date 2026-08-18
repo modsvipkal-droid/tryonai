@@ -32,6 +32,12 @@ const PLANS = {
   fx1: { label: "FX1 MODEL", amount: "1100.00", qr: "/Fx1qrdode.jpg" },
 };
 
+const FX1_PLANS = [
+  { id: "fx1_d7", name: "7 Days", amount: "1,000", tag: "Starter", tagColor: "#0ea5e9" },
+  { id: "fx1_m1", name: "1 Month", amount: "3,000", tag: "Popular", tagColor: "#f59e0b" },
+  { id: "fx1_lt", name: "Lifetime", amount: "10,000", tag: "Best Value", tagColor: "#00b853" },
+];
+
 async function getIdToken() {
   try {
     const auth = await getFirebaseAuth();
@@ -76,7 +82,9 @@ const openUpiApp = (pkg, amount) => {
 export default function Subscription() {
   const router = useRouter();
   const model = router.query.model === "fx1" ? "fx1" : "korven";
+  const planId = model === "fx1" && typeof router.query.plan === "string" ? router.query.plan : "";
   const plan = PLANS[model];
+  const fx1Plan = FX1_PLANS.find((p) => p.id === planId) || null;
   const [utr, setUtr] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [toastSuccess, setToastSuccess] = useState(false);
@@ -113,7 +121,7 @@ export default function Subscription() {
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         credentials: "include",
-        body: JSON.stringify({ model }),
+        body: JSON.stringify({ model, plan: model === "fx1" ? planId : undefined }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -205,6 +213,7 @@ export default function Subscription() {
 
   useEffect(() => {
     if (!authReady) return;
+    if (model === "fx1" && !fx1Plan) return; // wait for plan selection
     createOrder(authUserRef.current?.email);
 
     setTimeLeft(600);
@@ -222,7 +231,7 @@ export default function Subscription() {
       if (timerRef.current) clearInterval(timerRef.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authReady, model]);
+  }, [authReady, model, fx1Plan?.id]);
 
   useEffect(() => {
     if (orderIdRef.current && authReady) {
@@ -268,6 +277,10 @@ export default function Subscription() {
     }, 2500);
   };
 
+  const choosePlan = (pid) => {
+    router.replace(`/subscription?model=fx1&plan=${pid}`);
+  };
+
   return (
     <>
       <PageHead
@@ -289,7 +302,47 @@ export default function Subscription() {
 
       <div className="page-shell">
         <div className="app-screen" style={{ background: "#f8fafc", paddingBottom: "40px" }}>
-          
+
+          {model === "fx1" && !fx1Plan ? (
+            <div className="pay-screen" style={{ boxShadow: "none", borderRadius: 0, background: "#fcfefe" }}>
+              <div className="pay-screen-header">
+                <div className="pay-screen-header-left">
+                  <h2 className="pay-screen-title">FX1 MODEL</h2>
+                  <p className="pay-screen-subtitle">Select your plan</p>
+                </div>
+              </div>
+
+              <div className="fx1-plan-wrap">
+                {FX1_PLANS.map((p) => (
+                  <button
+                    key={p.id}
+                    type="button"
+                    className="fx1-plan-card"
+                    onClick={() => choosePlan(p.id)}
+                  >
+                    <span className="fx1-plan-tag" style={{ color: p.tagColor, borderColor: p.tagColor }}>
+                      {p.tag}
+                    </span>
+                    <strong className="fx1-plan-name">{p.name}</strong>
+                    <span className="fx1-plan-price">
+                      <b>₹{p.amount}</b>
+                    </span>
+                    <em className="fx1-plan-meta">
+                      {p.id === "fx1_lt" ? "Unlimited access · Never expires" : `Instant activation · Auto-expires after period`}
+                    </em>
+                    <span className="fx1-plan-cta">Continue to Payment</span>
+                  </button>
+                ))}
+              </div>
+
+              <div className="pay-security-footer">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="#94a3b8">
+                  <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z" />
+                </svg>
+                <span>Your payment details are secure with us.</span>
+              </div>
+            </div>
+          ) : (
           <div className="pay-screen" style={{ boxShadow: "none", borderRadius: 0, background: "#fcfefe" }}>
             
             {/* Header */}
@@ -327,7 +380,7 @@ export default function Subscription() {
                 </svg>
               </div>
               <div className="pay-amount-left">
-                <span className="pay-amount-label">Amount to Pay ({plan.label})</span>
+                <span className="pay-amount-label">Amount to Pay ({model === "fx1" ? `FX1 · ${fx1Plan?.name || "Plan"}` : plan.label})</span>
                 <div className="pay-amount-value">
                   <span className="pay-rupee">₹</span>
                   <span className="pay-price">{orderAmount || "..."}</span>
@@ -361,7 +414,7 @@ export default function Subscription() {
                 </div>
                 <div className="pay-plan-badge">
                   <span className="pay-plan-badge-label">PREMIUM AI</span>
-                  <span className="pay-plan-badge-sub">life time access</span>
+                  <span className="pay-plan-badge-sub">{model === "fx1" && fx1Plan ? (fx1Plan.id === "fx1_lt" ? "life time access" : `${fx1Plan.name} plan`) : "life time access"}</span>
                 </div>
               </div>
             </div>
@@ -530,6 +583,7 @@ export default function Subscription() {
               </>
             )}
           </div>
+          )}
 
         </div>
       </div>

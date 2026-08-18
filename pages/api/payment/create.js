@@ -1,7 +1,7 @@
 import { withAuth } from "@/lib/authMiddleware";
 import { createRateLimiter } from "@/lib/rateLimit";
 import { logSecurityEvent } from "@/lib/securityLog";
-import { getModelById, getModelName, generateInternalOrderId, generateQr } from "@/lib/fampay";
+import { getModelById, getModelName, getFx1PlanById, generateInternalOrderId, generateQr } from "@/lib/fampay";
 import { createPaymentOrder, findUserByEmail } from "@/lib/db";
 import { ensurePaymentIndexes } from "@/lib/mongodb";
 import { sanitizeString } from "@/lib/validate";
@@ -20,11 +20,24 @@ export default withAuth(async (req, res, user) => {
     return res.status(429).json({ error: "Too many payment requests. Please wait." });
   }
 
-  const { model } = req.body || {};
+  const { model, plan } = req.body || {};
   const modelId = sanitizeString(model, 20).toLowerCase();
   const config = getModelById(modelId);
   if (!config) {
     return res.status(400).json({ error: "Invalid or unknown model" });
+  }
+
+  // FX1 is subscription-based: the amount + duration always come from the
+  // server-side plan catalog. Never trust a frontend-supplied amount.
+  let planConfig = null;
+  let amount = config.amount;
+  if (modelId === "fx1") {
+    const planId = sanitizeString(plan, 20).toLowerCase();
+    planConfig = getFx1PlanById(planId);
+    if (!planConfig) {
+      return res.status(400).json({ error: "Please select a valid FX1 plan" });
+    }
+    amount = planConfig.amount;
   }
 
   const dbUser = await findUserByEmail(user.email);
@@ -36,9 +49,9 @@ export default withAuth(async (req, res, user) => {
 
   let qr;
   try {
-    qr = await generateQr({ amount: config.amount });
+    qr = await generateQr({ amount });
   } catch (err) {
-    logSecurityEvent("payment_qr_generation_failed", { email: user.email, modelId, error: err.message });
+    logSecurityEvent("payment_qr_generation_failed", { email: user.email, modelId, plan: planConfig?.id, error: err.message });
     return res.status(502).json({ error: "Could not generate payment QR. Please try again." });
   }
 
@@ -52,7 +65,7 @@ export default withAuth(async (req, res, user) => {
     user_email: user.email,
     model_id: config.id,
     model_name: config.name,
-    amount: config.amount,
+    amount,
     status: "PENDING",
     qr_url: qr.qrUrl || null,
     upi_id: qr.upiId || null,
@@ -60,6 +73,13 @@ export default withAuth(async (req, res, user) => {
     gateway_created_ist: qr.createdAtIst,
     gateway_expires_ist: qr.expiresAtIst,
   };
+  if (planConfig) {
+    order.plan_id = planConfig.id;
+    order.plan_name = planConfig.name;
+    order.duration_days = planConfig.duration_days;
+    order.access_type = planConfig.access_type;
+    order.access_expires_at = planConfig.duration_days == null ? null : now + planConfig.duration_days * 24 * 60 * 60 * 1000;
+  }
   if (qr.gatewayOrderId) order.gateway_order_id = qr.gatewayOrderId;
 
   const saved = await createPaymentOrder(order);
@@ -70,13 +90,15 @@ export default withAuth(async (req, res, user) => {
   // Index creation must never block or fail an order.
   ensurePaymentIndexes().catch(() => {});
 
-  logSecurityEvent("payment_order_created", { email: user.email, orderId, modelId, amount: config.amount });
+  logSecurityEvent("payment_order_created", { email: user.email, orderId, modelId, plan: planConfig?.id, amount });
 
   return res.status(201).json({
     orderId,
     modelId: config.id,
     modelName: config.name,
-    amount: config.amount,
+    planId: planConfig?.id || null,
+    planName: planConfig?.name || null,
+    amount,
     qrUrl: qr.qrUrl,
     gatewayOrderId: qr.gatewayOrderId || orderId,
     upiId: qr.upiId,

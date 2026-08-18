@@ -798,106 +798,6 @@ nextjs-portal,
   font-weight: 700;
 }
 
-.prediction-engine {
-  position: relative;
-  z-index: 2;
-  margin: 0 7px 7px;
-  padding: 10px 11px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-}
-
-.prediction-engine .pe-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
-  margin-bottom: 7px;
-}
-
-.prediction-engine .pe-pill {
-  display: grid;
-  gap: 2px;
-  flex: 1;
-  padding: 6px 8px;
-  border-radius: 7px;
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.prediction-engine .pe-pill em {
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 9px;
-  font-style: normal;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-}
-
-.prediction-engine .pe-pill b {
-  color: #fff;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.prediction-engine .pe-pill b small {
-  color: #b9f4d8;
-  font-size: 10px;
-  font-weight: 600;
-}
-
-.prediction-engine .pe-pill.pe-level b {
-  color: #ffd97a;
-}
-
-.prediction-engine .pe-votes {
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-bottom: 8px;
-}
-
-.prediction-engine .pe-votes span {
-  padding: 3px 7px;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 10px;
-  font-weight: 600;
-}
-
-.prediction-engine .pe-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
-  flex-wrap: wrap;
-  padding-top: 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
-}
-
-.prediction-engine .pe-risk {
-  padding: 3px 8px;
-  border-radius: 20px;
-  background: rgba(17, 184, 116, 0.28);
-  color: #c9fbe4;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-}
-
-.prediction-engine .pe-strategy {
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 10px;
-  font-weight: 600;
-}
-
-.prediction-engine .pe-pattern {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 9px;
-  font-weight: 600;
-}
-
 .insights-grid {
   display: grid;
   grid-template-columns: 1.14fr 0.86fr;
@@ -2274,6 +2174,93 @@ nextjs-portal,
   color: #94a3b8;
 }
 
+/* â”€â”€ FX1 Plan Picker â”€â”€ */
+.fx1-plan-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 16px 12px;
+}
+
+.fx1-plan-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  padding: 16px 16px 14px;
+  cursor: pointer;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(15, 31, 24, 0.05);
+  text-align: left;
+  transition: all 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.fx1-plan-card:hover {
+  border-color: #00b853;
+  box-shadow: 0 10px 26px rgba(0, 184, 83, 0.14);
+  transform: translateY(-2px);
+}
+
+.fx1-plan-tag {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.fx1-plan-name {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0f1f18;
+  letter-spacing: -0.3px;
+}
+
+.fx1-plan-price {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.fx1-plan-price b {
+  font-size: 26px;
+  font-weight: 800;
+  color: #00a047;
+  letter-spacing: -0.5px;
+}
+
+.fx1-plan-meta {
+  margin-top: 6px;
+  font-size: 10.5px;
+  font-style: normal;
+  font-weight: 500;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.fx1-plan-cta {
+  margin-top: 14px;
+  width: 100%;
+  text-align: center;
+  padding: 11px 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #00d47a 0%, #00995c 100%);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  box-shadow: 0 6px 16px rgba(0, 184, 83, 0.24);
+}
+
 .pay-secure-badge {
   display: flex;
   align-items: center;
@@ -3167,6 +3154,12 @@ nextjs-portal,
 .profile-plan-status .live-dot {
   width: 7px;
   height: 7px;
+}
+
+.profile-plan-status.expired {
+  color: #b91c1c;
+  border: 1px solid rgba(185, 28, 28, 0.25);
+  background: #fef2f2;
 }
 
 .profile-plan-note {

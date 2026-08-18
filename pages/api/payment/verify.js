@@ -20,6 +20,19 @@ function hasModelAccess(user, modelId) {
   return Array.isArray(user?.model_access) && user.model_access.includes(modelId);
 }
 
+function computeNextSubscription(current, order, verifiedAt) {
+  if (!order || order.model_id !== "fx1") return null;
+  const isLifetime = order.duration_days == null;
+  return {
+    plan_id: order.plan_id || null,
+    plan_name: order.plan_name || "FX1",
+    access_type: order.access_type || (isLifetime ? "LIFETIME" : "TEMPORARY"),
+    access_status: "ACTIVE",
+    started_at: verifiedAt,
+    expires_at: isLifetime ? null : verifiedAt + order.duration_days * 24 * 60 * 60 * 1000,
+  };
+}
+
 export default withAuth(async (req, res, user) => {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -56,6 +69,9 @@ export default withAuth(async (req, res, user) => {
       orderId: order.order_id,
       modelId: order.model_id,
       modelName: order.model_name || model?.name || order.model_id,
+      planId: order.plan_id || null,
+      planName: order.plan_name || null,
+      accessExpiresAt: order.access_expires_at ?? null,
       amount: order.amount,
       paidAmount: order.paid_amount,
     });
@@ -132,22 +148,28 @@ export default withAuth(async (req, res, user) => {
     const modelId = order.model_id;
     const modelAccess = Array.isArray(dbUser.model_access) ? dbUser.model_access : [];
     const nextAccess = modelAccess.includes(modelId) ? modelAccess : [...modelAccess, modelId];
-    await updateUser(user.email, {
+    const userUpdates = {
       model_access: nextAccess,
       unlimited: true,
       unlimitedAt: verifiedAt,
       model: modelId,
-    });
+    };
+    // FX1 plans carry a duration — persist the subscription + server-time expiry.
+    const sub = computeNextSubscription(dbUser, order, verifiedAt);
+    if (sub) userUpdates.fx1_subscription = sub;
+    await updateUser(user.email, userUpdates);
     if (!hasModelAccess(dbUser, modelId)) {
       await insertActivation({
         email: user.email,
         model: modelId,
         orderId: order.order_id,
         utr,
+        planId: order.plan_id || null,
+        planName: order.plan_name || null,
         activatedAt: verifiedAt,
       });
     }
-    logSecurityEvent("payment_verified_access_unlocked", { email: user.email, orderId: safeOrderId, modelId, utr });
+    logSecurityEvent("payment_verified_access_unlocked", { email: user.email, orderId: safeOrderId, modelId, utr, planId: order.plan_id || null });
   }
 
   const model = getModelById(order.model_id);
@@ -158,6 +180,9 @@ export default withAuth(async (req, res, user) => {
     orderId: order.order_id,
     modelId: order.model_id,
     modelName: order.model_name || model?.name || order.model_id,
+    planId: order.plan_id || null,
+    planName: order.plan_name || null,
+    accessExpiresAt: order.access_expires_at ?? null,
     amount: order.amount,
     paidAmount: updated.paid_amount ?? result.paidAmount,
     utr,
