@@ -2056,6 +2056,49 @@ function MainApp({ user }) {
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, [drawerOpen]);
 
+  // ── Live session heartbeat: reports presence + current page every 15s ──
+  useEffect(() => {
+    if (!user?.email) return undefined;
+
+    let sessionId = "";
+    try {
+      sessionId = window.sessionStorage.getItem("trion_session_id") || "";
+      if (!sessionId) {
+        sessionId = (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}_${Math.random().toString(36).slice(2)}`);
+        window.sessionStorage.setItem("trion_session_id", sessionId);
+      }
+    } catch {}
+
+    const pageMap = { predict: "Predict", dashboard: "Chart", profile: "Profile" };
+    const pageLabel = pageMap[activeView] || activeView || "";
+
+    let stopped = false;
+    async function beat() {
+      if (stopped) return;
+      try {
+        await fetch("/api/presence/heartbeat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ session_id: sessionId, page: pageLabel }),
+        });
+      } catch {}
+    }
+
+    beat();
+    const interval = setInterval(beat, 15000);
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") beat();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
+    return () => {
+      stopped = true;
+      clearInterval(interval);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, [user?.email, activeView]);
+
   const handleDrawerNavigate = useCallback((target) => {
     if (target === "subscription") {
       openSubscription();

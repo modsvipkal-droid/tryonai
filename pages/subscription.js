@@ -95,6 +95,7 @@ export default function Subscription() {
   const [qrUrl, setQrUrl] = useState("");
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
   const [copied, setCopied] = useState(false);
+  const [upiIdCopied, setUpiIdCopied] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState(null);
   const [authReady, setAuthReady] = useState(false);
   const [checking, setChecking] = useState(true);
@@ -244,16 +245,67 @@ export default function Subscription() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId, authReady]);
 
+  // Live session presence on the subscription/payment page.
+  useEffect(() => {
+    if (!authReady) return undefined;
+
+    let sessionId = "";
+    try {
+      sessionId = window.sessionStorage.getItem("trion_session_id") || "";
+      if (!sessionId) {
+        sessionId = (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}_${Math.random().toString(36).slice(2)}`);
+        window.sessionStorage.setItem("trion_session_id", sessionId);
+      }
+    } catch {}
+
+    let stopped = false;
+    async function beat() {
+      if (stopped) return;
+      try {
+        await fetch("/api/presence/heartbeat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ session_id: sessionId, page: "Subscription / Payment" }),
+        });
+      } catch {}
+    }
+
+    beat();
+    const interval = setInterval(beat, 15000);
+    return () => {
+      stopped = true;
+      clearInterval(interval);
+    };
+  }, [authReady]);
+
+  // Banks cap gallery-scanned QR payments at ₹2,000, so for larger amounts
+  // switch to the UPI tab (open-in-app / pay by UPI ID) as the primary method.
+  useEffect(() => {
+    if (isLargeAmount) setActiveTab("upi");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orderAmount]);
+
   const formatTime = (s) => {
     const m = Math.floor(s / 60);
     const sec = s % 60;
     return `${m}:${sec.toString().padStart(2, "0")}`;
   };
 
+  // Bank UPI apps cap gallery-scanned QR payments at ₹2,000. Above that,
+  // users must pay via UPI ID (mobile number) or by opening the UPI app directly.
+  const isLargeAmount = Number(orderAmount) > 2000 && !!orderAmount;
+
   const handleCopyOrderId = () => {
     navigator.clipboard.writeText(orderId);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleCopyUpiId = () => {
+    navigator.clipboard.writeText(UPI_VPA);
+    setUpiIdCopied(true);
+    setTimeout(() => setUpiIdCopied(false), 2000);
   };
 
   const handleDownloadQR = () => {
@@ -478,6 +530,25 @@ export default function Subscription() {
 
                 <p className="pay-qr-instruction">Scan this QR using any UPI app</p>
 
+                {isLargeAmount && (
+                  <div className="pay-large-amount-note">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#d97706" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="12" y1="8" x2="12" y2="12" />
+                      <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    <div>
+                      <strong>Amount above ₹2,000</strong>
+                      <p>
+                        This QR cannot be paid by scanning from your photo gallery (bank limit).{" "}
+                        Open the {activeTab === "qr" ? "UPI" : ""} app directly using the{" "}
+                        <b>UPI tab</b> above, or tap &quot;Pay by UPI ID&quot; below and pay to the
+                        UPI ID shown.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
                 <div className="pay-auto-verify">
                   <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
@@ -510,6 +581,40 @@ export default function Subscription() {
                   </div>
                 </div>
                 <p className="pay-upi-instruction">Select your preferred UPI app to complete payment</p>
+
+                <div className="pay-upi-id-card">
+                  <div className="pay-upi-id-head">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#16a34a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M4 15l4-10h4l4 10" stroke="#FF9800" strokeWidth="2.5" />
+                      <path d="M8 11h8" stroke="#4CAF50" strokeWidth="2.5" />
+                    </svg>
+                    <span>Pay by UPI ID</span>
+                  </div>
+                  <p className="pay-upi-id-hint">
+                    Open any UPI app, choose {isLargeAmount ? "&quot;Pay by UPI ID / Mobile Number&quot;" : "&quot;Pay by UPI ID&quot;"}, enter the ID below and pay the exact amount:
+                  </p>
+                  <div className="pay-upi-id-row">
+                    <code>{UPI_VPA}</code>
+                    <button className="pay-copy-btn pay-upi-id-copy" onClick={handleCopyUpiId} title="Copy UPI ID">
+                      {upiIdCopied ? (
+                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      ) : (
+                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                  <p className="pay-upi-id-amount">Amount: <strong>₹{orderAmount}</strong> · Payee: <strong>{UPI_PAYEE}</strong></p>
+                  {isLargeAmount && (
+                    <p className="pay-upi-id-note">
+                      This method works for amounts above ₹2,000 (used when the QR gallery limit kicks in).
+                    </p>
+                  )}
+                </div>
               </div>
             )}
 
