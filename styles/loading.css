@@ -2326,21 +2326,23 @@
 }
 
 .loader-faq-item {
-  border-radius: var(--r-card);
-  background: #FFFFFF;
-  border: 1px solid #E8EEEB;
-  box-shadow:
-    0 1px 0 rgba(255,255,255,0.92) inset,
-    var(--sh-sm);
-  overflow: hidden;
-  transition: border-color var(--dur-sm) ease, box-shadow var(--dur-sm) ease;
+  border-radius: 16px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  padding: var(--sp-md);
+  transition: background-color var(--dur-sm) ease, border-color var(--dur-sm) ease, box-shadow var(--dur-sm) ease;
+}
+
+.loader-faq-item:hover {
+  background: #f8fafc;
 }
 
 .loader-faq-item--open {
-  border-color: rgba(10,159,104,0.28);
+  border-color: rgba(10, 159, 104, 0.4);
+  background: #ffffff;
   box-shadow:
     0 1px 0 rgba(255,255,255,0.92) inset,
-    var(--sh-md);
+    var(--sh-sm);
 }
 
 .loader-faq-trigger {
@@ -2349,18 +2351,23 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--sp-sm);
-  padding: var(--sp-md);
   background: transparent;
   border: none;
   cursor: pointer;
   color: var(--c-ink);
   font-family: inherit;
+  text-align: left;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.loader-faq-question {
+  flex: 1;
+  margin: 0;
   font-size: var(--fs-base);
   font-weight: 650;
   letter-spacing: -0.01em;
-  text-align: left;
   line-height: 1.4;
-  -webkit-tap-highlight-color: transparent;
 }
 
 .loader-faq-chevron {
@@ -2381,14 +2388,14 @@
 
 .loader-faq-item--open .loader-faq-content {
   grid-template-rows: 1fr;
+  margin-top: var(--sp-sm);
 }
 
 .loader-faq-content p {
   margin: 0;
-  padding: 0 var(--sp-md) var(--sp-md);
   overflow: hidden;
   color: var(--c-muted);
-  font-size: var(--fs-sm);
+  font-size: var(--fs-base);
   font-weight: 420;
   line-height: 1.65;
 }

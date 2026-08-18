@@ -544,7 +544,17 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
   const startButtonRef = useRef(null);
   const exitTimerRef = useRef(null);
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
-  const [openFaq, setOpenFaq] = useState(0);
+  const [openFaq, setOpenFaq] = useState([]);
+
+  const toggleAccordion = (index) => {
+    setOpenFaq((prev) => {
+      const indexExists = prev.includes(index);
+      if (indexExists) {
+        return prev.filter((activeIdx) => activeIdx !== index);
+      }
+      return [...prev, index];
+    });
+  };
   const coverageRef = useRef(null);
   const coverageItems = useRef([]);
   const platformRef = useRef(null);
@@ -1214,17 +1224,17 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
 
             <div className="loader-faq-list">
               {LOADER_FAQS.map((faq, idx) => {
-                const isOpen = openFaq === idx;
+                const isOpen = openFaq.includes(idx);
                 return (
                   <div className={`loader-faq-item${isOpen ? " loader-faq-item--open" : ""}`} key={faq.question}>
                     <button
                       type="button"
                       className="loader-faq-trigger"
-                      onClick={() => setOpenFaq(isOpen ? -1 : idx)}
+                      onClick={() => toggleAccordion(idx)}
                       aria-expanded={isOpen}
                     >
-                      <span>{faq.question}</span>
-                      <ChevronDown size={16} className="loader-faq-chevron" />
+                      <h4 className="loader-faq-question">{faq.question}</h4>
+                      <ChevronDown className="loader-faq-chevron" size={20} />
                     </button>
                     <div className="loader-faq-content">
                       <p>{faq.answer}</p>
