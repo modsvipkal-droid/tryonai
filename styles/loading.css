@@ -1928,6 +1928,100 @@
   overflow-wrap: anywhere;
 }
 
+/* ── DASHBOARD — premium alternating timeline ─────────────────────────────── */
+.loader-dashboard-timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0 2px;
+}
+
+/* Center vertical line */
+.loader-dashboard-timeline-line {
+  position: absolute;
+  left: calc(50% - 1px);
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  background: linear-gradient(180deg, rgba(10, 159, 104, 0.42), rgba(10, 159, 104, 0.12));
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+/* Half-width alternating row */
+.loader-dashboard-item {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  width: 50%;
+  padding: var(--sp-sm) 22px var(--sp-sm) 0;
+}
+
+.loader-dashboard-item--right {
+  justify-content: flex-start;
+  align-self: flex-end;
+  padding: var(--sp-sm) 0 var(--sp-sm) 22px;
+}
+
+/* Node dot centered on the vertical line */
+.loader-dashboard-dot {
+  position: absolute;
+  top: calc(50% - 10px);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 3px solid rgba(10, 159, 104, 0.55);
+  box-shadow: 0 0 0 4px rgba(245, 246, 250, 0.8), 0 2px 6px rgba(10, 159, 104, 0.18);
+  z-index: 2;
+}
+
+.loader-dashboard-item:not(.loader-dashboard-item--right) .loader-dashboard-dot {
+  right: -14px;
+}
+
+.loader-dashboard-item--right .loader-dashboard-dot {
+  left: -14px;
+}
+
+/* Reveal dot subtle pulse on left-aligned line drop */
+.loader-dashboard-item:hover .loader-dashboard-dot {
+  transform: scale(1.15);
+  border-color: var(--c-green);
+  transition: transform 0.3s var(--ease-spring), border-color 0.3s ease;
+}
+
+/* Card — fills the padded half, arrow nub pointing at the line */
+.loader-dashboard-item .loader-dashboard-card {
+  width: 100%;
+  overflow: visible;
+}
+
+/* Arrow nub toward the center line */
+.loader-dashboard-item:not(.loader-dashboard-item--right) .loader-dashboard-card::after {
+  content: "";
+  position: absolute;
+  top: calc(50% - 7.5px);
+  right: -7.5px;
+  width: 15px;
+  height: 15px;
+  background: #FFFFFF;
+  transform: rotate(45deg);
+  box-shadow: 2px -2px 1px -1.5px rgba(20, 40, 30, 0.06);
+}
+
+.loader-dashboard-item--right .loader-dashboard-card::after {
+  content: "";
+  position: absolute;
+  top: calc(50% - 7.5px);
+  left: -7.5px;
+  width: 15px;
+  height: 15px;
+  background: #FFFFFF;
+  transform: rotate(45deg);
+  box-shadow: -2px 2px 1px -1.5px rgba(20, 40, 30, 0.06);
+}
+
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    MODELS â€” Korven vs FX1 comparison
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
@@ -2975,6 +3069,23 @@
   .loader-dashboard-grid,
   .loader-about-grid {
     grid-template-columns: 1fr;
+  }
+
+  /* Dashboard timeline — tighter paddings on small screens */
+  .loader-dashboard-item {
+    padding: var(--sp-xs) 14px var(--sp-xs) 0;
+  }
+
+  .loader-dashboard-item--right {
+    padding: var(--sp-xs) 0 var(--sp-xs) 14px;
+  }
+
+  .loader-dashboard-item:not(.loader-dashboard-item--right) .loader-dashboard-dot {
+    right: -11px;
+  }
+
+  .loader-dashboard-item--right .loader-dashboard-dot {
+    left: -11px;
   }
 
   .loader-models-grid {

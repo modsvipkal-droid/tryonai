@@ -910,20 +910,27 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
               frequency board - all computed from real Wingo30 results.
             </p>
 
-            <div className="loader-dashboard-grid">
+            <div className="loader-dashboard-timeline">
+              <div className="loader-dashboard-timeline-line" aria-hidden="true" />
               {DASHBOARD_FEATURES.map((feature, index) => (
-                <article className="loader-dashboard-card" key={feature.title}>
-                  <div className="loader-dashboard-icon">
-                    {index === 0 && <TrendingUp size={16} />}
-                    {index === 1 && <ListChecks size={16} />}
-                    {index === 2 && <Timer size={16} />}
-                    {index === 3 && <Flame size={16} />}
-                    {index === 4 && <BarChart3 size={16} />}
-                    {index === 5 && <CircleDot size={16} />}
+                <article
+                  className={`loader-dashboard-item${index % 2 === 1 ? " loader-dashboard-item--right" : ""}`}
+                  key={feature.title}
+                >
+                  <span className="loader-dashboard-dot" aria-hidden="true" />
+                  <div className="loader-dashboard-card">
+                    <div className="loader-dashboard-icon">
+                      {index === 0 && <TrendingUp size={16} />}
+                      {index === 1 && <ListChecks size={16} />}
+                      {index === 2 && <Timer size={16} />}
+                      {index === 3 && <Flame size={16} />}
+                      {index === 4 && <BarChart3 size={16} />}
+                      {index === 5 && <CircleDot size={16} />}
+                    </div>
+                    <span className="loader-dashboard-tag">{feature.tag}</span>
+                    <h3>{feature.title}</h3>
+                    <p>{feature.text}</p>
                   </div>
-                  <h3>{feature.title}</h3>
-                  <span className="loader-dashboard-tag">{feature.tag}</span>
-                  <p>{feature.text}</p>
                 </article>
               ))}
             </div>
