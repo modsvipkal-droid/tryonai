@@ -13,6 +13,12 @@ const bgStyle = `
   p { font-size: 15px; line-height: 1.6; color: #475569; margin: 0 0 16px 0; }
   ul { margin: 0 0 24px 0; padding-left: 20px; color: #475569; }
   li { font-size: 15px; line-height: 1.6; margin-bottom: 8px; }
+  @media (max-width: 640px) {
+    .legal-container { margin: 20px 12px 32px; padding: 24px 18px; }
+    h1 { font-size: 23px; }
+    h2 { font-size: 17px; }
+    p, li { font-size: 14px; }
+  }
 `;
 
 export default function TermsAndConditions() {

@@ -107,8 +107,8 @@ nextjs-portal,
 
 .app-screen {
   position: relative;
-  width: 100vw;
-  max-width: 575px;
+  width: 100%;
+  max-width: min(100vw, 575px);
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
@@ -7191,5 +7191,71 @@ nextjs-portal,
 @keyframes maintenanceBounce {
   0%, 80%, 100% { transform: scale(0.6); }
   40% { transform: scale(1); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Fluid Adaptive Layer — every device & every screen size.
+   The phone frame widens naturally, grids use more columns,
+   dense clusters stay readable, and nothing overflows.
+   ───────────────────────────────────────────────────────────── */
+
+/* Wider shells on larger viewports (fluid widening) */
+@media (min-width: 680px) {
+  .app-screen { max-width: min(96vw, 680px); }
+}
+@media (min-width: 900px) {
+  .app-screen { max-width: min(94vw, 860px); }
+}
+@media (min-width: 1200px) {
+  .app-screen { max-width: min(92vw, 980px); }
+}
+@media (min-width: 1640px) {
+  .app-screen { max-width: min(90vw, 1160px); }
+}
+
+/* Content padding scales with the shell; history bleeds match it */
+@media (min-width: 680px) {
+  .content {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .history-card {
+    margin-left: -24px;
+    margin-right: -24px;
+  }
+}
+@media (min-width: 900px) {
+  .content {
+    padding-left: clamp(24px, 3vw, 44px);
+    padding-right: clamp(24px, 3vw, 44px);
+  }
+  .history-card {
+    margin-left: calc(-1 * clamp(24px, 3vw, 44px));
+    margin-right: calc(-1 * clamp(24px, 3vw, 44px));
+  }
+}
+
+/* Dashboards & profile: use the extra width with more columns */
+@media (min-width: 680px) {
+  .dashboard-metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .dashboard-feature-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .profile-features-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 900px) {
+  .dashboard-metrics { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .dashboard-feature-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .profile-features-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* Dense rows stay comfortably sized instead of stretching */
+@media (min-width: 900px) {
+  .game-grid,
+  .multiplier-row,
+  .color-actions,
+  .mini-ball-row,
+  .timer-digits {
+    max-width: 620px;
+    margin-inline: auto;
+  }
 }
 

@@ -160,6 +160,17 @@
   padding-bottom: 80px;
 }
 
+/* Fluid Adaptive Layer — developer portal */
+@media (min-width: 680px) {
+  .dev-container { max-width: min(96vw, 700px); }
+}
+@media (min-width: 900px) {
+  .dev-container { max-width: min(94vw, 880px); }
+}
+@media (min-width: 1200px) {
+  .dev-container { max-width: min(92vw, 1000px); }
+}
+
 /* ── Alerts ─────────────────────────────────────────── */
 .dev-alert {
   display: flex;

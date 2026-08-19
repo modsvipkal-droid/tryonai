@@ -14,6 +14,13 @@ const bgStyle = `
   @media (min-width: 768px) {
     .contact-grid { grid-template-columns: 1.2fr 0.8fr; }
   }
+  @media (max-width: 640px) {
+    .contact-container { margin: 20px 12px 32px; padding: 24px 18px; }
+    h1 { font-size: 23px; }
+    p.meta { font-size: 14px; }
+    .contact-grid { gap: 20px; }
+    .support-card { padding: 18px; }
+  }
   .contact-form { display: flex; flex-direction: column; gap: 20px; }
   .form-group { display: flex; flex-direction: column; gap: 8px; }
   .form-group label { font-size: 14px; font-weight: 600; color: #334155; }

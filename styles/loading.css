@@ -3229,3 +3229,16 @@
     filter: none !important;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   Fluid Adaptive Layer — loading / welcome screen
+   ───────────────────────────────────────────────────────────── */
+@media (min-width: 680px) {
+  .loader-shell { width: min(96vw, 700px); }
+}
+@media (min-width: 900px) {
+  .loader-shell { width: min(94vw, 820px); }
+}
+@media (min-width: 1200px) {
+  .loader-shell { width: min(92vw, 920px); }
+}
