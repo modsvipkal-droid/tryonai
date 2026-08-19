@@ -487,6 +487,12 @@ function Icon({ name, className = "" }) {
         <path d="m4.15 15.85 7.85 4.15 7.85-4.15" />
       </>
     ),
+    edit: (
+      <>
+        <path d="M15.8 5.1a2.2 2.2 0 0 1 3.1 3.1L8.4 18.7l-3.9 1 1-3.9Z" />
+        <path d="m13.7 7.3 3 3" />
+      </>
+    ),
   };
 
   return (
@@ -1678,21 +1684,29 @@ function ProfileView({ user, history, userPredictions }) {
   return (
     <section className="profile-view">
       <div className="profile-hero">
-        <div className="profile-avatar">
-          {user?.photoURL ? (
-            <img src={user.photoURL} alt={displayName} />
-          ) : (
-            <span>
-              <Icon name="user" />
+        <div className="profile-hero-main">
+          <div className="profile-avatar">
+            {user?.photoURL ? (
+              <img src={user.photoURL} alt={displayName} />
+            ) : (
+              <span>
+                <Icon name="user" />
+              </span>
+            )}
+          </div>
+          <div className="profile-hero-info">
+            <h1>{displayName}</h1>
+            <p>{user?.email}</p>
+            <span className="profile-hero-badge">
+              <LiveDot />
+              Active account
             </span>
-          )}
+          </div>
         </div>
-        <h1>{displayName}</h1>
-        <p>{user?.email}</p>
-        <span className="profile-hero-badge">
-          <LiveDot />
-          Active account
-        </span>
+        <button className="profile-edit-btn" type="button">
+          <Icon name="edit" />
+          <span>Edit Profile</span>
+        </button>
       </div>
 
       <div className="profile-card profile-plan-card">
