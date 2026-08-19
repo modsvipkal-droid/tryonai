@@ -3461,7 +3461,7 @@ nextjs-portal,
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.62) 65%, rgba(255, 255, 255, 0.92) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.68) 55%, rgba(255, 255, 255, 0.94) 100%);
 }
 
 .profile-feature::after {
@@ -3495,7 +3495,7 @@ nextjs-portal,
   height: 30px;
   display: grid;
   place-items: center;
-  color: #3d5a2c;
+  color: var(--accent);
 }
 
 .profile-feature-icon svg {
@@ -3514,7 +3514,7 @@ nextjs-portal,
 .profile-feature strong {
   display: block;
   margin-top: 4px;
-  color: #3d5a2c;
+  color: var(--accent);
   font-size: 25px;
   font-weight: 900;
   line-height: 1;
