@@ -3243,15 +3243,11 @@
   .loader-shell { width: min(92vw, 920px); }
 }
 
-/* ═════════════════════════════════════════════════════════════════════
-   FOOTER — full viewport width, fixed at bottom, no card wrapper
+/* ════════════════════════════════════════════════════════════════════
+   FOOTER — full viewport width, normal document flow at bottom of content
    ═════════════════════════════════════════════════════════════════════ */
 .loader-footer {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1000;
+  position: static;
   width: 100%;
   border-radius: 0;
   margin: 0;
