@@ -13,9 +13,16 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "/main.png",
+      "src": "/officialicon.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/officialicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

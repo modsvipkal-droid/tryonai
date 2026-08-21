@@ -1304,45 +1304,56 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
             </div>
           </section>
 
-          {/* ── FOOTER ── */}
+{/* ── FOOTER ── */}
           <footer className="loader-footer" aria-label="Footer">
-            <div className="loader-footer-top">
+            <div className="loader-footer-inner">
+              {/* Brand section - horizontal compact layout */}
               <div className="loader-footer-brand">
                 <div className="loader-footer-logo">
                   <TrionIcon />
                 </div>
-                <div>
+                <div className="loader-footer-brand-text">
                   <strong>TRION AI</strong>
-                  <p>AI-powered Wingo30 prediction &amp; signals platform.</p>
+                  <p>AI-powered Wingo30 prediction & signals platform.</p>
                 </div>
               </div>
 
-              <div className="loader-footer-col">
-                <h4>Platform</h4>
-                <Link href="/subscription">Subscription &amp; Models</Link>
-                <Link href="/login">Prediction Tool</Link>
-                <Link href="/developer">Developer API</Link>
+              {/* Links grid - 2 columns: PLATFORM | SUPPORT */}
+              <div className="loader-footer-links">
+                <div className="loader-footer-link-group">
+                  <h4>PLATFORM</h4>
+                  <Link href="/subscription">Subscription & Models</Link>
+                  <Link href="/login">Prediction Tool</Link>
+                  <Link href="/developer">Developer API</Link>
+                </div>
+
+                <div className="loader-footer-link-group">
+                  <h4>SUPPORT</h4>
+                  <Link href="/contact">Contact Us</Link>
+                  <button type="button" className="loader-footer-link" onClick={handleTelegramClick}>
+                    Telegram Channel
+                  </button>
+                </div>
               </div>
 
-              <div className="loader-footer-col">
-                <h4>Support</h4>
-                <Link href="/contact">Contact Us</Link>
-                <button type="button" className="loader-footer-link" onClick={handleTelegramClick}>
-                  Telegram Channel
-                </button>
+              {/* Legal section */}
+              <div className="loader-footer-legal">
+                <h4>LEGAL</h4>
+                <div className="loader-footer-legal-links">
+                  <Link href="/privacy">Privacy Policy</Link>
+                  <Link href="/terms">Terms & Conditions</Link>
+                  <Link href="/refund">Refund Policy</Link>
+                </div>
               </div>
 
-              <div className="loader-footer-col">
-                <h4>Legal</h4>
-                <Link href="/privacy">Privacy Policy</Link>
-                <Link href="/terms">Terms &amp; Conditions</Link>
-                <Link href="/refund">Refund Policy</Link>
-              </div>
-            </div>
+              {/* Divider */}
+              <div className="loader-footer-divider" aria-hidden="true" />
 
-            <div className="loader-footer-bottom">
-              <span>© {new Date().getFullYear()} TRION AI. All rights reserved.</span>
-              <span>Predictions are statistical estimates, not guaranteed results.</span>
+              {/* Copyright & disclaimer */}
+              <div className="loader-footer-bottom">
+                <span>© {new Date().getFullYear()} TRION AI. All rights reserved.</span>
+                <span>Predictions are statistical estimates, not guaranteed results.</span>
+              </div>
             </div>
           </footer>
 

@@ -16,9 +16,15 @@ export default function Document() {
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
 
         <link rel="manifest" href="/manifest.json" />
-        <link rel="icon" type="image/png" href="/main.png" />
-        <link rel="shortcut icon" href="/main.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/main.png" />
+        <link rel="icon" type="image/png" sizes="any" href="/officialicon.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/officialicon.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/officialicon.png" />
+        <link rel="shortcut icon" href="/officialicon.png" type="image/png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/officialicon.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="/officialicon.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="/officialicon.png" />
+        <link rel="apple-touch-icon" sizes="120x120" href="/officialicon.png" />
+        <link rel="apple-touch-icon" href="/officialicon.png" />
 
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
