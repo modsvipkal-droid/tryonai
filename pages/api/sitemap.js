@@ -15,9 +15,10 @@ export default function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const lastmod = new Date().toISOString().slice(0, 10);
+  const defaultLastmod = new Date().toISOString().slice(0, 10);
   const urls = PUBLIC_ROUTES.map((route) => {
     const loc = `${SITE.url}${route.path === "/" ? "/" : route.path}`;
+    const lastmod = route.lastmod || defaultLastmod;
     return `  <url>
     <loc>${escapeXml(loc)}</loc>
     <lastmod>${lastmod}</lastmod>
