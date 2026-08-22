@@ -3,7 +3,30 @@ import { PageHead, BreadcrumbSchema, FAQSchema, WebPageSchema } from "@/componen
 
 // ── Page-scoped styles ────────────────────────────────────────────────────────
 const bgStyle = `
-  html, body { background: #0b0f1a !important; color: #e2e8f0 !important; font-family: 'Inter', sans-serif; overflow: auto !important; }
+  html, body {
+    overflow: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+    min-height: 100% !important;
+    background: linear-gradient(90deg, rgba(0,126,73,0.12), rgba(255,255,255,0.5), rgba(0,126,73,0.12)), #eef7f3 !important;
+    color: #17251f !important;
+    font-family: 'Inter', sans-serif;
+  }
+
+  #__next {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 100% !important;
+  }
+
+  .wkh-page-shell {
+    width: 100%;
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    background: linear-gradient(90deg, rgba(0,126,73,0.12), rgba(255,255,255,0.5), rgba(0,126,73,0.12)), #eef7f3;
+  }
 
   .wkh-wrap {
     max-width: 860px;
@@ -16,7 +39,7 @@ const bgStyle = `
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: #e879f9;
+    color: #00985b;
     font-weight: 600;
     font-size: 14px;
     margin-bottom: 32px;
@@ -27,13 +50,13 @@ const bgStyle = `
     outline: none;
     transition: color 0.2s;
   }
-  .wkh-back:hover { color: #c026d3; }
-  .wkh-back:focus-visible { outline: 2px solid #e879f9; outline-offset: 4px; border-radius: 4px; }
+  .wkh-back:hover { color: #005537; }
+  .wkh-back:focus-visible { outline: 2px solid #00985b; outline-offset: 4px; border-radius: 4px; }
 
   /* Hero */
   .wkh-hero {
-    background: linear-gradient(135deg, #1a0a2e 0%, #0d1f38 100%);
-    border: 1px solid #2a1040;
+    background: linear-gradient(135deg, #e6f7ef 0%, #d4f0e4 100%);
+    border: 1px solid #b2dfc8;
     border-radius: 20px;
     padding: 40px 36px;
     margin-bottom: 48px;
@@ -45,7 +68,7 @@ const bgStyle = `
     position: absolute;
     top: -70px; right: -70px;
     width: 250px; height: 250px;
-    background: radial-gradient(circle, rgba(232,121,249,0.13) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(0,152,91,0.14) 0%, transparent 70%);
     border-radius: 50%;
     pointer-events: none;
   }
@@ -54,7 +77,7 @@ const bgStyle = `
     position: absolute;
     bottom: -50px; left: -50px;
     width: 180px; height: 180px;
-    background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(0,85,55,0.06) 0%, transparent 70%);
     border-radius: 50%;
     pointer-events: none;
   }
@@ -64,9 +87,9 @@ const bgStyle = `
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(232,121,249,0.12);
-    border: 1px solid rgba(232,121,249,0.28);
-    color: #f0abfc;
+    background: rgba(0,152,91,0.12);
+    border: 1px solid rgba(0,152,91,0.3);
+    color: #00985b;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -77,7 +100,7 @@ const bgStyle = `
   }
   .wkh-badge-dot {
     width: 6px; height: 6px;
-    background: #e879f9;
+    background: #00985b;
     border-radius: 50%;
     animation: wkhPulse 1.8s ease-in-out infinite;
   }
@@ -90,17 +113,17 @@ const bgStyle = `
   h1.wkh-h1 {
     font-size: clamp(22px, 4vw, 34px);
     font-weight: 900;
-    color: #f1f5f9;
+    color: #17251f;
     margin: 0 0 14px;
     line-height: 1.22;
     letter-spacing: -0.5px;
   }
-  h1.wkh-h1 .pink   { color: #e879f9; }
-  h1.wkh-h1 .indigo { color: #818cf8; }
+  h1.wkh-h1 .pink   { color: #00985b; }
+  h1.wkh-h1 .indigo { color: #005537; }
 
   .wkh-subtitle {
     font-size: 15px;
-    color: #94a3b8;
+    color: #4a6358;
     margin: 0;
     line-height: 1.65;
     max-width: 640px;
@@ -114,9 +137,9 @@ const bgStyle = `
     margin-top: 24px;
   }
   .wkh-chip {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.09);
-    color: #94a3b8;
+    background: rgba(0,152,91,0.08);
+    border: 1px solid rgba(0,152,91,0.2);
+    color: #00985b;
     font-size: 12px;
     font-weight: 500;
     padding: 4px 12px;
@@ -124,17 +147,17 @@ const bgStyle = `
   }
 
   /* Body */
-  .wkh-body { line-height: 1.75; color: #cbd5e1; }
+  .wkh-body { line-height: 1.75; color: #2d4a3e; }
   .wkh-body p { margin: 0 0 20px; font-size: 15.5px; }
-  .wkh-body strong { color: #f1f5f9; font-weight: 700; }
-  .wkh-body em { color: #f0abfc; font-style: normal; font-weight: 600; }
+  .wkh-body strong { color: #17251f; font-weight: 700; }
+  .wkh-body em { color: #00985b; font-style: normal; font-weight: 600; }
 
   /* Sections */
   .wkh-section { margin: 48px 0 0; }
   .wkh-section h2 {
     font-size: clamp(18px, 3vw, 23px);
     font-weight: 800;
-    color: #f1f5f9;
+    color: #17251f;
     margin: 0 0 6px;
     display: flex;
     align-items: center;
@@ -144,13 +167,13 @@ const bgStyle = `
     content: '';
     display: inline-block;
     width: 4px; height: 22px;
-    background: linear-gradient(180deg, #e879f9, #a21caf);
+    background: linear-gradient(180deg, #00985b, #005537);
     border-radius: 2px;
     flex-shrink: 0;
   }
   .wkh-section-sub {
     font-size: 13px;
-    color: #e879f9;
+    color: #00985b;
     font-weight: 600;
     margin: 0 0 20px;
     padding-left: 14px;
@@ -164,16 +187,16 @@ const bgStyle = `
     margin-top: 22px;
   }
   .wkh-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: #ffffff;
+    border: 1px solid #c9e8d8;
     border-radius: 14px;
     padding: 20px 18px;
-    transition: border-color 0.2s, transform 0.2s;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
   }
-  .wkh-card:hover { border-color: rgba(232,121,249,0.4); transform: translateY(-2px); }
+  .wkh-card:hover { border-color: #00985b; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,152,91,0.12); }
   .wkh-card-icon  { font-size: 24px; margin-bottom: 10px; }
-  .wkh-card-title { font-size: 13px; font-weight: 700; color: #f1f5f9; margin-bottom: 6px; }
-  .wkh-card-desc  { font-size: 13px; color: #94a3b8; line-height: 1.55; }
+  .wkh-card-title { font-size: 13px; font-weight: 700; color: #17251f; margin-bottom: 6px; }
+  .wkh-card-desc  { font-size: 13px; color: #4a6358; line-height: 1.55; }
 
   /* Odds table */
   .wkh-table {
@@ -181,50 +204,55 @@ const bgStyle = `
     border-collapse: collapse;
     margin-top: 20px;
     font-size: 14px;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #c9e8d8;
   }
   .wkh-table th {
-    background: rgba(232,121,249,0.1);
-    color: #f0abfc;
+    background: #e9f8f1;
+    color: #005537;
     font-weight: 700;
     text-align: left;
     padding: 12px 16px;
-    border-bottom: 1px solid rgba(232,121,249,0.2);
+    border-bottom: 1px solid #c9e8d8;
   }
   .wkh-table td {
     padding: 11px 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    color: #94a3b8;
+    border-bottom: 1px solid #edf0ee;
+    color: #4a6358;
   }
-  .wkh-table tr:hover td { background: rgba(255,255,255,0.02); }
-  .wkh-table td:first-child { color: #e2e8f0; font-weight: 600; }
-  .pill-red    { color: #fca5a5; font-weight: 700; }
-  .pill-green  { color: #86efac; font-weight: 700; }
-  .pill-violet { color: #c4b5fd; font-weight: 700; }
+  .wkh-table tr:hover td { background: #f8faf9; }
+  .wkh-table td:first-child { color: #17251f; font-weight: 600; }
+  .pill-red    { color: #dc2626; font-weight: 700; }
+  .pill-green  { color: #16a34a; font-weight: 700; }
+  .pill-violet { color: #9333ea; font-weight: 700; }
 
   /* Highlight */
   .wkh-highlight {
-    background: rgba(232,121,249,0.07);
-    border-left: 3px solid #e879f9;
+    background: #e9f8f1;
+    border-left: 3px solid #00985b;
     border-radius: 0 10px 10px 0;
     padding: 14px 18px;
     margin: 20px 0;
     font-size: 14.5px;
-    color: #f0abfc;
+    color: #005537;
     line-height: 1.65;
   }
 
   /* Trion promo card */
   .wkh-promo {
-    background: linear-gradient(135deg, rgba(232,121,249,0.09) 0%, rgba(99,102,241,0.09) 100%);
-    border: 1px solid rgba(232,121,249,0.25);
+    background: linear-gradient(135deg, #e6f7ef 0%, #d4f0e4 100%);
+    border: 1px solid #b2dfc8;
     border-radius: 16px;
     padding: 24px 26px;
     margin: 28px 0;
+    box-shadow: 0 4px 16px rgba(0,152,91,0.08);
   }
   .wkh-promo-title {
     font-size: 15px;
     font-weight: 800;
-    color: #f0abfc;
+    color: #005537;
     margin: 0 0 10px;
     display: flex;
     align-items: center;
@@ -239,7 +267,7 @@ const bgStyle = `
   }
   .wkh-promo-list li {
     font-size: 14px;
-    color: #cbd5e1;
+    color: #2d4a3e;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -250,65 +278,64 @@ const bgStyle = `
     align-items: center;
     gap: 6px;
     margin-top: 14px;
-    background: rgba(232,121,249,0.15);
-    border: 1px solid rgba(232,121,249,0.3);
-    color: #f0abfc;
+    background: #00985b;
+    color: #ffffff;
     font-size: 13px;
     font-weight: 700;
-    padding: 7px 16px;
+    padding: 8px 18px;
     border-radius: 100px;
     text-decoration: none;
-    transition: background 0.2s;
+    transition: background 0.2s, transform 0.2s;
   }
-  .wkh-promo-link:hover { background: rgba(232,121,249,0.25); }
+  .wkh-promo-link:hover { background: #005537; transform: translateY(-1px); }
 
   /* Notice */
   .wkh-notice {
-    background: rgba(234,179,8,0.07);
-    border: 1px solid rgba(234,179,8,0.22);
+    background: #fffbeb;
+    border: 1px solid #fcd34d;
     border-radius: 12px;
     padding: 16px 20px;
-    color: #fde68a;
+    color: #92400e;
     font-size: 14px;
     line-height: 1.65;
     margin: 24px 0;
   }
-  .wkh-notice strong { color: #fbbf24; }
+  .wkh-notice strong { color: #b45309; }
 
   /* Legal box */
   .wkh-legal {
-    background: rgba(239,68,68,0.07);
-    border: 1px solid rgba(239,68,68,0.18);
+    background: #fee2e2;
+    border: 1px solid #fecaca;
     border-radius: 12px;
     padding: 16px 20px;
-    color: #fca5a5;
+    color: #991b1b;
     font-size: 14px;
     line-height: 1.65;
     margin: 20px 0;
   }
-  .wkh-legal strong { color: #f87171; }
+  .wkh-legal strong { color: #7f1d1d; }
 
   /* Divider */
   .wkh-divider {
     border: none;
-    border-top: 1px solid rgba(255,255,255,0.07);
+    border-top: 1px solid #d4e8de;
     margin: 48px 0;
   }
 
   /* FAQ */
   .wkh-faq-item {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: #ffffff;
+    border: 1px solid #c9e8d8;
     border-radius: 14px;
     padding: 22px 24px;
     margin-bottom: 12px;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .wkh-faq-item:hover { border-color: rgba(232,121,249,0.3); }
+  .wkh-faq-item:hover { border-color: #00985b; box-shadow: 0 2px 12px rgba(0,152,91,0.1); }
   .wkh-faq-q {
     font-size: 15px;
     font-weight: 700;
-    color: #f1f5f9;
+    color: #17251f;
     margin: 0 0 10px;
     display: flex;
     align-items: flex-start;
@@ -316,8 +343,8 @@ const bgStyle = `
   }
   .wkh-faq-num {
     flex-shrink: 0;
-    background: rgba(232,121,249,0.15);
-    color: #e879f9;
+    background: rgba(0,152,91,0.12);
+    color: #00985b;
     font-size: 12px;
     font-weight: 800;
     width: 22px; height: 22px;
@@ -327,7 +354,7 @@ const bgStyle = `
   }
   .wkh-faq-a {
     font-size: 14.5px;
-    color: #94a3b8;
+    color: #4a6358;
     line-height: 1.7;
     margin: 0;
     padding-left: 32px;
@@ -335,8 +362,8 @@ const bgStyle = `
 
   /* Conclusion */
   .wkh-conclusion {
-    background: linear-gradient(135deg, rgba(232,121,249,0.07) 0%, rgba(99,102,241,0.06) 100%);
-    border: 1px solid rgba(232,121,249,0.2);
+    background: linear-gradient(135deg, #e9f8f1 0%, #d4f0e4 100%);
+    border: 1px solid #b2dfc8;
     border-radius: 16px;
     padding: 28px 30px;
     margin-top: 48px;
@@ -344,12 +371,12 @@ const bgStyle = `
   .wkh-conclusion h2 {
     font-size: 18px;
     font-weight: 800;
-    color: #e879f9;
+    color: #00985b;
     margin: 0 0 12px;
   }
   .wkh-conclusion p {
     font-size: 15px;
-    color: #cbd5e1;
+    color: #2d4a3e;
     line-height: 1.75;
     margin: 0;
   }
@@ -433,9 +460,10 @@ export default function WingoKyaHaiPage() {
       <FAQSchema questions={FAQ_ITEMS} />
 
       {/* ── Page Body ────────────────────────────────────────────────────── */}
-      <div className="wkh-wrap">
+      <div className="wkh-page-shell">
+        <div className="wkh-wrap">
 
-        {/* Back */}
+          {/* Back */}
         <button
           className="wkh-back"
           onClick={() => router.push("/")}
@@ -693,6 +721,7 @@ export default function WingoKyaHaiPage() {
         </div>
 
       </div>
-    </>
-  );
+    </div>
+  </>
+);
 }

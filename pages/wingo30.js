@@ -3,7 +3,30 @@ import { PageHead, BreadcrumbSchema, FAQSchema, WebPageSchema } from "@/componen
 
 // ── Page-scoped styles ────────────────────────────────────────────────────────
 const bgStyle = `
-  html, body { background: #0b0f1a !important; color: #e2e8f0 !important; font-family: 'Inter', sans-serif; overflow: auto !important; }
+  html, body {
+    overflow: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+    min-height: 100% !important;
+    background: linear-gradient(90deg, rgba(0,126,73,0.12), rgba(255,255,255,0.5), rgba(0,126,73,0.12)), #eef7f3 !important;
+    color: #17251f !important;
+    font-family: 'Inter', sans-serif;
+  }
+
+  #__next {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 100% !important;
+  }
+
+  .w30-page-shell {
+    width: 100%;
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    background: linear-gradient(90deg, rgba(0,126,73,0.12), rgba(255,255,255,0.5), rgba(0,126,73,0.12)), #eef7f3;
+  }
 
   .w30-wrap {
     max-width: 860px;
@@ -16,7 +39,7 @@ const bgStyle = `
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: #22c55e;
+    color: #00985b;
     font-weight: 600;
     font-size: 14px;
     margin-bottom: 32px;
@@ -27,13 +50,13 @@ const bgStyle = `
     outline: none;
     transition: color 0.2s;
   }
-  .w30-back:hover { color: #16a34a; }
-  .w30-back:focus-visible { outline: 2px solid #22c55e; outline-offset: 4px; border-radius: 4px; }
+  .w30-back:hover { color: #005537; }
+  .w30-back:focus-visible { outline: 2px solid #00985b; outline-offset: 4px; border-radius: 4px; }
 
   /* Hero banner */
   .w30-hero {
-    background: linear-gradient(135deg, #0d2b1a 0%, #102a38 100%);
-    border: 1px solid #1e3a2a;
+    background: linear-gradient(135deg, #e6f7ef 0%, #d4f0e4 100%);
+    border: 1px solid #b2dfc8;
     border-radius: 20px;
     padding: 40px 36px;
     margin-bottom: 48px;
@@ -45,7 +68,7 @@ const bgStyle = `
     position: absolute;
     top: -60px; right: -60px;
     width: 220px; height: 220px;
-    background: radial-gradient(circle, rgba(34,197,94,0.12) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(0,152,91,0.14) 0%, transparent 70%);
     border-radius: 50%;
     pointer-events: none;
   }
@@ -53,9 +76,9 @@ const bgStyle = `
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(34,197,94,0.12);
-    border: 1px solid rgba(34,197,94,0.25);
-    color: #22c55e;
+    background: rgba(0,152,91,0.12);
+    border: 1px solid rgba(0,152,91,0.3);
+    color: #00985b;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -66,7 +89,7 @@ const bgStyle = `
   }
   .w30-badge-dot {
     width: 6px; height: 6px;
-    background: #22c55e;
+    background: #00985b;
     border-radius: 50%;
     animation: pulse30 1.6s ease-in-out infinite;
   }
@@ -79,16 +102,16 @@ const bgStyle = `
   h1.w30-h1 {
     font-size: clamp(24px, 4vw, 36px);
     font-weight: 900;
-    color: #f1f5f9;
+    color: #17251f;
     margin: 0 0 14px;
     line-height: 1.25;
     letter-spacing: -0.5px;
   }
-  h1.w30-h1 span { color: #22c55e; }
+  h1.w30-h1 span { color: #00985b; }
 
   .w30-subtitle {
     font-size: 15px;
-    color: #94a3b8;
+    color: #4a6358;
     margin: 0;
     line-height: 1.65;
     max-width: 640px;
@@ -102,9 +125,9 @@ const bgStyle = `
     margin-top: 24px;
   }
   .w30-chip {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.09);
-    color: #94a3b8;
+    background: rgba(0,152,91,0.08);
+    border: 1px solid rgba(0,152,91,0.2);
+    color: #00985b;
     font-size: 12px;
     font-weight: 500;
     padding: 4px 12px;
@@ -112,16 +135,16 @@ const bgStyle = `
   }
 
   /* Article body */
-  .w30-body { line-height: 1.75; color: #cbd5e1; }
+  .w30-body { line-height: 1.75; color: #2d4a3e; }
   .w30-body p { margin: 0 0 20px; font-size: 15.5px; }
-  .w30-body strong { color: #f1f5f9; font-weight: 700; }
+  .w30-body strong { color: #17251f; font-weight: 700; }
 
   /* Section headings */
   .w30-section { margin: 48px 0 0; }
   .w30-section h2 {
     font-size: clamp(18px, 3vw, 24px);
     font-weight: 800;
-    color: #f1f5f9;
+    color: #17251f;
     margin: 0 0 6px;
     display: flex;
     align-items: center;
@@ -131,13 +154,13 @@ const bgStyle = `
     content: '';
     display: inline-block;
     width: 4px; height: 22px;
-    background: linear-gradient(180deg, #22c55e, #16a34a);
+    background: linear-gradient(180deg, #00985b, #005537);
     border-radius: 2px;
     flex-shrink: 0;
   }
   .w30-section-sub {
     font-size: 13px;
-    color: #22c55e;
+    color: #00985b;
     font-weight: 600;
     margin: 0 0 20px;
     padding-left: 14px;
@@ -151,52 +174,52 @@ const bgStyle = `
     margin-top: 20px;
   }
   .w30-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: #ffffff;
+    border: 1px solid #c9e8d8;
     border-radius: 14px;
     padding: 20px;
-    transition: border-color 0.2s, transform 0.2s;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
   }
-  .w30-card:hover { border-color: rgba(34,197,94,0.35); transform: translateY(-2px); }
+  .w30-card:hover { border-color: #00985b; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,152,91,0.12); }
   .w30-card-icon { font-size: 22px; margin-bottom: 10px; }
-  .w30-card-title { font-size: 13px; font-weight: 700; color: #f1f5f9; margin-bottom: 6px; }
-  .w30-card-desc { font-size: 13px; color: #94a3b8; line-height: 1.55; }
+  .w30-card-title { font-size: 13px; font-weight: 700; color: #17251f; margin-bottom: 6px; }
+  .w30-card-desc { font-size: 13px; color: #4a6358; line-height: 1.55; }
 
   /* Divider */
   .w30-divider {
     border: none;
-    border-top: 1px solid rgba(255,255,255,0.07);
+    border-top: 1px solid #d4e8de;
     margin: 48px 0;
   }
 
   /* Notice box */
   .w30-notice {
-    background: rgba(234,179,8,0.08);
-    border: 1px solid rgba(234,179,8,0.22);
+    background: #fffbeb;
+    border: 1px solid #fcd34d;
     border-radius: 12px;
     padding: 16px 20px;
-    color: #fde68a;
+    color: #92400e;
     font-size: 14px;
     line-height: 1.65;
     margin: 24px 0;
   }
-  .w30-notice strong { color: #fbbf24; }
+  .w30-notice strong { color: #b45309; }
 
   /* FAQ */
   .w30-faq { margin-top: 0; }
   .w30-faq-item {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: #ffffff;
+    border: 1px solid #c9e8d8;
     border-radius: 14px;
     padding: 22px 24px;
     margin-bottom: 12px;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .w30-faq-item:hover { border-color: rgba(34,197,94,0.3); }
+  .w30-faq-item:hover { border-color: #00985b; box-shadow: 0 2px 12px rgba(0,152,91,0.1); }
   .w30-faq-q {
     font-size: 15px;
     font-weight: 700;
-    color: #f1f5f9;
+    color: #17251f;
     margin: 0 0 10px;
     display: flex;
     align-items: flex-start;
@@ -204,8 +227,8 @@ const bgStyle = `
   }
   .w30-faq-q-num {
     flex-shrink: 0;
-    background: rgba(34,197,94,0.15);
-    color: #22c55e;
+    background: rgba(0,152,91,0.12);
+    color: #00985b;
     font-size: 12px;
     font-weight: 800;
     width: 22px; height: 22px;
@@ -215,7 +238,7 @@ const bgStyle = `
   }
   .w30-faq-a {
     font-size: 14.5px;
-    color: #94a3b8;
+    color: #4a6358;
     line-height: 1.7;
     margin: 0;
     padding-left: 32px;
@@ -223,8 +246,8 @@ const bgStyle = `
 
   /* Conclusion */
   .w30-conclusion {
-    background: linear-gradient(135deg, rgba(34,197,94,0.06) 0%, rgba(16,163,127,0.06) 100%);
-    border: 1px solid rgba(34,197,94,0.18);
+    background: linear-gradient(135deg, #e9f8f1 0%, #d4f0e4 100%);
+    border: 1px solid #b2dfc8;
     border-radius: 16px;
     padding: 28px 30px;
     margin-top: 48px;
@@ -232,12 +255,12 @@ const bgStyle = `
   .w30-conclusion h2 {
     font-size: 18px;
     font-weight: 800;
-    color: #22c55e;
+    color: #00985b;
     margin: 0 0 12px;
   }
   .w30-conclusion p {
     font-size: 15px;
-    color: #cbd5e1;
+    color: #2d4a3e;
     line-height: 1.75;
     margin: 0;
   }
@@ -314,9 +337,10 @@ export default function Wingo30Page() {
       <FAQSchema questions={FAQ_ITEMS} />
 
       {/* ── Page body ────────────────────────────────────────────────────── */}
-      <div className="w30-wrap">
+      <div className="w30-page-shell">
+        <div className="w30-wrap">
 
-        {/* Back */}
+          {/* Back */}
         <button
           className="w30-back"
           onClick={() => router.push("/")}
@@ -547,6 +571,7 @@ export default function Wingo30Page() {
         </div>
 
       </div>
-    </>
-  );
+    </div>
+  </>
+);
 }

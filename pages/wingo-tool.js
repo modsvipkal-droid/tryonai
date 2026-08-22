@@ -3,7 +3,30 @@ import { PageHead, BreadcrumbSchema, FAQSchema, WebPageSchema } from "@/componen
 
 // ── Page-scoped styles ────────────────────────────────────────────────────────
 const bgStyle = `
-  html, body { background: #0b0f1a !important; color: #e2e8f0 !important; font-family: 'Inter', sans-serif; overflow: auto !important; }
+  html, body {
+    overflow: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+    min-height: 100% !important;
+    background: linear-gradient(90deg, rgba(0,126,73,0.12), rgba(255,255,255,0.5), rgba(0,126,73,0.12)), #eef7f3 !important;
+    color: #17251f !important;
+    font-family: 'Inter', sans-serif;
+  }
+
+  #__next {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 100% !important;
+  }
+
+  .wt-page-shell {
+    width: 100%;
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    background: linear-gradient(90deg, rgba(0,126,73,0.12), rgba(255,255,255,0.5), rgba(0,126,73,0.12)), #eef7f3;
+  }
 
   .wt-wrap {
     max-width: 860px;
@@ -16,7 +39,7 @@ const bgStyle = `
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: #f59e0b;
+    color: #00985b;
     font-weight: 600;
     font-size: 14px;
     margin-bottom: 32px;
@@ -27,13 +50,13 @@ const bgStyle = `
     outline: none;
     transition: color 0.2s;
   }
-  .wt-back:hover { color: #d97706; }
-  .wt-back:focus-visible { outline: 2px solid #f59e0b; outline-offset: 4px; border-radius: 4px; }
+  .wt-back:hover { color: #005537; }
+  .wt-back:focus-visible { outline: 2px solid #00985b; outline-offset: 4px; border-radius: 4px; }
 
   /* Hero */
   .wt-hero {
-    background: linear-gradient(135deg, #1a1100 0%, #0e1a2b 100%);
-    border: 1px solid #2a1e00;
+    background: linear-gradient(135deg, #e6f7ef 0%, #d4f0e4 100%);
+    border: 1px solid #b2dfc8;
     border-radius: 20px;
     padding: 40px 36px;
     margin-bottom: 48px;
@@ -45,7 +68,7 @@ const bgStyle = `
     position: absolute;
     top: -60px; right: -60px;
     width: 230px; height: 230px;
-    background: radial-gradient(circle, rgba(245,158,11,0.13) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(0,152,91,0.14) 0%, transparent 70%);
     border-radius: 50%;
     pointer-events: none;
   }
@@ -54,7 +77,7 @@ const bgStyle = `
     position: absolute;
     bottom: -55px; left: -55px;
     width: 190px; height: 190px;
-    background: radial-gradient(circle, rgba(16,185,129,0.07) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(0,85,55,0.06) 0%, transparent 70%);
     border-radius: 50%;
     pointer-events: none;
   }
@@ -64,9 +87,9 @@ const bgStyle = `
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(245,158,11,0.12);
-    border: 1px solid rgba(245,158,11,0.28);
-    color: #fbbf24;
+    background: rgba(0,152,91,0.12);
+    border: 1px solid rgba(0,152,91,0.3);
+    color: #00985b;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -77,7 +100,7 @@ const bgStyle = `
   }
   .wt-badge-dot {
     width: 6px; height: 6px;
-    background: #fbbf24;
+    background: #00985b;
     border-radius: 50%;
     animation: wtPulse 1.7s ease-in-out infinite;
   }
@@ -90,17 +113,17 @@ const bgStyle = `
   h1.wt-h1 {
     font-size: clamp(23px, 4vw, 35px);
     font-weight: 900;
-    color: #f1f5f9;
+    color: #17251f;
     margin: 0 0 14px;
     line-height: 1.22;
     letter-spacing: -0.5px;
   }
-  h1.wt-h1 .gold  { color: #fbbf24; }
-  h1.wt-h1 .teal  { color: #34d399; }
+  h1.wt-h1 .gold  { color: #00985b; }
+  h1.wt-h1 .teal  { color: #005537; }
 
   .wt-subtitle {
     font-size: 15px;
-    color: #94a3b8;
+    color: #4a6358;
     margin: 0;
     line-height: 1.65;
     max-width: 640px;
@@ -114,9 +137,9 @@ const bgStyle = `
     margin-top: 24px;
   }
   .wt-chip {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.09);
-    color: #94a3b8;
+    background: rgba(0,152,91,0.08);
+    border: 1px solid rgba(0,152,91,0.2);
+    color: #00985b;
     font-size: 12px;
     font-weight: 500;
     padding: 4px 12px;
@@ -124,16 +147,16 @@ const bgStyle = `
   }
 
   /* Body */
-  .wt-body { line-height: 1.75; color: #cbd5e1; }
+  .wt-body { line-height: 1.75; color: #2d4a3e; }
   .wt-body p { margin: 0 0 20px; font-size: 15.5px; }
-  .wt-body strong { color: #f1f5f9; font-weight: 700; }
+  .wt-body strong { color: #17251f; font-weight: 700; }
 
   /* Sections */
   .wt-section { margin: 48px 0 0; }
   .wt-section h2 {
     font-size: clamp(18px, 3vw, 23px);
     font-weight: 800;
-    color: #f1f5f9;
+    color: #17251f;
     margin: 0 0 6px;
     display: flex;
     align-items: center;
@@ -143,13 +166,13 @@ const bgStyle = `
     content: '';
     display: inline-block;
     width: 4px; height: 22px;
-    background: linear-gradient(180deg, #fbbf24, #f59e0b);
+    background: linear-gradient(180deg, #00985b, #005537);
     border-radius: 2px;
     flex-shrink: 0;
   }
   .wt-section-sub {
     font-size: 13px;
-    color: #fbbf24;
+    color: #00985b;
     font-weight: 600;
     margin: 0 0 20px;
     padding-left: 14px;
@@ -163,16 +186,16 @@ const bgStyle = `
     margin-top: 22px;
   }
   .wt-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: #ffffff;
+    border: 1px solid #c9e8d8;
     border-radius: 14px;
     padding: 20px 18px;
-    transition: border-color 0.2s, transform 0.2s;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
   }
-  .wt-card:hover { border-color: rgba(245,158,11,0.4); transform: translateY(-2px); }
+  .wt-card:hover { border-color: #00985b; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,152,91,0.12); }
   .wt-card-icon  { font-size: 24px; margin-bottom: 10px; }
-  .wt-card-title { font-size: 13px; font-weight: 700; color: #f1f5f9; margin-bottom: 6px; }
-  .wt-card-desc  { font-size: 13px; color: #94a3b8; line-height: 1.55; }
+  .wt-card-title { font-size: 13px; font-weight: 700; color: #17251f; margin-bottom: 6px; }
+  .wt-card-desc  { font-size: 13px; color: #4a6358; line-height: 1.55; }
 
   /* Step list */
   .wt-steps { margin-top: 20px; }
@@ -181,26 +204,26 @@ const bgStyle = `
     gap: 16px;
     align-items: flex-start;
     padding: 16px 18px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.07);
+    background: #ffffff;
+    border: 1px solid #c9e8d8;
     border-radius: 12px;
     margin-bottom: 10px;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .wt-step:hover { border-color: rgba(245,158,11,0.28); }
+  .wt-step:hover { border-color: #00985b; box-shadow: 0 2px 10px rgba(0,152,91,0.08); }
   .wt-step-num {
     flex-shrink: 0;
     width: 28px; height: 28px;
-    background: rgba(245,158,11,0.15);
-    color: #fbbf24;
+    background: rgba(0,152,91,0.12);
+    color: #00985b;
     font-size: 13px;
     font-weight: 800;
     border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
   }
   .wt-step-content { flex: 1; }
-  .wt-step-title { font-size: 14px; font-weight: 700; color: #f1f5f9; margin-bottom: 4px; }
-  .wt-step-desc  { font-size: 13.5px; color: #94a3b8; line-height: 1.6; margin: 0; }
+  .wt-step-title { font-size: 14px; font-weight: 700; color: #17251f; margin-bottom: 4px; }
+  .wt-step-desc  { font-size: 13.5px; color: #4a6358; line-height: 1.6; margin: 0; }
 
   /* Comparison table */
   .wt-table {
@@ -208,70 +231,74 @@ const bgStyle = `
     border-collapse: collapse;
     margin-top: 20px;
     font-size: 14px;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #c9e8d8;
   }
   .wt-table th {
-    background: rgba(245,158,11,0.1);
-    color: #fbbf24;
+    background: #e9f8f1;
+    color: #005537;
     font-weight: 700;
     text-align: left;
     padding: 12px 16px;
-    border-bottom: 1px solid rgba(245,158,11,0.2);
+    border-bottom: 1px solid #c9e8d8;
   }
   .wt-table td {
     padding: 11px 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    color: #94a3b8;
+    border-bottom: 1px solid #edf0ee;
+    color: #4a6358;
     vertical-align: top;
   }
-  .wt-table tr:hover td { background: rgba(255,255,255,0.02); }
-  .wt-table td:first-child { color: #e2e8f0; font-weight: 600; }
+  .wt-table tr:hover td { background: #f8faf9; }
+  .wt-table td:first-child { color: #17251f; font-weight: 600; }
 
   /* Info highlight */
   .wt-highlight {
-    background: rgba(245,158,11,0.07);
-    border-left: 3px solid #f59e0b;
+    background: #e9f8f1;
+    border-left: 3px solid #00985b;
     border-radius: 0 10px 10px 0;
     padding: 14px 18px;
     margin: 20px 0;
     font-size: 14.5px;
-    color: #fde68a;
+    color: #005537;
     line-height: 1.65;
   }
 
   /* Notice */
   .wt-notice {
-    background: rgba(239,68,68,0.07);
-    border: 1px solid rgba(239,68,68,0.2);
+    background: #fee2e2;
+    border: 1px solid #fecaca;
     border-radius: 12px;
     padding: 16px 20px;
-    color: #fca5a5;
+    color: #991b1b;
     font-size: 14px;
     line-height: 1.65;
     margin: 24px 0;
   }
-  .wt-notice strong { color: #f87171; }
+  .wt-notice strong { color: #7f1d1d; }
 
   /* Divider */
   .wt-divider {
     border: none;
-    border-top: 1px solid rgba(255,255,255,0.07);
+    border-top: 1px solid #d4e8de;
     margin: 48px 0;
   }
 
   /* FAQ */
   .wt-faq-item {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: #ffffff;
+    border: 1px solid #c9e8d8;
     border-radius: 14px;
     padding: 22px 24px;
     margin-bottom: 12px;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .wt-faq-item:hover { border-color: rgba(245,158,11,0.3); }
+  .wt-faq-item:hover { border-color: #00985b; box-shadow: 0 2px 12px rgba(0,152,91,0.1); }
   .wt-faq-q {
     font-size: 15px;
     font-weight: 700;
-    color: #f1f5f9;
+    color: #17251f;
     margin: 0 0 10px;
     display: flex;
     align-items: flex-start;
@@ -279,8 +306,8 @@ const bgStyle = `
   }
   .wt-faq-num {
     flex-shrink: 0;
-    background: rgba(245,158,11,0.15);
-    color: #fbbf24;
+    background: rgba(0,152,91,0.12);
+    color: #00985b;
     font-size: 12px;
     font-weight: 800;
     width: 22px; height: 22px;
@@ -290,7 +317,7 @@ const bgStyle = `
   }
   .wt-faq-a {
     font-size: 14.5px;
-    color: #94a3b8;
+    color: #4a6358;
     line-height: 1.7;
     margin: 0;
     padding-left: 32px;
@@ -298,8 +325,8 @@ const bgStyle = `
 
   /* Conclusion */
   .wt-conclusion {
-    background: linear-gradient(135deg, rgba(245,158,11,0.07) 0%, rgba(52,211,153,0.05) 100%);
-    border: 1px solid rgba(245,158,11,0.2);
+    background: linear-gradient(135deg, #e9f8f1 0%, #d4f0e4 100%);
+    border: 1px solid #b2dfc8;
     border-radius: 16px;
     padding: 28px 30px;
     margin-top: 48px;
@@ -307,12 +334,12 @@ const bgStyle = `
   .wt-conclusion h2 {
     font-size: 18px;
     font-weight: 800;
-    color: #fbbf24;
+    color: #00985b;
     margin: 0 0 12px;
   }
   .wt-conclusion p {
     font-size: 15px;
-    color: #cbd5e1;
+    color: #2d4a3e;
     line-height: 1.75;
     margin: 0;
   }
@@ -386,9 +413,10 @@ export default function WingoToolPage() {
       <FAQSchema questions={FAQ_ITEMS} />
 
       {/* ── Page Body ────────────────────────────────────────────────────── */}
-      <div className="wt-wrap">
+      <div className="wt-page-shell">
+        <div className="wt-wrap">
 
-        {/* Back */}
+          {/* Back */}
         <button
           className="wt-back"
           onClick={() => router.push("/")}
@@ -666,6 +694,7 @@ export default function WingoToolPage() {
         </div>
 
       </div>
-    </>
-  );
+    </div>
+  </>
+);
 }

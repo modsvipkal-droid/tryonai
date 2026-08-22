@@ -3,7 +3,30 @@ import { PageHead, BreadcrumbSchema, FAQSchema, WebPageSchema } from "@/componen
 
 // ── Page-scoped styles ────────────────────────────────────────────────────────
 const bgStyle = `
-  html, body { background: #0b0f1a !important; color: #e2e8f0 !important; font-family: 'Inter', sans-serif; overflow: auto !important; }
+  html, body {
+    overflow: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+    min-height: 100% !important;
+    background: linear-gradient(90deg, rgba(0,126,73,0.12), rgba(255,255,255,0.5), rgba(0,126,73,0.12)), #eef7f3 !important;
+    color: #17251f !important;
+    font-family: 'Inter', sans-serif;
+  }
+
+  #__next {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 100% !important;
+  }
+
+  .wp-page-shell {
+    width: 100%;
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    background: linear-gradient(90deg, rgba(0,126,73,0.12), rgba(255,255,255,0.5), rgba(0,126,73,0.12)), #eef7f3;
+  }
 
   .wp-wrap {
     max-width: 860px;
@@ -16,7 +39,7 @@ const bgStyle = `
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: #6366f1;
+    color: #00985b;
     font-weight: 600;
     font-size: 14px;
     margin-bottom: 32px;
@@ -27,13 +50,13 @@ const bgStyle = `
     outline: none;
     transition: color 0.2s;
   }
-  .wp-back:hover { color: #4f46e5; }
-  .wp-back:focus-visible { outline: 2px solid #6366f1; outline-offset: 4px; border-radius: 4px; }
+  .wp-back:hover { color: #005537; }
+  .wp-back:focus-visible { outline: 2px solid #00985b; outline-offset: 4px; border-radius: 4px; }
 
   /* Hero */
   .wp-hero {
-    background: linear-gradient(135deg, #0f0e2b 0%, #0e1f38 100%);
-    border: 1px solid #1e1d45;
+    background: linear-gradient(135deg, #e6f7ef 0%, #d4f0e4 100%);
+    border: 1px solid #b2dfc8;
     border-radius: 20px;
     padding: 40px 36px;
     margin-bottom: 48px;
@@ -45,7 +68,7 @@ const bgStyle = `
     position: absolute;
     top: -70px; right: -70px;
     width: 240px; height: 240px;
-    background: radial-gradient(circle, rgba(99,102,241,0.14) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(0,152,91,0.14) 0%, transparent 70%);
     border-radius: 50%;
     pointer-events: none;
   }
@@ -54,7 +77,7 @@ const bgStyle = `
     position: absolute;
     bottom: -50px; left: -50px;
     width: 180px; height: 180px;
-    background: radial-gradient(circle, rgba(236,72,153,0.08) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(0,85,55,0.06) 0%, transparent 70%);
     border-radius: 50%;
     pointer-events: none;
   }
@@ -64,9 +87,9 @@ const bgStyle = `
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(99,102,241,0.12);
-    border: 1px solid rgba(99,102,241,0.28);
-    color: #818cf8;
+    background: rgba(0,152,91,0.12);
+    border: 1px solid rgba(0,152,91,0.3);
+    color: #00985b;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -77,7 +100,7 @@ const bgStyle = `
   }
   .wp-badge-dot {
     width: 6px; height: 6px;
-    background: #818cf8;
+    background: #00985b;
     border-radius: 50%;
     animation: wpPulse 1.8s ease-in-out infinite;
   }
@@ -90,17 +113,17 @@ const bgStyle = `
   h1.wp-h1 {
     font-size: clamp(23px, 4vw, 35px);
     font-weight: 900;
-    color: #f1f5f9;
+    color: #17251f;
     margin: 0 0 14px;
     line-height: 1.22;
     letter-spacing: -0.5px;
   }
-  h1.wp-h1 .accent { color: #818cf8; }
-  h1.wp-h1 .accent2 { color: #f472b6; }
+  h1.wp-h1 .accent { color: #00985b; }
+  h1.wp-h1 .accent2 { color: #005537; }
 
   .wp-subtitle {
     font-size: 15px;
-    color: #94a3b8;
+    color: #4a6358;
     margin: 0;
     line-height: 1.65;
     max-width: 640px;
@@ -114,28 +137,29 @@ const bgStyle = `
     margin-top: 28px;
   }
   .wp-stat {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.09);
+    background: #ffffff;
+    border: 1px solid #c9e8d8;
     border-radius: 12px;
     padding: 10px 16px;
     display: flex;
     flex-direction: column;
     gap: 2px;
+    box-shadow: 0 2px 6px rgba(0,77,48,0.04);
   }
-  .wp-stat-label { font-size: 11px; color: #64748b; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
-  .wp-stat-val   { font-size: 15px; color: #f1f5f9; font-weight: 800; }
+  .wp-stat-label { font-size: 11px; color: #6f7a75; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+  .wp-stat-val   { font-size: 15px; color: #17251f; font-weight: 800; }
 
   /* Body */
-  .wp-body { line-height: 1.75; color: #cbd5e1; }
+  .wp-body { line-height: 1.75; color: #2d4a3e; }
   .wp-body p { margin: 0 0 20px; font-size: 15.5px; }
-  .wp-body strong { color: #f1f5f9; font-weight: 700; }
+  .wp-body strong { color: #17251f; font-weight: 700; }
 
   /* Sections */
   .wp-section { margin: 48px 0 0; }
   .wp-section h2 {
     font-size: clamp(18px, 3vw, 23px);
     font-weight: 800;
-    color: #f1f5f9;
+    color: #17251f;
     margin: 0 0 6px;
     display: flex;
     align-items: center;
@@ -145,13 +169,13 @@ const bgStyle = `
     content: '';
     display: inline-block;
     width: 4px; height: 22px;
-    background: linear-gradient(180deg, #818cf8, #6366f1);
+    background: linear-gradient(180deg, #00985b, #005537);
     border-radius: 2px;
     flex-shrink: 0;
   }
   .wp-section-sub {
     font-size: 13px;
-    color: #818cf8;
+    color: #00985b;
     font-weight: 600;
     margin: 0 0 20px;
     padding-left: 14px;
@@ -165,30 +189,30 @@ const bgStyle = `
     margin-top: 22px;
   }
   .wp-feat {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: #ffffff;
+    border: 1px solid #c9e8d8;
     border-radius: 14px;
     padding: 20px 18px;
-    transition: border-color 0.2s, transform 0.2s;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
   }
-  .wp-feat:hover { border-color: rgba(99,102,241,0.4); transform: translateY(-2px); }
+  .wp-feat:hover { border-color: #00985b; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,152,91,0.12); }
   .wp-feat-icon  { font-size: 22px; margin-bottom: 10px; }
-  .wp-feat-title { font-size: 13px; font-weight: 700; color: #f1f5f9; margin-bottom: 6px; }
-  .wp-feat-desc  { font-size: 13px; color: #94a3b8; line-height: 1.55; }
+  .wp-feat-title { font-size: 13px; font-weight: 700; color: #17251f; margin-bottom: 6px; }
+  .wp-feat-desc  { font-size: 13px; color: #4a6358; line-height: 1.55; }
 
   /* Signal pill table */
   .wp-signal-row {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.07);
+    background: #ffffff;
+    border: 1px solid #c9e8d8;
     border-radius: 12px;
     padding: 14px 18px;
     margin-bottom: 10px;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .wp-signal-row:hover { border-color: rgba(99,102,241,0.3); }
+  .wp-signal-row:hover { border-color: #00985b; box-shadow: 0 2px 10px rgba(0,152,91,0.08); }
   .wp-signal-pill {
     font-size: 11px;
     font-weight: 800;
@@ -198,60 +222,60 @@ const bgStyle = `
     border-radius: 100px;
     flex-shrink: 0;
   }
-  .pill-big   { background: rgba(99,102,241,0.18); color: #a5b4fc; }
-  .pill-small { background: rgba(236,72,153,0.18); color: #f9a8d4; }
-  .pill-red   { background: rgba(239,68,68,0.18);  color: #fca5a5; }
-  .pill-green { background: rgba(34,197,94,0.18);  color: #86efac; }
-  .pill-violet{ background: rgba(139,92,246,0.18); color: #c4b5fd; }
-  .wp-signal-text { font-size: 14px; color: #94a3b8; }
-  .wp-signal-text strong { color: #e2e8f0; }
+  .pill-big   { background: #e9f8f1; color: #005537; }
+  .pill-small { background: #fee2e2; color: #991b1b; }
+  .pill-red   { background: #fee2e2; color: #b91c1c; }
+  .pill-green { background: #dcfce7; color: #15803d; }
+  .pill-violet{ background: #f3e8ff; color: #7e22ce; }
+  .wp-signal-text { font-size: 14px; color: #4a6358; }
+  .wp-signal-text strong { color: #17251f; }
 
   /* Divider */
   .wp-divider {
     border: none;
-    border-top: 1px solid rgba(255,255,255,0.07);
+    border-top: 1px solid #d4e8de;
     margin: 48px 0;
   }
 
   /* Notice */
   .wp-notice {
-    background: rgba(234,179,8,0.07);
-    border: 1px solid rgba(234,179,8,0.22);
+    background: #fffbeb;
+    border: 1px solid #fcd34d;
     border-radius: 12px;
     padding: 16px 20px;
-    color: #fde68a;
+    color: #92400e;
     font-size: 14px;
     line-height: 1.65;
     margin: 24px 0;
   }
-  .wp-notice strong { color: #fbbf24; }
+  .wp-notice strong { color: #b45309; }
 
   /* Info highlight */
   .wp-highlight {
-    background: rgba(99,102,241,0.07);
-    border-left: 3px solid #6366f1;
+    background: #e9f8f1;
+    border-left: 3px solid #00985b;
     border-radius: 0 10px 10px 0;
     padding: 14px 18px;
     margin: 20px 0;
     font-size: 14.5px;
-    color: #a5b4fc;
+    color: #005537;
     line-height: 1.65;
   }
 
   /* FAQ */
   .wp-faq-item {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: #ffffff;
+    border: 1px solid #c9e8d8;
     border-radius: 14px;
     padding: 22px 24px;
     margin-bottom: 12px;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
-  .wp-faq-item:hover { border-color: rgba(99,102,241,0.3); }
+  .wp-faq-item:hover { border-color: #00985b; box-shadow: 0 2px 12px rgba(0,152,91,0.1); }
   .wp-faq-q {
     font-size: 15px;
     font-weight: 700;
-    color: #f1f5f9;
+    color: #17251f;
     margin: 0 0 10px;
     display: flex;
     align-items: flex-start;
@@ -259,8 +283,8 @@ const bgStyle = `
   }
   .wp-faq-num {
     flex-shrink: 0;
-    background: rgba(99,102,241,0.15);
-    color: #818cf8;
+    background: rgba(0,152,91,0.12);
+    color: #00985b;
     font-size: 12px;
     font-weight: 800;
     width: 22px; height: 22px;
@@ -270,7 +294,7 @@ const bgStyle = `
   }
   .wp-faq-a {
     font-size: 14.5px;
-    color: #94a3b8;
+    color: #4a6358;
     line-height: 1.7;
     margin: 0;
     padding-left: 32px;
@@ -278,8 +302,8 @@ const bgStyle = `
 
   /* Conclusion */
   .wp-conclusion {
-    background: linear-gradient(135deg, rgba(99,102,241,0.07) 0%, rgba(236,72,153,0.05) 100%);
-    border: 1px solid rgba(99,102,241,0.2);
+    background: linear-gradient(135deg, #e9f8f1 0%, #d4f0e4 100%);
+    border: 1px solid #b2dfc8;
     border-radius: 16px;
     padding: 28px 30px;
     margin-top: 48px;
@@ -287,12 +311,12 @@ const bgStyle = `
   .wp-conclusion h2 {
     font-size: 18px;
     font-weight: 800;
-    color: #818cf8;
+    color: #00985b;
     margin: 0 0 12px;
   }
   .wp-conclusion p {
     font-size: 15px;
-    color: #cbd5e1;
+    color: #2d4a3e;
     line-height: 1.75;
     margin: 0;
   }
@@ -366,9 +390,10 @@ export default function WingoPredictionPage() {
       <FAQSchema questions={FAQ_ITEMS} />
 
       {/* ── Page Body ────────────────────────────────────────────────────── */}
-      <div className="wp-wrap">
+      <div className="wp-page-shell">
+        <div className="wp-wrap">
 
-        {/* Back */}
+          {/* Back */}
         <button
           className="wp-back"
           onClick={() => router.push("/")}
@@ -618,6 +643,7 @@ export default function WingoPredictionPage() {
         </div>
 
       </div>
-    </>
-  );
+    </div>
+  </>
+);
 }
