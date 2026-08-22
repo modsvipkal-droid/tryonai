@@ -4,29 +4,41 @@ import { PageHead, BreadcrumbSchema, FAQSchema, WebPageSchema } from "@/componen
 // ── Page-scoped styles ────────────────────────────────────────────────────────
 const bgStyle = `
   html, body {
-    overflow: auto !important;
-    overflow-x: hidden !important;
-    height: auto !important;
-    min-height: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
     background: linear-gradient(90deg, rgba(0,126,73,0.12), rgba(255,255,255,0.5), rgba(0,126,73,0.12)), #eef7f3 !important;
     color: #17251f !important;
     font-family: 'Inter', sans-serif;
   }
 
   #__next {
-    overflow: visible !important;
-    height: auto !important;
-    min-height: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
   }
 
   .w30-page-shell {
-    width: 100%;
-    min-height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scroll-behavior: smooth !important;
     background: linear-gradient(90deg, rgba(0,126,73,0.12), rgba(255,255,255,0.5), rgba(0,126,73,0.12)), #eef7f3;
+    z-index: 1;
   }
+
+  .w30-page-shell::-webkit-scrollbar { width: 6px; }
+  .w30-page-shell::-webkit-scrollbar-track { background: transparent; }
+  .w30-page-shell::-webkit-scrollbar-thumb { background: rgba(0,152,91,0.2); border-radius: 4px; }
+  .w30-page-shell::-webkit-scrollbar-thumb:hover { background: rgba(0,152,91,0.35); }
 
   .w30-wrap {
     max-width: 860px;
