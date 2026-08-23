@@ -1,9 +1,61 @@
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { PageHead, BreadcrumbSchema, FAQSchema, WebPageSchema } from "@/components/SEO";
+
+// ── Premium SVG Icons ─────────────────────────────────────────────────────────
+const IconBarChart = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <line x1="18" y1="20" x2="18" y2="10"/>
+    <line x1="12" y1="20" x2="12" y2="4"/>
+    <line x1="6" y1="20" x2="6" y2="14"/>
+    <line x1="2" y1="20" x2="22" y2="20"/>
+  </svg>
+);
+
+const IconBrain = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="4" y="4" width="16" height="16" rx="2"/>
+    <rect x="9" y="9" width="6" height="6"/>
+    <line x1="9" y1="1" x2="9" y2="4"/>
+    <line x1="15" y1="1" x2="15" y2="4"/>
+    <line x1="9" y1="20" x2="9" y2="23"/>
+    <line x1="15" y1="20" x2="15" y2="23"/>
+    <line x1="20" y1="9" x2="23" y2="9"/>
+    <line x1="20" y1="14" x2="23" y2="14"/>
+    <line x1="1" y1="9" x2="4" y2="9"/>
+    <line x1="1" y1="14" x2="4" y2="14"/>
+  </svg>
+);
+
+const IconPalette = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="13.5" cy="6.5" r="1.2" fill="currentColor"/>
+    <circle cx="17.5" cy="10.5" r="1.2" fill="currentColor"/>
+    <circle cx="8.5" cy="7.5" r="1.2" fill="currentColor"/>
+    <circle cx="6.5" cy="12.5" r="1.2" fill="currentColor"/>
+    <path d="M12 2C6.5 2 2 6.5 2 12a10 10 0 0 0 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+  </svg>
+);
+
+const IconFilter = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+  </svg>
+);
 
 // ── Page-scoped styles ────────────────────────────────────────────────────────
 const bgStyle = `
-  html, body {
+  html {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  body {
+    height: auto !important;
     min-height: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -11,10 +63,16 @@ const bgStyle = `
     color: #1e293b !important;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
   }
 
   #__next {
+    height: auto !important;
     min-height: 100% !important;
+    overflow: visible !important;
   }
 
   .w30-page-shell {
@@ -23,6 +81,7 @@ const bgStyle = `
     background: radial-gradient(100% 40% at 50% 0%, #f0f7f3 0%, #fbfdfc 100%);
     color: #1e293b;
     overflow-x: hidden;
+    overflow-y: visible;
   }
 
   .w30-wrap {
@@ -173,7 +232,7 @@ const bgStyle = `
     background: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 16px;
-    padding: 20px;
+    padding: 22px 20px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.02);
     transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
   }
@@ -182,7 +241,24 @@ const bgStyle = `
     transform: translateY(-2px);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
   }
-  .w30-card-icon { font-size: 22px; margin-bottom: 12px; }
+  .w30-icon-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #eef8f3;
+    border: 1px solid #d1eedf;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #008751;
+    margin-bottom: 14px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  .w30-card:hover .w30-icon-badge {
+    background: #e0f4ea;
+    transform: scale(1.05);
+    color: #00985b;
+  }
   .w30-card-title { font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 6px; }
   .w30-card-desc { font-size: 13px; color: #475569; line-height: 1.55; }
 
@@ -311,10 +387,54 @@ const FAQ_ITEMS = [
   }
 ];
 
+// ── Analyser feature cards ────────────────────────────────────────────────────
+const ANALYSER_CARDS = [
+  { icon: <IconBarChart />, title: "Historical Analysis", desc: "Scans recent round results to find colour and number frequency trends." },
+  { icon: <IconBrain />,    title: "AI Pattern Engine",  desc: "Machine-learning models rank which sequence types appeared most before similar run-lengths." },
+  { icon: <IconPalette />,  title: "Colour Prediction",  desc: "Outputs a suggested colour (Red / Green / Violet) for the next 30-second round." },
+  { icon: <IconFilter />,   title: "Big / Small Filter", desc: "Tracks Big (5-9) vs Small (0-4) streaks to add a secondary prediction layer." },
+];
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function Wingo30Page() {
   const router = useRouter();
+
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    const nextEl = document.getElementById("__next");
+
+    const prevHtmlOverflow = html.style.overflow;
+    const prevHtmlHeight = html.style.height;
+    const prevHtmlScrollBehavior = html.style.scrollBehavior;
+    const prevBodyOverflow = body.style.overflow;
+    const prevBodyHeight = body.style.height;
+    const prevNextOverflow = nextEl ? nextEl.style.overflow : "";
+    const prevNextHeight = nextEl ? nextEl.style.height : "";
+
+    html.style.overflowY = "auto";
+    html.style.height = "auto";
+    html.style.scrollBehavior = "smooth";
+    body.style.overflowY = "auto";
+    body.style.height = "auto";
+    if (nextEl) {
+      nextEl.style.overflow = "visible";
+      nextEl.style.height = "auto";
+    }
+
+    return () => {
+      html.style.overflow = prevHtmlOverflow;
+      html.style.height = prevHtmlHeight;
+      html.style.scrollBehavior = prevHtmlScrollBehavior;
+      body.style.overflow = prevBodyOverflow;
+      body.style.height = prevBodyHeight;
+      if (nextEl) {
+        nextEl.style.overflow = prevNextOverflow;
+        nextEl.style.height = prevNextHeight;
+      }
+    };
+  }, []);
 
   const PAGE_URL = "https://wingo30.com/wingo30";
   const PAGE_TITLE = "Wingo 30 Second Predictor - AI Prediction & Analyser Guide";
@@ -434,14 +554,9 @@ export default function Wingo30Page() {
               </p>
 
               <div className="w30-cards">
-                {[
-                  { icon: "📊", title: "Historical Analysis", desc: "Scans recent round results to find colour and number frequency trends." },
-                  { icon: "🤖", title: "AI Pattern Engine", desc: "Machine-learning models rank which sequence types appeared most before similar run-lengths." },
-                  { icon: "🎨", title: "Colour Prediction", desc: "Outputs a suggested colour (Red / Green / Violet) for the next 30-second round." },
-                  { icon: "🔢", title: "Big / Small Filter", desc: "Tracks Big (5-9) vs Small (0-4) streaks to add a secondary prediction layer." },
-                ].map(c => (
+                {ANALYSER_CARDS.map(c => (
                   <div className="w30-card" key={c.title}>
-                    <div className="w30-card-icon">{c.icon}</div>
+                    <div className="w30-icon-badge">{c.icon}</div>
                     <div className="w30-card-title">{c.title}</div>
                     <div className="w30-card-desc">{c.desc}</div>
                   </div>

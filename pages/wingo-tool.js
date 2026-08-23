@@ -1,9 +1,67 @@
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { PageHead, BreadcrumbSchema, FAQSchema, WebPageSchema } from "@/components/SEO";
+
+// ── Premium SVG Icons ─────────────────────────────────────────────────────────
+const IconCalculator = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="4" y="2" width="16" height="20" rx="2"/>
+    <line x1="8" y1="6" x2="16" y2="6"/>
+    <line x1="16" y1="14" x2="16" y2="18"/>
+    <path d="M16 10h.01"/>
+    <path d="M12 10h.01"/>
+    <path d="M8 10h.01"/>
+    <path d="M12 14h.01"/>
+    <path d="M8 14h.01"/>
+    <path d="M12 18h.01"/>
+    <path d="M8 18h.01"/>
+  </svg>
+);
+
+const IconBotMessage = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M12 8V4H8"/>
+    <rect width="16" height="12" x="4" y="8" rx="2"/>
+    <path d="M2 14h2"/>
+    <path d="M20 14h2"/>
+    <path d="M15 13v2"/>
+    <path d="M9 13v2"/>
+  </svg>
+);
+
+const IconLottery = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+    <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/>
+    <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor"/>
+    <circle cx="15.5" cy="15.5" r="1.5" fill="currentColor"/>
+    <circle cx="8.5" cy="15.5" r="1.5" fill="currentColor"/>
+    <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+  </svg>
+);
+
+const IconMathLogic = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="6" cy="19" r="3"/>
+    <path d="M9 19h8.5a4.5 4.5 0 0 0 0-9H15"/>
+    <circle cx="18" cy="5" r="3"/>
+    <path d="M6 16V5"/>
+  </svg>
+);
 
 // ── Page-scoped styles ────────────────────────────────────────────────────────
 const bgStyle = `
-  html, body {
+  html {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  body {
+    height: auto !important;
     min-height: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -11,10 +69,16 @@ const bgStyle = `
     color: #1e293b !important;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
   }
 
   #__next {
+    height: auto !important;
     min-height: 100% !important;
+    overflow: visible !important;
   }
 
   .wt-page-shell {
@@ -23,6 +87,7 @@ const bgStyle = `
     background: radial-gradient(100% 40% at 50% 0%, #f0f7f3 0%, #fbfdfc 100%);
     color: #1e293b;
     overflow-x: hidden;
+    overflow-y: visible;
   }
 
   .wt-wrap {
@@ -175,7 +240,7 @@ const bgStyle = `
     background: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 16px;
-    padding: 20px;
+    padding: 22px 20px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.02);
     transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
   }
@@ -184,7 +249,24 @@ const bgStyle = `
     transform: translateY(-2px);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
   }
-  .wt-card-icon  { font-size: 24px; margin-bottom: 12px; }
+  .wt-icon-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #eef8f3;
+    border: 1px solid #d1eedf;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #008751;
+    margin-bottom: 14px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  .wt-card:hover .wt-icon-badge {
+    background: #e0f4ea;
+    transform: scale(1.05);
+    color: #00985b;
+  }
   .wt-card-title { font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 6px; }
   .wt-card-desc  { font-size: 13px; color: #475569; line-height: 1.55; }
 
@@ -357,6 +439,30 @@ const bgStyle = `
   }
 `;
 
+// ── Tool Cards ────────────────────────────────────────────────────────────────
+const TOOL_CARDS = [
+  {
+    icon: <IconCalculator />,
+    title: "Wingo Master Calculator",
+    desc: "Applies multi-variable math formulas (frequency, streak weight, ratio) to recent rounds and outputs a ranked colour or number suggestion."
+  },
+  {
+    icon: <IconBotMessage />,
+    title: "AI Chat with WinGo",
+    desc: "A conversational AI prediction engine. Users ask questions about live game data — streaks, frequency, Big/Small ratio — and receive instant answers."
+  },
+  {
+    icon: <IconLottery />,
+    title: "Wingo Lottery Predictor",
+    desc: "Focused on number-range prediction. Tracks which digits (0–9) are statistically due based on their absence count across recent rounds."
+  },
+  {
+    icon: <IconMathLogic />,
+    title: "Math Logic & AI Tracker",
+    desc: "Combines rule-based wingo math logic with AI pattern recognition for contextual suggestions — more nuanced than single-variable frequency tools."
+  },
+];
+
 // ── FAQ data ──────────────────────────────────────────────────────────────────
 const FAQ_ITEMS = [
   {
@@ -391,6 +497,42 @@ const FAQ_ITEMS = [
 export default function WingoToolPage() {
   const router = useRouter();
 
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    const nextEl = document.getElementById("__next");
+
+    const prevHtmlOverflow = html.style.overflow;
+    const prevHtmlHeight = html.style.height;
+    const prevHtmlScrollBehavior = html.style.scrollBehavior;
+    const prevBodyOverflow = body.style.overflow;
+    const prevBodyHeight = body.style.height;
+    const prevNextOverflow = nextEl ? nextEl.style.overflow : "";
+    const prevNextHeight = nextEl ? nextEl.style.height : "";
+
+    html.style.overflowY = "auto";
+    html.style.height = "auto";
+    html.style.scrollBehavior = "smooth";
+    body.style.overflowY = "auto";
+    body.style.height = "auto";
+    if (nextEl) {
+      nextEl.style.overflow = "visible";
+      nextEl.style.height = "auto";
+    }
+
+    return () => {
+      html.style.overflow = prevHtmlOverflow;
+      html.style.height = prevHtmlHeight;
+      html.style.scrollBehavior = prevHtmlScrollBehavior;
+      body.style.overflow = prevBodyOverflow;
+      body.style.height = prevBodyHeight;
+      if (nextEl) {
+        nextEl.style.overflow = prevNextOverflow;
+        nextEl.style.height = prevNextHeight;
+      }
+    };
+  }, []);
+
   const PAGE_URL   = "https://wingo30.com/wingo-tool";
   const PAGE_TITLE = "WinGo Tool - AI Predictor, Calculator & Math Logic Guide";
   const PAGE_DESC  =
@@ -420,284 +562,263 @@ export default function WingoToolPage() {
         <div className="wt-wrap">
 
           {/* Back */}
-        <button
-          className="wt-back"
-          onClick={() => router.push("/")}
-          type="button"
-          aria-label="Back to Home"
-        >
-          <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <line x1="19" y1="12" x2="5" y2="12" />
-            <polyline points="12 19 5 12 12 5" />
-          </svg>
-          Back to Home
-        </button>
+          <button
+            className="wt-back"
+            onClick={() => router.push("/")}
+            type="button"
+            aria-label="Back to Home"
+          >
+            <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+            Back to Home
+          </button>
 
-        {/* ── Hero ─────────────────────────────────────────────────────── */}
-        <div className="wt-hero">
-          <div className="wt-badge">
-            <span className="wt-badge-dot" aria-hidden="true" />
-            AI-Powered Analysis
+          {/* ── Hero ─────────────────────────────────────────────────────── */}
+          <div className="wt-hero">
+            <div className="wt-badge">
+              <span className="wt-badge-dot" aria-hidden="true" />
+              AI-Powered Analysis
+            </div>
+
+            <h1 className="wt-h1">
+              <span className="gold">WinGo Tool</span> — AI Predictor,{" "}
+              <span className="teal">Master Calculator</span> &amp; Math Logic Guide
+            </h1>
+
+            <p className="wt-subtitle">
+              A clear, factual guide to every type of <strong>WinGo tool</strong> — from lottery
+              predictors and master calculators to AI chat engines and math-based tracking methods.
+              Understand what each tool does, how it works, and where its limits lie.
+            </p>
+
+            <div className="wt-chips">
+              {[
+                "WinGo Lottery Predictor",
+                "Wingo Master Calculator",
+                "AI Chat Engine",
+                "Math Logic Tracking",
+                "Big Small Predictor",
+                "TryonAI"
+              ].map(chip => (
+                <span className="wt-chip" key={chip}>{chip}</span>
+              ))}
+            </div>
           </div>
 
-          <h1 className="wt-h1">
-            <span className="gold">WinGo Tool</span> — AI Predictor,{" "}
-            <span className="teal">Master Calculator</span> &amp; Math Logic Guide
-          </h1>
+          {/* ── Article Body ─────────────────────────────────────────────── */}
+          <div className="wt-body">
 
-          <p className="wt-subtitle">
-            A clear, factual guide to every type of <strong>WinGo tool</strong> — from lottery
-            predictors and master calculators to AI chat engines and math-based tracking methods.
-            Understand what each tool does, how it works, and where its limits lie.
-          </p>
+            {/* Intro */}
+            <p>
+              The term <strong>WinGo tool</strong> covers a broad category of utilities built to
+              help players navigate the WinGo colour prediction game with data-driven support.
+              From the <strong>Wingo Master calculator tool</strong> that applies weighted math
+              formulas to recent results, to the <strong>AI Chat with WinGo</strong> prediction
+              engine that lets users query live data conversationally — each tool type has a
+              specific methodology, a specific use case, and specific limitations that every user
+              should understand before relying on any output.
+            </p>
 
-          <div className="wt-chips">
-            {[
-              "WinGo Lottery Predictor",
-              "Wingo Master Calculator",
-              "AI Chat Engine",
-              "Math Logic Tracking",
-              "Big Small Predictor",
-              "TryonAI"
-            ].map(chip => (
-              <span className="wt-chip" key={chip}>{chip}</span>
+            <div className="wt-notice">
+              <strong>Important:</strong> WinGo is an RNG-based game. No tool — regardless of
+              how advanced — can predict future draws with certainty. All outputs are
+              pattern-informed suggestions. Play responsibly and within your personal limits.
+            </div>
+
+            {/* ── Section 1 ───────────────────────────────────────────────── */}
+            <div className="wt-section">
+              <h2>Types of WinGo Tools — What Each One Does</h2>
+              <p className="wt-section-sub">A structured overview of the WinGo tool ecosystem</p>
+
+              <p>
+                The <strong>WinGo tool</strong> landscape broadly divides into four categories.
+                Each serves a different user need and uses a different technical approach:
+              </p>
+
+              <div className="wt-cards">
+                {TOOL_CARDS.map(c => (
+                  <div className="wt-card" key={c.title}>
+                    <div className="wt-icon-badge">{c.icon}</div>
+                    <div className="wt-card-title">{c.title}</div>
+                    <div className="wt-card-desc">{c.desc}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <hr className="wt-divider" />
+
+            {/* ── Section 2 ───────────────────────────────────────────────── */}
+            <div className="wt-section">
+              <h2>Wingo Math Logic &amp; AI Tracking — How the Engine Thinks</h2>
+              <p className="wt-section-sub">Inside the methodology that powers modern WinGo tools</p>
+
+              <p>
+                At the core of any credible <strong>WinGo tool</strong> is a combination of{" "}
+                <strong>wingo math logic</strong> and AI tracking. Here is how a well-built tool
+                processes data from the moment a new round result is published:
+              </p>
+
+              <div className="wt-steps">
+                {[
+                  {
+                    title: "Ingest Latest Result",
+                    desc: "The tool reads the new round outcome (colour + number) and appends it to a rolling history buffer of the last 50–200 rounds."
+                  },
+                  {
+                    title: "Recalculate Frequency Tables",
+                    desc: "Colour hit rates (Red / Green / Violet) and number hit rates (0–9) are recomputed. Big/Small totals are updated. Streak counters are incremented or reset."
+                  },
+                  {
+                    title: "Apply Wingo Math Logic Weights",
+                    desc: "Outcomes that have been absent longer receive higher weight. Streaks that exceed a statistical threshold trigger a contrarian flag. Ratios outside the expected range are scored as signal-worthy."
+                  },
+                  {
+                    title: "AI Layer: Conditional Pattern Lookup",
+                    desc: "The AI tracker cross-references the current 3–5 round sequence against learned historical sequences to find the most statistically common successor outcome."
+                  },
+                  {
+                    title: "Output Signal",
+                    desc: "The tool emits its top suggestion — colour, number range, and a match-rate score — and optionally updates the AI chat interface with the new context."
+                  },
+                ].map((s, i) => (
+                  <div className="wt-step" key={i}>
+                    <div className="wt-step-num">{i + 1}</div>
+                    <div className="wt-step-content">
+                      <div className="wt-step-title">{s.title}</div>
+                      <p className="wt-step-desc">{s.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="wt-highlight">
+                The key difference between basic wingo math logic and AI tracking is
+                conditionality. Math logic asks "how often did Red appear?" — AI tracking asks
+                "how often did Red appear <em>after this specific sequence</em>?" The latter is
+                far more contextually accurate.
+              </div>
+            </div>
+
+            <hr className="wt-divider" />
+
+            {/* ── Section 3 ───────────────────────────────────────────────── */}
+            <div className="wt-section">
+              <h2>Wingo Lottery Predictor Tool — Numbers, Ranges &amp; Coverage</h2>
+              <p className="wt-section-sub">How number-focused prediction differs from colour prediction</p>
+
+              <p>
+                While most players focus on colour outcomes, the <strong>Wingo Lottery Predictor
+                tool</strong> targets the number dimension (0–9) with greater specificity. Here
+                is how the two compare:
+              </p>
+
+              <table className="wt-table">
+                <thead>
+                  <tr>
+                    <th>Dimension</th>
+                    <th>Colour Predictor</th>
+                    <th>Lottery Number Predictor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    ["Output",       "Red / Green / Violet",        "Number 0–9 suggestion"],
+                    ["Complexity",   "3 possible outcomes",         "10 possible outcomes"],
+                    ["Signal Basis", "Colour frequency & streak",   "Number absence count & hotspot"],
+                    ["Use Case",     "Fast, high-frequency rounds", "Specific number targeting"],
+                    ["Accuracy",     "Pattern-based estimate",      "Pattern-based estimate"],
+                  ].map(([dim, col, lot]) => (
+                    <tr key={dim}>
+                      <td>{dim}</td>
+                      <td>{col}</td>
+                      <td>{lot}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              <p style={{ marginTop: "20px" }}>
+                A number predictor{"'"}s core logic tracks "cold" numbers — those that have not
+                appeared in an unusually long streak — and surfaces them as statistically overdue.
+                This is a well-understood frequency heuristic, but it carries the same caveat as
+                all RNG-based analysis: each draw is independent.
+              </p>
+            </div>
+
+            <hr className="wt-divider" />
+
+            {/* ── Section 4 ───────────────────────────────────────────────── */}
+            <div className="wt-section">
+              <h2>AI Chat with WinGo — The Conversational Prediction Engine</h2>
+              <p className="wt-section-sub">What makes an AI chat interface different from a standard dashboard</p>
+
+              <p>
+                The <strong>AI Chat with WinGo</strong> prediction engine represents the most
+                interactive form of a <strong>WinGo tool</strong>. Instead of presenting a static
+                dashboard, it allows users to ask natural-language questions directly:
+              </p>
+              <p>
+                <em>"What is the current Big/Small ratio for the last 30 rounds?"</em><br />
+                <em>"Has Green appeared more than Red this session?"</em><br />
+                <em>"What number has been absent the longest?"</em>
+              </p>
+              <p>
+                The AI engine interprets these queries, pulls the relevant statistics from its
+                live data buffer, and responds in plain language. This makes it accessible to
+                players who do not want to manually read frequency tables. However, the quality
+                of the answers is entirely dependent on the freshness of the data feed and the
+                accuracy of the underlying model — the conversational format does not add
+                predictive power, only usability.
+              </p>
+              <p>
+                When evaluating an AI Chat WinGo tool, ask whether it discloses its data source,
+                how frequently it refreshes, and whether it shows historical accuracy logs. A
+                transparent tool is always more trustworthy than one that presents outputs
+                without methodology.
+              </p>
+            </div>
+
+          </div>
+
+          <hr className="wt-divider" />
+
+          {/* ── FAQ ──────────────────────────────────────────────────────── */}
+          <div className="wt-section">
+            <h2>Frequently Asked Questions</h2>
+            <p className="wt-section-sub">Common questions about WinGo tool types and methodologies</p>
+
+            {FAQ_ITEMS.map((item, i) => (
+              <div className="wt-faq-item" key={i}>
+                <p className="wt-faq-q">
+                  <span className="wt-faq-num" aria-hidden="true">{i + 1}</span>
+                  {item.question}
+                </p>
+                <p className="wt-faq-a">{item.answer}</p>
+              </div>
             ))}
           </div>
-        </div>
 
-        {/* ── Article Body ─────────────────────────────────────────────── */}
-        <div className="wt-body">
-
-          {/* Intro */}
-          <p>
-            The term <strong>WinGo tool</strong> covers a broad category of utilities built to
-            help players navigate the WinGo colour prediction game with data-driven support.
-            From the <strong>Wingo Master calculator tool</strong> that applies weighted math
-            formulas to recent results, to the <strong>AI Chat with WinGo</strong> prediction
-            engine that lets users query live data conversationally — each tool type has a
-            specific methodology, a specific use case, and specific limitations that every user
-            should understand before relying on any output.
-          </p>
-
-          <div className="wt-notice">
-            <strong>Important:</strong> WinGo is an RNG-based game. No tool — regardless of
-            how advanced — can predict future draws with certainty. All outputs are
-            pattern-informed suggestions. Play responsibly and within your personal limits.
-          </div>
-
-          {/* ── Section 1 ───────────────────────────────────────────────── */}
-          <div className="wt-section">
-            <h2>Types of WinGo Tools — What Each One Does</h2>
-            <p className="wt-section-sub">A structured overview of the WinGo tool ecosystem</p>
-
+          {/* ── Conclusion ────────────────────────────────────────────────── */}
+          <div className="wt-conclusion">
+            <h2>Conclusion</h2>
             <p>
-              The <strong>WinGo tool</strong> landscape broadly divides into four categories.
-              Each serves a different user need and uses a different technical approach:
-            </p>
-
-            <div className="wt-cards">
-              {[
-                {
-                  icon: "🧮",
-                  title: "Wingo Master Calculator",
-                  desc: "Applies multi-variable math formulas (frequency, streak weight, ratio) to recent rounds and outputs a ranked colour or number suggestion."
-                },
-                {
-                  icon: "🤖",
-                  title: "AI Chat with WinGo",
-                  desc: "A conversational AI prediction engine. Users ask questions about live game data — streaks, frequency, Big/Small ratio — and receive instant answers."
-                },
-                {
-                  icon: "🎰",
-                  title: "Wingo Lottery Predictor",
-                  desc: "Focused on number-range prediction. Tracks which digits (0–9) are statistically due based on their absence count across recent rounds."
-                },
-                {
-                  icon: "📐",
-                  title: "Math Logic & AI Tracker",
-                  desc: "Combines rule-based wingo math logic with AI pattern recognition for contextual suggestions — more nuanced than single-variable frequency tools."
-                },
-              ].map(c => (
-                <div className="wt-card" key={c.title}>
-                  <div className="wt-card-icon">{c.icon}</div>
-                  <div className="wt-card-title">{c.title}</div>
-                  <div className="wt-card-desc">{c.desc}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <hr className="wt-divider" />
-
-          {/* ── Section 2 ───────────────────────────────────────────────── */}
-          <div className="wt-section">
-            <h2>Wingo Math Logic &amp; AI Tracking — How the Engine Thinks</h2>
-            <p className="wt-section-sub">Inside the methodology that powers modern WinGo tools</p>
-
-            <p>
-              At the core of any credible <strong>WinGo tool</strong> is a combination of{" "}
-              <strong>wingo math logic</strong> and AI tracking. Here is how a well-built tool
-              processes data from the moment a new round result is published:
-            </p>
-
-            <div className="wt-steps">
-              {[
-                {
-                  title: "Ingest Latest Result",
-                  desc: "The tool reads the new round outcome (colour + number) and appends it to a rolling history buffer of the last 50–200 rounds."
-                },
-                {
-                  title: "Recalculate Frequency Tables",
-                  desc: "Colour hit rates (Red / Green / Violet) and number hit rates (0–9) are recomputed. Big/Small totals are updated. Streak counters are incremented or reset."
-                },
-                {
-                  title: "Apply Wingo Math Logic Weights",
-                  desc: "Outcomes that have been absent longer receive higher weight. Streaks that exceed a statistical threshold trigger a contrarian flag. Ratios outside the expected range are scored as signal-worthy."
-                },
-                {
-                  title: "AI Layer: Conditional Pattern Lookup",
-                  desc: "The AI tracker cross-references the current 3–5 round sequence against learned historical sequences to find the most statistically common successor outcome."
-                },
-                {
-                  title: "Output Signal",
-                  desc: "The tool emits its top suggestion — colour, number range, and a match-rate score — and optionally updates the AI chat interface with the new context."
-                },
-              ].map((s, i) => (
-                <div className="wt-step" key={i}>
-                  <div className="wt-step-num">{i + 1}</div>
-                  <div className="wt-step-content">
-                    <div className="wt-step-title">{s.title}</div>
-                    <p className="wt-step-desc">{s.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="wt-highlight">
-              The key difference between basic wingo math logic and AI tracking is
-              conditionality. Math logic asks "how often did Red appear?" — AI tracking asks
-              "how often did Red appear <em>after this specific sequence</em>?" The latter is
-              far more contextually accurate.
-            </div>
-          </div>
-
-          <hr className="wt-divider" />
-
-          {/* ── Section 3 ───────────────────────────────────────────────── */}
-          <div className="wt-section">
-            <h2>Wingo Lottery Predictor Tool — Numbers, Ranges &amp; Coverage</h2>
-            <p className="wt-section-sub">How number-focused prediction differs from colour prediction</p>
-
-            <p>
-              While most players focus on colour outcomes, the <strong>Wingo Lottery Predictor
-              tool</strong> targets the number dimension (0–9) with greater specificity. Here
-              is how the two compare:
-            </p>
-
-            <table className="wt-table">
-              <thead>
-                <tr>
-                  <th>Dimension</th>
-                  <th>Colour Predictor</th>
-                  <th>Lottery Number Predictor</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ["Output",       "Red / Green / Violet",        "Number 0–9 suggestion"],
-                  ["Complexity",   "3 possible outcomes",         "10 possible outcomes"],
-                  ["Signal Basis", "Colour frequency & streak",   "Number absence count & hotspot"],
-                  ["Use Case",     "Fast, high-frequency rounds", "Specific number targeting"],
-                  ["Accuracy",     "Pattern-based estimate",      "Pattern-based estimate"],
-                ].map(([dim, col, lot]) => (
-                  <tr key={dim}>
-                    <td>{dim}</td>
-                    <td>{col}</td>
-                    <td>{lot}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-            <p style={{ marginTop: "20px" }}>
-              A number predictor{"'"}s core logic tracks "cold" numbers — those that have not
-              appeared in an unusually long streak — and surfaces them as statistically overdue.
-              This is a well-understood frequency heuristic, but it carries the same caveat as
-              all RNG-based analysis: each draw is independent.
-            </p>
-          </div>
-
-          <hr className="wt-divider" />
-
-          {/* ── Section 4 ───────────────────────────────────────────────── */}
-          <div className="wt-section">
-            <h2>AI Chat with WinGo — The Conversational Prediction Engine</h2>
-            <p className="wt-section-sub">What makes an AI chat interface different from a standard dashboard</p>
-
-            <p>
-              The <strong>AI Chat with WinGo</strong> prediction engine represents the most
-              interactive form of a <strong>WinGo tool</strong>. Instead of presenting a static
-              dashboard, it allows users to ask natural-language questions directly:
-            </p>
-            <p>
-              <em>"What is the current Big/Small ratio for the last 30 rounds?"</em><br />
-              <em>"Has Green appeared more than Red this session?"</em><br />
-              <em>"What number has been absent the longest?"</em>
-            </p>
-            <p>
-              The AI engine interprets these queries, pulls the relevant statistics from its
-              live data buffer, and responds in plain language. This makes it accessible to
-              players who do not want to manually read frequency tables. However, the quality
-              of the answers is entirely dependent on the freshness of the data feed and the
-              accuracy of the underlying model — the conversational format does not add
-              predictive power, only usability.
-            </p>
-            <p>
-              When evaluating an AI Chat WinGo tool, ask whether it discloses its data source,
-              how frequently it refreshes, and whether it shows historical accuracy logs. A
-              transparent tool is always more trustworthy than one that presents outputs
-              without methodology.
+              Every <strong>WinGo tool</strong> — whether it is a <strong>Wingo Master calculator
+              tool</strong>, a <strong>Wingo Lottery Predictor</strong>, or an{" "}
+              <strong>AI Chat with WinGo</strong> prediction engine — is built on the same
+              foundation: pattern detection in historical data using wingo math logic and AI
+              tracking methods. These tools can make your interaction with the game more
+              structured and data-aware, but they cannot eliminate the inherent randomness of
+              an RNG system. Use them as analytical companions, maintain clear stop-loss
+              boundaries, and always approach colour prediction gaming with informed, responsible
+              expectations.
             </p>
           </div>
 
         </div>
-
-        <hr className="wt-divider" />
-
-        {/* ── FAQ ──────────────────────────────────────────────────────── */}
-        <div className="wt-section">
-          <h2>Frequently Asked Questions</h2>
-          <p className="wt-section-sub">Common questions about WinGo tool types and methodologies</p>
-
-          {FAQ_ITEMS.map((item, i) => (
-            <div className="wt-faq-item" key={i}>
-              <p className="wt-faq-q">
-                <span className="wt-faq-num" aria-hidden="true">{i + 1}</span>
-                {item.question}
-              </p>
-              <p className="wt-faq-a">{item.answer}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* ── Conclusion ────────────────────────────────────────────────── */}
-        <div className="wt-conclusion">
-          <h2>Conclusion</h2>
-          <p>
-            Every <strong>WinGo tool</strong> — whether it is a <strong>Wingo Master calculator
-            tool</strong>, a <strong>Wingo Lottery Predictor</strong>, or an{" "}
-            <strong>AI Chat with WinGo</strong> prediction engine — is built on the same
-            foundation: pattern detection in historical data using wingo math logic and AI
-            tracking methods. These tools can make your interaction with the game more
-            structured and data-aware, but they cannot eliminate the inherent randomness of
-            an RNG system. Use them as analytical companions, maintain clear stop-loss
-            boundaries, and always approach colour prediction gaming with informed, responsible
-            expectations.
-          </p>
-        </div>
-
       </div>
-    </div>
-  </>
-);
+    </>
+  );
 }

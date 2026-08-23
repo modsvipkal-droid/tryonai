@@ -10,6 +10,7 @@ import {
   findUserByEmail,
   updateUser,
   insertActivation,
+  isSubscriptionBlocked,
 } from "@/lib/db";
 import { ensurePaymentIndexes } from "@/lib/mongodb";
 import { sanitizeString } from "@/lib/validate";
@@ -54,6 +55,16 @@ export default withAuth(async (req, res, user) => {
   const order = await findPaymentByOrderId(safeOrderId);
   if (!order) {
     return res.status(404).json({ error: "Payment order not found" });
+  }
+
+  // Blocked accounts can never finalize a payment session.
+  const currentUser = await findUserByEmail(user.email);
+  if (isSubscriptionBlocked(currentUser)) {
+    logSecurityEvent("blocked_payment_verify_attempt", { email: user.email, orderId: safeOrderId });
+    return res.status(403).json({
+      blocked: true,
+      error: "Your account has been blocked due to repeated subscription page visits without a purchase. Please contact support if you believe this was a mistake.",
+    });
   }
 
   if (order.user_email?.toLowerCase() !== user.email?.toLowerCase()) {
@@ -153,6 +164,13 @@ export default withAuth(async (req, res, user) => {
       unlimited: true,
       unlimitedAt: verifiedAt,
       model: modelId,
+      // A verified payment permanently lifts the subscription-screen
+      // anti-abuse restriction for this account.
+      hasSuccessfulPurchase: true,
+      subscriptionScreenVisits: 0,
+      subscriptionBlocked: false,
+      blockReason: null,
+      blockedAt: null,
     };
     // FX1 plans carry a duration — persist the subscription + server-time expiry.
     const sub = computeNextSubscription(dbUser, order, verifiedAt);

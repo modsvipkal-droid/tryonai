@@ -2,7 +2,7 @@ import { withAuth } from "@/lib/authMiddleware";
 import { createRateLimiter } from "@/lib/rateLimit";
 import { logSecurityEvent } from "@/lib/securityLog";
 import { getModelById, getModelName, getFx1PlanById, generateInternalOrderId, generateQr } from "@/lib/fampay";
-import { createPaymentOrder, findUserByEmail } from "@/lib/db";
+import { createPaymentOrder, findUserByEmail, isSubscriptionBlocked } from "@/lib/db";
 import { ensurePaymentIndexes } from "@/lib/mongodb";
 import { sanitizeString } from "@/lib/validate";
 
@@ -43,6 +43,15 @@ export default withAuth(async (req, res, user) => {
   const dbUser = await findUserByEmail(user.email);
   if (!dbUser) {
     return res.status(403).json({ error: "Account not found. Please sign in again." });
+  }
+
+  // Blocked accounts can never start a new payment order.
+  if (isSubscriptionBlocked(dbUser)) {
+    logSecurityEvent("blocked_payment_create_attempt", { email: user.email });
+    return res.status(403).json({
+      blocked: true,
+      error: "Your account has been blocked due to repeated subscription page visits without a purchase. Please contact support if you believe this was a mistake.",
+    });
   }
 
   const orderId = generateInternalOrderId();

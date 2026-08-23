@@ -1,9 +1,92 @@
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { PageHead, BreadcrumbSchema, FAQSchema, WebPageSchema } from "@/components/SEO";
+
+// ── Premium SVG Icons ─────────────────────────────────────────────────────────
+const IconZap = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+  </svg>
+);
+
+const IconTimer = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <line x1="10" y1="2" x2="14" y2="2"/>
+    <line x1="12" y1="14" x2="12" y2="8"/>
+    <circle cx="12" cy="14" r="8"/>
+  </svg>
+);
+
+const IconClock = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="10"/>
+    <polyline points="12 6 12 12 16 14"/>
+  </svg>
+);
+
+const IconHourglass = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M5 22h14"/>
+    <path d="M5 2h14"/>
+    <path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/>
+    <path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>
+  </svg>
+);
+
+const IconGlobe = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="10"/>
+    <line x1="2" y1="12" x2="22" y2="12"/>
+    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+  </svg>
+);
+
+const IconBarChart = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <line x1="18" y1="20" x2="18" y2="10"/>
+    <line x1="12" y1="20" x2="12" y2="4"/>
+    <line x1="6" y1="20" x2="6" y2="14"/>
+    <line x1="2" y1="20" x2="22" y2="20"/>
+  </svg>
+);
+
+const IconBot = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M12 8V4H8"/>
+    <rect width="16" height="12" x="4" y="8" rx="2"/>
+    <path d="M2 14h2"/>
+    <path d="M20 14h2"/>
+    <path d="M15 13v2"/>
+    <path d="M9 13v2"/>
+  </svg>
+);
+
+const IconWrench = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+  </svg>
+);
+
+const IconArrowRight = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <line x1="5" y1="12" x2="19" y2="12"/>
+    <polyline points="12 5 19 12 12 19"/>
+  </svg>
+);
 
 // ── Page-scoped styles ────────────────────────────────────────────────────────
 const bgStyle = `
-  html, body {
+  html {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  body {
+    height: auto !important;
     min-height: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -11,10 +94,16 @@ const bgStyle = `
     color: #1e293b !important;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
   }
 
   #__next {
+    height: auto !important;
     min-height: 100% !important;
+    overflow: visible !important;
   }
 
   .wkh-page-shell {
@@ -23,6 +112,7 @@ const bgStyle = `
     background: radial-gradient(100% 40% at 50% 0%, #f0f7f3 0%, #fbfdfc 100%);
     color: #1e293b;
     overflow-x: hidden;
+    overflow-y: visible;
   }
 
   .wkh-wrap {
@@ -180,7 +270,7 @@ const bgStyle = `
     background: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 16px;
-    padding: 20px;
+    padding: 22px 20px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.02);
     transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
   }
@@ -189,7 +279,24 @@ const bgStyle = `
     transform: translateY(-2px);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
   }
-  .wkh-card-icon  { font-size: 24px; margin-bottom: 12px; }
+  .wkh-icon-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #eef8f3;
+    border: 1px solid #d1eedf;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #008751;
+    margin-bottom: 14px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  .wkh-card:hover .wkh-icon-badge {
+    background: #e0f4ea;
+    transform: scale(1.05);
+    color: #00985b;
+  }
   .wkh-card-title { font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 6px; }
   .wkh-card-desc  { font-size: 13px; color: #475569; line-height: 1.55; }
 
@@ -249,7 +356,7 @@ const bgStyle = `
     font-size: 16px;
     font-weight: 800;
     color: #007043;
-    margin: 0 0 12px;
+    margin: 0 0 14px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -259,7 +366,7 @@ const bgStyle = `
     padding: 0; margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
   }
   .wkh-promo-list li {
     font-size: 14px;
@@ -268,11 +375,22 @@ const bgStyle = `
     align-items: center;
     gap: 10px;
   }
-  .wkh-promo-list li span.icon { font-size: 15px; }
+  .wkh-promo-list li span.icon-wrap {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: #eef8f3;
+    border: 1px solid #d1eedf;
+    color: #008751;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
   .wkh-promo-link {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     margin-top: 18px;
     background: #00985b;
     color: #ffffff;
@@ -389,11 +507,17 @@ const bgStyle = `
   @media (max-width: 640px) {
     .wkh-wrap { padding: 24px 20px 60px; }
     .wkh-hero { padding: 24px 20px; border-radius: 16px; margin-bottom: 32px; }
-    .wkh-section h2 { font-size: 18px; }
-    .wkh-faq-q { font-size: 14.5px; }
     .wkh-table th, .wkh-table td { padding: 10px 12px; font-size: 13px; }
   }
 `;
+
+// ── Game Modes Cards ──────────────────────────────────────────────────────────
+const MODE_CARDS = [
+  { icon: <IconZap />,       title: "30 Second (30s)", desc: "Fastest mode. Har 30 seconds mein ek new draw. Quick decisions required." },
+  { icon: <IconTimer />,     title: "1 Minute (1Min)", desc: "Most popular mode. Analysis ke liye thoda zyada time milta hai." },
+  { icon: <IconClock />,     title: "3 Minute (3Min)", desc: "Medium pace. Pattern observation ke liye comfortable window." },
+  { icon: <IconHourglass />, title: "5 Min / 10 Min",   desc: "Slow modes. Longer streak analysis aur strategy ke liye suited hain." },
+];
 
 // ── FAQ data ──────────────────────────────────────────────────────────────────
 const FAQ_ITEMS = [
@@ -439,6 +563,42 @@ const FAQ_ITEMS = [
 export default function WingoKyaHaiPage() {
   const router = useRouter();
 
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    const nextEl = document.getElementById("__next");
+
+    const prevHtmlOverflow = html.style.overflow;
+    const prevHtmlHeight = html.style.height;
+    const prevHtmlScrollBehavior = html.style.scrollBehavior;
+    const prevBodyOverflow = body.style.overflow;
+    const prevBodyHeight = body.style.height;
+    const prevNextOverflow = nextEl ? nextEl.style.overflow : "";
+    const prevNextHeight = nextEl ? nextEl.style.height : "";
+
+    html.style.overflowY = "auto";
+    html.style.height = "auto";
+    html.style.scrollBehavior = "smooth";
+    body.style.overflowY = "auto";
+    body.style.height = "auto";
+    if (nextEl) {
+      nextEl.style.overflow = "visible";
+      nextEl.style.height = "auto";
+    }
+
+    return () => {
+      html.style.overflow = prevHtmlOverflow;
+      html.style.height = prevHtmlHeight;
+      html.style.scrollBehavior = prevHtmlScrollBehavior;
+      body.style.overflow = prevBodyOverflow;
+      body.style.height = prevBodyHeight;
+      if (nextEl) {
+        nextEl.style.overflow = prevNextOverflow;
+        nextEl.style.height = prevNextHeight;
+      }
+    };
+  }, []);
+
   const PAGE_URL   = "https://wingo30.com/wingo-kya-hai";
   const PAGE_TITLE = "Wingo Kya Hai? - WinGo Game Guide & Prediction Info";
   const PAGE_DESC  =
@@ -468,264 +628,271 @@ export default function WingoKyaHaiPage() {
         <div className="wkh-wrap">
 
           {/* Back */}
-        <button
-          className="wkh-back"
-          onClick={() => router.push("/")}
-          type="button"
-          aria-label="Back to Home"
-        >
-          <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <line x1="19" y1="12" x2="5" y2="12" />
-            <polyline points="12 19 5 12 12 5" />
-          </svg>
-          Back to Home
-        </button>
+          <button
+            className="wkh-back"
+            onClick={() => router.push("/")}
+            type="button"
+            aria-label="Back to Home"
+          >
+            <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+            Back to Home
+          </button>
 
-        {/* ── Hero ─────────────────────────────────────────────────────── */}
-        <div className="wkh-hero">
-          <div className="wkh-badge">
-            <span className="wkh-badge-dot" aria-hidden="true" />
-            Complete Game Guide
-          </div>
+          {/* ── Hero ─────────────────────────────────────────────────────── */}
+          <div className="wkh-hero">
+            <div className="wkh-badge">
+              <span className="wkh-badge-dot" aria-hidden="true" />
+              Complete Game Guide
+            </div>
 
-          <h1 className="wkh-h1">
-            <span className="pink">Wingo Kya Hai?</span> — WinGo{" "}
-            <span className="indigo">Colour Prediction</span> Game — Complete Guide
-          </h1>
+            <h1 className="wkh-h1">
+              <span className="pink">Wingo Kya Hai?</span> — WinGo{" "}
+              <span className="indigo">Colour Prediction</span> Game — Complete Guide
+            </h1>
 
-          <p className="wkh-subtitle">
-            <strong>Wingo kya hai</strong> — yeh India ke sabse common questions mein se ek hai.
-            Is page mein WinGo game ki complete jankari milegi: game modes, betting options,
-            odds, UPI payment, legality aur best prediction tools — sab kuch ek jagah, clearly
-            explained.
-          </p>
-
-          <div className="wkh-chips">
-            {["Colour Prediction", "WinGo Game", "Big Small", "India Lotto", "Wingo 30s", "TRION AI"].map(chip => (
-              <span className="wkh-chip" key={chip}>{chip}</span>
-            ))}
-          </div>
-        </div>
-
-        {/* ── Article Body ─────────────────────────────────────────────── */}
-        <div className="wkh-body">
-
-          {/* Intro */}
-          <p>
-            <strong>Wingo kya hai?</strong> — WinGo, jise <em>Colour Trading</em> bhi kehte
-            hain, ek online colour prediction game hai jisme players Red, Green, ya Violet
-            colour choose karte hain — ya phir 0 se 9 tak koi number — aur result ke anusaar
-            payout milta hai. Yeh game India mein tezi se popular hua hai, especially 30-second
-            aur 1-minute fast modes ki wajah se. Is guide mein har aspect clearly explain kiya
-            gaya hai: game structure, betting options, odds, payment methods, prediction tools,
-            aur legal considerations.
-          </p>
-
-          <div className="wkh-notice">
-            <strong>Disclaimer:</strong> WinGo results ek certified Random Number Generator
-            (RNG) se generate hote hain. Koi bhi prediction tool future outcomes guarantee
-            nahi kar sakta. Yeh page sirf informational hai. Apni zimmedari par play karein.
-          </div>
-
-          {/* ── Section 1 ───────────────────────────────────────────────── */}
-          <div className="wkh-section">
-            <h2>WinGo Game Structure — Modes aur Periods</h2>
-            <p className="wkh-section-sub">Wingo kya hai iska jawab: game modes aur timing breakdown</p>
-
-            <p>
-              <strong>Wingo kya hai</strong> ka sabse basic jawab yeh hai ki yeh ek timer-based
-              draw game hai. Har period ek fixed duration mein complete hota hai, jiske end par
-              ek RNG-generated number (0–9) reveal hota hai. Woh number corresponding colour
-              aur Big/Small category determine karta hai.
+            <p className="wkh-subtitle">
+              <strong>Wingo kya hai</strong> — yeh India ke sabse common questions mein se ek hai.
+              Is page mein WinGo game ki complete jankari milegi: game modes, betting options,
+              odds, UPI payment, legality aur best prediction tools — sab kuch ek jagah, clearly
+              explained.
             </p>
 
-            <div className="wkh-cards">
-              {[
-                { icon: "⚡", title: "30 Second (30s)", desc: "Fastest mode. Har 30 seconds mein ek new draw. Quick decisions required." },
-                { icon: "⏱️", title: "1 Minute (1Min)", desc: "Most popular mode. Analysis ke liye thoda zyada time milta hai." },
-                { icon: "🕒", title: "3 Minute (3Min)", desc: "Medium pace. Pattern observation ke liye comfortable window." },
-                { icon: "🕔", title: "5 Min / 10 Min", desc: "Slow modes. Longer streak analysis aur strategy ke liye suited hain." },
-              ].map(c => (
-                <div className="wkh-card" key={c.title}>
-                  <div className="wkh-card-icon">{c.icon}</div>
-                  <div className="wkh-card-title">{c.title}</div>
-                  <div className="wkh-card-desc">{c.desc}</div>
-                </div>
+            <div className="wkh-chips">
+              {["Colour Prediction", "WinGo Game", "Big Small", "India Lotto", "Wingo 30s", "TRION AI"].map(chip => (
+                <span className="wkh-chip" key={chip}>{chip}</span>
               ))}
             </div>
           </div>
 
-          <hr className="wkh-divider" />
+          {/* ── Article Body ─────────────────────────────────────────────── */}
+          <div className="wkh-body">
 
-          {/* ── Section 2 ───────────────────────────────────────────────── */}
-          <div className="wkh-section">
-            <h2>Betting Options aur Odds — Payout Kitna Milta Hai?</h2>
-            <p className="wkh-section-sub">Colour, number aur Big/Small par bet karne ke options</p>
-
+            {/* Intro */}
             <p>
-              WinGo mein teen tarah ke betting options hote hain. Har option ke odds alag hote
-              hain kyunki probability alag hoti hai:
+              <strong>Wingo kya hai?</strong> — WinGo, jise <em>Colour Trading</em> bhi kehte
+              hain, ek online colour prediction game hai jisme players Red, Green, ya Violet
+              colour choose karte hain — ya phir 0 se 9 tak koi number — aur result ke anusaar
+              payout milta hai. Yeh game India mein tezi se popular hua hai, especially 30-second
+              aur 1-minute fast modes ki wajah se. Is guide mein har aspect clearly explain kiya
+              gaya hai: game structure, betting options, odds, payment methods, prediction tools,
+              aur legal considerations.
             </p>
 
-            <table className="wkh-table">
-              <thead>
-                <tr>
-                  <th>Bet Type</th>
-                  <th>Options</th>
-                  <th>Payout (Approx.)</th>
-                  <th>Condition</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Colour</td>
-                  <td><span className="pill-red">Red</span> / <span className="pill-green">Green</span></td>
-                  <td>2x</td>
-                  <td>Number 1,3,7,9 = Red; 2,4,6,8 = Green</td>
-                </tr>
-                <tr>
-                  <td>Colour</td>
-                  <td><span className="pill-violet">Violet</span></td>
-                  <td>4.5x</td>
-                  <td>Only on number 0 or 5</td>
-                </tr>
-                <tr>
-                  <td>Number</td>
-                  <td>0–9 (any)</td>
-                  <td>9x – 9.9x</td>
-                  <td>Exact number match required</td>
-                </tr>
-                <tr>
-                  <td>Big/Small</td>
-                  <td>Big (5–9) / Small (0–4)</td>
-                  <td>~2x</td>
-                  <td>Number falls in range</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <div className="wkh-highlight">
-              Violet ka 4.5x payout isliye zyada hai kyunki woh sirf 2 numbers (0 aur 5) par
-              aata hai — yani 10 mein se sirf 2 chances. Higher risk = higher reward, lekin
-              RNG ke anusaar har draw independent hota hai.
-            </div>
-          </div>
-
-          <hr className="wkh-divider" />
-
-          {/* ── Section 3 ───────────────────────────────────────────────── */}
-          <div className="wkh-section">
-            <h2>Wingo Prediction — AI Tools aur Unki Limitations</h2>
-            <p className="wkh-section-sub">Prediction apps kaise kaam karti hain aur kya expect karein</p>
-
-            <p>
-              Jab koi poochhe <strong>wingo kya hai</strong> toh ek common follow-up question
-              hota hai: "Kya koi prediction trick ya AI tool kaam karta hai?" Yahan honest
-              jawab dena zaroori hai.
-            </p>
-            <p>
-              AI-based WinGo prediction tools historical result data — pichle 50 se 200 rounds
-              — collect karte hain aur statistical patterns identify karte hain. Woh colour run
-              lengths, Big/Small streaks, aur number absence counts track karte hain aur ek
-              suggested pick output karte hain. TRION AI ka platform yahi karta hai — live
-              data analysis aur AI-based pattern suggestions, responsibly presented.
-            </p>
-            <p>
-              Lekin yeh samajhna zaroori hai: WinGo ek certified RNG system use karta hai.
-              Har draw completely independent hota hai. Prediction tools past patterns se
-              informed suggestions dete hain — guaranteed future outcomes nahi. Inhe data
-              companion ki tarah use karein, not as an income strategy.
-            </p>
-
-            {/* Trion promo */}
-            <div className="wkh-promo">
-              <div className="wkh-promo-title">
-                🌐 Best Wingo Prediction &amp; Result Platform
-              </div>
-              <ul className="wkh-promo-list">
-                <li><span className="icon">⚡</span> Fast &amp; easy-to-use Wingo tools</li>
-                <li><span className="icon">📊</span> Wingo result history &amp; analysis</li>
-                <li><span className="icon">🤖</span> AI-based prediction features</li>
-                <li><span className="icon">🔧</span> Wingo Tools • TRION AI Platform</li>
-              </ul>
-              <a className="wkh-promo-link" href="https://wingo30.com" target="_blank" rel="noopener noreferrer">
-                Visit Wingo30.com →
-              </a>
-            </div>
-          </div>
-
-          <hr className="wkh-divider" />
-
-          {/* ── Section 4 ───────────────────────────────────────────────── */}
-          <div className="wkh-section">
-            <h2>UPI Payment aur India mein Wingo ki Legality</h2>
-            <p className="wkh-section-sub">Payment methods aur legal status ke baare mein important jankari</p>
-
-            <p>
-              Indian Wingo platforms generally Paytm, PhonePe, aur Google Pay jaise{" "}
-              <strong>UPI payment methods</strong> support karte hain. Deposit karte waqt
-              platform ka name verify karein, minimum deposit amount samajh lein, aur ensure
-              karein ki platform authenticated hai.
-            </p>
-            <p>
-              <strong>Wingo ki India mein legality</strong> platform ke structure par depend
-              karti hai. India mein online gaming laws state-by-state different hain aur
-              regularly update hote hain:
-            </p>
-
-            <div className="wkh-legal">
-              <strong>Legal Note:</strong> Real-money gaming platforms aur informational/analytical
-              platforms (jaise result history ya prediction tools) ko alag category mein maana
-              jaata hai. Kisi bhi platform use karne se pehle uske terms of service padh lein
-              aur apne state ke applicable laws check karein. Yeh page sirf informational
-              purposes ke liye hai.
+            <div className="wkh-notice">
+              <strong>Disclaimer:</strong> WinGo results ek certified Random Number Generator
+              (RNG) se generate hote hain. Koi bhi prediction tool future outcomes guarantee
+              nahi kar sakta. Yeh page sirf informational hai. Apni zimmedari par play karein.
             </div>
 
-            <p>
-              Agar aap sirf Wingo results dekhna chahte hain ya analysis tools use karna
-              chahte hain bina real-money betting ke, toh TRION AI jaisi informational
-              platforms is need ko fulfill karti hain without the legal complexity of direct
-              gaming platforms.
-            </p>
-          </div>
+            {/* ── Section 1 ───────────────────────────────────────────────── */}
+            <div className="wkh-section">
+              <h2>WinGo Game Structure — Modes aur Periods</h2>
+              <p className="wkh-section-sub">Wingo kya hai iska jawab: game modes aur timing breakdown</p>
 
-        </div>
-
-        <hr className="wkh-divider" />
-
-        {/* ── FAQ ──────────────────────────────────────────────────────── */}
-        <div className="wkh-section">
-          <h2>Frequently Asked Questions — Wingo Kya Hai &amp; Related Queries</h2>
-          <p className="wkh-section-sub">Sabse common questions ke clear jawab</p>
-
-          {FAQ_ITEMS.map((item, i) => (
-            <div className="wkh-faq-item" key={i}>
-              <p className="wkh-faq-q">
-                <span className="wkh-faq-num" aria-hidden="true">{i + 1}</span>
-                {item.question}
+              <p>
+                <strong>Wingo kya hai</strong> ka sabse basic jawab yeh hai ki yeh ek timer-based
+                draw game hai. Har period ek fixed duration mein complete hota hai, jiske end par
+                ek RNG-generated number (0–9) reveal hota hai. Woh number corresponding colour
+                aur Big/Small category determine karta hai.
               </p>
-              <p className="wkh-faq-a">{item.answer}</p>
+
+              <div className="wkh-cards">
+                {MODE_CARDS.map(c => (
+                  <div className="wkh-card" key={c.title}>
+                    <div className="wkh-icon-badge">{c.icon}</div>
+                    <div className="wkh-card-title">{c.title}</div>
+                    <div className="wkh-card-desc">{c.desc}</div>
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
-        </div>
 
-        {/* ── Conclusion ────────────────────────────────────────────────── */}
-        <div className="wkh-conclusion">
-          <h2>Conclusion — Wingo Kya Hai, Aur Aage Kya?</h2>
-          <p>
-            <strong>Wingo kya hai</strong> — is sawaal ka jawab ab clear hai: WinGo ek
-            RNG-based colour prediction game hai jisme multiple betting options, varying odds,
-            aur multiple game modes hain. Chahe aap 30-second fast mode mein interested hain
-            ya 5-minute analysis window prefer karte hain, game mechanics same rehte hain.
-            AI prediction tools aur result analysers — jaise TRION AI ka Wingo30.com platform
-            — is game ko data ke saath approach karne mein help karte hain, lekin koi bhi tool
-            guaranteed outcomes nahi de sakta. Informed raho, responsibly khelo, aur hamesha
-            within your limits play karo.
-          </p>
-        </div>
+            <hr className="wkh-divider" />
 
+            {/* ── Section 2 ───────────────────────────────────────────────── */}
+            <div className="wkh-section">
+              <h2>Betting Options aur Odds — Payout Kitna Milta Hai?</h2>
+              <p className="wkh-section-sub">Colour, number aur Big/Small par bet karne ke options</p>
+
+              <p>
+                WinGo mein teen tarah ke betting options hote hain. Har option ke odds alag hote
+                hain kyunki probability alag hoti hai:
+              </p>
+
+              <table className="wkh-table">
+                <thead>
+                  <tr>
+                    <th>Bet Type</th>
+                    <th>Options</th>
+                    <th>Payout (Approx.)</th>
+                    <th>Condition</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Colour</td>
+                    <td><span className="pill-red">Red</span> / <span className="pill-green">Green</span></td>
+                    <td>2x</td>
+                    <td>Number 1,3,7,9 = Red; 2,4,6,8 = Green</td>
+                  </tr>
+                  <tr>
+                    <td>Colour</td>
+                    <td><span className="pill-violet">Violet</span></td>
+                    <td>4.5x</td>
+                    <td>Only on number 0 or 5</td>
+                  </tr>
+                  <tr>
+                    <td>Number</td>
+                    <td>0–9 (any)</td>
+                    <td>9x – 9.9x</td>
+                    <td>Exact number match required</td>
+                  </tr>
+                  <tr>
+                    <td>Big/Small</td>
+                    <td>Big (5–9) / Small (0–4)</td>
+                    <td>~2x</td>
+                    <td>Number falls in range</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div className="wkh-highlight">
+                Violet ka 4.5x payout isliye zyada hai kyunki woh sirf 2 numbers (0 aur 5) par
+                aata hai — yani 10 mein se sirf 2 chances. Higher risk = higher reward, lekin
+                RNG ke anusaar har draw independent hota hai.
+              </div>
+            </div>
+
+            <hr className="wkh-divider" />
+
+            {/* ── Section 3 ───────────────────────────────────────────────── */}
+            <div className="wkh-section">
+              <h2>Wingo Prediction — AI Tools aur Unki Limitations</h2>
+              <p className="wkh-section-sub">Prediction apps kaise kaam karti hain aur kya expect karein</p>
+
+              <p>
+                Jab koi poochhe <strong>wingo kya hai</strong> toh ek common follow-up question
+                hota hai: "Kya koi prediction trick ya AI tool kaam karta hai?" Yahan honest
+                jawab dena zaroori hai.
+              </p>
+              <p>
+                AI-based WinGo prediction tools historical result data — pichle 50 se 200 rounds
+                — collect karte hain aur statistical patterns identify karte hain. Woh colour run
+                lengths, Big/Small streaks, aur number absence counts track karte hain aur ek
+                suggested pick output karte hain. TRION AI ka platform yahi karta hai — live
+                data analysis aur AI-based pattern suggestions, responsibly presented.
+              </p>
+              <p>
+                Lekin yeh samajhna zaroori hai: WinGo ek certified RNG system use karta hai.
+                Har draw completely independent hota hai. Prediction tools past patterns se
+                informed suggestions dete hain — guaranteed future outcomes nahi. Inhe data
+                companion ki tarah use karein, not as an income strategy.
+              </p>
+
+              {/* Trion promo */}
+              <div className="wkh-promo">
+                <div className="wkh-promo-title">
+                  <IconGlobe /> Best Wingo Prediction &amp; Result Platform
+                </div>
+                <ul className="wkh-promo-list">
+                  <li>
+                    <span className="icon-wrap"><IconZap /></span>
+                    Fast &amp; easy-to-use Wingo tools
+                  </li>
+                  <li>
+                    <span className="icon-wrap"><IconBarChart /></span>
+                    Wingo result history &amp; analysis
+                  </li>
+                  <li>
+                    <span className="icon-wrap"><IconBot /></span>
+                    AI-based prediction features
+                  </li>
+                  <li>
+                    <span className="icon-wrap"><IconWrench /></span>
+                    Wingo Tools • TRION AI Platform
+                  </li>
+                </ul>
+                <a className="wkh-promo-link" href="https://wingo30.com" target="_blank" rel="noopener noreferrer">
+                  Visit Wingo30.com <IconArrowRight />
+                </a>
+              </div>
+            </div>
+
+            <hr className="wkh-divider" />
+
+            {/* ── Section 4 ───────────────────────────────────────────────── */}
+            <div className="wkh-section">
+              <h2>UPI Payment aur India mein Wingo ki Legality</h2>
+              <p className="wkh-section-sub">Payment methods aur legal status ke baare mein important jankari</p>
+
+              <p>
+                Indian Wingo platforms generally Paytm, PhonePe, aur Google Pay jaise{" "}
+                <strong>UPI payment methods</strong> support karte hain. Deposit karte waqt
+                platform ka name verify karein, minimum deposit amount samajh lein, aur ensure
+                karein ki platform authenticated hai.
+              </p>
+              <p>
+                <strong>Wingo ki India mein legality</strong> platform ke structure par depend
+                karti hai. India mein online gaming laws state-by-state different hain aur
+                regularly update hote hain:
+              </p>
+
+              <div className="wkh-legal">
+                <strong>Legal Note:</strong> Real-money gaming platforms aur informational/analytical
+                platforms (jaise result history ya prediction tools) ko alag category mein maana
+                jaata hai. Kisi bhi platform use karne se pehle uske terms of service padh lein
+                aur apne state ke applicable laws check karein. Yeh page sirf informational
+                purposes ke liye hai.
+              </div>
+
+              <p>
+                Agar aap sirf Wingo results dekhna chahte hain ya analysis tools use karna
+                chahte hain bina real-money betting ke, toh TRION AI jaisi informational
+                platforms is need ko fulfill karti hain without the legal complexity of direct
+                gaming platforms.
+              </p>
+            </div>
+
+          </div>
+
+          <hr className="wkh-divider" />
+
+          {/* ── FAQ ──────────────────────────────────────────────────────── */}
+          <div className="wkh-section">
+            <h2>Frequently Asked Questions — Wingo Kya Hai &amp; Related Queries</h2>
+            <p className="wkh-section-sub">Sabse common questions ke clear jawab</p>
+
+            {FAQ_ITEMS.map((item, i) => (
+              <div className="wkh-faq-item" key={i}>
+                <p className="wkh-faq-q">
+                  <span className="wkh-faq-num" aria-hidden="true">{i + 1}</span>
+                  {item.question}
+                </p>
+                <p className="wkh-faq-a">{item.answer}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* ── Conclusion ────────────────────────────────────────────────── */}
+          <div className="wkh-conclusion">
+            <h2>Conclusion — Wingo Kya Hai, Aur Aage Kya?</h2>
+            <p>
+              <strong>Wingo kya hai</strong> — is sawaal ka jawab ab clear hai: WinGo ek
+              RNG-based colour prediction game hai jisme multiple betting options, varying odds,
+              aur multiple game modes hain. Chahe aap 30-second fast mode mein interested hain
+              ya 5-minute analysis window prefer karte hain, game mechanics same rehte hain.
+              AI prediction tools aur result analysers — jaise TRION AI ka Wingo30.com platform
+              — is game ko data ke saath approach karne mein help karte hain, lekin koi bhi tool
+              guaranteed outcomes nahi de sakta. Informed raho, responsibly khelo, aur hamesha
+              within your limits play karo.
+            </p>
+          </div>
+
+        </div>
       </div>
-    </div>
-  </>
-);
+    </>
+  );
 }

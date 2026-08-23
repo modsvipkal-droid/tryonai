@@ -1,4 +1,4 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
 @font-face {
   font-family: "BestFont";
@@ -80,6 +80,20 @@ body {
 #__next {
   height: 100%;
   overflow: hidden;
+}
+
+/* ── Wingo article pages scroll fix ─────────────────────────────────────────
+   These pages are full-document layouts (not the app-shell).
+   When html has class "wingo-page", restore normal browser scrolling.
+   ─────────────────────────────────────────────────────────────────────────── */
+html.wingo-page,
+html.wingo-page body,
+html.wingo-page #__next {
+  height: auto !important;
+  min-height: 100% !important;
+  overflow: visible !important;
+  overflow-y: auto !important;
+  scroll-behavior: smooth !important;
 }
 
 button {

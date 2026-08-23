@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { Turnstile } from "@marsidev/react-turnstile";
-import { signInWithGoogle, watchAuthState } from "@/lib/firebase";
+import { signInWithGoogle, watchAuthState, signOutUser } from "@/lib/firebase";
 import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema } from "@/components/SEO";
 
 function GoogleMark() {
@@ -115,12 +115,25 @@ function BottomSheet({ open, onClose, onGoogleLogin, loading, error }) {
   );
 }
 
+const BLOCKED_ACCOUNT_MESSAGE =
+  "Your account has been blocked due to repeated subscription page visits without a purchase. Please contact support if you believe this was a mistake.";
+
 export default function Login() {
   const router = useRouter();
   const [checking, setChecking] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
   const [sheetOpen, setSheetOpen] = useState(false);
+
+  useEffect(() => {
+    // Arriving from an enforced block (subscription abuse) shows a clear notice.
+    if (router.query.blocked) {
+      setNotice(BLOCKED_ACCOUNT_MESSAGE);
+      router.replace("/login", undefined, { shallow: true }).catch(() => {});
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.query.blocked]);
 
   useEffect(() => {
     let active = true;
@@ -161,6 +174,13 @@ export default function Login() {
     } catch (err) {
       const msg = err?.message || "";
       const code = err?.code || "";
+      if (code.includes("account-blocked")) {
+        setError(BLOCKED_ACCOUNT_MESSAGE);
+        // Clear any Firebase session the blocked account may still hold.
+        try { await signOutUser(); } catch {}
+        setLoading(false);
+        return;
+      }
       if (msg.includes("timed out")) {
         setError("Sign-in took too long. Please try again.");
       } else if (code.includes("network")) {
@@ -222,6 +242,12 @@ export default function Login() {
         <span className="login-dots dots-br" />
 
         <div className="login-content-area">
+          {notice && (
+            <div className="auth-error" role="alert" style={{ marginBottom: 16 }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h0"/></svg>
+              <span>{notice}</span>
+            </div>
+          )}
           <h1 className="login-heading">Welcome Back</h1>
           <p className="login-subhead">Sign in securely with your Google account</p>
 

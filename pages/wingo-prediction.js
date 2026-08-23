@@ -1,9 +1,55 @@
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { PageHead, BreadcrumbSchema, FAQSchema, WebPageSchema } from "@/components/SEO";
+
+// ── Premium SVG Icons ─────────────────────────────────────────────────────────
+const IconRadioTower = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/>
+    <path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/>
+    <circle cx="12" cy="12" r="2"/>
+    <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/>
+    <path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/>
+  </svg>
+);
+
+const IconBarChart = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <line x1="18" y1="20" x2="18" y2="10"/>
+    <line x1="12" y1="20" x2="12" y2="4"/>
+    <line x1="6" y1="20" x2="6" y2="14"/>
+    <line x1="2" y1="20" x2="22" y2="20"/>
+  </svg>
+);
+
+const IconBrainCpu = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M12 2a4 4 0 0 0-4 4v1a4 4 0 0 0-3 3.9v.2a4 4 0 0 0 1 2.8 4 4 0 0 0-1 2.8v.3a4 4 0 0 0 3 3.8v1a4 4 0 0 0 4 4"/>
+    <path d="M12 2a4 4 0 0 1 4 4v1a4 4 0 0 1 3 3.9v.2a4 4 0 0 1-1 2.8 4 4 0 0 1 1 2.8v.3a4 4 0 0 1-3 3.8v1a4 4 0 0 1-4 4"/>
+    <path d="M12 2v20"/>
+  </svg>
+);
+
+const IconSignalOutput = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="m13 2 9 9-9 9"/>
+    <path d="M22 11H9a7 7 0 0 0-7 7v4"/>
+  </svg>
+);
 
 // ── Page-scoped styles ────────────────────────────────────────────────────────
 const bgStyle = `
-  html, body {
+  html {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  body {
+    height: auto !important;
     min-height: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -11,10 +57,16 @@ const bgStyle = `
     color: #1e293b !important;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
   }
 
   #__next {
+    height: auto !important;
     min-height: 100% !important;
+    overflow: visible !important;
   }
 
   .wp-page-shell {
@@ -23,6 +75,7 @@ const bgStyle = `
     background: radial-gradient(100% 40% at 50% 0%, #f0f7f3 0%, #fbfdfc 100%);
     color: #1e293b;
     overflow-x: hidden;
+    overflow-y: visible;
   }
 
   .wp-wrap {
@@ -187,7 +240,7 @@ const bgStyle = `
     background: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 16px;
-    padding: 20px;
+    padding: 22px 20px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.02);
     transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
   }
@@ -196,7 +249,24 @@ const bgStyle = `
     transform: translateY(-2px);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
   }
-  .wp-feat-icon  { font-size: 22px; margin-bottom: 12px; }
+  .wp-icon-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #eef8f3;
+    border: 1px solid #d1eedf;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #008751;
+    margin-bottom: 14px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  .wp-feat:hover .wp-icon-badge {
+    background: #e0f4ea;
+    transform: scale(1.05);
+    color: #00985b;
+  }
   .wp-feat-title { font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 6px; }
   .wp-feat-desc  { font-size: 13px; color: #475569; line-height: 1.55; }
 
@@ -348,6 +418,14 @@ const bgStyle = `
   }
 `;
 
+// ── Features list ─────────────────────────────────────────────────────────────
+const FEATURES = [
+  { icon: <IconRadioTower />,  title: "Live Data Fetch", desc: "Pulls the latest WinGo results from the platform's public result API every 30–60 seconds." },
+  { icon: <IconBarChart />,   title: "Frequency Table", desc: "Builds a rolling count of Red, Green, Violet appearances and each number (0–9) hit rate." },
+  { icon: <IconBrainCpu />,   title: "Pattern Scoring", desc: "Weights recent streaks, alternation cycles, and Big/Small ratios to rank candidate outcomes." },
+  { icon: <IconSignalOutput />,title: "Signal Output",   desc: "Emits a top suggestion with a confidence score representing historical match rate, not probability." },
+];
+
 // ── FAQ data ──────────────────────────────────────────────────────────────────
 const FAQ_ITEMS = [
   {
@@ -382,6 +460,42 @@ const FAQ_ITEMS = [
 export default function WingoPredictionPage() {
   const router = useRouter();
 
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    const nextEl = document.getElementById("__next");
+
+    const prevHtmlOverflow = html.style.overflow;
+    const prevHtmlHeight = html.style.height;
+    const prevHtmlScrollBehavior = html.style.scrollBehavior;
+    const prevBodyOverflow = body.style.overflow;
+    const prevBodyHeight = body.style.height;
+    const prevNextOverflow = nextEl ? nextEl.style.overflow : "";
+    const prevNextHeight = nextEl ? nextEl.style.height : "";
+
+    html.style.overflowY = "auto";
+    html.style.height = "auto";
+    html.style.scrollBehavior = "smooth";
+    body.style.overflowY = "auto";
+    body.style.height = "auto";
+    if (nextEl) {
+      nextEl.style.overflow = "visible";
+      nextEl.style.height = "auto";
+    }
+
+    return () => {
+      html.style.overflow = prevHtmlOverflow;
+      html.style.height = prevHtmlHeight;
+      html.style.scrollBehavior = prevHtmlScrollBehavior;
+      body.style.overflow = prevBodyOverflow;
+      body.style.height = prevBodyHeight;
+      if (nextEl) {
+        nextEl.style.overflow = prevNextOverflow;
+        nextEl.style.height = prevNextHeight;
+      }
+    };
+  }, []);
+
   const PAGE_URL   = "https://wingo30.com/wingo-prediction";
   const PAGE_TITLE = "Wingo Prediction - Real-Time 30s & 1Min Predictor Tool";
   const PAGE_DESC  =
@@ -411,256 +525,251 @@ export default function WingoPredictionPage() {
         <div className="wp-wrap">
 
           {/* Back */}
-        <button
-          className="wp-back"
-          onClick={() => router.push("/")}
-          type="button"
-          aria-label="Back to Home"
-        >
-          <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <line x1="19" y1="12" x2="5" y2="12" />
-            <polyline points="12 19 5 12 12 5" />
-          </svg>
-          Back to Home
-        </button>
+          <button
+            className="wp-back"
+            onClick={() => router.push("/")}
+            type="button"
+            aria-label="Back to Home"
+          >
+            <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+            Back to Home
+          </button>
 
-        {/* ── Hero ─────────────────────────────────────────────────────── */}
-        <div className="wp-hero">
-          <div className="wp-badge">
-            <span className="wp-badge-dot" aria-hidden="true" />
-            Real-Time Signals
-          </div>
+          {/* ── Hero ─────────────────────────────────────────────────────── */}
+          <div className="wp-hero">
+            <div className="wp-badge">
+              <span className="wp-badge-dot" aria-hidden="true" />
+              Real-Time Signals
+            </div>
 
-          <h1 className="wp-h1">
-            <span className="accent">Wingo Prediction</span> — Real-Time{" "}
-            <span className="accent2">30s &amp; 1 Min</span> Predictor &amp; AI Analyser
-          </h1>
+            <h1 className="wp-h1">
+              <span className="accent">Wingo Prediction</span> — Real-Time{" "}
+              <span className="accent2">30s &amp; 1 Min</span> Predictor &amp; AI Analyser
+            </h1>
 
-          <p className="wp-subtitle">
-            A factual, in-depth guide to understanding how <strong>wingo prediction</strong> tools
-            work — from AI fast Wingo (30s) live data engines to Big Small signal logic and
-            responsible strategy frameworks.
-          </p>
-
-          <div className="wp-stats">
-            {[
-              { label: "Game Modes",    val: "30s · 1 Min · 3 Min · 5 Min" },
-              { label: "Signal Types",  val: "Colour · Number · Big/Small" },
-              { label: "Analysis Base", val: "Last 50–200 rounds" },
-              { label: "Data Source",   val: "Public result feed" },
-            ].map(s => (
-              <div className="wp-stat" key={s.label}>
-                <span className="wp-stat-label">{s.label}</span>
-                <span className="wp-stat-val">{s.val}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ── Article Body ─────────────────────────────────────────────── */}
-        <div className="wp-body">
-
-          {/* Intro */}
-          <p>
-            <strong>Wingo prediction</strong> is the practice of using historical game data
-            to generate statistically informed suggestions for upcoming WinGo draw results.
-            Whether you are looking at a <strong>Wingo 30 second predictor</strong> or a 1-minute
-            mode analyser, the underlying methodology is the same: collect recent outcomes, detect
-            patterns, and rank probable next results. This guide breaks down exactly how those
-            systems work, what their real limitations are, and how to evaluate any tool that
-            claims to offer live signals.
-          </p>
-
-          <div className="wp-notice">
-            <strong>Disclaimer:</strong> WinGo draws are produced by a certified random number
-            generator (RNG). No prediction tool can guarantee future outcomes. All content here
-            is for educational and informational purposes only. Always play within your limits.
-          </div>
-
-          {/* ── Section 1 ───────────────────────────────────────────────── */}
-          <div className="wp-section">
-            <h2>How Wingo Prediction Tools Generate Live Signals</h2>
-            <p className="wp-section-sub">From raw history to a ranked colour and number suggestion</p>
-
-            <p>
-              Every <strong>wingo prediction</strong> engine — whether marketed as a free web tool,
-              a Telegram bot, or an AI fast Wingo (30s) live data dashboard — follows a common
-              pipeline. Understanding each stage helps you set realistic expectations.
+            <p className="wp-subtitle">
+              A factual, in-depth guide to understanding how <strong>wingo prediction</strong> tools
+              work — from AI fast Wingo (30s) live data engines to Big Small signal logic and
+              responsible strategy frameworks.
             </p>
 
-            <div className="wp-grid">
+            <div className="wp-stats">
               {[
-                { icon: "📡", title: "Live Data Fetch", desc: "Pulls the latest WinGo results from the platform's public result API every 30–60 seconds." },
-                { icon: "📊", title: "Frequency Table", desc: "Builds a rolling count of Red, Green, Violet appearances and each number (0–9) hit rate." },
-                { icon: "🧠", title: "Pattern Scoring", desc: "Weights recent streaks, alternation cycles, and Big/Small ratios to rank candidate outcomes." },
-                { icon: "📤", title: "Signal Output", desc: "Emits a top suggestion with a confidence score representing historical match rate, not probability." },
-              ].map(f => (
-                <div className="wp-feat" key={f.title}>
-                  <div className="wp-feat-icon">{f.icon}</div>
-                  <div className="wp-feat-title">{f.title}</div>
-                  <div className="wp-feat-desc">{f.desc}</div>
+                { label: "Game Modes",    val: "30s · 1 Min · 3 Min · 5 Min" },
+                { label: "Signal Types",  val: "Colour · Number · Big/Small" },
+                { label: "Analysis Base", val: "Last 50–200 rounds" },
+                { label: "Data Source",   val: "Public result feed" },
+              ].map(s => (
+                <div className="wp-stat" key={s.label}>
+                  <span className="wp-stat-label">{s.label}</span>
+                  <span className="wp-stat-val">{s.val}</span>
                 </div>
               ))}
             </div>
+          </div>
 
-            <div className="wp-highlight">
-              A confidence score of "75%" from a <strong>Wingo 30s analyser</strong> means the
-              suggested pattern matched 75% of historically similar windows — not that the next
-              round has a 75% chance of matching. These are fundamentally different statements.
+          {/* ── Article Body ─────────────────────────────────────────────── */}
+          <div className="wp-body">
+
+            {/* Intro */}
+            <p>
+              <strong>Wingo prediction</strong> is the practice of using historical game data
+              to generate statistically informed suggestions for upcoming WinGo draw results.
+              Whether you are looking at a <strong>Wingo 30 second predictor</strong> or a 1-minute
+              mode analyser, the underlying methodology is the same: collect recent outcomes, detect
+              patterns, and rank probable next results. This guide breaks down exactly how those
+              systems work, what their real limitations are, and how to evaluate any tool that
+              claims to offer live signals.
+            </p>
+
+            <div className="wp-notice">
+              <strong>Disclaimer:</strong> WinGo draws are produced by a certified random number
+              generator (RNG). No prediction tool can guarantee future outcomes. All content here
+              is for educational and informational purposes only. Always play within your limits.
             </div>
+
+            {/* ── Section 1 ───────────────────────────────────────────────── */}
+            <div className="wp-section">
+              <h2>How Wingo Prediction Tools Generate Live Signals</h2>
+              <p className="wp-section-sub">From raw history to a ranked colour and number suggestion</p>
+
+              <p>
+                Every <strong>wingo prediction</strong> engine — whether marketed as a free web tool,
+                a Telegram bot, or an AI fast Wingo (30s) live data dashboard — follows a common
+                pipeline. Understanding each stage helps you set realistic expectations.
+              </p>
+
+              <div className="wp-grid">
+                {FEATURES.map(f => (
+                  <div className="wp-feat" key={f.title}>
+                    <div className="wp-icon-badge">{f.icon}</div>
+                    <div className="wp-feat-title">{f.title}</div>
+                    <div className="wp-feat-desc">{f.desc}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="wp-highlight">
+                A confidence score of "75%" from a <strong>Wingo 30s analyser</strong> means the
+                suggested pattern matched 75% of historically similar windows — not that the next
+                round has a 75% chance of matching. These are fundamentally different statements.
+              </div>
+            </div>
+
+            <hr className="wp-divider" />
+
+            {/* ── Section 2 ───────────────────────────────────────────────── */}
+            <div className="wp-section">
+              <h2>Wingo 30 Second Big Small Trick — Logic &amp; Strategy Explained</h2>
+              <p className="wp-section-sub">What the community calls "tricks" — and what is really happening</p>
+
+              <p>
+                The <strong>Wingo 30 second prediction</strong> community uses several shorthand
+                terms for pattern-reading approaches. Here is what each one actually involves:
+              </p>
+
+              {[
+                {
+                  pill: "pill-big", label: "BIG",
+                  title: "Big Streak Signal",
+                  desc: "After 4+ consecutive Big (5–9) results, some tools flag a possible Small reversion. This is mean-reversion heuristics — not a game mechanic."
+                },
+                {
+                  pill: "pill-small", label: "SMALL",
+                  title: "Small Streak Signal",
+                  desc: "Mirror of Big Streak. Used in the Wingo 30 second Big Small trick where players bet opposite after a long Small run."
+                },
+                {
+                  pill: "pill-green", label: "GREEN",
+                  title: "Colour Run Detection",
+                  desc: "Flags when Green has appeared 5+ times in the last 10 rounds, suggesting a potential Red/Violet appearance based on historical frequency."
+                },
+                {
+                  pill: "pill-violet", label: "VIOLET",
+                  title: "Violet Rarity Pattern",
+                  desc: "Violet appears on 0 and 5. Some predictors track how many rounds have passed since the last Violet and surface it as a signal."
+                },
+              ].map(r => (
+                <div className="wp-signal-row" key={r.label}>
+                  <span className={`wp-signal-pill ${r.pill}`}>{r.label}</span>
+                  <span className="wp-signal-text">
+                    <strong>{r.title}:</strong> {r.desc}
+                  </span>
+                </div>
+              ))}
+
+              <p style={{ marginTop: "20px" }}>
+                The phrase <strong>Wingo 30 second 0 level hack</strong> is a community-coined term
+                for the most basic entry strategy: observe several rounds without betting, note the
+                dominant pattern, then place a minimum-stake test entry. It is a disciplined
+                observation technique, not a software exploit.
+              </p>
+            </div>
+
+            <hr className="wp-divider" />
+
+            {/* ── Section 3 ───────────────────────────────────────────────── */}
+            <div className="wp-section">
+              <h2>Wingo Predictor AI — What Makes a Tool Genuinely Useful</h2>
+              <p className="wp-section-sub">Evaluating AI-powered analysers beyond the marketing</p>
+
+              <p>
+                A genuine <strong>Wingo 30 predictor AI</strong> tool differentiates itself from
+                basic frequency counters by applying machine-learning layers. Instead of simply
+                counting how many times Red appeared, these models learn conditional probabilities —
+                for example: "Given that the last three rounds were Red-Green-Red, what colour
+                appeared next across 10,000 similar sequences in historical data?"
+              </p>
+              <p>
+                This is meaningfully more sophisticated than a colour counter, but it still cannot
+                overcome a true RNG. The value of an AI predictor is in <em>pattern recognition at
+                scale</em> — it processes more data faster than a human can manually track, and
+                surfaces suggestions in real time. For the 30-second mode in particular, speed
+                matters: by the time a human scrolls through the result history manually, the next
+                round may have already started.
+              </p>
+              <p>
+                When evaluating any <strong>wingo 30 signal</strong> service or AI tool, look for:
+                transparent methodology, a clearly stated analysis window, a historical accuracy
+                log, and explicit disclaimers. Platforms that claim infallibility or hide their
+                methodology should be treated with caution.
+              </p>
+            </div>
+
+            <hr className="wp-divider" />
+
+            {/* ── Section 4 ───────────────────────────────────────────────── */}
+            <div className="wp-section">
+              <h2>Wingo 30 Second Logic &amp; Strategy — A Responsible Framework</h2>
+              <p className="wp-section-sub">Turning data insights into a structured approach</p>
+
+              <p>
+                Even with the best <strong>Wingo 30 second prediction</strong> data at hand, outcome
+                variance is significant. The following framework reflects how disciplined players
+                approach the game using prediction data responsibly:
+              </p>
+              <p>
+                <strong>Observe before acting.</strong> Run the <strong>Wingo 30s analyser</strong>{" "}
+                for at least 10 rounds before placing an entry. This establishes a baseline for
+                the current session{"'"}s pattern behaviour, which can shift from session to session.
+              </p>
+              <p>
+                <strong>Define a stop-loss.</strong> Decide the maximum number of consecutive
+                misses after which you stop for the session. Prediction tools are informational;
+                they are not designed to override a loss-limit discipline.
+              </p>
+              <p>
+                <strong>Use signals as one input, not the only input.</strong> Cross-reference the
+                AI signal with your own visual observation of the result board. If the tool suggests
+                Big but you have seen Big dominate the last 8 rounds, that context matters.
+              </p>
+              <p>
+                <strong>Separate entertainment from profit expectation.</strong> Colour prediction
+                games are a form of entertainment with financial stakes. Treating them as a reliable
+                income source regardless of which prediction tool you use is a risk that no
+                algorithm can mitigate.
+              </p>
+            </div>
+
           </div>
 
           <hr className="wp-divider" />
 
-          {/* ── Section 2 ───────────────────────────────────────────────── */}
+          {/* ── FAQ ──────────────────────────────────────────────────────── */}
           <div className="wp-section">
-            <h2>Wingo 30 Second Big Small Trick — Logic &amp; Strategy Explained</h2>
-            <p className="wp-section-sub">What the community calls "tricks" — and what is really happening</p>
+            <h2>Frequently Asked Questions</h2>
+            <p className="wp-section-sub">Common questions about Wingo prediction tools and signals</p>
 
-            <p>
-              The <strong>Wingo 30 second prediction</strong> community uses several shorthand
-              terms for pattern-reading approaches. Here is what each one actually involves:
-            </p>
-
-            {[
-              {
-                pill: "pill-big", label: "BIG",
-                title: "Big Streak Signal",
-                desc: "After 4+ consecutive Big (5–9) results, some tools flag a possible Small reversion. This is mean-reversion heuristics — not a game mechanic."
-              },
-              {
-                pill: "pill-small", label: "SMALL",
-                title: "Small Streak Signal",
-                desc: "Mirror of Big Streak. Used in the Wingo 30 second Big Small trick where players bet opposite after a long Small run."
-              },
-              {
-                pill: "pill-green", label: "GREEN",
-                title: "Colour Run Detection",
-                desc: "Flags when Green has appeared 5+ times in the last 10 rounds, suggesting a potential Red/Violet appearance based on historical frequency."
-              },
-              {
-                pill: "pill-violet", label: "VIOLET",
-                title: "Violet Rarity Pattern",
-                desc: "Violet appears on 0 and 5. Some predictors track how many rounds have passed since the last Violet and surface it as a signal."
-              },
-            ].map(r => (
-              <div className="wp-signal-row" key={r.label}>
-                <span className={`wp-signal-pill ${r.pill}`}>{r.label}</span>
-                <span className="wp-signal-text">
-                  <strong>{r.title}:</strong> {r.desc}
-                </span>
+            {FAQ_ITEMS.map((item, i) => (
+              <div className="wp-faq-item" key={i}>
+                <p className="wp-faq-q">
+                  <span className="wp-faq-num" aria-hidden="true">{i + 1}</span>
+                  {item.question}
+                </p>
+                <p className="wp-faq-a">{item.answer}</p>
               </div>
             ))}
-
-            <p style={{ marginTop: "20px" }}>
-              The phrase <strong>Wingo 30 second 0 level hack</strong> is a community-coined term
-              for the most basic entry strategy: observe several rounds without betting, note the
-              dominant pattern, then place a minimum-stake test entry. It is a disciplined
-              observation technique, not a software exploit.
-            </p>
           </div>
 
-          <hr className="wp-divider" />
-
-          {/* ── Section 3 ───────────────────────────────────────────────── */}
-          <div className="wp-section">
-            <h2>Wingo Predictor AI — What Makes a Tool Genuinely Useful</h2>
-            <p className="wp-section-sub">Evaluating AI-powered analysers beyond the marketing</p>
-
+          {/* ── Conclusion ────────────────────────────────────────────────── */}
+          <div className="wp-conclusion">
+            <h2>Conclusion</h2>
             <p>
-              A genuine <strong>Wingo 30 predictor AI</strong> tool differentiates itself from
-              basic frequency counters by applying machine-learning layers. Instead of simply
-              counting how many times Red appeared, these models learn conditional probabilities —
-              for example: "Given that the last three rounds were Red-Green-Red, what colour
-              appeared next across 10,000 similar sequences in historical data?"
-            </p>
-            <p>
-              This is meaningfully more sophisticated than a colour counter, but it still cannot
-              overcome a true RNG. The value of an AI predictor is in <em>pattern recognition at
-              scale</em> — it processes more data faster than a human can manually track, and
-              surfaces suggestions in real time. For the 30-second mode in particular, speed
-              matters: by the time a human scrolls through the result history manually, the next
-              round may have already started.
-            </p>
-            <p>
-              When evaluating any <strong>wingo 30 signal</strong> service or AI tool, look for:
-              transparent methodology, a clearly stated analysis window, a historical accuracy
-              log, and explicit disclaimers. Platforms that claim infallibility or hide their
-              methodology should be treated with caution.
-            </p>
-          </div>
-
-          <hr className="wp-divider" />
-
-          {/* ── Section 4 ───────────────────────────────────────────────── */}
-          <div className="wp-section">
-            <h2>Wingo 30 Second Logic &amp; Strategy — A Responsible Framework</h2>
-            <p className="wp-section-sub">Turning data insights into a structured approach</p>
-
-            <p>
-              Even with the best <strong>Wingo 30 second prediction</strong> data at hand, outcome
-              variance is significant. The following framework reflects how disciplined players
-              approach the game using prediction data responsibly:
-            </p>
-            <p>
-              <strong>Observe before acting.</strong> Run the <strong>Wingo 30s analyser</strong>{" "}
-              for at least 10 rounds before placing an entry. This establishes a baseline for
-              the current session{"'"}s pattern behaviour, which can shift from session to session.
-            </p>
-            <p>
-              <strong>Define a stop-loss.</strong> Decide the maximum number of consecutive
-              misses after which you stop for the session. Prediction tools are informational;
-              they are not designed to override a loss-limit discipline.
-            </p>
-            <p>
-              <strong>Use signals as one input, not the only input.</strong> Cross-reference the
-              AI signal with your own visual observation of the result board. If the tool suggests
-              Big but you have seen Big dominate the last 8 rounds, that context matters.
-            </p>
-            <p>
-              <strong>Separate entertainment from profit expectation.</strong> Colour prediction
-              games are a form of entertainment with financial stakes. Treating them as a reliable
-              income source regardless of which prediction tool you use is a risk that no
-              algorithm can mitigate.
+              Whether you are exploring a <strong>wingo prediction</strong> dashboard for the first
+              time or refining your approach with an AI fast Wingo (30s) live data tool, the
+              fundamentals remain the same: these systems surface statistical patterns from historical
+              data and present them as ranked suggestions. The <strong>Wingo 30 second predictor</strong>{" "}
+              space offers genuinely useful analytical tools — provided you understand what they
+              can and cannot do. Use signals to stay organised, observe patterns systematically,
+              and always prioritise responsible, informed decision-making over chasing outcomes.
             </p>
           </div>
 
         </div>
-
-        <hr className="wp-divider" />
-
-        {/* ── FAQ ──────────────────────────────────────────────────────── */}
-        <div className="wp-section">
-          <h2>Frequently Asked Questions</h2>
-          <p className="wp-section-sub">Common questions about Wingo prediction tools and signals</p>
-
-          {FAQ_ITEMS.map((item, i) => (
-            <div className="wp-faq-item" key={i}>
-              <p className="wp-faq-q">
-                <span className="wp-faq-num" aria-hidden="true">{i + 1}</span>
-                {item.question}
-              </p>
-              <p className="wp-faq-a">{item.answer}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* ── Conclusion ────────────────────────────────────────────────── */}
-        <div className="wp-conclusion">
-          <h2>Conclusion</h2>
-          <p>
-            Whether you are exploring a <strong>wingo prediction</strong> dashboard for the first
-            time or refining your approach with an AI fast Wingo (30s) live data tool, the
-            fundamentals remain the same: these systems surface statistical patterns from historical
-            data and present them as ranked suggestions. The <strong>Wingo 30 second predictor</strong>{" "}
-            space offers genuinely useful analytical tools — provided you understand what they
-            can and cannot do. Use signals to stay organised, observe patterns systematically,
-            and always prioritise responsible, informed decision-making over chasing outcomes.
-          </p>
-        </div>
-
       </div>
-    </div>
-  </>
-);
+    </>
+  );
 }

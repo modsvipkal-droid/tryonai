@@ -1,7 +1,7 @@
 import { withAuth } from "@/lib/authMiddleware";
 import { createRateLimiter } from "@/lib/rateLimit";
-import { upsertPresence, ensurePresenceIndexes } from "@/lib/db";
-import { sanitizeString } from "@/lib/validate";
+import { upsertPresence, ensurePresenceIndexes, findUserByEmail, isSubscriptionBlocked } from "@/lib/db";
+import { sanitizeString, sanitizeEmail } from "@/lib/validate";
 
 const heartbeatLimiter = createRateLimiter({ windowMs: 5000, max: 5, name: "presence-heartbeat" });
 
@@ -9,6 +9,9 @@ const heartbeatLimiter = createRateLimiter({ windowMs: 5000, max: 5, name: "pres
  * Authenticated heartbeat for live session tracking.
  * Only minimal presence data is stored (email, last seen, last page, session id).
  * The user id/email always come from the verified session — never from the client.
+ *
+ * Doubles as the server-side kill switch: a subscription-blocked account gets a
+ * 403 here, so the main panel signs the user out within one heartbeat cycle.
  */
 export default withAuth(async (req, res, user) => {
   if (req.method !== "POST") {
@@ -19,6 +22,16 @@ export default withAuth(async (req, res, user) => {
   const { limited } = heartbeatLimiter(req, res);
   if (limited) {
     return res.status(429).json({ error: "Too many requests" });
+  }
+
+  // Enforce block status from the database on every heartbeat.
+  const email = sanitizeEmail(user.email);
+  const dbUser = await findUserByEmail(email);
+  if (isSubscriptionBlocked(dbUser)) {
+    return res.status(403).json({
+      blocked: true,
+      error: "Your account has been blocked due to repeated subscription page visits without a purchase. Please contact support if you believe this was a mistake.",
+    });
   }
 
   const sessionId = sanitizeString(req.body?.session_id, 64) || "default";

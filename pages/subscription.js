@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { Turnstile } from "@marsidev/react-turnstile";
 import QRCode from "qrcode";
-import { watchAuthState, getFirebaseAuth } from "@/lib/firebase";
+import { watchAuthState, getFirebaseAuth, signOutUser } from "@/lib/firebase";
 import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema } from "@/components/SEO";
 
 // Custom styles override to ensure scroll works inside .app-screen container
@@ -129,6 +129,11 @@ export default function Subscription() {
         setVerifyMsg(data?.error || "Could not start payment. Please try again.");
         setShowToast(true);
         setToastSuccess(false);
+        if (data?.blocked) {
+          // Account was blocked server-side — end session immediately.
+          try { await signOutUser(); } catch {}
+          router.replace("/login?blocked=1");
+        }
         return;
       }
       orderIdRef.current = data.orderId;
@@ -277,6 +282,52 @@ export default function Subscription() {
       stopped = true;
       clearInterval(interval);
     };
+  }, [authReady]);
+
+  // Server-side anti-abuse: register this Subscription Screen open exactly once
+  // per page-open. The visit id is stable for the whole tab session, so reloads,
+  // re-mounts and background re-renders never double count — the server keeps
+  // the authoritative counter and blocks the account on the 5th unpaid visit.
+  useEffect(() => {
+    if (!authReady) return undefined;
+
+    let visitId = "";
+    try {
+      visitId = window.sessionStorage.getItem("trion_sub_visit_id") || "";
+      if (!visitId) {
+        visitId = (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}_${Math.random().toString(36).slice(2)}`);
+        window.sessionStorage.setItem("trion_sub_visit_id", visitId);
+      }
+    } catch {
+      visitId = `${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    }
+
+    let cancelled = false;
+    (async () => {
+      try {
+        const token = await getIdToken();
+        const res = await fetch("/api/subscription/visit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          credentials: "include",
+          body: JSON.stringify({ visitId }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!cancelled && (res.status === 403 || data?.blocked)) {
+          // 5th unpaid visit — account blocked server-side. End the session.
+          try { await signOutUser(); } catch {}
+          router.replace("/login?blocked=1");
+        }
+      } catch {
+        // transient network error — enforcement stays server-side regardless
+      }
+    })();
+
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authReady]);
 
   // Banks cap gallery-scanned QR payments at ₹2,000, so for larger amounts

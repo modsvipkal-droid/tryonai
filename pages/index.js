@@ -2090,12 +2090,18 @@ function MainApp({ user }) {
     async function beat() {
       if (stopped) return;
       try {
-        await fetch("/api/presence/heartbeat", {
+        const res = await fetch("/api/presence/heartbeat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify({ session_id: sessionId, page: pageLabel }),
         });
+        if (res.status === 403) {
+          // Server-side block enforcement — end the session immediately.
+          stopped = true;
+          try { await signOutUser(); } catch {}
+          router.replace("/login?blocked=1");
+        }
       } catch {}
     }
 

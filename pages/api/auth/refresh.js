@@ -3,6 +3,8 @@ import { setAuthCookies, clearAuthCookies } from "@/lib/authMiddleware";
 import { setCsrfCookie } from "@/lib/csrf";
 import { logSecurityEvent } from "@/lib/securityLog";
 import { createRateLimiter } from "@/lib/rateLimit";
+import { findUserByEmail, isSubscriptionBlocked } from "@/lib/db";
+import { sanitizeEmail } from "@/lib/validate";
 
 const refreshLimiter = createRateLimiter({ windowMs: 60000, max: 20, name: "refresh" });
 
@@ -33,6 +35,15 @@ export default async function handler(req, res) {
     const decoded = verifyRefreshToken(refreshToken);
     if (!decoded.email) {
       throw new Error("Invalid token payload");
+    }
+
+    // Blocked accounts can never renew a session.
+    const email = sanitizeEmail(decoded.email);
+    const existing = await findUserByEmail(email);
+    if (isSubscriptionBlocked(existing)) {
+      logSecurityEvent("blocked_refresh_attempt", { email });
+      clearAuthCookies(res);
+      return res.status(403).json({ blocked: true, error: "Account blocked" });
     }
 
     setAuthCookies(res, { uid: decoded.uid, email: decoded.email });

@@ -16,6 +16,14 @@ export default async function handler(req, res) {
 
     const existing = await findUserByEmail(safeEmail);
     if (existing) {
+      // Never create a duplicate account — and surface block status so the
+      // client cannot miss a server-side restriction.
+      if (existing.subscriptionBlocked === true) {
+        return res.status(403).json({
+          blocked: true,
+          error: "Your account has been blocked due to repeated subscription page visits without a purchase. Please contact support if you believe this was a mistake.",
+        });
+      }
       return res.status(200).json({ user: existing });
     }
 
@@ -26,6 +34,9 @@ export default async function handler(req, res) {
       unlimited: false,
       unlimitedAt: null,
       createdAt: Date.now(),
+      subscriptionScreenVisits: 0,
+      subscriptionBlocked: false,
+      hasSuccessfulPurchase: false,
     };
 
     await insertUser(user);
