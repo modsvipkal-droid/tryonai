@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { PageHead, BreadcrumbSchema, FAQSchema, WebPageSchema } from "@/components/SEO";
+import ContentCard, { smartCardStyles } from "@/components/ContentCard";
 
 // ── Premium SVG Icons ─────────────────────────────────────────────────────────
 const IconZap = () => (
@@ -612,7 +613,7 @@ export default function WingoKyaHaiPage() {
         description={PAGE_DESC}
         canonical={PAGE_URL}
       >
-        <style dangerouslySetInnerHTML={{ __html: bgStyle }} />
+        <style dangerouslySetInnerHTML={{ __html: bgStyle + smartCardStyles }} />
       </PageHead>
 
       {/* ── Structured Data ──────────────────────────────────────────────── */}
@@ -681,11 +682,10 @@ export default function WingoKyaHaiPage() {
               aur legal considerations.
             </p>
 
-            <div className="wkh-notice">
-              <strong>Disclaimer:</strong> WinGo results ek certified Random Number Generator
-              (RNG) se generate hote hain. Koi bhi prediction tool future outcomes guarantee
-              nahi kar sakta. Yeh page sirf informational hai. Apni zimmedari par play karein.
-            </div>
+            <ContentCard type="warning" title="Critical RNG & Fairness Notice">
+              WinGo results certified Random Number Generator (RNG) se generate hote hain. Koi bhi prediction tool future outcomes guarantee
+              nahi kar sakta. Yeh page sirf informational aur educational exploration ke liye hai. Apni zimmedari par play karein.
+            </ContentCard>
 
             {/* ── Section 1 ───────────────────────────────────────────────── */}
             <div className="wkh-section">
@@ -759,11 +759,10 @@ export default function WingoKyaHaiPage() {
                 </tbody>
               </table>
 
-              <div className="wkh-highlight">
-                Violet ka 4.5x payout isliye zyada hai kyunki woh sirf 2 numbers (0 aur 5) par
-                aata hai — yani 10 mein se sirf 2 chances. Higher risk = higher reward, lekin
-                RNG ke anusaar har draw independent hota hai.
-              </div>
+              <ContentCard type="key-point" title="Violet Payout vs. Probability Calculation">
+                Violet ka <strong>4.5x payout</strong> isliye zyada hota hai kyunki woh sirf 2 numbers (0 aur 5) par
+                aata hai — yani 10 mein se sirf 2 numbers (20% probability). Higher potential payout hamesha higher mathematical variance ke saath aata hai.
+              </ContentCard>
             </div>
 
             <hr className="wkh-divider" />
@@ -840,13 +839,10 @@ export default function WingoKyaHaiPage() {
                 regularly update hote hain:
               </p>
 
-              <div className="wkh-legal">
-                <strong>Legal Note:</strong> Real-money gaming platforms aur informational/analytical
-                platforms (jaise result history ya prediction tools) ko alag category mein maana
-                jaata hai. Kisi bhi platform use karne se pehle uske terms of service padh lein
-                aur apne state ke applicable laws check karein. Yeh page sirf informational
-                purposes ke liye hai.
-              </div>
+              <ContentCard type="important" title="Legal & Compliance Notice">
+                Real-money gaming platforms aur informational/analytical platforms (jaise result history ya prediction tools) ko alag category mein maana
+                jaata hai. Kisi bhi platform ko use karne se pehle uske terms of service padh lein aur apne state ke applicable laws check karein.
+              </ContentCard>
 
               <p>
                 Agar aap sirf Wingo results dekhna chahte hain ya analysis tools use karna

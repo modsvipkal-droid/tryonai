@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { PageHead, BreadcrumbSchema, FAQSchema, WebPageSchema } from "@/components/SEO";
+import ContentCard, { smartCardStyles } from "@/components/ContentCard";
 
 // ── Premium SVG Icons ─────────────────────────────────────────────────────────
 const IconRadioTower = () => (
@@ -509,7 +510,7 @@ export default function WingoPredictionPage() {
         description={PAGE_DESC}
         canonical={PAGE_URL}
       >
-        <style dangerouslySetInnerHTML={{ __html: bgStyle }} />
+        <style dangerouslySetInnerHTML={{ __html: bgStyle + smartCardStyles }} />
       </PageHead>
 
       {/* ── Structured Data ──────────────────────────────────────────────── */}
@@ -585,14 +586,13 @@ export default function WingoPredictionPage() {
               claims to offer live signals.
             </p>
 
-            <div className="wp-notice">
-              <strong>Disclaimer:</strong> WinGo draws are produced by a certified random number
-              generator (RNG). No prediction tool can guarantee future outcomes. All content here
-              is for educational and informational purposes only. Always play within your limits.
-            </div>
+            <ContentCard type="warning" title="Critical RNG & Risk Disclaimer">
+              WinGo draws are produced by a certified random number generator (RNG). No prediction tool can guarantee future outcomes. 
+              All content here is for educational and informational purposes only. Always play within your limits.
+            </ContentCard>
 
             {/* ── Section 1 ───────────────────────────────────────────────── */}
-            <div className="wp-section">
+            <section className="wp-section">
               <h2>How Wingo Prediction Tools Generate Live Signals</h2>
               <p className="wp-section-sub">From raw history to a ranked colour and number suggestion</p>
 
@@ -612,12 +612,12 @@ export default function WingoPredictionPage() {
                 ))}
               </div>
 
-              <div className="wp-highlight">
+              <ContentCard type="key-point" title="Historical Confidence vs. Outcome Probability">
                 A confidence score of "75%" from a <strong>Wingo 30s analyser</strong> means the
                 suggested pattern matched 75% of historically similar windows — not that the next
                 round has a 75% chance of matching. These are fundamentally different statements.
-              </div>
-            </div>
+              </ContentCard>
+            </section>
 
             <hr className="wp-divider" />
 
@@ -702,7 +702,7 @@ export default function WingoPredictionPage() {
             <hr className="wp-divider" />
 
             {/* ── Section 4 ───────────────────────────────────────────────── */}
-            <div className="wp-section">
+            <section className="wp-section">
               <h2>Wingo 30 Second Logic &amp; Strategy — A Responsible Framework</h2>
               <p className="wp-section-sub">Turning data insights into a structured approach</p>
 
@@ -711,28 +711,15 @@ export default function WingoPredictionPage() {
                 variance is significant. The following framework reflects how disciplined players
                 approach the game using prediction data responsibly:
               </p>
-              <p>
-                <strong>Observe before acting.</strong> Run the <strong>Wingo 30s analyser</strong>{" "}
-                for at least 10 rounds before placing an entry. This establishes a baseline for
-                the current session{"'"}s pattern behaviour, which can shift from session to session.
-              </p>
-              <p>
-                <strong>Define a stop-loss.</strong> Decide the maximum number of consecutive
-                misses after which you stop for the session. Prediction tools are informational;
-                they are not designed to override a loss-limit discipline.
-              </p>
-              <p>
-                <strong>Use signals as one input, not the only input.</strong> Cross-reference the
-                AI signal with your own visual observation of the result board. If the tool suggests
-                Big but you have seen Big dominate the last 8 rounds, that context matters.
-              </p>
-              <p>
-                <strong>Separate entertainment from profit expectation.</strong> Colour prediction
-                games are a form of entertainment with financial stakes. Treating them as a reliable
-                income source regardless of which prediction tool you use is a risk that no
-                algorithm can mitigate.
-              </p>
-            </div>
+              <ContentCard type="best-practice" title="Disciplined Strategy & Risk Controls">
+                <ul>
+                  <li><strong>Observe before acting:</strong> Run the <strong>Wingo 30s analyser</strong> for at least 10 rounds before entering to establish baseline session volatility.</li>
+                  <li><strong>Define strict stop-loss rules:</strong> Set a defined consecutive miss threshold after which you stop for the session to prevent chasing outcomes.</li>
+                  <li><strong>Multi-Factor Validation:</strong> Cross-reference algorithmic signals with raw streak boards rather than relying on automated picks in isolation.</li>
+                  <li><strong>Entertainment over profit expectations:</strong> Recognize all interval draws as variance-driven entertainment rather than guaranteed income.</li>
+                </ul>
+              </ContentCard>
+            </section>
 
           </div>
 

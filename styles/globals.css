@@ -82,18 +82,25 @@ body {
   overflow: hidden;
 }
 
-/* ── Wingo article pages scroll fix ─────────────────────────────────────────
+/* ── Wingo + Legal pages scroll fix ─────────────────────────────────────────
    These pages are full-document layouts (not the app-shell).
-   When html has class "wingo-page", restore normal browser scrolling.
+   When html has class "wingo-page" OR "legal-page", restore normal browser scrolling.
    ─────────────────────────────────────────────────────────────────────────── */
 html.wingo-page,
 html.wingo-page body,
-html.wingo-page #__next {
+html.wingo-page #__next,
+html.legal-page,
+html.legal-page body,
+html.legal-page #__next,
+html.contact-page,
+html.contact-page body,
+html.contact-page #__next {
   height: auto !important;
   min-height: 100% !important;
   overflow: visible !important;
   overflow-y: auto !important;
   scroll-behavior: smooth !important;
+  overscroll-behavior: auto !important;
 }
 
 button {

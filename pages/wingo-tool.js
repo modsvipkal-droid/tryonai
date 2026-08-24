@@ -1,51 +1,52 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { PageHead, BreadcrumbSchema, FAQSchema, WebPageSchema } from "@/components/SEO";
+import ContentCard, { smartCardStyles } from "@/components/ContentCard";
 
 // ── Premium SVG Icons ─────────────────────────────────────────────────────────
 const IconCalculator = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <rect x="4" y="2" width="16" height="20" rx="2"/>
-    <line x1="8" y1="6" x2="16" y2="6"/>
-    <line x1="16" y1="14" x2="16" y2="18"/>
-    <path d="M16 10h.01"/>
-    <path d="M12 10h.01"/>
-    <path d="M8 10h.01"/>
-    <path d="M12 14h.01"/>
-    <path d="M8 14h.01"/>
-    <path d="M12 18h.01"/>
-    <path d="M8 18h.01"/>
+    <rect x="4" y="2" width="16" height="20" rx="2" />
+    <line x1="8" y1="6" x2="16" y2="6" />
+    <line x1="16" y1="14" x2="16" y2="18" />
+    <path d="M16 10h.01" />
+    <path d="M12 10h.01" />
+    <path d="M8 10h.01" />
+    <path d="M12 14h.01" />
+    <path d="M8 14h.01" />
+    <path d="M12 18h.01" />
+    <path d="M8 18h.01" />
   </svg>
 );
 
 const IconBotMessage = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M12 8V4H8"/>
-    <rect width="16" height="12" x="4" y="8" rx="2"/>
-    <path d="M2 14h2"/>
-    <path d="M20 14h2"/>
-    <path d="M15 13v2"/>
-    <path d="M9 13v2"/>
+    <path d="M12 8V4H8" />
+    <rect width="16" height="12" x="4" y="8" rx="2" />
+    <path d="M2 14h2" />
+    <path d="M20 14h2" />
+    <path d="M15 13v2" />
+    <path d="M9 13v2" />
   </svg>
 );
 
 const IconLottery = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
-    <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/>
-    <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor"/>
-    <circle cx="15.5" cy="15.5" r="1.5" fill="currentColor"/>
-    <circle cx="8.5" cy="15.5" r="1.5" fill="currentColor"/>
-    <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+    <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+    <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+    <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor" />
+    <circle cx="15.5" cy="15.5" r="1.5" fill="currentColor" />
+    <circle cx="8.5" cy="15.5" r="1.5" fill="currentColor" />
+    <circle cx="12" cy="12" r="1.5" fill="currentColor" />
   </svg>
 );
 
 const IconMathLogic = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <circle cx="6" cy="19" r="3"/>
-    <path d="M9 19h8.5a4.5 4.5 0 0 0 0-9H15"/>
-    <circle cx="18" cy="5" r="3"/>
-    <path d="M6 16V5"/>
+    <circle cx="6" cy="19" r="3" />
+    <path d="M9 19h8.5a4.5 4.5 0 0 0 0-9H15" />
+    <circle cx="18" cy="5" r="3" />
+    <path d="M6 16V5" />
   </svg>
 );
 
@@ -533,9 +534,9 @@ export default function WingoToolPage() {
     };
   }, []);
 
-  const PAGE_URL   = "https://wingo30.com/wingo-tool";
+  const PAGE_URL = "https://wingo30.com/wingo-tool";
   const PAGE_TITLE = "WinGo Tool - AI Predictor, Calculator & Math Logic Guide";
-  const PAGE_DESC  =
+  const PAGE_DESC =
     "Understand how the WinGo tool works: AI chat engine, master calculator, lottery predictor & math logic tracking — explained clearly without false claims.";
 
   return (
@@ -546,13 +547,13 @@ export default function WingoToolPage() {
         description={PAGE_DESC}
         canonical={PAGE_URL}
       >
-        <style dangerouslySetInnerHTML={{ __html: bgStyle }} />
+        <style dangerouslySetInnerHTML={{ __html: bgStyle + smartCardStyles }} />
       </PageHead>
 
       {/* ── Structured Data ──────────────────────────────────────────────── */}
       <WebPageSchema title={PAGE_TITLE} description={PAGE_DESC} url={PAGE_URL} />
       <BreadcrumbSchema items={[
-        { name: "Home",       url: "https://wingo30.com/" },
+        { name: "Home", url: "https://wingo30.com/" },
         { name: "WinGo Tool", url: PAGE_URL }
       ]} />
       <FAQSchema questions={FAQ_ITEMS} />
@@ -621,14 +622,13 @@ export default function WingoToolPage() {
               should understand before relying on any output.
             </p>
 
-            <div className="wt-notice">
-              <strong>Important:</strong> WinGo is an RNG-based game. No tool — regardless of
-              how advanced — can predict future draws with certainty. All outputs are
-              pattern-informed suggestions. Play responsibly and within your personal limits.
-            </div>
+            <ContentCard type="warning" title="RNG Randomness & Predictive Limits">
+              WinGo is an RNG-based game. No tool — regardless of how advanced — can predict future draws with certainty. 
+              All outputs are pattern-informed suggestions. Play responsibly and within your personal limits.
+            </ContentCard>
 
             {/* ── Section 1 ───────────────────────────────────────────────── */}
-            <div className="wt-section">
+            <section className="wt-section">
               <h2>Types of WinGo Tools — What Each One Does</h2>
               <p className="wt-section-sub">A structured overview of the WinGo tool ecosystem</p>
 
@@ -646,12 +646,12 @@ export default function WingoToolPage() {
                   </div>
                 ))}
               </div>
-            </div>
+            </section>
 
             <hr className="wt-divider" />
 
             {/* ── Section 2 ───────────────────────────────────────────────── */}
-            <div className="wt-section">
+            <section className="wt-section">
               <h2>Wingo Math Logic &amp; AI Tracking — How the Engine Thinks</h2>
               <p className="wt-section-sub">Inside the methodology that powers modern WinGo tools</p>
 
@@ -694,13 +694,12 @@ export default function WingoToolPage() {
                 ))}
               </div>
 
-              <div className="wt-highlight">
-                The key difference between basic wingo math logic and AI tracking is
-                conditionality. Math logic asks "how often did Red appear?" — AI tracking asks
-                "how often did Red appear <em>after this specific sequence</em>?" The latter is
-                far more contextually accurate.
-              </div>
-            </div>
+              <ContentCard type="key-point" title="Math Logic vs. AI Tracking Conditionality">
+                The key difference between basic math logic and AI tracking is <strong>conditionality</strong>. 
+                Math logic asks <em>"how often did Red appear?"</em> — whereas AI tracking asks <em>"how often did Red appear after this specific preceding sequence?"</em> 
+                This conditional probability provides more refined contextual reference points.
+              </ContentCard>
+            </section>
 
             <hr className="wt-divider" />
 
@@ -711,7 +710,7 @@ export default function WingoToolPage() {
 
               <p>
                 While most players focus on colour outcomes, the <strong>Wingo Lottery Predictor
-                tool</strong> targets the number dimension (0–9) with greater specificity. Here
+                  tool</strong> targets the number dimension (0–9) with greater specificity. Here
                 is how the two compare:
               </p>
 
@@ -725,11 +724,11 @@ export default function WingoToolPage() {
                 </thead>
                 <tbody>
                   {[
-                    ["Output",       "Red / Green / Violet",        "Number 0–9 suggestion"],
-                    ["Complexity",   "3 possible outcomes",         "10 possible outcomes"],
-                    ["Signal Basis", "Colour frequency & streak",   "Number absence count & hotspot"],
-                    ["Use Case",     "Fast, high-frequency rounds", "Specific number targeting"],
-                    ["Accuracy",     "Pattern-based estimate",      "Pattern-based estimate"],
+                    ["Output", "Red / Green / Violet", "Number 0–9 suggestion"],
+                    ["Complexity", "3 possible outcomes", "10 possible outcomes"],
+                    ["Signal Basis", "Colour frequency & streak", "Number absence count & hotspot"],
+                    ["Use Case", "Fast, high-frequency rounds", "Specific number targeting"],
+                    ["Accuracy", "Pattern-based estimate", "Pattern-based estimate"],
                   ].map(([dim, col, lot]) => (
                     <tr key={dim}>
                       <td>{dim}</td>
@@ -806,7 +805,7 @@ export default function WingoToolPage() {
             <h2>Conclusion</h2>
             <p>
               Every <strong>WinGo tool</strong> — whether it is a <strong>Wingo Master calculator
-              tool</strong>, a <strong>Wingo Lottery Predictor</strong>, or an{" "}
+                tool</strong>, a <strong>Wingo Lottery Predictor</strong>, or an{" "}
               <strong>AI Chat with WinGo</strong> prediction engine — is built on the same
               foundation: pattern detection in historical data using wingo math logic and AI
               tracking methods. These tools can make your interaction with the game more
