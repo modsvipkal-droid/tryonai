@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { PageHead, BreadcrumbSchema, FAQSchema, WebPageSchema } from "@/components/SEO";
 import ContentCard, { smartCardStyles } from "@/components/ContentCard";
+import SiteFooter from "@/components/SiteFooter";
 
 // ── Premium SVG Icons ─────────────────────────────────────────────────────────
 const IconGamepad = () => (
@@ -919,6 +920,7 @@ export default function WingoPage() {
           </footer>
 
         </div>
+        <SiteFooter />
       </div>
     </>
   );

@@ -1411,34 +1411,30 @@
   gap: var(--sp-lg);
 }
 
-.loader-footer-brand {
+.loader-footer-brand-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.loader-footer-top {
   display: flex;
   align-items: center;
-  gap: 12px;
 }
 
-.loader-footer-logo {
-  width: 38px;
-  height: 38px;
-  flex-shrink: 0;
-}
-
-.loader-footer-logo svg {
-  width: 100%;
-  height: 100%;
-}
-
-.loader-footer-brand-text strong {
+.loader-footer-official-img {
+  width: auto;
+  height: clamp(46px, 11vw, 58px);
+  max-width: 240px;
+  object-fit: contain;
   display: block;
-  font-family: var(--font-brand);
-  font-size: 16px;
-  color: #FFFFFF;
 }
 
-.loader-footer-brand-text p {
-  margin: 2px 0 0;
-  font-size: 12.5px;
+.loader-footer-desc {
+  margin: 0;
+  font-size: 13px;
   color: #9CA3AF;
+  line-height: 1.5;
 }
 
 .loader-footer-links {

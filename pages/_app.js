@@ -10,9 +10,46 @@ import MaintenanceDialog from "@/components/MaintenanceDialog";
 export const LoaderContext = createContext(true);
 
 export default function App({ Component, pageProps }) {
-  const [showIntroLoader, setShowIntroLoader] = useState(true);
+  const [showIntroLoader, setShowIntroLoader] = useState(false);
+
   const handleIntroComplete = useCallback(() => {
+    try {
+      sessionStorage.setItem("trion_intro_seen", "1");
+    } catch {}
     setShowIntroLoader(false);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const pathname = window.location.pathname;
+      const isPublicDoc = [
+        "/terms",
+        "/refund",
+        "/privacy",
+        "/contact",
+        "/wingotips",
+        "/wingosignal",
+        "/wingo30",
+        "/wingo",
+        "/wingo-tool",
+        "/wingo-prediction",
+        "/wingo-kya-hai",
+        "/wingo-ai-prediction",
+        "/developer",
+        "/subscription",
+      ].some((p) => pathname.startsWith(p));
+
+      try {
+        const seen = sessionStorage.getItem("trion_intro_seen") === "1";
+        if (!seen && !isPublicDoc && pathname === "/") {
+          setShowIntroLoader(true);
+        } else {
+          setShowIntroLoader(false);
+        }
+      } catch {
+        setShowIntroLoader(false);
+      }
+    }
   }, []);
 
   useEffect(() => {

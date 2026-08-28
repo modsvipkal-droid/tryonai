@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/router";
 import { PageHead } from "@/components/SEO";
+import SiteFooter from "@/components/SiteFooter";
 import { watchAuthState, getFirebaseAuth } from "@/lib/firebase";
 
 async function getIdToken() {
@@ -893,6 +894,7 @@ export default function DeveloperPage() {
           </div>
         </section>
       </div>
+      <SiteFooter />
     </div>
   );
 }

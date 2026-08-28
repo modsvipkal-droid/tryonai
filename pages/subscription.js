@@ -4,6 +4,7 @@ import { Turnstile } from "@marsidev/react-turnstile";
 import QRCode from "qrcode";
 import { watchAuthState, getFirebaseAuth, signOutUser } from "@/lib/firebase";
 import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema } from "@/components/SEO";
+import SiteFooter from "@/components/SiteFooter";
 
 // Custom styles override to ensure scroll works inside .app-screen container
 const bgStyle = `
@@ -741,6 +742,7 @@ export default function Subscription() {
           </div>
           )}
 
+          <SiteFooter />
         </div>
       </div>
     </>

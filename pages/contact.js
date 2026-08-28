@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { PageHead, BreadcrumbSchema } from "@/components/SEO";
+import SiteFooter from "@/components/SiteFooter";
 
 const contactStyles = `
   @font-face {
@@ -11,32 +12,48 @@ const contactStyles = `
     font-display: swap;
   }
   *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  html, body {
-    background: #eef7f3 !important;
-    color: #17251f !important;
-    font-family: 'TrionAI', 'Inter', sans-serif;
+  html {
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+    height: auto !important;
+    min-height: 100% !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
-    margin: 0; padding: 0;
-    min-height: 100vh;
+  }
+  body {
+    background: #eef7f3 !important;
+    color: #17251f !important;
+    font-family: 'TrionAI', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 100vh !important;
     height: auto !important;
+    -webkit-font-smoothing: antialiased;
   }
   #__next {
     height: auto !important;
     min-height: 100% !important;
     overflow: visible !important;
-    overflow-y: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
-  body { -webkit-font-smoothing: antialiased; }
 
   .contact-page {
     min-height: 100vh;
     width: 100%;
     background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 40%, #ecfdf5 100%);
-    padding: 0 0 80px 0;
+    padding: 0 !important;
+    margin: 0 !important;
     position: relative;
-    overflow: visible;
+    overflow-x: hidden;
+    overflow-y: visible;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   .contact-page::before {
     content: '';
@@ -120,6 +137,7 @@ const contactStyles = `
     position: relative;
     z-index: 1;
     animation: fadeSlideUp 0.6s ease both;
+    flex: 1 0 auto;
   }
   @keyframes fadeSlideUp {
     from { opacity: 0; transform: translateY(24px); }
@@ -385,18 +403,26 @@ export default function ContactUs() {
     const body = document.body;
     const next = document.getElementById("__next");
 
-    html.classList.add("legal-page");
+    html.classList.add("contact-page");
+    body.classList.add("contact-page");
+
     html.style.setProperty("height", "auto", "important");
+    html.style.setProperty("min-height", "100%", "important");
     html.style.setProperty("overflow-y", "auto", "important");
     html.style.setProperty("overflow-x", "hidden", "important");
     html.style.setProperty("scroll-behavior", "smooth", "important");
+    html.style.setProperty("-webkit-overflow-scrolling", "touch", "important");
 
     body.style.setProperty("height", "auto", "important");
+    body.style.setProperty("min-height", "100%", "important");
     body.style.setProperty("overflow-y", "auto", "important");
     body.style.setProperty("overflow-x", "hidden", "important");
+    body.style.setProperty("overscroll-behavior-y", "auto", "important");
+    body.style.setProperty("-webkit-overflow-scrolling", "touch", "important");
 
     if (next) {
       next.style.setProperty("height", "auto", "important");
+      next.style.setProperty("min-height", "100%", "important");
       next.style.setProperty("overflow", "visible", "important");
     }
 
@@ -405,18 +431,26 @@ export default function ContactUs() {
     } catch {}
 
     return () => {
-      html.classList.remove("legal-page");
+      html.classList.remove("contact-page");
+      body.classList.remove("contact-page");
+
       html.style.removeProperty("height");
+      html.style.removeProperty("min-height");
       html.style.removeProperty("overflow-y");
       html.style.removeProperty("overflow-x");
       html.style.removeProperty("scroll-behavior");
+      html.style.removeProperty("-webkit-overflow-scrolling");
 
       body.style.removeProperty("height");
+      body.style.removeProperty("min-height");
       body.style.removeProperty("overflow-y");
       body.style.removeProperty("overflow-x");
+      body.style.removeProperty("overscroll-behavior-y");
+      body.style.removeProperty("-webkit-overflow-scrolling");
 
       if (next) {
         next.style.removeProperty("height");
+        next.style.removeProperty("min-height");
         next.style.removeProperty("overflow");
       }
     };
@@ -639,6 +673,7 @@ export default function ContactUs() {
             </div>
           </div>
         </div>
+        <SiteFooter />
       </div>
     </>
   );

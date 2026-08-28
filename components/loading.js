@@ -1049,14 +1049,19 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
       {/* ── FOOTER ── */}
       <footer className="loader-footer" aria-label="Footer">
         <div className="loader-footer-inner">
-          <div className="loader-footer-brand">
-            <div className="loader-footer-logo">
-              <TrionIcon />
+          <div className="loader-footer-brand-section">
+            <div className="loader-footer-top">
+              <Image
+                src="/trionAIofficial.png"
+                alt="TRION AI Official"
+                width={240}
+                height={80}
+                className="loader-footer-official-img"
+              />
             </div>
-            <div className="loader-footer-brand-text">
-              <strong>TRION AI</strong>
-              <p>AI-powered Wingo30 prediction &amp; signals platform.</p>
-            </div>
+            <p className="loader-footer-desc">
+              AI-powered Wingo30 prediction &amp; signals platform.
+            </p>
           </div>
 
           <div className="loader-footer-links">
