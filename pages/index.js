@@ -1127,9 +1127,9 @@ function Dashboard({ history, hotCold, currentPeriod, remainingMs, stats }) {
 
       <a
         className="telegram-button"
-        href="https://t.me/+spWu5CnIDrViNDRl"
+        href="https://t.me/+IeDdLm-koIc1Yzg1"
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
       >
         <TelegramAnim />
         Join Telegram Channel

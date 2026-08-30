@@ -38,8 +38,9 @@ export function OrganizationSchema() {
     "@type": "Organization",
     "@id": `${SITE.url}/#organization`,
     "name": SITE.name,
-    "alternateName": "TryonAI",
+    "alternateName": ["TryonAI", "TRION AI"],
     "url": SITE.url,
+    "logo": `${SITE.url}/trionAIofficial.png`,
     "description": SITE.defaultDescription,
     "contactPoint": {
       "@type": "ContactPoint",
@@ -47,7 +48,7 @@ export function OrganizationSchema() {
       "url": "https://t.me/kal_mods"
     },
     "sameAs": [
-      "https://t.me/+spWu5CnIDrViNDRl"
+      "https://t.me/+IeDdLm-koIc1Yzg1"
     ]
   };
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
@@ -78,6 +79,7 @@ export function WebPageSchema({ title, description, url }) {
     "description": description || SITE.defaultDescription,
     "isPartOf": { "@id": `${SITE.url}/#website` },
     "about": { "@id": `${SITE.url}/#organization` },
+    "publisher": { "@id": `${SITE.url}/#organization` },
     "inLanguage": "en"
   };
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
@@ -99,33 +101,46 @@ export function BreadcrumbSchema({ items }) {
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
 }
 
-export function SoftwareAppSchema() {
+export function SoftwareAppSchema({
+  name = SITE.name,
+  alternateName = "TryonAI",
+  applicationCategory = "BusinessApplication",
+  operatingSystem = "Web",
+  description = SITE.defaultDescription,
+  url,
+  id,
+  offers,
+} = {}) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "@id": `${SITE.url}/#software`,
-    "name": SITE.name,
-    "alternateName": "TryonAI",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "Web",
-    "description": SITE.defaultDescription,
-    "offers": [
-      {
-        "@type": "Offer",
-        "name": "Korven Model",
-        "price": "749",
-        "priceCurrency": "INR",
-        "availability": "https://schema.org/InStock"
-      },
-      {
-        "@type": "Offer",
-        "name": "FX1 Model",
-        "price": "1100",
-        "priceCurrency": "INR",
-        "availability": "https://schema.org/InStock"
-      }
-    ],
-    "author": { "@id": `${SITE.url}/#organization` }
+    "@id": id || (url ? `${url}/#software` : `${SITE.url}/#software`),
+    "name": name,
+    "alternateName": alternateName,
+    "applicationCategory": applicationCategory,
+    "operatingSystem": operatingSystem,
+    "description": description,
+    "url": url || SITE.url,
+    "publisher": { "@id": `${SITE.url}/#organization` },
+    ...(offers && offers.length > 0 ? { "offers": offers } : {})
+  };
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
+}
+
+export function HowToSchema({ name, description, steps }) {
+  if (!steps || steps.length === 0) return null;
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": name,
+    "description": description,
+    "step": steps.map((step, idx) => ({
+      "@type": "HowToStep",
+      "position": idx + 1,
+      "name": step.name,
+      "text": step.text,
+      ...(step.url ? { "url": step.url } : {})
+    }))
   };
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
 }

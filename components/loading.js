@@ -22,7 +22,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, memo } from "react";
 import SparklesText from "./SparklesText";
 
-const TELEGRAM_URL = "https://t.me/+spWu5CnIDrViNDRl";
+const TELEGRAM_URL = "https://t.me/+IeDdLm-koIc1Yzg1";
 const EXIT_MS = 600;
 const ENTER_MS = 80;
 const AUTO_DISMISS_MS = 5200;

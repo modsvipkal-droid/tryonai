@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const TELEGRAM_URL = "https://t.me/+spWu5CnIDrViNDRl";
+const TELEGRAM_URL = "https://t.me/+IeDdLm-koIc1Yzg1";
 
 export default function SiteFooter() {
   const handleTelegramClick = (e) => {
