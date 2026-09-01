@@ -94,7 +94,10 @@ html.legal-page body,
 html.legal-page #__next,
 html.contact-page,
 html.contact-page body,
-html.contact-page #__next {
+html.contact-page #__next,
+html.login-page,
+html.login-page body,
+html.login-page #__next {
   height: auto !important;
   min-height: 100% !important;
   overflow: visible !important;
@@ -106,7 +109,8 @@ html.contact-page #__next {
 
 html.legal-page body,
 html.contact-page body,
-html.wingo-page body {
+html.wingo-page body,
+html.login-page body {
   overflow-x: hidden !important;
   overflow-y: auto !important;
   overscroll-behavior-y: auto !important;
@@ -5269,20 +5273,20 @@ nextjs-portal,
 
 .login-heading {
   margin: 0;
-  font-size: 42px;
-  font-weight: 900;
+  font-size: 28px;
+  font-weight: 700;
   color: #101828;
-  line-height: 1.12;
-  letter-spacing: -1px;
-  margin-top: -12px;
+  line-height: 1.25;
+  letter-spacing: -0.4px;
+  margin-top: -8px;
 }
 
 .login-subhead {
   margin: 0;
   color: #5d6d67;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.5;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.6;
   font-family: "Inter", sans-serif;
   max-width: 340px;
 }
@@ -5981,11 +5985,11 @@ nextjs-portal,
   }
 
   .login-heading {
-    font-size: 30px;
+    font-size: 23px;
   }
 
   .login-subhead {
-    font-size: 14px;
+    font-size: 12.5px;
   }
 
   .login-btn {
@@ -6055,11 +6059,11 @@ nextjs-portal,
   }
 
   .login-heading {
-    font-size: 26px;
+    font-size: 21px;
   }
 
   .login-subhead {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .login-btn {

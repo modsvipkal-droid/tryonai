@@ -312,6 +312,13 @@ export default function Login() {
   }, [router]);
 
   useEffect(() => {
+    document.documentElement.classList.add("login-page");
+    return () => {
+      document.documentElement.classList.remove("login-page");
+    };
+  }, []);
+
+  useEffect(() => {
     let active = true;
     let unsub = () => {};
 
