@@ -200,18 +200,34 @@ const DASHBOARD_FEATURES = [
 
 const MODELS = [
   {
-    name: "Korven",
+    id: "korven",
+    name: "Korven Model",
+    badge: "Korven AI",
     price: "₹749",
     tag: "Entry-level",
-    profile: "Usually fixes the result within 3-4 levels of analysis.",
-    features: ["Lifetime premium access", "Unlimited predictions", "Full analytics dashboard"],
+    profile: "Usually fixes the result within 3-4 levels of pattern analysis.",
+    features: [
+      "Lifetime premium access",
+      "Unlimited predictions",
+      "Full analytics dashboard",
+      "3-4 Level pattern fix rate",
+    ],
+    bgImage: "/Korven-model.png",
   },
   {
-    name: "FX1",
-    price: "₹1,100",
+    id: "fx1",
+    name: "FX1 Model",
+    badge: "FX1 AI Engine",
+    price: "₹10,000",
     tag: "Faster Engine",
     profile: "Usually fixes the result within about 2 levels - the quickest profile.",
-    features: ["Lifetime premium access", "Unlimited predictions", "Full analytics dashboard"],
+    features: [
+      "Lifetime premium access",
+      "Unlimited predictions",
+      "Full analytics dashboard",
+      "Ultra-fast 2 level convergence",
+    ],
+    bgImage: "/Fx1-modelofficial.png",
   },
 ];
 
@@ -230,7 +246,7 @@ const LOADER_FAQS = [
   },
   {
     question: "What is the difference between Korven and FX1?",
-    answer: "The Korven model (₹749) and FX1 model (₹1,100) use different analysis approaches. FX1 is positioned for faster result convergence. Both include lifetime premium access after payment verification.",
+    answer: "The Korven model (₹749) and FX1 model (₹10,000) use different analysis approaches. FX1 is positioned for faster result convergence. Both include lifetime premium access after payment verification.",
   },
   {
     question: "How do I activate premium access after paying?",
@@ -575,8 +591,8 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
                   {dismissing ? (
                     <>
                       <svg className="loader-btn-spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                        <circle cx="12" cy="12" r="10" strokeOpacity="0.25"/>
-                        <path d="M12 2a10 10 0 0 1 10 10"/>
+                        <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
+                        <path d="M12 2a10 10 0 0 1 10 10" />
                       </svg>
                       <span>Opening…</span>
                     </>
@@ -584,8 +600,8 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
                     <>
                       <span>Get Started</span>
                       <svg className="loader-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                        <path d="M5 12h14"/>
-                        <path d="m12 5 7 7-7 7"/>
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
                       </svg>
                     </>
                   )}
@@ -598,7 +614,7 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
                   aria-label="Join Official Telegram Channel"
                 >
                   <svg className="loader-btn-tg-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M21.5 4.2 17.8 20c-.22.94-.96 1.18-1.74.73l-4.86-3.57-2.34 2.26c-.26.26-.48.48-.98.48l.35-4.97 9.03-8.16c.39-.35-.09-.54-.6-.2L5.26 13.27.38 11.76c-1.04-.32-.98-.96.22-1.42L19.88 2.7c.87-.3 1.64.2 1.62 1.5Z"/>
+                    <path d="M21.5 4.2 17.8 20c-.22.94-.96 1.18-1.74.73l-4.86-3.57-2.34 2.26c-.26.26-.48.48-.98.48l.35-4.97 9.03-8.16c.39-.35-.09-.54-.6-.2L5.26 13.27.38 11.76c-1.04-.32-.98-.96.22-1.42L19.88 2.7c.87-.3 1.64.2 1.62 1.5Z" />
                   </svg>
                   <span>Join Telegram</span>
                 </button>
@@ -767,26 +783,49 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
 
             <div className="loader-models-grid">
               {MODELS.map((model, index) => (
-                <article className={`loader-model-card${index === 1 ? " loader-model-card--featured" : ""}`} key={model.name}>
-                  <div className="loader-model-head">
-                    <div className="loader-card-icon-badge">
-                      {index === 0 ? <Crown size={18} /> : <Rocket size={18} />}
+                <article
+                  className={`loader-model-card loader-model-card--${model.id}${index === 1 ? " loader-model-card--featured" : ""}`}
+                  key={model.name}
+                >
+                  {/* Right side background image layer */}
+                  <div className="loader-model-bg-wrapper" aria-hidden="true">
+                    <img
+                      src={model.bgImage}
+                      alt=""
+                      className="loader-model-bg-image"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                      }}
+                    />
+                    <div className="loader-model-overlay" />
+                  </div>
+
+                  {/* Card Content Layer */}
+                  <div className="loader-model-content">
+                    <div className="loader-model-head">
+                      <div className="loader-card-icon-badge">
+                        {index === 0 ? <Crown size={18} /> : <Rocket size={18} />}
+                      </div>
+                      <span className="loader-pill">{model.tag}</span>
                     </div>
-                    <span className="loader-pill">{model.tag}</span>
+
+                    <h3 className="loader-model-name">{model.name}</h3>
+
+                    <div className="loader-model-price">
+                      {model.price}<span> / lifetime</span>
+                    </div>
+
+                    <p className="loader-model-profile">{model.profile}</p>
+
+                    <ul className="loader-model-features">
+                      {model.features.map((feat) => (
+                        <li key={feat}>
+                          <CheckIcon />
+                          <span>{feat}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <h3>{model.name}</h3>
-                  <div className="loader-model-price">
-                    {model.price}<span> / lifetime</span>
-                  </div>
-                  <p className="loader-model-profile">{model.profile}</p>
-                  <ul className="loader-model-features">
-                    {model.features.map((feat) => (
-                      <li key={feat}>
-                        <CheckIcon />
-                        <span>{feat}</span>
-                      </li>
-                    ))}
-                  </ul>
                 </article>
               ))}
             </div>
@@ -923,14 +962,14 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
             <div className="loader-screenshots" aria-label="TRION AI screenshot gallery">
               <div className="loader-screenshots-track">
                 {[
-                  { src: "/Withdrawal.jpg",   alt: "Withdrawal interface screenshot" },
-                  { src: "/Backtoback.jpg",   alt: "Back-to-back prediction screenshot" },
-                  { src: "/Feedback.jpg",     alt: "User feedback screenshot" },
-                  { src: "/Oneto.jpg",        alt: "One-to-one signal screenshot" },
-                  { src: "/Withdrawal.jpg",   alt: "" },
-                  { src: "/Backtoback.jpg",   alt: "" },
-                  { src: "/Feedback.jpg",     alt: "" },
-                  { src: "/Oneto.jpg",        alt: "" },
+                  { src: "/Withdrawal.jpg", alt: "Withdrawal interface screenshot" },
+                  { src: "/Backtoback.jpg", alt: "Back-to-back prediction screenshot" },
+                  { src: "/Feedback.jpg", alt: "User feedback screenshot" },
+                  { src: "/Oneto.jpg", alt: "One-to-one signal screenshot" },
+                  { src: "/Withdrawal.jpg", alt: "" },
+                  { src: "/Backtoback.jpg", alt: "" },
+                  { src: "/Feedback.jpg", alt: "" },
+                  { src: "/Oneto.jpg", alt: "" },
                 ].map((img, i) => (
                   <figure className="loader-screenshot-slide" key={i} aria-hidden={i >= 4}>
                     <Image

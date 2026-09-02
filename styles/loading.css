@@ -767,52 +767,161 @@
 }
 
 .loader-models-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--sp-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 .loader-model-card {
-  background: var(--c-card);
-  border: 1px solid var(--c-border);
-  border-radius: var(--r-card);
-  padding: 22px 20px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  background-color: #FFFFFF;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  box-shadow: var(--sh-sm);
-  position: relative;
-  transition: transform var(--t-smooth), box-shadow var(--t-smooth), border-color var(--t-smooth);
+  isolation: isolate;
+
+  /* Double-layer effect: gradient border mask + subtle green hairline */
+  border: 1.5px solid transparent;
+  background-image: linear-gradient(#FFFFFF, #FFFFFF),
+                    linear-gradient(135deg, rgba(10, 159, 104, 0.5) 0%, rgba(255, 255, 255, 0.95) 45%, rgba(52, 194, 139, 0.45) 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+
+  /* Floating shadow & Soft White Outer Glow Ring + Subtle Green Hairline Glow */
+  box-shadow:
+    0 0 0 3.5px rgba(255, 255, 255, 0.95),
+    0 0 20px 2px rgba(255, 255, 255, 0.85),
+    0 0 0 5px rgba(10, 159, 104, 0.18),
+    0 14px 34px -4px rgba(10, 159, 104, 0.14),
+    0 4px 16px rgba(0, 0, 0, 0.035);
+
+  transition: transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Hairline ring overlay for crisp double-layer definition */
+.loader-model-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 1px solid rgba(10, 159, 104, 0.22);
+  box-shadow: inset 0 0 16px rgba(255, 255, 255, 0.9);
+  pointer-events: none;
+  z-index: 4;
 }
 
 .loader-model-card--featured {
-  background: linear-gradient(180deg, #FFFFFF 0%, #F5FAF7 100%);
-  border-color: #C0E4D2;
+  background-image: linear-gradient(#FFFFFF, #F5FAF7),
+                    linear-gradient(135deg, rgba(10, 159, 104, 0.7) 0%, rgba(255, 255, 255, 1) 40%, rgba(52, 194, 139, 0.6) 100%);
+  box-shadow:
+    0 0 0 3.5px rgba(255, 255, 255, 0.98),
+    0 0 22px 2px rgba(255, 255, 255, 0.9),
+    0 0 0 5px rgba(10, 159, 104, 0.24),
+    0 16px 36px -4px rgba(10, 159, 104, 0.16),
+    0 4px 16px rgba(0, 0, 0, 0.04);
 }
 
 .loader-model-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--sh-hover);
-  border-color: var(--c-border-hover);
+  transform: translateY(-4px);
+  box-shadow:
+    0 0 0 4.5px rgba(255, 255, 255, 1),
+    0 0 28px 4px rgba(255, 255, 255, 0.95),
+    0 0 0 6.5px rgba(10, 159, 104, 0.3),
+    0 22px 46px -4px rgba(10, 159, 104, 0.22),
+    0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Background image wrapper positioned on right side */
+.loader-model-bg-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 58%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+/* Right-side background image fit */
+.loader-model-bg-image {
+  position: absolute;
+  right: -8px;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: right bottom;
+  opacity: 0.92;
+  transition: opacity 300ms ease, transform 350ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-origin: right bottom;
+}
+
+.loader-model-card:hover .loader-model-bg-image {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* Soft white gradient overlay for maximum text readability */
+.loader-model-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    #FFFFFF 0%,
+    rgba(255, 255, 255, 0.98) 42%,
+    rgba(255, 255, 255, 0.78) 68%,
+    rgba(255, 255, 255, 0.12) 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+.loader-model-card--featured .loader-model-overlay {
+  background: linear-gradient(
+    90deg,
+    #FFFFFF 0%,
+    rgba(255, 255, 255, 0.98) 42%,
+    rgba(245, 250, 247, 0.8) 68%,
+    rgba(245, 250, 247, 0.12) 100%
+  );
+}
+
+/* Content Container Layer */
+.loader-model-content {
+  position: relative;
+  z-index: 3;
+  padding: 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 78%;
 }
 
 .loader-model-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 
-.loader-model-card h3 {
+.loader-model-name {
   margin: 0;
   font-family: var(--font-model);
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 19px;
+  font-weight: 800;
   color: var(--c-ink);
+  letter-spacing: -0.01em;
 }
 
 .loader-model-price {
   font-family: var(--font-brand);
-  font-size: 24px;
+  font-size: 25px;
   font-weight: 800;
   color: var(--c-primary-dark);
 }
@@ -829,6 +938,7 @@
   font-size: 13.5px;
   color: var(--c-muted);
   line-height: 1.55;
+  max-width: 90%;
 }
 
 .loader-model-features {
@@ -846,7 +956,7 @@
   gap: 8px;
   font-size: 13px;
   color: var(--c-ink-soft);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .loader-model-features li svg {
@@ -1495,10 +1605,6 @@
 
   .loader-overview-stats {
     grid-template-columns: repeat(4, 1fr);
-  }
-
-  .loader-models-grid {
-    grid-template-columns: repeat(2, 1fr);
   }
 
   .loader-platform-grid {
