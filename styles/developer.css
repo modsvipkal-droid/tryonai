@@ -1777,3 +1777,130 @@ h3.dev-faq-question {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+/* ── At a Glance Box ────────────────────────────────── */
+.dev-glance-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  margin-top: 16px;
+}
+
+.dev-glance-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .dev-glance-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+.dev-glance-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  background: #f8faf9;
+  border: 1px solid #edf2f0;
+  border-radius: 10px;
+}
+
+.dev-glance-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #008751;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dev-glance-val {
+  font-size: 0.88rem;
+  color: #1e293b;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+/* ── Audience Grid ──────────────────────────────────── */
+.dev-audience-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+@media (min-width: 640px) {
+  .dev-audience-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.dev-audience-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 20px 18px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease;
+}
+
+.dev-audience-card:hover {
+  border-color: #cbd5e1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.dev-audience-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #eef8f3;
+  border: 1px solid #d1eedf;
+  color: #008751;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.dev-audience-card h3 {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 6px;
+}
+
+.dev-audience-card p {
+  font-size: 0.86rem;
+  color: #475569;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ── Key Takeaway Card ──────────────────────────────── */
+.dev-takeaway-card {
+  background: linear-gradient(135deg, #f0fbf5 0%, #ffffff 100%);
+  border: 1px solid #c8ebd8;
+  border-left: 4px solid #00985b;
+  border-radius: 14px;
+  padding: 20px 22px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  margin-top: 14px;
+}
+
+.dev-takeaway-card p {
+  font-size: 0.94rem;
+  color: #164e34;
+  line-height: 1.68;
+  margin: 0;
+}
+
+.dev-takeaway-card strong {
+  color: #0d3824;
+}
+
