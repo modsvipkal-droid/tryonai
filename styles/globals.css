@@ -97,7 +97,13 @@ html.contact-page body,
 html.contact-page #__next,
 html.login-page,
 html.login-page body,
-html.login-page #__next {
+html.login-page #__next,
+html.developer-page,
+html.developer-page body,
+html.developer-page #__next,
+html.dev-page,
+html.dev-page body,
+html.dev-page #__next {
   height: auto !important;
   min-height: 100% !important;
   overflow: visible !important;
@@ -110,7 +116,9 @@ html.login-page #__next {
 html.legal-page body,
 html.contact-page body,
 html.wingo-page body,
-html.login-page body {
+html.login-page body,
+html.developer-page body,
+html.dev-page body {
   overflow-x: hidden !important;
   overflow-y: auto !important;
   overscroll-behavior-y: auto !important;

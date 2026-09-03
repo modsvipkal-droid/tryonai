@@ -9,6 +9,7 @@ import {
   OrganizationSchema,
   WebsiteSchema,
   HowToSchema,
+  SoftwareAppSchema,
 } from "@/components/SEO";
 import ContentCard, { smartCardStyles } from "@/components/ContentCard";
 import SiteFooter from "@/components/SiteFooter";
@@ -63,8 +64,8 @@ const IconMathLogic = () => (
 // ── HowTo Step Data (synchronized with visible HTML and schema) ───────────────
 const HOWTO_STEPS = [
   {
-    name: "Open the WinGo Tool Interface",
-    text: "Navigate to the TRION AI WinGo Tool dashboard from your web or mobile browser without requiring any software installation.",
+    name: "Open the Wingo Master Calculator Interface",
+    text: "Navigate to the TRION AI Wingo Master Calculator dashboard from your web or mobile browser without requiring any software installation.",
   },
   {
     name: "Select Your Target Draw Interval",
@@ -87,34 +88,34 @@ const HOWTO_STEPS = [
 // ── FAQ Data (synchronized with visible HTML and FAQSchema) ───────────────────
 const FAQ_ITEMS = [
   {
-    question: "What is the WinGo Tool and what does it do?",
+    question: "What is the Wingo Master Calculator and what does it do?",
     answer:
-      "The WinGo Tool is a data-driven web utility by TRION AI that collects past WinGo draw results and applies mathematical formulas and AI pattern recognition to generate sequence insights. It analyzes colour frequencies, Big/Small distribution, and number absence without overriding game RNG.",
+      "The Wingo Master Calculator is a data-driven web utility by TRION AI that collects past WinGo draw results and applies mathematical formulas and pattern analysis to calculate statistics such as number frequency, Big/Small distribution, colour frequencies, and streak metrics without overriding game RNG.",
   },
   {
-    question: "How does the Wingo Master Calculator tool work?",
+    question: "How does the Wingo Master Calculator work?",
     answer:
-      "The Wingo Master Calculator applies multi-variable mathematical formulas to recent round history. It calculates streak lengths, colour occurrence ratios, and number coldness over a rolling 50-to-200 round window to output a ranked statistical recommendation.",
+      "The Wingo Master Calculator analyzes available WinGo results and calculates statistics such as number frequency, Big/Small distribution, colour frequency, and recent patterns across rolling 50 to 200 draw cycles to output a weighted statistical recommendation.",
   },
   {
     question: "Is WinGo prediction guaranteed to win?",
     answer:
-      "No. WinGo prediction is never guaranteed. WinGo draws run on Random Number Generators (RNG), making every round statistically independent. The WinGo Tool provides analytical probability models to assist decision-making, but cannot promise fixed wins.",
+      "No. WinGo prediction is never guaranteed. WinGo draws run on Random Number Generators (RNG), making every round statistically independent. The Wingo Master Calculator provides analytical probability models to assist decision-making, but cannot promise fixed wins.",
   },
   {
     question: "What is the difference between Wingo math logic and AI tracking?",
     answer:
-      "Wingo math logic measures raw statistical frequencies such as overall colour hit rates. AI tracking introduces conditional probability by analyzing what specific colour or number most frequently follows a distinct multi-round sequence in historical datasets.",
+      "Wingo math logic measures raw statistical frequencies such as overall colour hit rates and absence counts. AI tracking introduces conditional probability by analyzing what specific colour or number most frequently follows a distinct multi-round sequence in historical datasets.",
   },
   {
-    question: "Can I use the WinGo Tool on mobile devices?",
+    question: "Can I use the Wingo Master Calculator on mobile devices?",
     answer:
-      "Yes. The TRION AI WinGo Tool is fully responsive and web-based. You can access live predictions, calculators, and analysis dashboards on smartphones, tablets, and desktop browsers without downloading separate apps.",
+      "Yes. The TRION AI Wingo Master Calculator is fully responsive and web-based. You can access live predictions, calculators, and analysis dashboards on smartphones, tablets, and desktop browsers without downloading separate apps.",
   },
   {
-    question: "Who should use the TRION AI WinGo Tool?",
+    question: "Who should use the TRION AI Wingo Master Calculator?",
     answer:
-      "The WinGo Tool is built for data-conscious players, pattern analysts, and game enthusiasts who prefer structured mathematical indicators and trend charts over random guessing or emotional betting.",
+      "The Wingo Master Calculator is built for data-conscious players, pattern analysts, and game enthusiasts who prefer structured mathematical indicators and trend charts over random guessing or emotional betting.",
   },
 ];
 
@@ -632,9 +633,11 @@ export default function WingoToolPage() {
     const prevNextOverflow = nextEl ? nextEl.style.overflow : "";
     const prevNextHeight = nextEl ? nextEl.style.height : "";
 
+    html.classList.add("wingo-page");
     html.style.overflowY = "auto";
     html.style.height = "auto";
     html.style.scrollBehavior = "smooth";
+    body.classList.add("wingo-page");
     body.style.overflowY = "auto";
     body.style.height = "auto";
     if (nextEl) {
@@ -643,9 +646,11 @@ export default function WingoToolPage() {
     }
 
     return () => {
+      html.classList.remove("wingo-page");
       html.style.overflow = prevHtmlOverflow;
       html.style.height = prevHtmlHeight;
       html.style.scrollBehavior = prevHtmlScrollBehavior;
+      body.classList.remove("wingo-page");
       body.style.overflow = prevBodyOverflow;
       body.style.height = prevBodyHeight;
       if (nextEl) {
@@ -656,9 +661,9 @@ export default function WingoToolPage() {
   }, []);
 
   const PAGE_URL = "https://wingo30.com/wingo-tool";
-  const PAGE_TITLE = "WinGo Tool – AI Predictor & Calculator";
+  const PAGE_TITLE = "Wingo Master Calculator – AI Predictor & Tool | TRION AI";
   const PAGE_DESC =
-    "Explore the TRION AI WinGo Tool for prediction insights, calculations and WinGo analysis through a simple, user-friendly data interface.";
+    "Use the Wingo Master Calculator by TRION AI to analyze number frequencies, Big/Small parity, and colour distributions with real-time statistical insights.";
 
   return (
     <>
@@ -668,6 +673,10 @@ export default function WingoToolPage() {
         description={PAGE_DESC}
         canonical={PAGE_URL}
       >
+        <meta name="keywords" content="Wingo Master Calculator, WinGo Calculator, Wingo Tool, Wingo AI Prediction, Wingo Signal, Wingo calculation tool, Big Small predictor" />
+        <meta property="og:title" content={PAGE_TITLE} />
+        <meta property="og:description" content={PAGE_DESC} />
+        <meta property="og:url" content={PAGE_URL} />
         <style dangerouslySetInnerHTML={{ __html: bgStyle + smartCardStyles }} />
       </PageHead>
 
@@ -681,11 +690,19 @@ export default function WingoToolPage() {
       />
       <BreadcrumbSchema items={[
         { name: "Home", url: "https://wingo30.com/" },
-        { name: "WinGo Tool", url: PAGE_URL }
+        { name: "Wingo Master Calculator", url: PAGE_URL }
       ]} />
+      <SoftwareAppSchema
+        name="Wingo Master Calculator"
+        alternateName="TRION AI WinGo Calculator"
+        applicationCategory="WebApplication"
+        operatingSystem="Web, iOS, Android"
+        description={PAGE_DESC}
+        url={PAGE_URL}
+      />
       <HowToSchema
-        name="How to Use the WinGo Tool"
-        description="Step-by-step instructions on utilizing the TRION AI WinGo Tool for pattern recognition and statistical analysis."
+        name="How to Use the Wingo Master Calculator"
+        description="Step-by-step instructions on utilizing the TRION AI Wingo Master Calculator for pattern recognition and statistical analysis."
         steps={HOWTO_STEPS}
       />
       <FAQSchema questions={FAQ_ITEMS} />
@@ -717,24 +734,25 @@ export default function WingoToolPage() {
 
             {/* Exactly One H1 on the Page */}
             <h1 className="wt-h1">
-              <span className="gold">WinGo Tool</span> – AI Predictor and <span className="teal">Calculator</span>
+              Wingo Master Calculator
             </h1>
 
-            {/* Concise Top Summary (40-70 words) */}
+            {/* Concise AI-friendly Top Summary (50-80 words) */}
             <p className="wt-summary">
-              The WinGo Tool by TRION AI is an online analytical resource for exploring WinGo-related prediction insights, calculations, and sequence logic in one place. It is designed for players and analysts who want to review real-time game data, mathematical probabilities, and trend indicators through a structured interface. All predictions are analytical estimates rather than guaranteed outcomes.
+              Wingo Master Calculator is an online analytical tool by TRION AI designed to evaluate WinGo game data, calculate number frequencies, and track Big/Small and colour distributions across recent draw intervals. Built for data-conscious players and pattern analysts, the calculator applies weighted probability models to historical round sequences. All calculations and recommendations serve as statistical references rather than guaranteed outcomes.
             </p>
 
             {/* Quick Answer Box */}
             <div className="wt-quick-answer" role="note" aria-label="Quick Answer">
               <strong>Quick Answer</strong>
-              The WinGo Tool is a TRION AI analytical utility that provides pattern-based prediction estimates, mathematical calculations, and game data tracking. It helps users understand historical sequence trends and probability models across 30s, 1Min, and 3Min draws. Any prediction output is informational and not a guaranteed result.
+              Wingo Master Calculator is a TRION AI analytical utility that provides pattern-based calculations, number frequency tracking, and colour distribution metrics across 30s, 1Min, 3Min, and 5Min draws. It helps users analyze historical sequence trends through probability models. All calculator outputs are informational estimates and not guaranteed results.
             </div>
 
             <div className="wt-chips">
               {[
-                "WinGo Lottery Predictor",
                 "Wingo Master Calculator",
+                "WinGo Calculator",
+                "WinGo Lottery Predictor",
                 "AI Chat Engine",
                 "Math Logic Tracking",
                 "Big Small Predictor",
@@ -753,8 +771,8 @@ export default function WingoToolPage() {
               The term <strong>WinGo tool</strong> covers a broad category of utilities built to
               help players navigate colour prediction gaming with data-driven support.
               From the <strong>Wingo Master calculator tool</strong> that applies weighted math
-              formulas to recent results, to the <strong>AI Chat with WinGo</strong> prediction
-              engine that lets users query live draw statistics conversationally — each tool type has a
+              formulas to recent results, to live indicator telemetry on <Link href="/wingosignal" className="wt-ext-link">Wingo Signal</Link> and the conversational <Link href="/wingo-ai-prediction" className="wt-ext-link">Wingo AI Prediction</Link> engine
+              that lets users query live draw statistics conversationally — each tool type has a
               specific methodology, use case, and mathematical framework that every user should understand.
             </p>
 
@@ -764,15 +782,15 @@ export default function WingoToolPage() {
 
             {/* ── Section 1: What Is the WinGo Tool? ───────────────────────── */}
             <section className="wt-section" aria-labelledby="sec-what-is">
-              <h2 id="sec-what-is">What Is the WinGo Tool?</h2>
+              <h2 id="sec-what-is">What Is the Wingo Master Calculator?</h2>
               <p className="wt-section-sub">Overview of modern WinGo prediction and calculation utilities</p>
 
               <p className="wt-direct-answer">
-                <strong>Direct Answer:</strong> The WinGo Tool is a web-based data and calculation utility developed by TRION AI to analyze colour prediction draw histories. It processes past game outcomes through mathematical models and pattern-recognition algorithms to surface statistical trends.
+                <strong>Direct Answer:</strong> The Wingo Master Calculator is a web-based data and calculation utility developed by TRION AI to analyze colour prediction draw histories. It processes past game outcomes through mathematical models and pattern-recognition algorithms to calculate number frequencies, colour distributions, and streak indicators.
               </p>
 
               <p>
-                Rather than relying on intuitive guesswork or emotional betting, the <strong>WinGo tool</strong> ecosystem
+                Rather than relying on intuitive guesswork or emotional betting, the <strong>WinGo calculator</strong> ecosystem
                 divides into four distinct categories, each designed to solve a specific analysis task:
               </p>
 
@@ -791,15 +809,15 @@ export default function WingoToolPage() {
 
             {/* ── Section 2: How Does the WinGo Tool Work? ─────────────────── */}
             <section className="wt-section" aria-labelledby="sec-how-works">
-              <h2 id="sec-how-works">How Does the WinGo Tool Work?</h2>
+              <h2 id="sec-how-works">How Does the Wingo Master Calculator Work?</h2>
               <p className="wt-section-sub">Inside the mathematical and AI engine architecture</p>
 
               <p className="wt-direct-answer">
-                <strong>Direct Answer:</strong> The WinGo Tool works by continuously ingesting recent draw results, recalculating frequency distributions for colours and numbers, applying weighted probability algorithms, and cross-referencing active sequences against historical dataset patterns to generate predictive indicators.
+                <strong>Direct Answer:</strong> Wingo Master Calculator analyzes available WinGo results and calculates statistics such as number frequency, Big/Small distribution, colour frequency, and recent patterns across rolling 50 to 200 draw cycles to generate weighted probability indicators.
               </p>
 
               <p>
-                At the core of the engine is a systematic pipeline combining rule-based math logic with machine learning:
+                At the core of the engine is a systematic pipeline combining rule-based math logic with machine learning, continuously comparing sequence variances against <Link href="/wingo" className="wt-ext-link">complete Wingo guide</Link> trends:
               </p>
 
               <div className="wt-steps">
@@ -854,16 +872,16 @@ export default function WingoToolPage() {
 
             <hr className="wt-divider" />
 
-            {/* ── Section 3: What Can You Use the WinGo Tool For? ─────────── */}
+            {/* ── Section 3: What Does Wingo Master Calculator Analyze? ────── */}
             <section className="wt-section" aria-labelledby="sec-use-cases">
-              <h2 id="sec-use-cases">What Can You Use the WinGo Tool For?</h2>
+              <h2 id="sec-use-cases">What Does the Wingo Master Calculator Analyze?</h2>
               <p className="wt-section-sub">Practical capabilities and feature breakdown</p>
 
               <p className="wt-direct-answer">
-                <strong>Direct Answer:</strong> You can use the WinGo Tool to evaluate Big/Small sequence ratios, monitor hot and cold number frequencies, test betting calculations, and examine statistical streaks across 30-second, 1-minute, 3-minute, and 5-minute draw intervals.
+                <strong>Direct Answer:</strong> You can use the Wingo Master Calculator to calculate Big/Small ratios, track number absence counts, evaluate Red, Green, and Violet streak persistence, and compare statistical indicators across 30-second, 1-minute, 3-minute, and 5-minute draw intervals.
               </p>
 
-              <p>Key capabilities provided by the TRION AI platform include:</p>
+              <p>Key calculation features provided by the TRION AI platform include:</p>
 
               <ul className="wt-checklist" role="list">
                 <li>
@@ -884,7 +902,7 @@ export default function WingoToolPage() {
                 </li>
                 <li>
                   <span className="wt-check-dot" aria-hidden="true">•</span>
-                  <span><strong>Cross-Interval Synchronization:</strong> Seamless switching between 30s, 1Min, 3Min, and 5Min game timers.</span>
+                  <span><strong>Cross-Interval Synchronization:</strong> Seamless switching between <Link href="/wingo30" className="wt-ext-link">Wingo 30 Second Prediction</Link>, 1Min, 3Min, and 5Min game timers.</span>
                 </li>
               </ul>
 
@@ -921,13 +939,13 @@ export default function WingoToolPage() {
 
             <hr className="wt-divider" />
 
-            {/* ── Section 4: How Do I Use the WinGo Tool? (HowTo) ─────────── */}
+            {/* ── Section 4: How Do You Use the Wingo Master Calculator? ───── */}
             <section className="wt-section" aria-labelledby="sec-how-to-use">
-              <h2 id="sec-how-to-use">How Do I Use the WinGo Tool?</h2>
+              <h2 id="sec-how-to-use">How Do You Use the Wingo Master Calculator?</h2>
               <p className="wt-section-sub">Step-by-step workflow for data-driven game analysis</p>
 
               <p className="wt-direct-answer">
-                <strong>Direct Answer:</strong> To use the WinGo Tool, open the dashboard, select your game interval, examine the generated pattern indicators, compare them with active draw boards, and use the insights as structured guidance for your gaming strategy.
+                <strong>Direct Answer:</strong> To use the Wingo Master Calculator, open the dashboard, select your game interval (30s, 1Min, 3Min, or 5Min), examine the real-time frequency calculations and streak indicators, and compare them with the live draw result board.
               </p>
 
               <ol className="wt-howto-list" role="list">
@@ -947,11 +965,11 @@ export default function WingoToolPage() {
 
             {/* ── Section 5: How Does WinGo Prediction Logic Work? ─────────── */}
             <section className="wt-section" aria-labelledby="sec-prediction-logic">
-              <h2 id="sec-prediction-logic">How Does WinGo Prediction Logic Work?</h2>
+              <h2 id="sec-prediction-logic">How Does WinGo Calculation and Prediction Logic Work?</h2>
               <p className="wt-section-sub">Understanding mathematical probability versus random number generation</p>
 
               <p className="wt-direct-answer">
-                <strong>Direct Answer:</strong> WinGo prediction logic combines deterministic mathematical formulas with machine-learning pattern recognition. It measures deviation from theoretical expected frequencies and identifies recurring 3-to-5 round sequences to calculate the statistically most frequent successor outcome.
+                <strong>Direct Answer:</strong> WinGo calculation and prediction logic combines deterministic mathematical formulas with machine-learning pattern recognition to measure deviation from theoretical expected frequencies without overriding game RNG.
               </p>
 
               <p>
@@ -964,22 +982,22 @@ export default function WingoToolPage() {
                 >
                   Random Number Generator (RNG)
                 </a>.
-                Mathematically, each draw is an independent event with fixed probabilities (e.g., approximately 45% Red, 45% Green, and 10% Violet when accounting for 0 and 5 combinations).
+                Mathematically, each draw is an independent event with fixed probabilities (e.g., approximately 45% Red, 45% Green, and 10% Violet when accounting for 0 and 5 combinations). For programmatic data feeds, developers can also reference the <Link href="/developer" className="wt-ext-link">Wingo Game API</Link> documentation.
               </p>
               <p>
-                The WinGo Tool analyzes short-term variances where actual distribution temporarily deviates from expected theoretical probability. By flagging extreme streaks or unusual frequency imbalances, the calculator provides structured reference signals for trend followers and mean-reversion strategies alike.
+                The <strong>Wingo Master Calculator</strong> analyzes short-term variances where actual distribution temporarily deviates from expected theoretical probability. By flagging extreme streaks or unusual frequency imbalances, the calculator provides structured reference signals for trend followers and mean-reversion strategies alike.
               </p>
             </section>
 
             <hr className="wt-divider" />
 
-            {/* ── Section 6: Is the WinGo Tool Accurate? ───────────────────── */}
+            {/* ── Section 6: Is the Wingo Master Calculator Accurate? ──────── */}
             <section className="wt-section" aria-labelledby="sec-accuracy">
-              <h2 id="sec-accuracy">Is the WinGo Tool Accurate?</h2>
+              <h2 id="sec-accuracy">Is the Wingo Master Calculator Accurate?</h2>
               <p className="wt-section-sub">Responsible disclosure on prediction limits and expectations</p>
 
               <p className="wt-direct-answer">
-                <strong>Direct Answer:</strong> No prediction tool can guarantee 100% accuracy on future WinGo draws. Because WinGo games operate on Random Number Generators (RNG), each draw is an independent event. The WinGo Tool provides probability estimates based on historical patterns, not certain or fixed results.
+                <strong>Direct Answer:</strong> No calculator or prediction tool can guarantee 100% accuracy on future WinGo draws because all outcomes are generated by server-side Random Number Generators (RNG). The Wingo Master Calculator provides mathematical probability estimates based on historical sequences, not guaranteed wins.
               </p>
 
               <p>
@@ -993,22 +1011,22 @@ export default function WingoToolPage() {
               </ul>
 
               <p>
-                The TRION AI WinGo Tool is engineered as an analytical assistant. Its purpose is to present structured data so users can make informed choices rather than guessing impulsively.
+                The TRION AI WinGo Tool and Wingo Master Calculator are engineered as analytical assistants. Their purpose is to present structured data so users can make informed choices rather than guessing impulsively.
               </p>
             </section>
 
             <hr className="wt-divider" />
 
-            {/* ── Section 7: Who Is the WinGo Tool For? ─────────────────────── */}
+            {/* ── Section 7: Who Is the Wingo Master Calculator For? ───────── */}
             <section className="wt-section" aria-labelledby="sec-audience">
-              <h2 id="sec-audience">Who Is the WinGo Tool For?</h2>
+              <h2 id="sec-audience">Who Is the Wingo Master Calculator For?</h2>
               <p className="wt-section-sub">Target audience and intended analytical applications</p>
 
               <p className="wt-direct-answer">
-                <strong>Direct Answer:</strong> The WinGo Tool is intended for data-minded players, strategy analysts, and enthusiasts who want an objective, statistical reference for WinGo games instead of relying on emotional guessing or untrusted third-party tips.
+                <strong>Direct Answer:</strong> The Wingo Master Calculator is intended for data-minded players, strategy analysts, and enthusiasts who want an objective, statistical calculation reference for WinGo games rather than relying on emotional guessing or untrusted third-party tips.
               </p>
 
-              <p>It is specifically helpful for:</p>
+              <p>It is specifically helpful for users of the <Link href="/" className="wt-ext-link">TRION AI platform</Link> who are:</p>
               <ul className="wt-checklist" role="list">
                 <li>
                   <span className="wt-check-dot" aria-hidden="true">•</span>
@@ -1042,8 +1060,8 @@ export default function WingoToolPage() {
                 <Link href="/wingo30" className="wt-link-tag">
                   WinGo 30s High-Speed Engine
                 </Link>
-                <Link href="/login" className="wt-link-tag">
-                  Sign in to your TRION AI account
+                <Link href="/developer" className="wt-link-tag">
+                  Wingo Game API Docs
                 </Link>
                 <Link href="/contact" className="wt-link-tag">
                   Contact TRION AI Support
@@ -1055,7 +1073,7 @@ export default function WingoToolPage() {
 
             {/* ── Section 9: FAQ ───────────────────────────────────────────── */}
             <section className="wt-section" aria-labelledby="sec-faq">
-              <h2 id="sec-faq">Frequently Asked Questions</h2>
+              <h2 id="sec-faq">Frequently Asked Questions About Wingo Master Calculator</h2>
               <p className="wt-section-sub">Common questions about WinGo tool types and methodologies</p>
 
               <div role="list">
@@ -1095,4 +1113,3 @@ export default function WingoToolPage() {
     </>
   );
 }
-
