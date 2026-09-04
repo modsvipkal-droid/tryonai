@@ -2,7 +2,9 @@ import Head from "next/head";
 import { SITE, DEFAULT_ROBOTS } from "@/lib/seo";
 
 export function PageHead({ title, description, canonical, noindex, robots, children }) {
-  const fullTitle = title ? `${title} | ${SITE.titleSuffix}` : SITE.defaultTitle;
+  const fullTitle = title
+    ? (title.includes(SITE.titleSuffix) ? title : `${title} | ${SITE.titleSuffix}`)
+    : SITE.defaultTitle;
   const desc = description || SITE.defaultDescription;
   const canon = canonical || SITE.url;
   const robotsValue = robots || (noindex ? "noindex, nofollow" : DEFAULT_ROBOTS);

@@ -80,6 +80,98 @@ const IconCross = () => (
   </svg>
 );
 
+// ── How-To Step Items (Synchronized with HowToSchema) ──────────────────────────
+const HOWTO_STEPS = [
+  {
+    name: "Access the TRION AI Dashboard",
+    text: "Open the TRION AI platform and navigate to the Wingo AI Prediction or live signal analytics workspace from any mobile or desktop browser.",
+  },
+  {
+    name: "Select Your Target Game Interval",
+    text: "Choose your active draw timeframe (30 Seconds, 1 Minute, 3 Minutes, or 5 Minutes) to synchronize the real-time data feed.",
+  },
+  {
+    name: "Examine Live Signals & Streak Indicators",
+    text: "Review the automated Big/Small distribution ratios, colour momentum indicators (Red, Green, Violet), and model confidence scores.",
+  },
+  {
+    name: "Cross-Reference Historical Logs",
+    text: "Inspect recent draw history tables to evaluate how current sequence patterns compare with earlier daily statistical cycles.",
+  },
+  {
+    name: "Apply Disciplined Decision-Making",
+    text: "Incorporate the statistical signals into your independent analysis while maintaining strict pre-set session, stop-loss, and risk limits.",
+  }
+];
+
+// ── Comprehensive FAQ Items (Synchronized with FAQSchema) ─────────────────────
+const FAQ_ITEMS = [
+  {
+    question: "What is Wingo AI Prediction?",
+    answer:
+      "Wingo AI prediction is an analytical tool by TRION AI that applies machine-learning algorithms and statistical models to analyze historical WinGo game draw data. By tracking colour runs (Red, Green, Violet), numeric frequencies (0–9), and Big/Small distribution ratios, the tool highlights emerging mathematical patterns to generate informed suggestions for upcoming rounds.",
+  },
+  {
+    question: "How does Wingo AI Prediction work?",
+    answer:
+      "Wingo AI Prediction monitors public result feeds in real time. When a new round completes, the data engine updates its rolling frequency table, evaluates conditional sequences (such as 3-streak colour alternations), and ranks possible outcomes using pattern-matching heuristics to output a ranked suggestion rather than a predetermined certainty.",
+  },
+  {
+    question: "What does Wingo AI Prediction analyze?",
+    answer:
+      "Wingo AI Prediction analyzes rolling draw results (50–200 rounds), multi-round sequence clusters, Big/Small parity balance (5–9 vs 0–4), colour momentum distributions (Red, Green, Violet), and cold-number absence counts across selected draw timers.",
+  },
+  {
+    question: "Is Wingo AI Prediction accurate or guaranteed to win?",
+    answer:
+      "No. WinGo draws run on certified Random Number Generators (RNG) where each round is statistically independent. No algorithm can guarantee 100% accuracy or sure wins. The accuracy metrics on TRION AI reflect past pattern match frequency, not guaranteed future results.",
+  },
+  {
+    question: "How do you use Wingo AI Prediction?",
+    answer:
+      "To use Wingo AI Prediction, open the web dashboard, select your game interval (e.g. 30s or 1Min), observe rolling baseline trends, review the algorithm's Big/Small and colour signals, and use the insights alongside disciplined bankroll management.",
+  },
+  {
+    question: "Can I check Wingo AI Prediction live on mobile?",
+    answer:
+      "Yes. TRION AI Wingo Prediction is a web-based responsive dashboard that automatically updates with each completed draw cycle on smartphones, tablets, and desktop browsers without requiring external app downloads.",
+  },
+  {
+    question: "What is Wingo AI Prediction 30 Second?",
+    answer:
+      "Wingo AI Prediction 30 Second is an ultra-fast data analysis mode tailored specifically for rapid 30-second WinGo draws, recalculating short-window momentum shifts, streak counts, and signal indicators in milliseconds.",
+  },
+  {
+    question: "Is Wingo AI Prediction free to use?",
+    answer:
+      "Yes. The live prediction dashboards, historical trend charts, and statistical signal feeds on TRION AI are accessible online for users seeking objective game-result analysis.",
+  },
+];
+
+// ── Feature Items ─────────────────────────────────────────────────────────────
+const PIPELINE_FEATURES = [
+  {
+    icon: <IconLivePulse />,
+    title: "Live Draw Ingestion",
+    desc: "Ingests public draw outcomes for WinGo 30s, 1Min, and 3Min modes in real time to refresh rolling historical windows."
+  },
+  {
+    icon: <IconChartTrend />,
+    title: "Streak & Mean Tracking",
+    desc: "Calculates Big/Small runs, colour switch frequencies, and numeric variance across the last 50 to 200 rounds."
+  },
+  {
+    icon: <IconCpuAI />,
+    title: "Pattern Scoring Model",
+    desc: "Compares current draw sequences against thousands of historical patterns to generate weighted, data-backed suggestions."
+  },
+  {
+    icon: <IconShieldCheck />,
+    title: "RNG Transparency",
+    desc: "Provides contextual probability insights without false guarantees, acknowledging certified server-side randomness."
+  }
+];
+
 // ── Page-scoped styles ────────────────────────────────────────────────────────
 const pageStyles = `
   html {
@@ -162,7 +254,7 @@ const pageStyles = `
     border: 1px solid #e2e8f0;
     border-radius: 20px;
     padding: 36px 32px;
-    margin-bottom: 36px;
+    margin-bottom: 32px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.03), 0 4px 20px rgba(0,152,91,0.03);
     position: relative;
   }
@@ -194,22 +286,89 @@ const pageStyles = `
     50% { opacity: 0.4; transform: scale(1.2); }
   }
 
+  /* Exactly One Visible H1 */
   h1.wai-h1 {
     font-size: clamp(24px, 4.5vw, 34px);
     font-weight: 800;
     color: #0f172a;
-    margin: 0 0 14px;
+    margin: 0 0 6px;
     line-height: 1.25;
     letter-spacing: -0.02em;
   }
-  h1.wai-h1 .accent { color: #00985b; }
 
   .wai-subtitle {
     font-size: 15.5px;
     color: #475569;
+    margin: 0 0 18px;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+
+  /* Top Summary Box & Direct Answer Signals */
+  .wai-top-summary-box {
+    background: #f0fbf5;
+    border: 1px solid #c8ebd8;
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin: 16px 0 20px;
+  }
+  .wai-summary-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #007543;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0 0 8px;
+  }
+  .wai-summary-text {
+    font-size: 14.5px;
+    color: #1e293b;
+    line-height: 1.68;
+    margin: 0 !important;
+  }
+  .wai-summary-text strong {
+    color: #007543;
+  }
+
+  /* Key Takeaway Section Block */
+  .wai-takeaway {
+    background: #ffffff;
+    border: 1px solid #d8e5de;
+    border-radius: 16px;
+    padding: 22px 24px;
+    margin: 22px 0 26px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  }
+  .wai-takeaway-heading {
+    font-size: 16px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: -0.01em;
+  }
+  .wai-takeaway-list {
+    list-style: none;
+    padding: 0;
     margin: 0;
-    line-height: 1.65;
-    max-width: 760px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 20px;
+  }
+  .wai-takeaway-list li {
+    font-size: 13.5px;
+    color: #334155;
+    line-height: 1.5;
+  }
+  .wai-takeaway-list li strong {
+    color: #007543;
+    display: block;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 2px;
   }
 
   /* Stats Grid */
@@ -217,7 +376,7 @@ const pageStyles = `
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 12px;
-    margin-top: 24px;
+    margin-top: 20px;
   }
   .wai-stat {
     background: #f8faf9;
@@ -243,7 +402,7 @@ const pageStyles = `
 
   /* Hero Image */
   .wai-hero-image-wrap {
-    margin: 32px 0 36px;
+    margin: 28px 0 32px;
     border-radius: 16px;
     overflow: hidden;
     border: 1px solid #e2e8f0;
@@ -281,30 +440,51 @@ const pageStyles = `
     color: #006038;
   }
 
+  /* Direct Answer Callout Box for AEO */
+  .wai-direct-answer {
+    font-size: 15px;
+    color: #0f172a;
+    background: #ffffff;
+    border-left: 3.5px solid #00985b;
+    padding: 14px 18px;
+    border-radius: 0 12px 12px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    margin: 0 0 18px !important;
+    line-height: 1.65;
+    border-top: 1px solid #f1f5f9;
+    border-right: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .wai-direct-answer strong {
+    color: #007543;
+    display: inline;
+    margin-right: 4px;
+  }
+
   /* Section Titles */
   .wai-section {
     margin: 44px 0 0;
   }
   .wai-section h2 {
-    font-size: clamp(20px, 3.5vw, 25px);
-    font-weight: 700;
+    font-size: clamp(19.5px, 3.4vw, 24px);
+    font-weight: 750;
     color: #0f172a;
     margin: 0 0 6px;
     letter-spacing: -0.015em;
     line-height: 1.3;
   }
   .wai-section h3 {
-    font-size: clamp(16px, 2.5vw, 18.5px);
+    font-size: clamp(15.5px, 2.4vw, 18px);
     font-weight: 700;
     color: #1e293b;
     margin: 22px 0 8px;
     line-height: 1.35;
   }
   .wai-section-sub {
-    font-size: 14px;
+    font-size: 13.5px;
     color: #64748b;
     font-weight: 400;
-    margin: 0 0 20px;
+    margin: 0 0 18px;
   }
 
   /* Feature Grid */
@@ -391,7 +571,7 @@ const pageStyles = `
   /* Comparison Table */
   .wai-table-wrap {
     overflow-x: auto;
-    margin: 24px 0 30px;
+    margin: 22px 0 28px;
     border: 1px solid #e2e8f0;
     border-radius: 14px;
     background: #ffffff;
@@ -400,19 +580,19 @@ const pageStyles = `
   .wai-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 14px;
+    font-size: 13.5px;
     text-align: left;
   }
   .wai-table th {
     background: #f8faf9;
     color: #0f172a;
     font-weight: 700;
-    padding: 14px 18px;
+    padding: 13px 18px;
     border-bottom: 1px solid #e2e8f0;
     white-space: nowrap;
   }
   .wai-table td {
-    padding: 13px 18px;
+    padding: 12px 18px;
     border-bottom: 1px solid #f1f5f9;
     color: #334155;
     vertical-align: middle;
@@ -446,10 +626,10 @@ const pageStyles = `
   .wai-howto-list {
     list-style: none;
     padding: 0;
-    margin: 22px 0 30px;
+    margin: 20px 0 28px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
   }
   .wai-howto-item {
     display: flex;
@@ -458,7 +638,7 @@ const pageStyles = `
     background: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 14px;
-    padding: 18px 20px;
+    padding: 16px 18px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.02);
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
@@ -468,13 +648,13 @@ const pageStyles = `
   }
   .wai-step-num {
     flex-shrink: 0;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 10px;
     background: #eef8f3;
     color: #008751;
     font-weight: 800;
-    font-size: 14px;
+    font-size: 13.5px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -484,13 +664,13 @@ const pageStyles = `
     flex: 1;
   }
   .wai-step-title {
-    font-size: 15px;
+    font-size: 14.5px;
     font-weight: 700;
     color: #0f172a;
     margin: 0 0 4px;
   }
   .wai-step-desc {
-    font-size: 14px;
+    font-size: 13.5px;
     color: #475569;
     margin: 0;
     line-height: 1.6;
@@ -500,7 +680,7 @@ const pageStyles = `
   .wai-divider {
     border: none;
     border-top: 1px solid #e2e8f0;
-    margin: 44px 0;
+    margin: 40px 0;
   }
 
   /* FAQ Accordion List */
@@ -508,7 +688,7 @@ const pageStyles = `
     background: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 14px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.02);
     overflow: hidden;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
@@ -522,7 +702,7 @@ const pageStyles = `
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 20px;
+    padding: 16px 18px;
     background: none;
     border: none;
     cursor: pointer;
@@ -534,22 +714,22 @@ const pageStyles = `
     outline-offset: -2px;
   }
   .wai-faq-q {
-    font-size: 15px;
+    font-size: 14.5px;
     font-weight: 700;
     color: #0f172a;
     margin: 0;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
   }
   .wai-faq-num {
     flex-shrink: 0;
     background: #eef8f3;
     color: #008751;
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 700;
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     border-radius: 6px;
     display: flex;
     align-items: center;
@@ -565,19 +745,19 @@ const pageStyles = `
     color: #00985b;
   }
   .wai-faq-a {
-    font-size: 14.5px;
+    font-size: 14px;
     color: #475569;
     line-height: 1.65;
     margin: 0;
-    padding: 0 20px 18px 56px;
+    padding: 0 18px 16px 50px;
   }
 
   /* Quick Navigation Cards */
   .wai-quick-links {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 14px;
-    margin-top: 24px;
+    gap: 12px;
+    margin-top: 20px;
   }
   .wai-link-card {
     background: #ffffff;
@@ -605,29 +785,30 @@ const pageStyles = `
     background: linear-gradient(180deg, #ffffff 0%, #f4fbf7 100%);
     border: 1px solid #d1eedf;
     border-radius: 18px;
-    padding: 32px 28px;
-    margin-top: 48px;
+    padding: 28px 26px;
+    margin-top: 40px;
     box-shadow: 0 2px 8px rgba(0, 152, 91, 0.03);
   }
   .wai-conclusion h2 {
-    font-size: 19px;
+    font-size: 18px;
     font-weight: 700;
     color: #0f172a;
     margin: 0 0 10px;
   }
   .wai-conclusion p {
-    font-size: 15px;
+    font-size: 14px;
     color: #334155;
-    line-height: 1.7;
+    line-height: 1.68;
     margin: 0;
   }
 
   /* Responsive Adjustments */
   @media (max-width: 640px) {
     .wai-wrap { padding: 24px 18px 60px; }
-    .wai-hero { padding: 24px 20px; border-radius: 16px; margin-bottom: 28px; }
-    .wai-section h2 { font-size: 18.5px; }
-    .wai-section h3 { font-size: 16px; }
+    .wai-hero { padding: 22px 18px; border-radius: 16px; margin-bottom: 24px; }
+    .wai-takeaway-list { grid-template-columns: 1fr; gap: 10px; }
+    .wai-section h2 { font-size: 17.5px; }
+    .wai-section h3 { font-size: 15px; }
     .wai-faq-header { padding: 14px 16px; }
     .wai-faq-q { font-size: 14px; gap: 8px; }
     .wai-faq-a { padding: 0 16px 14px 44px; font-size: 13.5px; }
@@ -637,118 +818,6 @@ const pageStyles = `
     .wai-table th, .wai-table td { padding: 10px 12px; font-size: 13px; }
   }
 `;
-
-// ── Feature Items ─────────────────────────────────────────────────────────────
-const PIPELINE_FEATURES = [
-  {
-    icon: <IconLivePulse />,
-    title: "Live Draw Ingestion",
-    desc: "Ingests public draw outcomes for WinGo 30s, 1Min, and 3Min modes in real time to refresh rolling historical windows."
-  },
-  {
-    icon: <IconChartTrend />,
-    title: "Streak & Mean Tracking",
-    desc: "Calculates Big/Small runs, colour switch frequencies, and numeric variance across the last 50 to 200 rounds."
-  },
-  {
-    icon: <IconCpuAI />,
-    title: "Pattern Scoring Model",
-    desc: "Compares current draw sequences against thousands of historical patterns to generate weighted, data-backed suggestions."
-  },
-  {
-    icon: <IconShieldCheck />,
-    title: "RNG Transparency",
-    desc: "Provides contextual probability insights without false guarantees, acknowledging certified server-side randomness."
-  }
-];
-
-// ── How-To Step Items (Synchronized with HowToSchema) ──────────────────────────
-const HOWTO_STEPS = [
-  {
-    name: "Access the TRION AI Dashboard",
-    text: "Open the TRION AI platform and navigate to the Wingo AI Prediction or live signal analytics workspace."
-  },
-  {
-    name: "Select Your Game Interval",
-    text: "Choose your active draw timeframe (30 Seconds, 1 Minute, 3 Minutes, or 5 Minutes) to synchronize the real-time data feed."
-  },
-  {
-    name: "Examine Live Signals & Streak Indicators",
-    text: "Review the automated Big/Small distribution ratios, colour momentum indicators (Red, Green, Violet), and model confidence scores."
-  },
-  {
-    name: "Cross-Reference Historical Logs",
-    text: "Inspect recent draw history tables to evaluate how current sequence patterns compare with earlier daily statistical cycles."
-  },
-  {
-    name: "Apply Disciplined Decision-Making",
-    text: "Incorporate the statistical signals into your independent analysis while maintaining strict pre-set session and risk limits."
-  }
-];
-
-// ── Comprehensive FAQ Items (Synchronized with FAQSchema) ─────────────────────
-const FAQ_ITEMS = [
-  {
-    question: "What is Wingo AI Prediction?",
-    answer:
-      "Wingo AI prediction is an analytical approach that utilizes machine-learning algorithms and statistical models to analyze historical WinGo game draw data. By tracking colour runs (Red, Green, Violet), numeric frequencies (0–9), and Big/Small distribution ratios, the tool highlights emerging mathematical patterns to generate informed suggestions for upcoming rounds."
-  },
-  {
-    question: "How does Wingo AI Prediction work?",
-    answer:
-      "The system monitors public result feeds in real time. When a new round completes, the data engine updates its rolling frequency table, evaluates conditional sequences (such as 3-streak colour alternations), and ranks possible outcomes using pattern-matching heuristics. It outputs a ranked suggestion rather than a predetermined certainty."
-  },
-  {
-    question: "Is Wingo AI Prediction accurate?",
-    answer:
-      "A Wingo AI prediction tool provides statistical pattern indicators based on historical occurrences. Because WinGo uses a certified Random Number Generator (RNG) where every draw is an independent event, no algorithm can guarantee 100% accuracy. The accuracy rating shown on tools represents past pattern match frequency, not guaranteed future wins."
-  },
-  {
-    question: "How to use Wingo AI Prediction?",
-    answer:
-      "To use a Wingo AI prediction platform, select your game interval (e.g., 30-Second or 1-Minute), observe the live result feed for several rounds to establish baseline trends, examine the algorithm's Big/Small and colour signals, and use the insights alongside disciplined bankroll management."
-  },
-  {
-    question: "Can I check Wingo AI Prediction live?",
-    answer:
-      "Yes. Modern prediction websites and apps provide real-time dashboards that automatically refresh with each completed draw cycle, displaying the latest live signals, streak meters, and model confidence scores with zero manual refresh required."
-  },
-  {
-    question: "What is Wingo AI Prediction 30 Second?",
-    answer:
-      "Wingo AI Prediction 30 Second is an ultra-fast data analysis mode tailored specifically for rapid 30-second WinGo draws. Due to the rapid pace, the AI instantly digests incoming results, calculates short-window momentum shifts, and updates signal indicators in milliseconds."
-  },
-  {
-    question: "How to check Wingo AI Prediction results?",
-    answer:
-      "Results can be verified directly on the platform's history tab or live result table. Reputable prediction tools log past suggestions alongside actual game draw outcomes, enabling transparent evaluation of pattern alignment over time."
-  },
-  {
-    question: "Can Wingo AI Prediction predict Big or Small?",
-    answer:
-      "Yes, Big (numbers 5–9) and Small (numbers 0–4) binary trends are one of the core signals analyzed. The AI tracks streak lengths, oscillation rhythms, and historical reversion points to suggest probable Big or Small tendencies."
-  },
-  {
-    question: "Does Wingo AI Prediction guarantee results?",
-    answer:
-      "No. No legitimate AI tool or software can guarantee WinGo results. Draw outcomes are governed by cryptographic RNG systems. Any claim of a 'sure shot win' or '100% guarantee' is fraudulent. Prediction signals should always be treated purely as analytical references."
-  },
-  {
-    question: "Is Wingo AI Prediction free to use?",
-    answer:
-      "Basic live prediction dashboards, historical trend charts, and statistical signal feeds are often provided for free. Some platforms may offer premium tiers with advanced multi-model indicators (like Korven or FX1 models), historical exports, and real-time push signals."
-  },
-  {
-    question: "Which is the best Wingo AI Prediction tool?",
-    answer:
-      "The best prediction tools are those that emphasize speed, transparent historical logs, multi-timeframe support (30s, 1m, 3m), and realistic statistical modeling without deceptive win promises. TRION AI is designed with low-latency data processing and responsible analytical metrics."
-  },
-  {
-    question: "Where can I check Wingo AI Prediction?",
-    answer:
-      "You can access live prediction dashboards directly through optimized web applications and mobile portals. Navigating to the live tool section provides instant access to current draw feeds, signal tables, and statistical summaries."
-  }
-];
 
 export default function WingoAiPredictionPage() {
   const router = useRouter();
@@ -795,7 +864,7 @@ export default function WingoAiPredictionPage() {
   }, []);
 
   const PAGE_URL = "https://wingo30.com/wingo-ai-prediction";
-  const PAGE_TITLE = "Wingo AI Prediction – Live AI Signals & Prediction Tool | TRION AI";
+  const PAGE_TITLE = "Wingo AI Prediction – Live AI Tool | TRION AI";
   const PAGE_DESC =
     "Explore Wingo AI Prediction by TRION AI for live AI-based signals, Big Small trend analytics, and model insights in a clear, user-friendly interface.";
 
@@ -807,6 +876,10 @@ export default function WingoAiPredictionPage() {
         description={PAGE_DESC}
         canonical={PAGE_URL}
       >
+        <meta name="keywords" content="Wingo AI Prediction, Wingo prediction tool, AI prediction tool, WinGo analysis, WinGo signals, live WinGo data, Big Small predictor, TRION AI" />
+        <meta property="og:title" content={PAGE_TITLE} />
+        <meta property="og:description" content={PAGE_DESC} />
+        <meta property="og:url" content={PAGE_URL} />
         <style dangerouslySetInnerHTML={{ __html: pageStyles + smartCardStyles }} />
       </PageHead>
 
@@ -822,10 +895,10 @@ export default function WingoAiPredictionPage() {
       />
       <SoftwareAppSchema
         id={`${PAGE_URL}#software`}
-        name="TRION AI - Wingo AI Prediction"
-        alternateName="TryonAI Prediction Tool"
+        name="Wingo AI Prediction"
+        alternateName="TRION AI Wingo Prediction Tool"
         applicationCategory="BusinessApplication"
-        operatingSystem="Web"
+        operatingSystem="Web, iOS, Android"
         description={PAGE_DESC}
         url={PAGE_URL}
       />
@@ -854,73 +927,115 @@ export default function WingoAiPredictionPage() {
             Back to Home
           </button>
 
-          {/* ── Hero ──────────────────────────────────────────────────────── */}
-          <header className="wai-hero">
-            <div className="wai-badge">
-              <span className="wai-badge-dot" aria-hidden="true" />
-              Live AI Analytics &amp; Tool
+          {/* ── Main Landmark Container ────────────────────────────────────── */}
+          <main id="main-content" className="wai-body">
+
+            {/* ── Hero ──────────────────────────────────────────────────────── */}
+            <header className="wai-hero">
+              <div className="wai-badge">
+                <span className="wai-badge-dot" aria-hidden="true" />
+                Live AI Analytics &amp; Tool
+              </div>
+
+              {/* Exactly One Visible H1 */}
+              <h1 className="wai-h1" itemProp="headline">
+                Wingo AI Prediction
+              </h1>
+
+              <p className="wai-subtitle">
+                Live AI-assisted WinGo analysis and prediction tool
+              </p>
+
+              {/* Top Answer-First Summary for AI Extraction (60–90 words) */}
+              <div className="wai-top-summary-box" role="region" aria-label="Summary for AI Extraction & Overview">
+                <h2 className="wai-summary-title">Summary &amp; Bottom-Line Answer</h2>
+                <p className="wai-summary-text">
+                  <strong>Direct Answer:</strong> Wingo AI Prediction is a TRION AI tool designed to analyze recent WinGo game data and provide an AI-assisted prediction view for users who want a structured way to evaluate available game information. The tool presents its analysis through a clear interface so users can review the latest draw data, prediction output, and related indicators in one place. All outputs are analytical estimates and should not be treated as guaranteed results.
+                </p>
+              </div>
+
+              {/* Explicit Key Takeaways Block */}
+              <div className="wai-takeaway" role="region" aria-label="Key Takeaways">
+                <h2 className="wai-takeaway-heading">Key Takeaways</h2>
+                <ul className="wai-takeaway-list">
+                  <li>
+                    <strong>Tool &amp; Platform</strong>
+                    <span>Wingo AI Prediction by TRION AI</span>
+                  </li>
+                  <li>
+                    <strong>Primary Purpose</strong>
+                    <span>AI-assisted WinGo analysis &amp; prediction signal generation</span>
+                  </li>
+                  <li>
+                    <strong>Target Audience</strong>
+                    <span>WinGo players, statistical data analysts, and strategy testers</span>
+                  </li>
+                  <li>
+                    <strong>Supported Use Cases</strong>
+                    <span>Live signal tracking, Big/Small trend analysis, and colour sequence scoring</span>
+                  </li>
+                  <li>
+                    <strong>Industry Context</strong>
+                    <span>Online Gaming Analytics &amp; Probabilistic Modeling</span>
+                  </li>
+                  <li>
+                    <strong>Decision Context</strong>
+                    <span>Data-driven game evaluation, bankroll risk control, and streak verification</span>
+                  </li>
+                  <li>
+                    <strong>Data Analyzed</strong>
+                    <span>Available historical draw records and rolling multi-interval sequence buffers</span>
+                  </li>
+                  <li>
+                    <strong>Output Insights</strong>
+                    <span>Statistical prediction signals, confidence indicators, and trend meters</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="wai-stats">
+                {[
+                  { label: "Update Frequency", val: "Sub-second live feed" },
+                  { label: "Supported Modes",  val: "30s · 1Min · 3Min · 5Min" },
+                  { label: "Key Indicators",   val: "Big/Small · Colour · Number" },
+                  { label: "Engine Type",      val: "Statistical ML Pattern Scorer" },
+                ].map((stat) => (
+                  <div className="wai-stat" key={stat.label}>
+                    <span className="wai-stat-label">{stat.label}</span>
+                    <span className="wai-stat-val">{stat.val}</span>
+                  </div>
+                ))}
+              </div>
+            </header>
+
+            {/* ── Genuine Interface Evidence Visual ─────────────────────────── */}
+            <div className="wai-hero-image-wrap">
+              <Image
+                src="/Bannerv2.jpg"
+                alt="Wingo AI Prediction tool showing live analysis and prediction interface"
+                width={880}
+                height={440}
+                className="wai-hero-image"
+                priority
+              />
             </div>
 
-            {/* Exactly One H1 on the Page */}
-            <h1 className="wai-h1">
-              <span className="accent">Wingo AI Prediction</span> – Live AI Signals &amp; Prediction Tool
-            </h1>
-
-            {/* AEO Top Direct Answer (40–70 words) */}
-            <p className="wai-subtitle">
-              Wingo AI Prediction is a specialized analytical tool developed by TRION AI that processes live WinGo draw data to surface real-time signals, Big/Small tendencies, and statistical pattern metrics. Designed for players and data analysts seeking objective sequence tracking across 30-second, 1-minute, and 3-minute game modes, TRION AI provides structured visual insights. All predictions and signals are informational references and do not represent guaranteed outcomes.
-            </p>
-
-            <div className="wai-stats">
-              {[
-                { label: "Update Frequency", val: "Sub-second live feed" },
-                { label: "Supported Modes",  val: "30s · 1Min · 3Min · 5Min" },
-                { label: "Key Indicators",   val: "Big/Small · Colour · Number" },
-                { label: "Engine Type",      val: "Statistical ML Pattern Scorer" },
-              ].map((stat) => (
-                <div className="wai-stat" key={stat.label}>
-                  <span className="wai-stat-label">{stat.label}</span>
-                  <span className="wai-stat-val">{stat.val}</span>
-                </div>
-              ))}
-            </div>
-          </header>
-
-          {/* ── Quick Answer / Key Takeaways ────────────────────────────────── */}
-          <ContentCard type="key-point" title="Quick Answer: Key Takeaways on Wingo AI Signals">
+            {/* ── Introductory Context / First 200 Words Setup ─────────────── */}
             <p>
-              <strong>Wingo AI Prediction</strong> is an analytical tool by <strong>TRION AI</strong> that evaluates historical WinGo draw outcomes using algorithmic pattern recognition to highlight rolling colour, number, and Big/Small trends. The tool simplifies complex data into live visual signals to assist user analysis. Because draws rely on certified Random Number Generators, all signals are educational indicators and never guaranteed winning outcomes.
+              <strong>Wingo AI Prediction</strong> represents a modern analytical framework developed by TRION AI to help users navigate colour prediction gaming with data-backed indicators. Rather than relying on unguided guessing, the tool monitors live draw logs, evaluates frequency distributions across rolling 50 to 200 round windows, and outputs structured probability estimates. Users can cross-reference calculated signals with mathematical utilities on the <Link href="/wingo-tool" className="wai-inline-link">Wingo Master Calculator</Link> or view live telemetry on <Link href="/wingosignal" className="wai-inline-link">Wingo Signal</Link> to observe sequence patterns objectively.
             </p>
-          </ContentCard>
-
-          {/* ── Optimized Dashboard Interface Visual (Image SEO) ─────────────── */}
-          <div className="wai-hero-image-wrap">
-            <Image
-              src="/Bannerv2.jpg"
-              alt="Wingo AI Prediction dashboard showing live AI signals and Big Small trend analytics on TRION AI"
-              width={880}
-              height={440}
-              className="wai-hero-image"
-              priority
-            />
-          </div>
-
-          {/* ── Article Content ───────────────────────────────────────────── */}
-          <article className="wai-body">
 
             <ContentCard type="warning" title="Critical RNG & Risk Disclaimer">
-              WinGo game outcomes are generated by server-side Random Number Generators (RNG). 
-              Each round is statistically independent. No analytical tool, bot, or machine learning model can guarantee 100% accurate 
-              draw results or eliminate variance. All information presented by TRION AI is strictly for educational, research, and technical analytical exploration.
+              WinGo game outcomes are generated by server-side Random Number Generators (RNG) where each round is statistically independent. No analytical tool, bot, or machine learning model can guarantee 100% accurate draw results or eliminate variance. All information presented by TRION AI is strictly for educational, research, and technical analytical exploration.
             </ContentCard>
 
             {/* ── Question 1: What Is Wingo AI Prediction? ───────────────────── */}
-            <section className="wai-section">
-              <h2>What Is Wingo AI Prediction?</h2>
+            <section className="wai-section" aria-labelledby="sec-what-is">
+              <h2 id="sec-what-is">What Is Wingo AI Prediction?</h2>
               <p className="wai-section-sub">Defining automated colour-number analysis and machine-learning pattern detection</p>
 
-              <p>
-                <strong>Wingo AI Prediction</strong> is a data-driven methodology and software tool that applies machine learning algorithms and statistical probability modeling to historical WinGo colour-number draw logs. Developed by TRION AI, it continuously monitors draw feeds, computes sequence frequency metrics (Red, Green, Violet, Big, and Small), and outputs structured predictive signals to help users analyze upcoming rounds objectively.
+              <p className="wai-direct-answer">
+                <strong>Direct Answer:</strong> Wingo AI Prediction is an AI-assisted WinGo analysis tool by TRION AI that evaluates available draw information and presents prediction-oriented signals, number frequencies, and Big/Small parity metrics through a centralized web interface.
               </p>
 
               <p>
@@ -931,12 +1046,12 @@ export default function WingoAiPredictionPage() {
             <hr className="wai-divider" />
 
             {/* ── Question 2: How Does Wingo AI Prediction Work? ─────────────── */}
-            <section className="wai-section">
-              <h2>How Does Wingo AI Prediction Work?</h2>
-              <p className="wai-section-sub">From raw draw feeds to refined statistical intelligence</p>
+            <section className="wai-section" aria-labelledby="sec-how-works">
+              <h2 id="sec-how-works">How Does Wingo AI Prediction Work?</h2>
+              <p className="wai-section-sub">Inside the automated data ingestion, scoring, and output pipeline</p>
 
-              <p>
-                Wingo AI Prediction works by connecting to live public draw feeds, ingesting each completed round in real time, and updating rolling frequency tables across the last 50 to 200 draws. The engine matches current sequence patterns against historical database clusters, calculates standard deviations, and assigns confidence weights to probable colour and numeric outcomes without altering server-side RNG mechanics.
+              <p className="wai-direct-answer">
+                <strong>Direct Answer:</strong> Wingo AI Prediction works by connecting to live draw feeds, ingesting completed round outcomes in real time, updating rolling historical frequency tables, and matching sequence clusters against historical datasets to output ranked probability signals.
               </p>
 
               <div className="wai-grid">
@@ -962,13 +1077,13 @@ export default function WingoAiPredictionPage() {
 
             <hr className="wai-divider" />
 
-            {/* ── Question 3: Big Small & 30-Second Pattern Analysis ─────────── */}
-            <section className="wai-section">
-              <h2>Wingo AI Big Small Prediction &amp; 30-Second Pattern Analysis</h2>
-              <p className="wai-section-sub">Understanding binary categorization, streak detection, and velocity</p>
+            {/* ── Question 3: What Does Wingo AI Prediction Analyze? ─────────── */}
+            <section className="wai-section" aria-labelledby="sec-what-analyzes">
+              <h2 id="sec-what-analyzes">What Does Wingo AI Prediction Analyze?</h2>
+              <p className="wai-section-sub">Comprehensive overview of data streams, metrics, and pattern indicators</p>
 
-              <p>
-                Wingo AI Big Small prediction categorizes draw results into binary groups—Small (numbers 0 to 4) and Big (numbers 5 to 9)—to detect clustering streaks, sequence imbalances, and velocity shifts. In rapid 30-second draw modes, the automated AI pipeline recalculates these probabilities in milliseconds, giving analysts immediate visibility into momentum trends before the betting window locks.
+              <p className="wai-direct-answer">
+                <strong>Direct Answer:</strong> Wingo AI Prediction analyzes rolling draw outcomes, Big/Small parity clustering (5–9 vs 0–4), colour momentum distributions (Red, Green, Violet), cold-number absence lengths (0–9), and streak reversion indicators across selected draw timers.
               </p>
 
               {[
@@ -1018,10 +1133,126 @@ export default function WingoAiPredictionPage() {
 
             <hr className="wai-divider" />
 
-            {/* ── Feature Comparison Table ───────────────────────────────────── */}
-            <section className="wai-section">
-              <h2>Feature Comparison: TRION AI vs. Manual Tracking vs. Random Guessing</h2>
+            {/* ── Question 4: How Do You Use Wingo AI Prediction? ─────────────── */}
+            <section className="wai-section" aria-labelledby="sec-how-to-use">
+              <h2 id="sec-how-to-use">How Do You Use Wingo AI Prediction?</h2>
+              <p className="wai-section-sub">Step-by-step workflow for integrating AI signals into your analysis</p>
+
+              <p className="wai-direct-answer">
+                <strong>Direct Answer:</strong> To use Wingo AI Prediction, open the TRION AI dashboard, select your game interval (30s, 1Min, 3Min, or 5Min), review recent draw outcomes, examine the algorithm&apos;s Big/Small and colour signals, and use the insights alongside disciplined bankroll management.
+              </p>
+
+              <ol className="wai-howto-list">
+                {HOWTO_STEPS.map((step, idx) => (
+                  <li className="wai-howto-item" key={step.name}>
+                    <div className="wai-step-num">{idx + 1}</div>
+                    <div className="wai-step-content">
+                      <div className="wai-step-title">{step.name}</div>
+                      <div className="wai-step-desc">{step.text}</div>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+
+              <p>
+                For a deeper look into specialized predictor tool configurations, explore our dedicated <Link href="/wingo-tool" className="wai-inline-link">Wingo Predictor Tool guide</Link> and <Link href="/wingotips" className="wai-inline-link">Wingo Tips &amp; Strategies</Link>.
+              </p>
+            </section>
+
+            <hr className="wai-divider" />
+
+            {/* ── Question 5: Who Is Wingo AI Prediction For? ────────────────── */}
+            <section className="wai-section" aria-labelledby="sec-audience">
+              <h2 id="sec-audience">Who Is Wingo AI Prediction For?</h2>
+              <p className="wai-section-sub">Clarifying intended audience, practical use cases, and decision support boundaries</p>
+
+              <p className="wai-direct-answer">
+                <strong>Direct Answer:</strong> Wingo AI Prediction is designed for gaming enthusiasts, data analysts, and strategic players who want structured, objective draw analysis rather than relying on emotional intuition or untrusted third-party tips.
+              </p>
+
+              <h3>Who Can Benefit Most:</h3>
+              <ul style={{ paddingLeft: "20px", margin: "10px 0 20px", lineHeight: "1.7" }}>
+                <li style={{ marginBottom: "8px" }}>
+                  <strong>Data-Minded Analysts:</strong> Individuals looking for structured statistical breakdowns, rolling mean values, and numeric frequencies across hundreds of rounds.
+                </li>
+                <li style={{ marginBottom: "8px" }}>
+                  <strong>Rapid 30-Second Observers:</strong> Players participating in ultra-fast draw modes where manual calculation is too slow to maintain pace with the game timer.
+                </li>
+                <li style={{ marginBottom: "8px" }}>
+                  <strong>Disciplined Strategists:</strong> Users seeking an objective benchmark to complement bankroll management rules and avoid emotional tilt.
+                </li>
+              </ul>
+
+              <h3>When to Use the Prediction Tool:</h3>
+              <p>
+                The tool is best utilized during live monitoring sessions to track emerging streaks, measure colour momentum shifts, and evaluate whether a specific sequence represents an outlier compared to daily statistical baselines. It should never be treated as a financial investment vehicle or a guaranteed income generator.
+              </p>
+            </section>
+
+            <hr className="wai-divider" />
+
+            {/* ── Question 6: What Do the Prediction Results Mean? ───────────── */}
+            <section className="wai-section" aria-labelledby="sec-interpretation">
+              <h2 id="sec-interpretation">What Do the Prediction Results Mean?</h2>
+              <p className="wai-section-sub">How to interpret model scores, streak meters, and confidence indicators</p>
+
+              <p className="wai-direct-answer">
+                <strong>Direct Answer:</strong> Prediction results represent calculated historical correlation weights and statistical clustering tendencies; they indicate which outcomes have historically followed similar preceding patterns, not guaranteed future results.
+              </p>
+
+              <p>
+                When the platform displays a confidence score (for example, 75% Big or 80% Green), it summarizes pattern matching across the active rolling buffer. Developers and analysts can also query draw telemetry programmatically via browser-native web APIs or evaluate client-side data flows documented in the{" "}
+                <a
+                  href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="wai-inline-link"
+                >
+                  MDN Web Docs Fetch API Guide<IconExternalLink />
+                </a>.
+              </p>
+            </section>
+
+            <hr className="wai-divider" />
+
+            {/* ── Question 7: Is It 100% Accurate? Limitations ───────────────── */}
+            <section className="wai-section" aria-labelledby="sec-accuracy">
+              <h2 id="sec-accuracy">Is Wingo AI Prediction Guaranteed to Be Accurate?</h2>
+              <p className="wai-section-sub">A transparent, mathematically grounded assessment of prediction models</p>
+
+              <p className="wai-direct-answer">
+                <strong>Direct Answer:</strong> No, Wingo AI Prediction is not 100% accurate, and no legitimate tool can guarantee draw outcomes because WinGo games operate on server-side Random Number Generators (RNG) where every round is statistically independent.
+              </p>
+
+              <p>
+                In probability theory, every draw round operates under the principle of independent trials. While past outcome data allows machine learning algorithms to identify cluster tendencies, variance remains inherent in certified RNG systems. Anyone marketing a &quot;sure shot bot,&quot; &quot;fixed prediction,&quot; or &quot;100% guaranteed profit system&quot; is making fraudulent claims.
+              </p>
+
+              <ContentCard type="common-mistake" title="The Gambler's Fallacy & Overconfidence">
+                <p>
+                  A common psychological mistake is assuming that after five consecutive &quot;Big&quot; draws, a &quot;Small&quot; draw is mathematically guaranteed to appear. In true RNG systems, the probability of Big or Small on the next individual round remains independent. AI signals highlight historical clustering tendencies, not deterministic future results. Learn more about cryptographic entropy and randomness principles via{" "}
+                  <a
+                    href="https://www.cloudflare.com/learning/ssl/what-is-entropy/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="wai-inline-link"
+                  >
+                    Cloudflare&apos;s Entropy &amp; Randomness Guide<IconExternalLink />
+                  </a>.
+                </p>
+              </ContentCard>
+            </section>
+
+            <hr className="wai-divider" />
+
+            {/* ── Question 8: Features & Feature Comparison Table ─────────────── */}
+            <section className="wai-section" aria-labelledby="sec-features">
+              <h2 id="sec-features">Feature Comparison: TRION AI vs. Manual Tracking vs. Random Guessing</h2>
               <p className="wai-section-sub">Objective comparison of data handling methods for colour-number game analysis</p>
+
+              <p className="wai-direct-answer">
+                <strong>Direct Answer:</strong> TRION AI automates real-time data ingestion, pattern scoring, and multi-timeframe synchronization in sub-second intervals, replacing error-prone manual tallying and uninformed random guessing with structured statistical clarity.
+              </p>
 
               <div className="wai-table-wrap">
                 <table className="wai-table" aria-label="Feature Comparison Table">
@@ -1077,129 +1308,13 @@ export default function WingoAiPredictionPage() {
 
             <hr className="wai-divider" />
 
-            {/* ── Question 4: Who Is Wingo AI Prediction For? ────────────────── */}
-            <section className="wai-section">
-              <h2>Who Is Wingo AI Prediction For &amp; When Should You Use It?</h2>
-              <p className="wai-section-sub">Clarifying intended audience, practical use cases, and decision support boundaries</p>
-
-              <p>
-                Wingo AI Prediction is designed for gaming enthusiasts, data analysts, and strategic players who want structured, objective draw analysis rather than relying on emotional intuition. Users should consult the tool during active observation sessions to evaluate trend velocity, cross-check sequence persistence, and maintain disciplined session boundaries.
-              </p>
-
-              <h3>Who Can Benefit Most:</h3>
-              <ul style={{ paddingLeft: "20px", margin: "10px 0 20px", lineHeight: "1.7" }}>
-                <li style={{ marginBottom: "8px" }}>
-                  <strong>Data-Minded Analysts:</strong> Individuals looking for structured statistical breakdowns, rolling mean values, and numeric frequencies across hundreds of rounds.
-                </li>
-                <li style={{ marginBottom: "8px" }}>
-                  <strong>Rapid 30-Second Observers:</strong> Players participating in ultra-fast draw modes where manual calculation is too slow to maintain pace with the game timer.
-                </li>
-                <li style={{ marginBottom: "8px" }}>
-                  <strong>Disciplined Strategists:</strong> Users seeking an objective benchmark to complement bankroll management rules and avoid emotional tilt.
-                </li>
-              </ul>
-
-              <h3>When to Use the Prediction Tool:</h3>
-              <p>
-                The tool is best utilized during live monitoring sessions to track emerging streaks, measure colour momentum shifts, and evaluate whether a specific sequence represents an outlier compared to daily statistical baselines. It should never be treated as a financial investment vehicle or a guaranteed income generator.
-              </p>
-            </section>
-
-            <hr className="wai-divider" />
-
-            {/* ── Question 5: How Do You Use the Tool? ───────────────────────── */}
-            <section className="wai-section">
-              <h2>How Do You Use the Wingo AI Prediction Tool?</h2>
-              <p className="wai-section-sub">Step-by-step workflow for integrating AI signals into your analysis</p>
-
-              <p>
-                Using the TRION AI Wingo Prediction tool involves a straightforward 5-step process: access the web dashboard, select your game timeframe, interpret the live signal and streak meters, cross-reference historical draw logs, and apply disciplined decision-making within strict personal limits.
-              </p>
-
-              <ol className="wai-howto-list">
-                {HOWTO_STEPS.map((step, idx) => (
-                  <li className="wai-howto-item" key={step.name}>
-                    <div className="wai-step-num">{idx + 1}</div>
-                    <div className="wai-step-content">
-                      <div className="wai-step-title">{step.name}</div>
-                      <div className="wai-step-desc">{step.text}</div>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-
-              <p>
-                For a deeper look into specialized predictor tool configurations, explore our dedicated <Link href="/wingo-tool" className="wai-inline-link">Wingo Predictor Tool guide</Link> and <Link href="/wingotips" className="wai-inline-link">Wingo Tips &amp; Strategies</Link>.
-              </p>
-            </section>
-
-            <hr className="wai-divider" />
-
-            {/* ── Question 6: Is It 100% Accurate? ──────────────────────────── */}
-            <section className="wai-section">
-              <h2>Is Wingo AI Prediction 100% Accurate? Understanding Limitations</h2>
-              <p className="wai-section-sub">A transparent, mathematically grounded assessment of prediction models</p>
-
-              <p>
-                No, Wingo AI Prediction is not 100% accurate, and no legitimate tool can guarantee draw outcomes. WinGo games utilize certified server-side Random Number Generators (RNG) where each draw is an independent mathematical event. The accuracy metrics displayed by TRION AI reflect past pattern matching frequency, not a guarantee of future winning results.
-              </p>
-
-              <p>
-                In probability theory, every draw round operates under the principle of independent trials. While past outcome data allows machine learning algorithms to identify cluster tendencies, variance remains inherent in certified RNG systems. Anyone marketing a &quot;sure shot bot,&quot; &quot;fixed prediction,&quot; or &quot;100% guaranteed profit system&quot; is making fraudulent claims.
-              </p>
-
-              <ContentCard type="common-mistake" title="The Gambler's Fallacy & Overconfidence">
-                <p>
-                  A common psychological mistake is assuming that after five consecutive &quot;Big&quot; draws, a &quot;Small&quot; draw is mathematically guaranteed to appear. In true RNG systems, the probability of Big or Small on the next individual round remains independent. AI signals highlight historical clustering tendencies, not deterministic future results. Learn more about cryptographic entropy and randomness principles via{" "}
-                  <a
-                    href="https://www.cloudflare.com/learning/ssl/what-is-entropy/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="wai-inline-link"
-                  >
-                    Cloudflare&apos;s Entropy &amp; Randomness Guide<IconExternalLink />
-                  </a>.
-                </p>
-              </ContentCard>
-            </section>
-
-            <hr className="wai-divider" />
-
-            {/* ── Question 7: Practical Benefits of Using AI Tools ────────────── */}
-            <section className="wai-section">
-              <h2>What Are the Practical Benefits of Using an AI Prediction Tool?</h2>
-              <p className="wai-section-sub">Why analytical automation enhances game observation</p>
-
-              <p>
-                The main benefits of using an AI prediction tool include automated real-time data aggregation, elimination of emotional cognitive bias, rapid streak calculation in fast 30-second games, and objective pattern visualization across hundreds of historical rounds without tedious manual calculations.
-              </p>
-
-              <ul style={{ paddingLeft: "20px", margin: "14px 0 20px", lineHeight: "1.7" }}>
-                <li style={{ marginBottom: "10px" }}>
-                  <strong>Time Efficiency:</strong> Ingests and calculates rolling statistical indicators across 30-second, 1-minute, and 3-minute cycles in milliseconds.
-                </li>
-                <li style={{ marginBottom: "10px" }}>
-                  <strong>Emotionless Metrics:</strong> Replaces panic-driven or impulse-driven choices with structured, reproducible data observations.
-                </li>
-                <li style={{ marginBottom: "10px" }}>
-                  <strong>Multi-Timeframe Synchronization:</strong> Simultaneously tracks colour, parity, and Big/Small runs without losing context across game modes.
-                </li>
-                <li style={{ marginBottom: "10px" }}>
-                  <strong>Historical Benchmarking:</strong> Provides transparent historical logs to evaluate whether current draw behaviour fits ordinary distribution curves.
-                </li>
-              </ul>
-            </section>
-
-            <hr className="wai-divider" />
-
             {/* ── Responsible Usage & Risk Management Checklist ──────────────── */}
-            <section className="wai-section">
-              <h2>Responsible Usage: Understanding RNG, History, and Risk Management</h2>
+            <section className="wai-section" aria-labelledby="sec-responsible">
+              <h2 id="sec-responsible">Responsible Usage: Understanding RNG, History, and Risk Management</h2>
               <p className="wai-section-sub">Maintaining a disciplined, reality-based perspective</p>
 
-              <p>
-                While exploring statistical trends with a <strong>Wingo AI prediction tool</strong> adds structure to game observation, understanding 
-                mathematical realities is paramount for responsible participation:
+              <p className="wai-direct-answer">
+                <strong>Direct Answer:</strong> Responsible usage requires understanding that each draw is an independent RNG event; analytical tools should be treated as informational assistants alongside strict session boundaries and stop-loss limits.
               </p>
 
               <ContentCard type="best-practice" title="Disciplined Risk Management Checklist">
@@ -1207,7 +1322,7 @@ export default function WingoAiPredictionPage() {
                   <li><strong>The Law of Independent Events:</strong> Each draw is determined independently by a cryptographic RNG. Past streaks do not alter the fixed mathematical probability of the next round.</li>
                   <li><strong>Pre-Defined Session Limits:</strong> Always establish strict time and entry limits before accessing any prediction feed. Analytical tools should serve as informational assistants, never as justifications to exceed personal loss boundaries.</li>
                   <li><strong>Multi-Factor Validation:</strong> Avoid relying exclusively on a single indicator. Cross-check algorithmic signals with visual trend boards, rolling frequency charts, and personal analytical notes before drawing conclusions.</li>
-                  <li><strong>Helpful &amp; Transparent Standards:</strong> For more on how ethical digital tools present verifiable information, see the official{" "}
+                  <li><strong>Helpful &amp; Transparent Standards:</strong> For more on how ethical digital tools present verifiable information, consult the official{" "}
                     <a
                       href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content"
                       target="_blank"
@@ -1224,8 +1339,8 @@ export default function WingoAiPredictionPage() {
             <hr className="wai-divider" />
 
             {/* ── Quick Navigation Links ────────────────────────────────────── */}
-            <section className="wai-section">
-              <h2>Explore Related TRION AI Prediction Guides &amp; Tools</h2>
+            <section className="wai-section" aria-labelledby="sec-resources">
+              <h2 id="sec-resources">Explore Related TRION AI Prediction Guides &amp; Tools</h2>
               <p className="wai-section-sub">Deepen your understanding with our comprehensive resource hub</p>
 
               <div className="wai-quick-links">
@@ -1264,13 +1379,13 @@ export default function WingoAiPredictionPage() {
               </div>
             </section>
 
-          </article>
+          </main>
 
           <hr className="wai-divider" />
 
           {/* ── Frequently Asked Questions ─────────────────────────────────── */}
           <section className="wai-section" aria-labelledby="faq-heading">
-            <h2 id="faq-heading">Frequently Asked Questions</h2>
+            <h2 id="faq-heading">Frequently Asked Questions About Wingo AI Prediction</h2>
             <p className="wai-section-sub">Comprehensive answers regarding Wingo AI prediction systems, features, and accuracy</p>
 
             <div className="wai-faq-list">
@@ -1284,17 +1399,17 @@ export default function WingoAiPredictionPage() {
                       aria-expanded={isOpen}
                       type="button"
                     >
-                      <span className="wai-faq-q">
+                      <h3 className="wai-faq-q">
                         <span className="wai-faq-num" aria-hidden="true">{index + 1}</span>
                         {item.question}
-                      </span>
+                      </h3>
                       <span className={`wai-faq-icon ${isOpen ? "open" : ""}`} aria-hidden="true">
                         <IconChevronDown />
                       </span>
                     </button>
                     {isOpen && (
                       <div className="wai-faq-a">
-                        {item.answer}
+                        <p>{item.answer}</p>
                       </div>
                     )}
                   </div>
