@@ -769,13 +769,13 @@
 .loader-models-grid {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 12px;
 }
 
 .loader-model-card {
   position: relative;
   overflow: hidden;
-  border-radius: 22px;
+  border-radius: 18px;
   background-color: #FFFFFF;
   display: flex;
   flex-direction: column;
@@ -790,11 +790,11 @@
 
   /* Floating shadow & Soft White Outer Glow Ring + Subtle Green Hairline Glow */
   box-shadow:
-    0 0 0 3.5px rgba(255, 255, 255, 0.95),
-    0 0 20px 2px rgba(255, 255, 255, 0.85),
-    0 0 0 5px rgba(10, 159, 104, 0.18),
-    0 14px 34px -4px rgba(10, 159, 104, 0.14),
-    0 4px 16px rgba(0, 0, 0, 0.035);
+    0 0 0 3px rgba(255, 255, 255, 0.95),
+    0 0 16px 2px rgba(255, 255, 255, 0.85),
+    0 0 0 4px rgba(10, 159, 104, 0.16),
+    0 10px 24px -4px rgba(10, 159, 104, 0.12),
+    0 3px 12px rgba(0, 0, 0, 0.03);
 
   transition: transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
               box-shadow 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -816,21 +816,21 @@
   background-image: linear-gradient(#FFFFFF, #F5FAF7),
                     linear-gradient(135deg, rgba(10, 159, 104, 0.7) 0%, rgba(255, 255, 255, 1) 40%, rgba(52, 194, 139, 0.6) 100%);
   box-shadow:
-    0 0 0 3.5px rgba(255, 255, 255, 0.98),
-    0 0 22px 2px rgba(255, 255, 255, 0.9),
-    0 0 0 5px rgba(10, 159, 104, 0.24),
-    0 16px 36px -4px rgba(10, 159, 104, 0.16),
-    0 4px 16px rgba(0, 0, 0, 0.04);
+    0 0 0 3px rgba(255, 255, 255, 0.98),
+    0 0 18px 2px rgba(255, 255, 255, 0.9),
+    0 0 0 4px rgba(10, 159, 104, 0.22),
+    0 12px 28px -4px rgba(10, 159, 104, 0.14),
+    0 3px 12px rgba(0, 0, 0, 0.035);
 }
 
 .loader-model-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   box-shadow:
-    0 0 0 4.5px rgba(255, 255, 255, 1),
-    0 0 28px 4px rgba(255, 255, 255, 0.95),
-    0 0 0 6.5px rgba(10, 159, 104, 0.3),
-    0 22px 46px -4px rgba(10, 159, 104, 0.22),
-    0 8px 24px rgba(0, 0, 0, 0.06);
+    0 0 0 4px rgba(255, 255, 255, 1),
+    0 0 22px 3px rgba(255, 255, 255, 0.95),
+    0 0 0 5.5px rgba(10, 159, 104, 0.28),
+    0 16px 36px -4px rgba(10, 159, 104, 0.18),
+    0 6px 18px rgba(0, 0, 0, 0.05);
 }
 
 /* Background image wrapper positioned on right side */
@@ -839,7 +839,7 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: 58%;
+  width: 55%;
   pointer-events: none;
   z-index: 1;
   overflow: hidden;
@@ -848,35 +848,36 @@
   justify-content: flex-end;
 }
 
-/* Right-side background image fit */
+/* Right-side background image fit - shifted right and raised slightly upward */
 .loader-model-bg-image {
   position: absolute;
-  right: -8px;
-  bottom: 0;
+  right: -12px;
+  bottom: 8px;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 6px);
   object-fit: contain;
   object-position: right bottom;
-  opacity: 0.92;
+  opacity: 0.98;
   transition: opacity 300ms ease, transform 350ms cubic-bezier(0.2, 0.8, 0.2, 1);
   transform-origin: right bottom;
 }
 
 .loader-model-card:hover .loader-model-bg-image {
   opacity: 1;
-  transform: scale(1.05);
+  transform: scale(1.03) translateY(-2px);
 }
 
-/* Soft white gradient overlay for maximum text readability */
+/* Refined soft white gradient overlay: crisp text on left, crystal clear PNG visual on right */
 .loader-model-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     90deg,
     #FFFFFF 0%,
-    rgba(255, 255, 255, 0.98) 42%,
-    rgba(255, 255, 255, 0.78) 68%,
-    rgba(255, 255, 255, 0.12) 100%
+    rgba(255, 255, 255, 0.95) 28%,
+    rgba(255, 255, 255, 0.6) 48%,
+    rgba(255, 255, 255, 0.15) 70%,
+    rgba(255, 255, 255, 0) 100%
   );
   z-index: 2;
   pointer-events: none;
@@ -886,21 +887,22 @@
   background: linear-gradient(
     90deg,
     #FFFFFF 0%,
-    rgba(255, 255, 255, 0.98) 42%,
-    rgba(245, 250, 247, 0.8) 68%,
-    rgba(245, 250, 247, 0.12) 100%
+    rgba(255, 255, 255, 0.95) 28%,
+    rgba(245, 250, 247, 0.6) 48%,
+    rgba(245, 250, 247, 0.15) 70%,
+    rgba(245, 250, 247, 0) 100%
   );
 }
 
-/* Content Container Layer */
+/* Content Container Layer - compact padding & spacing */
 .loader-model-content {
   position: relative;
   z-index: 3;
-  padding: 24px 22px;
+  padding: 16px 18px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  max-width: 78%;
+  gap: 8px;
+  max-width: 74%;
 }
 
 .loader-model-head {
@@ -913,7 +915,7 @@
 .loader-model-name {
   margin: 0;
   font-family: var(--font-model);
-  font-size: 19px;
+  font-size: 16.5px;
   font-weight: 800;
   color: var(--c-ink);
   letter-spacing: -0.01em;
@@ -921,40 +923,40 @@
 
 .loader-model-price {
   font-family: var(--font-brand);
-  font-size: 25px;
+  font-size: 21px;
   font-weight: 800;
   color: var(--c-primary-dark);
 }
 
 .loader-model-price span {
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   color: var(--c-muted);
 }
 
 .loader-model-profile {
   margin: 0;
-  font-size: 13.5px;
+  font-size: 12.5px;
   color: var(--c-muted);
-  line-height: 1.55;
-  max-width: 90%;
+  line-height: 1.45;
+  max-width: 92%;
 }
 
 .loader-model-features {
   list-style: none;
   padding: 0;
-  margin: 4px 0 0;
+  margin: 2px 0 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px;
 }
 
 .loader-model-features li {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
+  gap: 7px;
+  font-size: 12px;
   color: var(--c-ink-soft);
   font-weight: 600;
 }
@@ -962,6 +964,8 @@
 .loader-model-features li svg {
   color: var(--c-primary);
   flex-shrink: 0;
+  width: 13px;
+  height: 13px;
 }
 
 /* ─── Process Timeline Section ────────────────────────────────────────────── */

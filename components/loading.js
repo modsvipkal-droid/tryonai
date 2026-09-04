@@ -804,7 +804,7 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
                   <div className="loader-model-content">
                     <div className="loader-model-head">
                       <div className="loader-card-icon-badge">
-                        {index === 0 ? <Crown size={18} /> : <Rocket size={18} />}
+                        {index === 0 ? <Crown size={16} /> : <Rocket size={16} />}
                       </div>
                       <span className="loader-pill">{model.tag}</span>
                     </div>
@@ -1099,7 +1099,7 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
               />
             </div>
             <p className="loader-footer-desc">
-              AI-powered Wingo30 prediction &amp; signals platform.
+              Independent WinGo Prediction engine and real-time statistical pattern analytics software platform engineered for PRNG historical data visualization and accuracy research.
             </p>
           </div>
 

@@ -24,7 +24,7 @@ export default function SiteFooter() {
             />
           </div>
           <p className="sf-footer-desc">
-            AI-powered Wingo30 prediction &amp; signals platform.
+            Independent WinGo Prediction engine and real-time statistical pattern analytics software platform engineered for PRNG historical data visualization and accuracy research.
           </p>
         </div>
 
