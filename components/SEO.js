@@ -15,6 +15,7 @@ export function PageHead({ title, description, canonical, noindex, robots, child
       <meta name="description" content={desc} />
       <link rel="canonical" href={canon} />
       <meta name="robots" content={robotsValue} />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={desc} />
       <meta property="og:url" content={canon} />
@@ -53,7 +54,15 @@ export function OrganizationSchema() {
       "https://t.me/+IeDdLm-koIc1Yzg1"
     ]
   };
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
+  return (
+    <Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        key="schema-org"
+      />
+    </Head>
+  );
 }
 
 export function WebsiteSchema() {
@@ -68,10 +77,18 @@ export function WebsiteSchema() {
     "publisher": { "@id": `${SITE.url}/#organization` },
     "inLanguage": "en"
   };
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
+  return (
+    <Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        key="schema-website"
+      />
+    </Head>
+  );
 }
 
-export function WebPageSchema({ title, description, url }) {
+export function WebPageSchema({ title, description, url, datePublished, dateModified }) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -82,9 +99,80 @@ export function WebPageSchema({ title, description, url }) {
     "isPartOf": { "@id": `${SITE.url}/#website` },
     "about": { "@id": `${SITE.url}/#organization` },
     "publisher": { "@id": `${SITE.url}/#organization` },
+    "inLanguage": "en",
+    ...(datePublished ? { "datePublished": datePublished } : {}),
+    ...(dateModified ? { "dateModified": dateModified } : {})
+  };
+  return (
+    <Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        key="schema-webpage"
+      />
+    </Head>
+  );
+}
+
+export function ArticleSchema({
+  title,
+  description,
+  url,
+  image,
+  datePublished = "2026-08-20T10:00:00+05:30",
+  dateModified = "2026-09-05T10:30:00+05:30",
+  about = []
+}) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${url || SITE.url}#article`,
+    "isPartOf": {
+      "@type": "WebPage",
+      "@id": url || SITE.url,
+      "url": url || SITE.url,
+      "name": title || SITE.defaultTitle,
+      "description": description || SITE.defaultDescription,
+      "breadcrumb": { "@id": `${url || SITE.url}#breadcrumb` },
+      "inLanguage": "en"
+    },
+    "headline": title || SITE.defaultTitle,
+    "description": description || SITE.defaultDescription,
+    "image": image || `${SITE.url}/what-is-wingo-game-guide.webp`,
+    "datePublished": datePublished,
+    "dateModified": dateModified,
+    "mainEntityOfPage": url || SITE.url,
+    "author": {
+      "@type": "Organization",
+      "name": "TRION AI Research Team",
+      "url": SITE.url
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": SITE.name,
+      "url": SITE.url,
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${SITE.url}/trionAIofficial.png`
+      }
+    },
+    ...(about && about.length > 0 ? { "about": about } : {}),
+    "audience": {
+      "@type": "Audience",
+      "audienceType": "Beginners, casual players, and data analysts exploring WinGo game mechanics and PRNG statistical models"
+    },
+    "genre": "Educational Gaming Analysis & PRNG Guide",
     "inLanguage": "en"
   };
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
+  return (
+    <Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        key="schema-article"
+      />
+    </Head>
+  );
 }
 
 export function BreadcrumbSchema({ items }) {
@@ -96,11 +184,20 @@ export function BreadcrumbSchema({ items }) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
+    "@id": `${items && items[items.length - 1]?.url ? items[items.length - 1].url : SITE.url}#breadcrumb`,
     "itemListElement": itemListElement.length > 0 ? itemListElement : [
       { "@type": "ListItem", "position": 1, "item": { "@id": `${SITE.url}/`, "name": "Home" } }
     ]
   };
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
+  return (
+    <Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        key="schema-breadcrumb"
+      />
+    </Head>
+  );
 }
 
 export function SoftwareAppSchema({
@@ -126,7 +223,15 @@ export function SoftwareAppSchema({
     "publisher": { "@id": `${SITE.url}/#organization` },
     ...(offers && offers.length > 0 ? { "offers": offers } : {})
   };
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
+  return (
+    <Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        key="schema-software"
+      />
+    </Head>
+  );
 }
 
 export function HowToSchema({ name, description, steps }) {
@@ -144,7 +249,15 @@ export function HowToSchema({ name, description, steps }) {
       ...(step.url ? { "url": step.url } : {})
     }))
   };
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
+  return (
+    <Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        key="schema-howto"
+      />
+    </Head>
+  );
 }
 
 export function FAQSchema({ questions }) {
@@ -159,5 +272,13 @@ export function FAQSchema({ questions }) {
     "@type": "FAQPage",
     "mainEntity": faqItems
   };
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />;
+  return (
+    <Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        key="schema-faq"
+      />
+    </Head>
+  );
 }

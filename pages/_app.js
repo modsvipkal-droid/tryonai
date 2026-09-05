@@ -6,6 +6,7 @@ import Head from "next/head";
 import Script from "next/script";
 import LoadingScreen from "@/components/loading";
 import MaintenanceDialog from "@/components/MaintenanceDialog";
+import TelegramFab from "@/components/TelegramFab";
 
 export const LoaderContext = createContext(true);
 
@@ -104,6 +105,7 @@ gtag('config', 'G-QCS58YBCWF');`}
       <LoaderContext.Provider value={showIntroLoader}>
         <Component {...pageProps} />
       </LoaderContext.Provider>
+      <TelegramFab />
       {showIntroLoader && <LoadingScreen onComplete={handleIntroComplete} />}
       <MaintenanceDialog />
     </>

@@ -7429,3 +7429,162 @@ nextjs-portal,
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* ===== Telegram Floating Action Button (FAB) ===== */
+.telegram-fab {
+  position: fixed;
+  right: 28px;
+  bottom: 72px;
+  width: 56px;
+  height: 56px;
+  z-index: 9990;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  outline: none;
+  animation: telegramFabEntrance 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition:
+    bottom 350ms cubic-bezier(0.4, 0, 0.2, 1),
+    right 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes telegramFabEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Ambient Soft Glowing Aura */
+.telegram-fab-aura {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 153, 230, 0.28) 0%, rgba(0, 136, 204, 0) 68%);
+  z-index: 1;
+  pointer-events: none;
+  animation: telegramAuraPulse 4s ease-in-out infinite;
+}
+
+@keyframes telegramAuraPulse {
+  0%, 100% {
+    transform: scale(0.88);
+    opacity: 0.22;
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 0.55;
+  }
+}
+
+/* Button Body with Soft Smooth Float Animation */
+.telegram-fab-body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #29a0d8;
+  background: linear-gradient(145deg, #3fb3e8 0%, #1a8fc4 60%, #0d7db5 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 6px 20px rgba(0, 136, 204, 0.28),
+    0 2px 8px rgba(0, 0, 0, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  z-index: 2;
+  animation: telegramSmoothFloat 4.2s ease-in-out infinite;
+  transition:
+    transform 280ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 280ms ease,
+    background 280ms ease;
+}
+
+@keyframes telegramSmoothFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.telegram-fab-icon {
+  width: 28px;
+  height: 28px;
+  transform: translate(-1px, 1px);
+  fill: currentColor;
+  flex-shrink: 0;
+  transition: transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Desktop & Fine Pointer Hover Interaction */
+@media (hover: hover) and (pointer: fine) {
+  .telegram-fab:hover .telegram-fab-body {
+    animation-play-state: paused;
+    transform: translateY(-3px) scale(1.07);
+    box-shadow:
+      0 8px 24px rgba(0, 136, 204, 0.38),
+      0 3px 10px rgba(0, 0, 0, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    background: linear-gradient(145deg, #52c0f0 0%, #29a8df 60%, #1490cc 100%);
+  }
+
+  .telegram-fab:hover .telegram-fab-icon {
+    transform: translate(-0.5px, 0.5px) scale(1.05);
+  }
+
+  .telegram-fab:hover .telegram-fab-aura {
+    opacity: 0.95;
+    transform: scale(1.3);
+  }
+}
+
+/* Touch & Press Active Feedback */
+.telegram-fab:active .telegram-fab-body {
+  transform: scale(0.93);
+  box-shadow: 0 2px 8px rgba(0, 136, 204, 0.4);
+}
+
+/* Accessible Focus Ring */
+.telegram-fab:focus-visible .telegram-fab-body {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 4px #0088cc,
+    0 6px 18px rgba(0, 136, 204, 0.45);
+}
+
+/* Responsive: Mobile & Tablet */
+@media (max-width: 768px) {
+  .telegram-fab {
+    width: 52px;
+    height: 52px;
+    right: max(20px, calc(env(safe-area-inset-right, 0px) + 16px));
+    bottom: max(64px, calc(env(safe-area-inset-bottom, 0px) + 60px));
+  }
+
+  .telegram-fab-icon {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+/* Avoid overlapping fixed bottom navigation on mobile when present */
+@supports (selector(:has(*))) {
+  body:has(.bottom-nav) .telegram-fab {
+    bottom: max(132px, calc(env(safe-area-inset-bottom, 0px) + 128px));
+  }
+}
+
+
