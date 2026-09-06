@@ -1106,6 +1106,7 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
           <div className="loader-footer-links">
             <div className="loader-footer-link-group">
               <h4>Platform</h4>
+              <Link href="/about">About TRION AI</Link>
               <Link href="/subscription">Subscription &amp; Models</Link>
               <Link href="/login">Prediction Tool</Link>
               <Link href="/developer">Developer API</Link>
