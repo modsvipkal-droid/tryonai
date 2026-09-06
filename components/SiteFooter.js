@@ -32,6 +32,7 @@ export default function SiteFooter() {
         <div className="sf-footer-links">
           <div className="sf-footer-link-group">
             <h4>Platform</h4>
+            <Link href="/about">About TRION AI</Link>
             <Link href="/subscription">Subscription &amp; Models</Link>
             <Link href="/login">Prediction Tool</Link>
             <Link href="/developer">Developer API</Link>

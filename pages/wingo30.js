@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import Link from "next/link";
 import { PageHead, BreadcrumbSchema, FAQSchema, WebPageSchema } from "@/components/SEO";
 import ContentCard, { smartCardStyles } from "@/components/ContentCard";
 import SiteFooter from "@/components/SiteFooter";
@@ -263,6 +264,17 @@ const bgStyle = `
   }
   .w30-card-title { font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 6px; }
   .w30-card-desc { font-size: 13px; color: #475569; line-height: 1.55; }
+
+  /* Link */
+  .w30-link {
+    color: #007543;
+    font-weight: 600;
+    text-underline-offset: 3px;
+    text-decoration: underline;
+  }
+  .w30-link:hover {
+    color: #005537;
+  }
 
   /* Divider */
   .w30-divider {
@@ -662,6 +674,9 @@ export default function Wingo30Page() {
               <p>
                 <strong>Responsible use prompts:</strong> A trustworthy tool will remind users that
                 all predictions are probabilistic estimates and that responsible play is paramount.
+              </p>
+              <p>
+                To evaluate mathematical frequency tables, streak weights, and parity ratios across rolling 30-second draw cycles, consult the <Link href="/wingo-tool" className="w30-link">Wingo Master Calculator</Link> for structured statistical analysis.
               </p>
             </div>
 

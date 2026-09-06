@@ -858,7 +858,7 @@ export default function WingoPage() {
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6" /></svg>
                 </a>
                 <a href="/wingo-tool" className="wg-link-card">
-                  <span>Wingo Predictor Tool</span>
+                  <span>Wingo Master Calculator</span>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6" /></svg>
                 </a>
                 <a href="/wingo30" className="wg-link-card">

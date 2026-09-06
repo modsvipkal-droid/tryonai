@@ -17,128 +17,128 @@ import SiteFooter from "@/components/SiteFooter";
 // ── Premium Soft SVG Icons ───────────────────────────────────────────────────
 const IconZap = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
   </svg>
 );
 
 const IconTimer = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <line x1="10" y1="2" x2="14" y2="2"/>
-    <line x1="12" y1="14" x2="12" y2="8"/>
-    <circle cx="12" cy="14" r="8"/>
+    <line x1="10" y1="2" x2="14" y2="2" />
+    <line x1="12" y1="14" x2="12" y2="8" />
+    <circle cx="12" cy="14" r="8" />
   </svg>
 );
 
 const IconClock = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <circle cx="12" cy="12" r="10"/>
-    <polyline points="12 6 12 12 16 14"/>
+    <circle cx="12" cy="12" r="10" />
+    <polyline points="12 6 12 12 16 14" />
   </svg>
 );
 
 const IconHourglass = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M5 22h14"/>
-    <path d="M5 2h14"/>
-    <path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/>
-    <path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>
+    <path d="M5 22h14" />
+    <path d="M5 2h14" />
+    <path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22" />
+    <path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2" />
   </svg>
 );
 
 const IconGlobe = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <circle cx="12" cy="12" r="10"/>
-    <line x1="2" y1="12" x2="22" y2="12"/>
-    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+    <circle cx="12" cy="12" r="10" />
+    <line x1="2" y1="12" x2="22" y2="12" />
+    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
   </svg>
 );
 
 const IconBarChart = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <line x1="18" y1="20" x2="18" y2="10"/>
-    <line x1="12" y1="20" x2="12" y2="4"/>
-    <line x1="6" y1="20" x2="6" y2="14"/>
-    <line x1="2" y1="20" x2="22" y2="20"/>
+    <line x1="18" y1="20" x2="18" y2="10" />
+    <line x1="12" y1="20" x2="12" y2="4" />
+    <line x1="6" y1="20" x2="6" y2="14" />
+    <line x1="2" y1="20" x2="22" y2="20" />
   </svg>
 );
 
 const IconBot = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M12 8V4H8"/>
-    <rect width="16" height="12" x="4" y="8" rx="2"/>
-    <path d="M2 14h2"/>
-    <path d="M20 14h2"/>
-    <path d="M15 13v2"/>
-    <path d="M9 13v2"/>
+    <path d="M12 8V4H8" />
+    <rect width="16" height="12" x="4" y="8" rx="2" />
+    <path d="M2 14h2" />
+    <path d="M20 14h2" />
+    <path d="M15 13v2" />
+    <path d="M9 13v2" />
   </svg>
 );
 
 const IconWrench = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
   </svg>
 );
 
 const IconArrowRight = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <line x1="5" y1="12" x2="19" y2="12"/>
-    <polyline points="12 5 19 12 12 19"/>
+    <line x1="5" y1="12" x2="19" y2="12" />
+    <polyline points="12 5 19 12 12 19" />
   </svg>
 );
 
 const IconUsers = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-    <circle cx="9" cy="7" r="4"/>
-    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+    <circle cx="9" cy="7" r="4" />
+    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
   </svg>
 );
 
 const IconCheckCircle = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00985b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-    <polyline points="22 4 12 14.01 9 11.01"/>
+    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+    <polyline points="22 4 12 14.01 9 11.01" />
   </svg>
 );
 
 const IconKey = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#b45309" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <circle cx="7.5" cy="15.5" r="4.5"/>
-    <path d="M10.7 12.3L19 4"/>
-    <path d="M15.5 7.5l2 2"/>
-    <path d="M18 5l2 2"/>
+    <circle cx="7.5" cy="15.5" r="4.5" />
+    <path d="M10.7 12.3L19 4" />
+    <path d="M15.5 7.5l2 2" />
+    <path d="M18 5l2 2" />
   </svg>
 );
 
 const IconTarget = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#008751" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <circle cx="12" cy="12" r="10"/>
-    <circle cx="12" cy="12" r="6"/>
-    <circle cx="12" cy="12" r="2"/>
+    <circle cx="12" cy="12" r="10" />
+    <circle cx="12" cy="12" r="6" />
+    <circle cx="12" cy="12" r="2" />
   </svg>
 );
 
 const IconBuilding = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#008751" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <rect x="4" y="2" width="16" height="20" rx="2"/>
-    <path d="M9 22v-4h6v4"/>
-    <path d="M8 6h.01M16 6h.01M8 10h.01M16 10h.01M8 14h.01M16 14h.01"/>
+    <rect x="4" y="2" width="16" height="20" rx="2" />
+    <path d="M9 22v-4h6v4" />
+    <path d="M8 6h.01M16 6h.01M8 10h.01M16 10h.01M8 14h.01M16 14h.01" />
   </svg>
 );
 
 const IconLightbulb = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#008751" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <line x1="9" y1="18" x2="15" y2="18"/>
-    <line x1="10" y1="22" x2="14" y2="22"/>
-    <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/>
+    <line x1="9" y1="18" x2="15" y2="18" />
+    <line x1="10" y1="22" x2="14" y2="22" />
+    <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14" />
   </svg>
 );
 
 const IconScale = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#008751" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1zM2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/>
-    <path d="M7 21h10M12 3v18M3 7h18"/>
+    <path d="M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1zM2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z" />
+    <path d="M7 21h10M12 3v18M3 7h18" />
   </svg>
 );
 
@@ -834,10 +834,10 @@ const bgStyle = `
 
 // ── Game Modes Cards ──────────────────────────────────────────────────────────
 const MODE_CARDS = [
-  { icon: <IconZap />,       title: "30 Second (30s)", desc: "Fastest mode (120 draws/hour). Har 30s mein ek new draw. Quick decision-making required." },
-  { icon: <IconTimer />,     title: "1 Minute (1Min)", desc: "Most popular mode (60 draws/hour). Analysis aur trend observation ke liye balanced pace." },
-  { icon: <IconClock />,     title: "3 Minute (3Min)", desc: "Medium pace (20 draws/hour). Streak observation aur detailed calculation ke liye suited." },
-  { icon: <IconHourglass />, title: "5 Min / 10 Min",   desc: "Strategic modes (12/6 draws/hour). Deep pattern research aur variance evaluation ke liye." },
+  { icon: <IconZap />, title: "30 Second (30s)", desc: "Fastest mode (120 draws/hour). Har 30s mein ek new draw. Quick decision-making required." },
+  { icon: <IconTimer />, title: "1 Minute (1Min)", desc: "Most popular mode (60 draws/hour). Analysis aur trend observation ke liye balanced pace." },
+  { icon: <IconClock />, title: "3 Minute (3Min)", desc: "Medium pace (20 draws/hour). Streak observation aur detailed calculation ke liye suited." },
+  { icon: <IconHourglass />, title: "5 Min / 10 Min", desc: "Strategic modes (12/6 draws/hour). Deep pattern research aur variance evaluation ke liye." },
 ];
 
 // ── How-To Step Items (Synchronized with HowToSchema) ──────────────────────────
@@ -940,10 +940,10 @@ export default function WingoKyaHaiPage() {
     };
   }, []);
 
-  const PAGE_URL   = "https://wingo30.com/wingo-kya-hai";
+  const PAGE_URL = "https://wingo30.com/wingo-kya-hai";
   const PAGE_TITLE = "Wingo Kya Hai? WinGo Game Ko Samjhein | TRION AI";
   // Benefit-driven meta description (145 characters, strictly within 110-165 range)
-  const PAGE_DESC  =
+  const PAGE_DESC =
     "Wingo kya hai? WinGo game format, timer modes, BIG/SMALL rules, result calculation aur TRION AI analysis tools ki complete guide hindi mein janein.";
 
   return (
@@ -992,7 +992,7 @@ export default function WingoKyaHaiPage() {
         ]}
       />
       <BreadcrumbSchema items={[
-        { name: "Home",          url: "https://wingo30.com/" },
+        { name: "Home", url: "https://wingo30.com/" },
         { name: "Wingo Kya Hai", url: PAGE_URL }
       ]} />
       <HowToSchema
