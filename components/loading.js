@@ -270,7 +270,7 @@ const LOADER_FAQS = [
   },
   {
     question: "Where can I read the legal terms?",
-    answer: "Our privacy policy, terms and conditions, and refund policy are linked in the footer of every page.",
+    answer: "Our privacy policy, terms and conditions, refund policy, and 18+ responsible gaming policy are linked in the footer of every page.",
   },
 ];
 
@@ -1125,6 +1125,7 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
               <Link href="/privacy">Privacy Policy</Link>
               <Link href="/terms">Terms &amp; Conditions</Link>
               <Link href="/refund">Refund Policy</Link>
+              <Link href="/responsible-gambling">Responsible Gaming (18+)</Link>
             </div>
           </div>
 

@@ -1576,6 +1576,7 @@
 .loader-footer-link {
   color: #9CA3AF;
   font-size: 12.5px;
+  line-height: 1.45;
   text-decoration: none;
   background: none;
   border: none;
@@ -1583,6 +1584,7 @@
   text-align: left;
   cursor: pointer;
   font-family: inherit;
+  word-break: break-word;
   transition: color var(--t-fast);
 }
 
