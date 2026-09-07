@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
@@ -8,13 +8,47 @@ import {
   OrganizationSchema,
   WebsiteSchema,
   WebPageSchema,
+  FAQSchema,
 } from "@/components/SEO";
 import SiteFooter from "@/components/SiteFooter";
 
 const PAGE_URL = "https://wingo30.com/about";
 const PAGE_TITLE = "About TRION AI | Independent Data Analytics Platform";
 const PAGE_DESC =
-  "Learn about TRION AI and TrionAi, an independent statistical data analytics platform focused on period history, mathematical sequence analysis, visual trend research and transparent data practices.";
+  "Discover TRION AI, an independent statistical data analytics platform offering real-time period history, PRNG probability matrices, and sequence tools.";
+
+const ABOUT_FAQS = [
+  {
+    question: "What is TRION AI and what is it used for?",
+    answer:
+      "TRION AI is an independent statistical data analytics and visualization platform. It is used to track period history, calculate mathematical sequence distributions, and analyze PRNG trend matrices in real time."
+  },
+  {
+    question: "Is TRION AI an online casino, gambling, or betting platform?",
+    answer:
+      "No. TRION AI is strictly an independent analytical software tool. We do not operate, host, promote, or facilitate any real-money gaming, betting, or lottery services."
+  },
+  {
+    question: "Can TRION AI guarantee 100% accurate prediction outcomes?",
+    answer:
+      "No software can guarantee deterministic certainty in pseudo-random number generator (PRNG) systems. TRION AI provides mathematical probability indicators for educational and statistical research purposes only."
+  },
+  {
+    question: "What user personal data is collected and stored by TRION AI?",
+    answer:
+      "TRION AI enforces strict minimal data retention. We only store basic Google OAuth authentication details: Full Name, Email Address, and Profile Picture URL. We never collect or store banking, UPI, phone numbers, or financial details."
+  },
+  {
+    question: "How can I permanently delete my account and data?",
+    answer:
+      "You can submit a data deletion request anytime through our official Contact Support page. All stored authentication data is permanently wiped within 1–2 business days."
+  },
+  {
+    question: "How does the AI Neural Forecast Engine analyze historical period data?",
+    answer:
+      "The engine processes continuous 30-second and 1-minute historical period numbers, BIG/SMALL sequence streaks, and parity ratios using mathematical frequency distribution models."
+  }
+];
 
 const aboutStyles = `
   @font-face {
@@ -112,16 +146,17 @@ const aboutStyles = `
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(0, 152, 91, 0.15);
-    padding: 14px 24px;
+    padding: 12px 24px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     box-shadow: 0 2px 14px rgba(0, 75, 47, 0.04);
   }
   .about-nav-left {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
+    width: 100%;
   }
   .about-nav-back {
     display: inline-flex;
@@ -133,11 +168,12 @@ const aboutStyles = `
     cursor: pointer;
     background: rgba(0, 152, 91, 0.08);
     border: 1px solid rgba(0, 152, 91, 0.22);
-    padding: 8px 16px;
+    padding: 7px 16px;
     border-radius: 50px;
     outline: none;
     transition: all 0.22s ease;
     font-family: 'TrionAIAbout', sans-serif !important;
+    flex-shrink: 0;
   }
   .about-nav-back:hover {
     background: #00985b;
@@ -149,41 +185,25 @@ const aboutStyles = `
   .about-nav-brand {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
   }
-  .about-nav-title {
-    font-size: 12px;
-    font-weight: 700;
-    color: #005537;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-family: 'TrionAIAbout', sans-serif !important;
-  }
-  .about-nav-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: #00985b;
-    color: #ffffff !important;
-    font-size: 13px;
-    font-weight: 700;
-    padding: 8px 18px;
-    border-radius: 50px;
-    text-decoration: none;
-    transition: all 0.22s ease;
-    box-shadow: 0 3px 10px rgba(0, 152, 91, 0.25);
-    font-family: 'TrionAIAbout', sans-serif !important;
-  }
-  .about-nav-cta:hover {
-    background: #007543;
-    transform: translateY(-1px);
-    box-shadow: 0 5px 14px rgba(0, 152, 91, 0.32);
-    color: #ffffff !important;
+
+  @media (max-width: 768px) {
+    .about-nav {
+      padding: 10px 16px;
+    }
+    .about-nav-left {
+      gap: 12px;
+    }
+    .about-nav-back {
+      padding: 6px 12px;
+      font-size: 12.5px;
+    }
   }
 
   /* Main Container */
   .about-container {
     max-width: 1040px;
+    width: 100%;
     margin: 40px auto 0;
     padding: 0 24px;
     position: relative;
@@ -198,23 +218,25 @@ const aboutStyles = `
 
   /* Section Spacing & Layout Rhythm */
   .about-section {
-    margin-bottom: 64px;
+    margin-bottom: 56px;
+    width: 100%;
   }
   @media (max-width: 768px) {
     .about-section {
-      margin-bottom: 48px;
+      margin-bottom: 40px;
     }
     .about-container {
-      padding: 0 18px;
-      margin-top: 28px;
+      padding: 0 16px;
+      margin-top: 24px;
     }
   }
 
   /* Hero Section */
   .about-hero {
     text-align: center;
-    margin-bottom: 56px;
-    padding: 16px 0;
+    margin-bottom: 52px;
+    padding: 12px 0 16px 0;
+    width: 100%;
   }
   .about-eyebrow {
     display: inline-flex;
@@ -229,37 +251,41 @@ const aboutStyles = `
     text-transform: uppercase;
     padding: 6px 18px;
     border-radius: 9999px;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
     font-family: 'TrionAIAbout', sans-serif !important;
+    max-width: 100%;
   }
   .about-hero h1 {
-    font-size: clamp(30px, 5.2vw, 46px);
+    font-size: clamp(26px, 5vw, 44px);
     font-weight: 800;
     color: #0f172a;
-    margin: 0 0 14px 0;
+    margin: 0 0 12px 0;
     letter-spacing: -0.025em;
     line-height: 1.18;
     font-family: 'TrionAIAbout', sans-serif !important;
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
   .about-hero h1 span {
     color: #00985b;
   }
   .about-hero-sub {
-    font-size: clamp(17px, 2.8vw, 20px);
+    font-size: clamp(15.5px, 2.8vw, 19px);
     font-weight: 700;
     color: #007543;
-    margin: 0 0 16px 0;
+    margin: 0 0 14px 0;
     letter-spacing: -0.01em;
     font-family: 'TrionAIAbout', sans-serif !important;
   }
   .about-hero-desc {
-    font-size: 16px;
+    font-size: 15.5px;
     line-height: 1.75;
     color: #475569;
     max-width: 720px;
-    margin: 0 auto 28px auto;
+    margin: 0 auto 26px auto;
     font-weight: 400;
     font-family: 'TrionAIAbout', sans-serif !important;
+    overflow-wrap: break-word;
   }
   .about-hero-actions {
     display: flex;
@@ -267,6 +293,7 @@ const aboutStyles = `
     justify-content: center;
     gap: 14px;
     flex-wrap: wrap;
+    width: 100%;
   }
 
   /* Buttons */
@@ -277,12 +304,12 @@ const aboutStyles = `
     gap: 8px;
     background: #00985b;
     color: #ffffff !important;
-    font-size: 15px;
+    font-size: 14.5px;
     font-weight: 700;
-    padding: 14px 32px;
-    border-radius: 16px;
+    padding: 12px 28px;
+    border-radius: 14px;
     text-decoration: none;
-    min-height: 50px;
+    min-height: 48px;
     border: 1px solid transparent;
     cursor: pointer;
     transition: all 0.22s ease;
@@ -302,12 +329,12 @@ const aboutStyles = `
     gap: 8px;
     background: #ffffff;
     color: #007543 !important;
-    font-size: 15px;
+    font-size: 14.5px;
     font-weight: 700;
-    padding: 14px 28px;
-    border-radius: 16px;
+    padding: 12px 24px;
+    border-radius: 14px;
     text-decoration: none;
-    min-height: 50px;
+    min-height: 48px;
     border: 1px solid rgba(0, 152, 91, 0.28);
     cursor: pointer;
     transition: all 0.22s ease;
@@ -320,61 +347,107 @@ const aboutStyles = `
     color: #005537 !important;
   }
 
+  @media (max-width: 480px) {
+    .about-hero-actions {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .about-hero-actions .btn-primary,
+    .about-hero-actions .btn-secondary {
+      width: 100%;
+    }
+  }
+
+  /* Direct Answer Callout Box for AIO & Search Snippets */
+  .direct-answer-callout {
+    background: linear-gradient(135deg, rgba(0, 152, 91, 0.07) 0%, rgba(16, 185, 129, 0.03) 100%);
+    border: 1px solid rgba(0, 152, 91, 0.24);
+    border-left: 4px solid #00985b;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 14px 0 20px 0;
+    word-break: break-word;
+  }
+  .direct-answer-callout p {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: #0f2e20;
+    font-family: 'TrionAIAbout', sans-serif !important;
+  }
+  .direct-answer-callout strong {
+    color: #007543;
+    font-weight: 800;
+  }
+
+  /* External Citation Link */
+  .source-link {
+    color: #007543;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+  }
+  .source-link:hover {
+    color: #005537;
+  }
+
   /* Statement Banner / Highlight Box */
   .statement-box {
     background: #ffffff;
     border: 1px solid rgba(0, 152, 91, 0.22);
     border-left: 5px solid #00985b;
-    border-radius: 20px;
-    padding: 32px 36px;
-    box-shadow: 0 8px 24px rgba(0, 75, 47, 0.04);
-    transition: border-color 0.22s ease, transform 0.22s ease;
-  }
-  .statement-box:hover {
-    border-color: rgba(0, 152, 91, 0.38);
+    border-radius: 18px;
+    padding: 30px 34px;
+    box-shadow: 0 6px 20px rgba(0, 75, 47, 0.04);
+    transition: border-color 0.22s ease;
+    word-break: break-word;
   }
   @media (max-width: 768px) {
     .statement-box {
-      padding: 24px 20px;
+      padding: 22px 18px;
     }
   }
 
   /* Section Headings */
   .section-header {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
   .section-header.centered {
     text-align: center;
   }
   .section-header h2 {
-    font-size: clamp(24px, 3.8vw, 30px);
+    font-size: clamp(20px, 3.4vw, 26px);
     font-weight: 800;
     color: #0f172a;
-    margin: 0 0 10px 0;
+    margin: 0 0 8px 0;
     letter-spacing: -0.02em;
     display: flex;
     align-items: center;
     gap: 12px;
+    line-height: 1.3;
     font-family: 'TrionAIAbout', sans-serif !important;
+    word-break: break-word;
   }
   .section-header.centered h2 {
     justify-content: center;
   }
   .section-header-bar {
     width: 4px;
-    height: 24px;
+    height: 22px;
     background: linear-gradient(180deg, #10b981, #00985b);
     border-radius: 2px;
     flex-shrink: 0;
     display: inline-block;
   }
   .section-subtext {
-    font-size: 15px;
-    line-height: 1.7;
+    font-size: 14.5px;
+    line-height: 1.65;
     color: #475569;
     margin: 0;
     max-width: 740px;
     font-family: 'TrionAIAbout', sans-serif !important;
+    word-break: break-word;
   }
   .section-header.centered .section-subtext {
     margin-left: auto;
@@ -393,23 +466,22 @@ const aboutStyles = `
     gap: 20px;
   }
   @media (max-width: 900px) {
-    .card-grid-3 {
+    .card-grid-3, .card-grid-2 {
       grid-template-columns: 1fr;
-    }
-    .card-grid-2 {
-      grid-template-columns: 1fr;
+      gap: 16px;
     }
   }
 
   .clean-card {
     background: #ffffff;
     border: 1px solid rgba(0, 152, 91, 0.16);
-    border-radius: 18px;
-    padding: 26px 28px;
-    box-shadow: 0 4px 18px rgba(0, 75, 47, 0.03);
+    border-radius: 16px;
+    padding: 24px 26px;
+    box-shadow: 0 4px 16px rgba(0, 75, 47, 0.03);
     transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
     display: flex;
     flex-direction: column;
+    word-break: break-word;
   }
   .clean-card:hover {
     transform: translateY(-2px);
@@ -418,13 +490,13 @@ const aboutStyles = `
   }
   @media (max-width: 768px) {
     .clean-card {
-      padding: 22px 20px;
+      padding: 20px 18px;
     }
   }
 
   .card-icon-wrap {
-    width: 46px;
-    height: 46px;
+    width: 44px;
+    height: 44px;
     border-radius: 12px;
     background: rgba(0, 152, 91, 0.08);
     border: 1px solid rgba(0, 152, 91, 0.2);
@@ -432,20 +504,20 @@ const aboutStyles = `
     align-items: center;
     justify-content: center;
     color: #007543;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     flex-shrink: 0;
   }
   .card-title {
-    font-size: 19px;
+    font-size: 17.5px;
     font-weight: 700;
     color: #0f172a;
-    margin: 0 0 10px 0;
+    margin: 0 0 8px 0;
     line-height: 1.3;
     font-family: 'TrionAIAbout', sans-serif !important;
   }
   .card-text {
     font-size: 14.5px;
-    line-height: 1.68;
+    line-height: 1.65;
     color: #475569;
     margin: 0;
     font-family: 'TrionAIAbout', sans-serif !important;
@@ -455,13 +527,14 @@ const aboutStyles = `
   .tech-horizontal-card {
     background: #ffffff;
     border: 1px solid rgba(0, 152, 91, 0.18);
-    border-radius: 18px;
-    padding: 28px 32px;
+    border-radius: 16px;
+    padding: 24px 28px;
     display: flex;
     align-items: flex-start;
-    gap: 22px;
-    box-shadow: 0 4px 18px rgba(0, 75, 47, 0.03);
+    gap: 18px;
+    box-shadow: 0 4px 16px rgba(0, 75, 47, 0.03);
     transition: transform 0.22s ease, border-color 0.22s ease;
+    word-break: break-word;
   }
   .tech-horizontal-card:hover {
     transform: translateY(-2px);
@@ -471,26 +544,118 @@ const aboutStyles = `
   @media (max-width: 768px) {
     .tech-horizontal-card {
       flex-direction: column;
-      gap: 16px;
-      padding: 22px 20px;
+      gap: 14px;
+      padding: 20px 18px;
     }
+  }
+
+  /* Comparison Table Styles (Structured Data Support) */
+  .table-responsive-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 20px 0 10px 0;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 152, 91, 0.18);
+    box-shadow: 0 4px 16px rgba(0, 75, 47, 0.03);
+    background: #ffffff;
+    display: block;
+  }
+  .about-comparison-table {
+    width: 100%;
+    min-width: 520px;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+    font-family: 'TrionAIAbout', sans-serif !important;
+  }
+  .about-comparison-table th {
+    background: rgba(0, 152, 91, 0.08);
+    color: #005537;
+    font-weight: 700;
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(0, 152, 91, 0.2);
+    font-size: 13.5px;
+    white-space: nowrap;
+  }
+  .about-comparison-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+    color: #334155;
+    line-height: 1.55;
+  }
+  .about-comparison-table tr:last-child td {
+    border-bottom: none;
+  }
+  .about-comparison-table tr:nth-child(even) {
+    background: rgba(240, 253, 244, 0.4);
+  }
+  .badge-positive {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #007543;
+    font-weight: 700;
+  }
+  .badge-negative {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #b91c1c;
+    font-weight: 600;
+  }
+
+  /* HowTo Structured Steps Layout */
+  .howto-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 18px;
+  }
+  @media (max-width: 900px) {
+    .howto-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+  }
+  .howto-step-box {
+    background: #ffffff;
+    border: 1px solid rgba(0, 152, 91, 0.16);
+    border-radius: 14px;
+    padding: 20px;
+    position: relative;
+    word-break: break-word;
+  }
+  .step-number-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #00985b;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 12px;
   }
 
   /* Mission Container */
   .mission-card {
     background: #ffffff;
     border: 1px solid rgba(0, 152, 91, 0.18);
-    border-radius: 20px;
-    padding: 34px 38px;
+    border-radius: 18px;
+    padding: 30px 34px;
     box-shadow: 0 6px 20px rgba(0, 75, 47, 0.04);
+    word-break: break-word;
   }
   .mission-quote-pill {
-    margin-top: 24px;
-    padding: 16px 22px;
+    margin-top: 20px;
+    padding: 16px 20px;
     background: rgba(0, 152, 91, 0.06);
     border-left: 4px solid #00985b;
     border-radius: 0 12px 12px 0;
-    font-size: 15px;
+    font-size: 14.5px;
     font-weight: 600;
     color: #005537;
     line-height: 1.6;
@@ -498,7 +663,7 @@ const aboutStyles = `
   }
   @media (max-width: 768px) {
     .mission-card {
-      padding: 24px 20px;
+      padding: 22px 18px;
     }
   }
 
@@ -506,29 +671,31 @@ const aboutStyles = `
   .privacy-comparison-container {
     background: #ffffff;
     border: 1px solid rgba(0, 152, 91, 0.18);
-    border-radius: 20px;
-    padding: 32px 36px;
+    border-radius: 18px;
+    padding: 30px 34px;
     box-shadow: 0 6px 20px rgba(0, 75, 47, 0.04);
+    word-break: break-word;
   }
   .comparison-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-top: 24px;
+    gap: 20px;
+    margin-top: 20px;
   }
   @media (max-width: 768px) {
     .privacy-comparison-container {
-      padding: 24px 20px;
+      padding: 22px 18px;
     }
     .comparison-grid {
       grid-template-columns: 1fr;
-      gap: 18px;
+      gap: 16px;
     }
   }
   .comparison-box {
     border-radius: 14px;
-    padding: 22px 24px;
+    padding: 20px 22px;
     border: 1px solid transparent;
+    word-break: break-word;
   }
   .comparison-box.stored {
     background: rgba(0, 152, 91, 0.05);
@@ -539,9 +706,9 @@ const aboutStyles = `
     border-color: rgba(239, 68, 68, 0.18);
   }
   .comparison-box-title {
-    font-size: 16px;
+    font-size: 15.5px;
     font-weight: 700;
-    margin: 0 0 14px 0;
+    margin: 0 0 12px 0;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -559,10 +726,10 @@ const aboutStyles = `
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
   }
   .comparison-list li {
-    font-size: 14.5px;
+    font-size: 14px;
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -578,59 +745,131 @@ const aboutStyles = `
   .icon-check {
     color: #00985b;
     font-weight: 800;
-    font-size: 16px;
+    font-size: 15px;
+    flex-shrink: 0;
   }
   .icon-cross {
     color: #ef4444;
     font-weight: 800;
-    font-size: 15px;
+    font-size: 14px;
+    flex-shrink: 0;
   }
 
   /* Right to deletion action card */
   .deletion-card {
     background: #ffffff;
     border: 1px solid rgba(0, 152, 91, 0.18);
-    border-radius: 18px;
-    padding: 26px 30px;
+    border-radius: 16px;
+    padding: 24px 28px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 20px;
     margin-top: 20px;
-    box-shadow: 0 4px 18px rgba(0, 75, 47, 0.03);
+    box-shadow: 0 4px 16px rgba(0, 75, 47, 0.03);
+    word-break: break-word;
   }
   @media (max-width: 768px) {
     .deletion-card {
       flex-direction: column;
-      align-items: flex-start;
-      padding: 22px 20px;
+      align-items: stretch;
+      padding: 20px 18px;
+      gap: 16px;
     }
+    .deletion-card .btn-secondary {
+      width: 100%;
+    }
+  }
+
+  /* FAQ Section Styling */
+  .faq-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .faq-card {
+    background: #ffffff;
+    border: 1px solid rgba(0, 152, 91, 0.16);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    word-break: break-word;
+  }
+  .faq-card.open {
+    border-color: rgba(0, 152, 91, 0.35);
+    box-shadow: 0 4px 16px rgba(0, 75, 47, 0.05);
+  }
+  .faq-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    gap: 14px;
+    outline: none;
+  }
+  .faq-question-text {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.4;
+    font-family: 'TrionAIAbout', sans-serif !important;
+  }
+  .faq-icon-arrow {
+    width: 20px;
+    height: 20px;
+    color: #007543;
+    transition: transform 0.22s ease;
+    flex-shrink: 0;
+  }
+  .faq-icon-arrow.rotated {
+    transform: rotate(180deg);
+  }
+  .faq-answer-panel {
+    padding: 0 20px 16px 20px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #475569;
+    border-top: 1px solid rgba(0, 152, 91, 0.08);
+    padding-top: 12px;
+    font-family: 'TrionAIAbout', sans-serif !important;
   }
 
   /* Quote Card */
   .quote-highlight-card {
     background: linear-gradient(135deg, rgba(0, 152, 91, 0.08) 0%, rgba(16, 185, 129, 0.04) 100%);
     border: 1px solid rgba(0, 152, 91, 0.25);
-    border-radius: 20px;
-    padding: 34px 38px;
+    border-radius: 18px;
+    padding: 28px 32px;
     text-align: center;
     position: relative;
-    margin: 28px 0 16px 0;
+    margin: 24px 0 12px 0;
+    word-break: break-word;
   }
   .quote-main {
-    font-size: clamp(17px, 2.8vw, 22px);
+    font-size: clamp(16px, 2.6vw, 20px);
     font-weight: 700;
     color: #005537;
-    margin: 0 0 10px 0;
+    margin: 0 0 8px 0;
     line-height: 1.45;
     font-family: 'TrionAIAbout', sans-serif !important;
   }
   .quote-sub {
-    font-size: 14.5px;
+    font-size: 14px;
     color: #475569;
     margin: 0;
     line-height: 1.65;
     font-family: 'TrionAIAbout', sans-serif !important;
+  }
+  @media (max-width: 768px) {
+    .quote-highlight-card {
+      padding: 20px 16px;
+    }
   }
 
   /* Responsible Use 18+ Badge */
@@ -641,7 +880,7 @@ const aboutStyles = `
     background: rgba(220, 38, 38, 0.08);
     border: 1px solid rgba(220, 38, 38, 0.25);
     color: #b91c1c;
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 800;
     padding: 4px 14px;
     border-radius: 9999px;
@@ -655,36 +894,37 @@ const aboutStyles = `
   .transparency-pillar {
     background: #ffffff;
     border: 1px solid rgba(0, 152, 91, 0.16);
-    border-radius: 18px;
-    padding: 26px 28px;
+    border-radius: 16px;
+    padding: 24px 26px;
     text-align: center;
-    box-shadow: 0 4px 18px rgba(0, 75, 47, 0.03);
+    box-shadow: 0 4px 16px rgba(0, 75, 47, 0.03);
     transition: transform 0.22s ease, border-color 0.22s ease;
+    word-break: break-word;
   }
   .transparency-pillar:hover {
     transform: translateY(-2px);
     border-color: rgba(0, 152, 91, 0.35);
   }
   .transparency-pillar-icon {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: rgba(0, 152, 91, 0.09);
     color: #007543;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 14px;
+    margin: 0 auto 12px auto;
   }
   .transparency-pillar-title {
-    font-size: 18px;
+    font-size: 17.5px;
     font-weight: 700;
     color: #0f172a;
-    margin: 0 0 8px 0;
+    margin: 0 0 6px 0;
     font-family: 'TrionAIAbout', sans-serif !important;
   }
   .transparency-pillar-desc {
-    font-size: 14.5px;
+    font-size: 14px;
     line-height: 1.65;
     color: #475569;
     margin: 0;
@@ -695,26 +935,28 @@ const aboutStyles = `
   .final-section {
     background: #ffffff;
     border: 1px solid rgba(0, 152, 91, 0.22);
-    border-radius: 24px;
-    padding: 48px 36px;
+    border-radius: 20px;
+    padding: 40px 32px;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 75, 47, 0.05);
-    margin-bottom: 64px;
+    box-shadow: 0 8px 24px rgba(0, 75, 47, 0.05);
+    margin-bottom: 56px;
+    word-break: break-word;
   }
   @media (max-width: 768px) {
     .final-section {
-      padding: 36px 20px;
-      margin-bottom: 48px;
+      padding: 28px 18px;
+      margin-bottom: 40px;
     }
   }
 
   /* Standard body typography helper */
   .p-body {
-    font-size: 15px;
-    line-height: 1.75;
+    font-size: 14.5px;
+    line-height: 1.72;
     color: #334155;
-    margin: 0 0 14px 0;
+    margin: 0 0 12px 0;
     font-family: 'TrionAIAbout', sans-serif !important;
+    word-break: break-word;
   }
   .p-body:last-child {
     margin-bottom: 0;
@@ -730,6 +972,7 @@ const aboutStyles = `
 
 export default function AboutPage() {
   const router = useRouter();
+  const [openFaq, setOpenFaq] = useState(0);
 
   const handleBack = () => {
     if (typeof window !== "undefined" && window.history.length > 1) {
@@ -737,6 +980,10 @@ export default function AboutPage() {
     } else {
       router.push("/");
     }
+  };
+
+  const toggleFaq = (index) => {
+    setOpenFaq(openFaq === index ? -1 : index);
   };
 
   return (
@@ -762,6 +1009,7 @@ export default function AboutPage() {
         description={PAGE_DESC}
         url={PAGE_URL}
       />
+      <FAQSchema questions={ABOUT_FAQS} />
 
       <div className="about-page">
         {/* Ambient background orbs */}
@@ -825,20 +1073,17 @@ export default function AboutPage() {
                 <line x1="12" y1="16" x2="12" y2="12" />
                 <line x1="12" y1="8" x2="12.01" y2="8" />
               </svg>
-              <span>ABOUT TRION AI</span>
+              <span>ABOUT TRION AI PLATFORM</span>
             </div>
 
             <h1 id="hero-heading">
               Independent Data <span>Analytics Platform</span>
             </h1>
 
-            <div className="about-hero-sub">About TrionAi</div>
+            <div className="about-hero-sub">What is TRION AI?</div>
 
             <p className="about-hero-desc">
-              TrionAi is a specialized statistical data research and
-              analytical software platform designed to provide real-time period
-              history data, visual trend matrices and mathematical sequence analysis
-              tools.
+              TRION AI is a dedicated statistical research and probability modeling platform engineered to deliver real-time period history tracking, visual trend matrices, and mathematical sequence analysis.
             </p>
 
             <div className="about-hero-actions">
@@ -859,40 +1104,150 @@ export default function AboutPage() {
                   <polyline points="12 5 19 12 12 19" />
                 </svg>
               </Link>
+              <Link href="/contact" className="btn-secondary">
+                <span>Contact Support</span>
+              </Link>
             </div>
           </section>
 
-          {/* 2. Independent Software Statement */}
+          {/* 2. Conversational Heading: What is TRION AI and how does it work? */}
+          <section className="about-section" aria-labelledby="what-is-trion-heading">
+            <div className="statement-box">
+              <div className="section-header">
+                <h2 id="what-is-trion-heading">
+                  <span className="section-header-bar" />
+                  What is TRION AI and how does the platform work?
+                </h2>
+              </div>
+
+              {/* Direct Answer Signal */}
+              <div className="direct-answer-callout">
+                <p>
+                  <strong>Direct Answer:</strong> TRION AI is an automated statistical observation software tool designed to track historical period draw records, calculate sequence frequencies, and visualize{" "}
+                  <a
+                    href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="source-link"
+                  >
+                    pseudo-random number generator (PRNG)
+                  </a>{" "}
+                  trend distributions in real time for research purposes.
+                </p>
+              </div>
+
+              <p className="p-body">
+                Traditional manual tracking can be tedious and prone to human recording errors. TRION AI standardizes high-frequency numerical data into structured visual dashboards, parity matrices, and color streak calculations without engaging in financial transactions.
+              </p>
+            </div>
+          </section>
+
+          {/* 3. Question Heading: Is TRION AI associated with real-money betting or gambling? */}
           <section className="about-section" aria-labelledby="independent-statement-heading">
             <div className="statement-box">
               <div className="section-header">
                 <h2 id="independent-statement-heading">
                   <span className="section-header-bar" />
-                  Independent Software Statement
+                  Is TRION AI affiliated with online casinos or betting operators?
                 </h2>
               </div>
+
+              {/* Direct Answer Signal */}
+              <div className="direct-answer-callout">
+                <p>
+                  <strong>Direct Answer:</strong> No. TRION AI does not host, operate, promote, or accept wagers for any online casino or real-money betting service. The platform is strictly an independent data visualization and mathematical research tool.
+                </p>
+              </div>
+
               <p className="p-body">
-                TrionAi is strictly an independent data visualization software
-                tool. We do not operate, host, promote or support any game, online
-                casino or real-money betting platform.
-              </p>
-              <p className="p-body">
-                Our software is designed purely for numerical probability analysis,
-                mathematical period sequence research and educational data analysis.
+                Our analytical tools are designed solely for numerical probability study, period sequence pattern recognition, and educational statistical research.
               </p>
             </div>
           </section>
 
-          {/* 3. What We Do */}
+          {/* 4. Structured Comparison Table (Structured Answer Support) */}
+          <section className="about-section" aria-labelledby="comparison-table-heading">
+            <div className="clean-card" style={{ padding: "28px 30px" }}>
+              <div className="section-header">
+                <h2 id="comparison-table-heading">
+                  <span className="section-header-bar" />
+                  How does TRION AI differ from gaming operators?
+                </h2>
+                <p className="section-subtext">
+                  A side-by-side comparison illustrating our software&apos;s independent analytical role versus commercial gaming platforms:
+                </p>
+              </div>
+
+              <div className="table-responsive-wrapper">
+                <table className="about-comparison-table" aria-label="TRION AI vs Gaming Operators Comparison Table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Feature / Aspect</th>
+                      <th scope="col">TRION AI (Analytics Tool)</th>
+                      <th scope="col">Gaming &amp; Casino Platforms</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row" style={{ fontWeight: 700, color: "#0f172a" }}>Primary Objective</th>
+                      <td>
+                        <span className="badge-positive">✓</span> Statistical trend &amp; PRNG sequence visualization
+                      </td>
+                      <td>
+                        <span className="badge-negative">✕</span> Hosting real-money wagers and gaming
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row" style={{ fontWeight: 700, color: "#0f172a" }}>Financial Deposits / Bets</th>
+                      <td>
+                        <span className="badge-positive">✓</span> Zero betting, no financial transactions accepted
+                      </td>
+                      <td>
+                        <span className="badge-negative">✕</span> Takes cash deposits and wagers
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row" style={{ fontWeight: 700, color: "#0f172a" }}>Mathematical Model</th>
+                      <td>
+                        <span className="badge-positive">✓</span> Open frequency and parity probability metrics
+                      </td>
+                      <td>
+                        <span className="badge-negative">✕</span> Proprietary house edge calculations
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row" style={{ fontWeight: 700, color: "#0f172a" }}>User Data Storage</th>
+                      <td>
+                        <span className="badge-positive">✓</span> Minimal OAuth details only (No banking / UPI)
+                      </td>
+                      <td>
+                        <span className="badge-negative">✕</span> Extensive KYC, banking &amp; payment data
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row" style={{ fontWeight: 700, color: "#0f172a" }}>Outcome Guarantees</th>
+                      <td>
+                        <span className="badge-positive">✓</span> Transparent: No certainty in PRNG systems
+                      </td>
+                      <td>
+                        <span className="badge-negative">✕</span> Profit promises or variable pay-out odds
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          {/* 5. What We Do: Core Research Capabilities */}
           <section className="about-section" aria-labelledby="what-we-do-heading">
             <div className="section-header">
               <h2 id="what-we-do-heading">
                 <span className="section-header-bar" />
-                What We Do
+                What data analytics and research tools are provided?
               </h2>
               <p className="section-subtext">
-                TrionAi focuses on structured data observation, statistical
-                analysis and visual interpretation of historical period information.
+                TRION AI provides structured numerical observation tools across historical period cycles:
               </p>
             </div>
 
@@ -912,10 +1267,9 @@ export default function AboutPage() {
                     <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
                   </svg>
                 </div>
-                <h3 className="card-title">Real-Time Data</h3>
+                <h3 className="card-title">Real-Time Data Feeds</h3>
                 <p className="card-text">
-                  Track period history and numerical information in an organized,
-                  structured interface.
+                  Track 30-second and 1-minute period history and numerical information in an organized, structured interface.
                 </p>
               </div>
 
@@ -936,10 +1290,9 @@ export default function AboutPage() {
                     <line x1="9" y1="21" x2="9" y2="9" />
                   </svg>
                 </div>
-                <h3 className="card-title">Visual Analytics</h3>
+                <h3 className="card-title">Visual Trend Analytics</h3>
                 <p className="card-text">
-                  Transform historical data into readable trend matrices and
-                  statistical visualizations.
+                  Transform numerical history into intuitive trend matrices, BIG/SMALL ratios, and color distributions.
                 </p>
               </div>
 
@@ -962,46 +1315,80 @@ export default function AboutPage() {
                 </div>
                 <h3 className="card-title">Mathematical Research</h3>
                 <p className="card-text">
-                  Provide analytical tools for studying sequences, frequency
-                  distributions and probability-based patterns.
+                  Analyze sequence patterns, streak lengths, and statistical probability metrics according to standard mathematical models.
                 </p>
               </div>
             </div>
           </section>
 
-          {/* 4. Platform Mission */}
+          {/* 6. Step-by-Step HowTo Guide (Conversational 'How to') */}
+          <section className="about-section" aria-labelledby="howto-heading">
+            <div className="clean-card" style={{ padding: "28px 30px" }}>
+              <div className="section-header">
+                <h2 id="howto-heading">
+                  <span className="section-header-bar" />
+                  How to use TRION AI for statistical trend observation
+                </h2>
+                <p className="section-subtext">
+                  Follow these 3 simple steps to observe and research historical numerical sequences:
+                </p>
+              </div>
+
+              <div className="howto-grid">
+                <div className="howto-step-box">
+                  <div className="step-number-badge">1</div>
+                  <h3 className="card-title" style={{ fontSize: "16px" }}>Select Period Mode</h3>
+                  <p className="card-text" style={{ fontSize: "13.5px" }}>
+                    Choose between 30-Second Rapid or 1-Minute period analytical dashboards based on your research preference.
+                  </p>
+                </div>
+
+                <div className="howto-step-box">
+                  <div className="step-number-badge">2</div>
+                  <h3 className="card-title" style={{ fontSize: "16px" }}>Observe PRNG Matrices</h3>
+                  <p className="card-text" style={{ fontSize: "13.5px" }}>
+                    Inspect real-time BIG/SMALL distributions, color streaks, and statistical parity indicators updated each cycle.
+                  </p>
+                </div>
+
+                <div className="howto-step-box">
+                  <div className="step-number-badge">3</div>
+                  <h3 className="card-title" style={{ fontSize: "16px" }}>Evaluate Probabilities</h3>
+                  <p className="card-text" style={{ fontSize: "13.5px" }}>
+                    Compare historical frequency distributions against mathematical expectations to observe sequence variations.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* 7. Platform Mission */}
           <section className="about-section" aria-labelledby="mission-heading">
             <div className="mission-card">
               <div className="section-header">
                 <h2 id="mission-heading">
                   <span className="section-header-bar" />
-                  Our Mission
+                  Our Research Mission
                 </h2>
               </div>
               <p className="p-body">
-                TrionAi was developed by a data science research team to
-                make WinGo 1-Minute and 30-Second period history tracking easier and
-                more structured.
+                TRION AI was created by a dedicated data science team to provide clear structure to fast-paced period sequence tracking.
               </p>
               <p className="p-body">
-                Traditional manual tracking can be time-consuming and may introduce
-                human errors. Our automated analytical engine organizes period
-                numbers, BIG/SMALL ratios and color distribution patterns into
-                visual analytical dashboards.
+                Our analytical engine aggregates sequence lengths, color-parity ratios, and statistical distributions into high-visibility dashboards.
               </p>
               <div className="mission-quote-pill">
-                Our goal is not to promise certainty — it is to make numerical data
-                easier to observe, understand and research.
+                “Our goal is not to promise certainty — it is to make numerical data transparent, structured, and accessible for research.”
               </div>
             </div>
           </section>
 
-          {/* 5. Core Technology */}
+          {/* 8. Core Technology */}
           <section className="about-section" aria-labelledby="technology-heading">
             <div className="section-header">
               <h2 id="technology-heading">
                 <span className="section-header-bar" />
-                Core Technology
+                How does the TRION AI technology stack operate?
               </h2>
             </div>
 
@@ -1025,10 +1412,9 @@ export default function AboutPage() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="card-title">PRNG Trend Matrices</h3>
+                  <h3 className="card-title">PRNG Sequence Matrices</h3>
                   <p className="card-text">
-                    Visual representation of historical sequence patterns, frequency
-                    balance metrics and numerical distribution trends.
+                    Mathematical algorithms compute frequency balance metrics and sequence streak lengths across historical periods.
                   </p>
                 </div>
               </div>
@@ -1049,26 +1435,24 @@ export default function AboutPage() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="card-title">Sub-Second Signal Latency</h3>
+                  <h3 className="card-title">Sub-Second Signal Processing</h3>
                   <p className="card-text">
-                    Period-based data updates are processed and displayed with
-                    minimal delay after the relevant countdown cycle completes.
+                    Period data updates are processed and displayed with minimal latency immediately upon conclusion of each cycle.
                   </p>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* 6. Core Analytical Modules */}
+          {/* 9. Core Analytical Modules */}
           <section className="about-section" aria-labelledby="modules-heading">
             <div className="section-header">
               <h2 id="modules-heading">
                 <span className="section-header-bar" />
-                Core Analytical Modules
+                Specialized Analytical Modules
               </h2>
               <p className="section-subtext">
-                Our platform contains specialized analytical modules designed for
-                different types of statistical observation.
+                Explore our purpose-built engines designed for distinct statistical observation needs:
               </p>
             </div>
 
@@ -1091,8 +1475,7 @@ export default function AboutPage() {
                 </div>
                 <h3 className="card-title">WinGo 30s Rapid Engine</h3>
                 <p className="card-text">
-                  Continuous probability-trend observation and period-history
-                  tracking across 30-second cycles.
+                  Continuous probability-trend observation and period-history tracking across 30-second cycles.
                 </p>
               </div>
 
@@ -1115,8 +1498,7 @@ export default function AboutPage() {
                 </div>
                 <h3 className="card-title">WinGo 1-Min Tools</h3>
                 <p className="card-text">
-                  60-second period analysis with confidence scoring, color-parity
-                  breakdown and streak-based notifications.
+                  60-second period analysis with confidence scoring, color-parity breakdown, and streak-based notifications.
                 </p>
               </div>
 
@@ -1139,8 +1521,7 @@ export default function AboutPage() {
                 </div>
                 <h3 className="card-title">Sequence Pattern Analyzer</h3>
                 <p className="card-text">
-                  Matrix-based visualization of BIG/SMALL streak lengths, numerical
-                  sequences and odd/even distribution patterns.
+                  Matrix-based visualization of BIG/SMALL streak lengths, numerical sequences, and odd/even distribution patterns.
                 </p>
               </div>
 
@@ -1170,25 +1551,36 @@ export default function AboutPage() {
                 </div>
                 <h3 className="card-title">AI Neural Forecast Engine</h3>
                 <p className="card-text">
-                  Mathematical and statistical model-based trend forecasting designed
-                  to visualize possible patterns within historical data.
+                  Mathematical model-based trend forecasting designed to visualize potential statistical patterns within historical data.
                 </p>
               </div>
             </div>
           </section>
 
-          {/* 7. Privacy & Minimal Data Storage */}
+          {/* 10. Privacy & Minimal Data Storage */}
           <section className="about-section" aria-labelledby="privacy-storage-heading">
             <div className="privacy-comparison-container">
               <div className="section-header">
                 <h2 id="privacy-storage-heading">
                   <span className="section-header-bar" />
-                  Minimal Data Storage
+                  How does TRION AI protect user privacy and account data?
                 </h2>
-                <p className="section-subtext">
-                  Your basic account information is kept minimal. We store only three
-                  basic authentication details required for account functionality:
-                </p>
+
+                {/* Direct Answer Signal */}
+                <div className="direct-answer-callout">
+                  <p>
+                    <strong>Direct Answer:</strong> TRION AI adheres to the principle of data minimization as outlined in modern{" "}
+                    <a
+                      href="https://en.wikipedia.org/wiki/General_Data_Protection_Regulation"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="source-link"
+                    >
+                      privacy frameworks (GDPR)
+                    </a>
+                    . We only store basic Google OAuth profile info (name, email, avatar) and never store banking or financial credentials.
+                  </p>
+                </div>
               </div>
 
               <div className="comparison-grid">
@@ -1207,14 +1599,14 @@ export default function AboutPage() {
                     >
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
-                    <span>Data We Store</span>
+                    <span>Account Data We Store</span>
                   </div>
                   <ul className="comparison-list">
                     <li>
-                      <span className="icon-check">✓</span> Full Name
+                      <span className="icon-check">✓</span> Full Name (OAuth)
                     </li>
                     <li>
-                      <span className="icon-check">✓</span> Email Address
+                      <span className="icon-check">✓</span> Email Address (OAuth)
                     </li>
                     <li>
                       <span className="icon-check">✓</span> Profile Picture URL
@@ -1238,17 +1630,17 @@ export default function AboutPage() {
                       <line x1="18" y1="6" x2="6" y2="18" />
                       <line x1="6" y1="6" x2="18" y2="18" />
                     </svg>
-                    <span>We Do NOT Store</span>
+                    <span>Data We NEVER Store</span>
                   </div>
                   <ul className="comparison-list">
                     <li>
-                      <span className="icon-cross">✕</span> Banking details
+                      <span className="icon-cross">✕</span> Banking details &amp; card numbers
                     </li>
                     <li>
-                      <span className="icon-cross">✕</span> UPI IDs
+                      <span className="icon-cross">✕</span> UPI IDs or payment wallets
                     </li>
                     <li>
-                      <span className="icon-cross">✕</span> Phone numbers
+                      <span className="icon-cross">✕</span> Phone numbers or government IDs
                     </li>
                   </ul>
                 </div>
@@ -1256,25 +1648,23 @@ export default function AboutPage() {
             </div>
           </section>
 
-          {/* 8. Right to Deletion */}
+          {/* 11. Right to Deletion */}
           <section className="about-section" aria-labelledby="deletion-heading">
             <div className="deletion-card">
               <div>
-                <h2
+                <h3
                   id="deletion-heading"
                   style={{
-                    fontSize: "20px",
+                    fontSize: "18px",
                     fontWeight: 700,
                     color: "#0f172a",
-                    margin: "0 0 8px 0",
+                    margin: "0 0 6px 0",
                   }}
                 >
-                  Your Right to Delete Your Data
-                </h2>
+                  How to request permanent account data deletion?
+                </h3>
                 <p className="p-body" style={{ maxWidth: "600px", margin: 0 }}>
-                  Users can contact our support team at any time to request permanent
-                  deletion of their stored account information. Deletion requests are
-                  processed within approximately 1–2 business days.
+                  Users have the fundamental right to delete their stored profile information at any time. Simply submit a deletion request via our support desk, and all records will be permanently purged within 1–2 business days.
                 </p>
               </div>
               <Link href="/contact" className="btn-secondary" style={{ flexShrink: 0 }}>
@@ -1296,76 +1686,124 @@ export default function AboutPage() {
             </div>
           </section>
 
-          {/* 9. Educational & Statistical Research */}
+          {/* 12. Frequently Asked Questions (FAQ Section) */}
+          <section className="about-section" aria-labelledby="faq-section-heading">
+            <div className="clean-card" style={{ padding: "30px 34px" }}>
+              <div className="section-header">
+                <h2 id="faq-section-heading">
+                  <span className="section-header-bar" />
+                  Frequently Asked Questions (FAQ) About TRION AI
+                </h2>
+                <p className="section-subtext">
+                  Direct answers to common questions regarding TRION AI software, analytical models, and security:
+                </p>
+              </div>
+
+              <div className="faq-accordion" role="region" aria-label="FAQ Accordion">
+                {ABOUT_FAQS.map((faq, idx) => {
+                  const isOpen = openFaq === idx;
+                  return (
+                    <div key={idx} className={`faq-card ${isOpen ? "open" : ""}`}>
+                      <button
+                        className="faq-trigger"
+                        onClick={() => toggleFaq(idx)}
+                        aria-expanded={isOpen}
+                        aria-controls={`faq-answer-${idx}`}
+                        id={`faq-question-${idx}`}
+                        type="button"
+                      >
+                        <span className="faq-question-text">{faq.question}</span>
+                        <svg
+                          className={`faq-icon-arrow ${isOpen ? "rotated" : ""}`}
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden="true"
+                        >
+                          <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                      </button>
+                      {isOpen && (
+                        <div
+                          id={`faq-answer-${idx}`}
+                          className="faq-answer-panel"
+                          role="region"
+                          aria-labelledby={`faq-question-${idx}`}
+                        >
+                          {faq.answer}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+
+          {/* 13. Educational & Statistical Research */}
           <section className="about-section" aria-labelledby="education-heading">
-            <div className="clean-card" style={{ padding: "32px 36px" }}>
+            <div className="clean-card" style={{ padding: "30px 34px" }}>
               <div className="section-header">
                 <h2 id="education-heading">
                   <span className="section-header-bar" />
-                  Educational &amp; Statistical Research
+                  Statistical &amp; Probability Research Disclaimer
                 </h2>
               </div>
               <p className="p-body">
-                All signals and analytics are based on mathematical probability
-                models and statistical analysis.
+                All historical indicators and pattern matrices generated by TRION AI represent mathematical probabilities derived from historical distributions.
               </p>
               <p className="p-body">
-                No software can guarantee a specific outcome from a PRNG-based
-                system. Our analytical tools are therefore intended primarily for
-                educational study, sequence-pattern visualization and statistical
-                research.
+                Because draw sequences are determined by pseudo-random number generator (PRNG) algorithms, deterministic prediction is mathematically impossible. Our analytical tools are created purely for educational study, sequence observation, and statistical modeling.
               </p>
 
               <div className="quote-highlight-card">
                 <div className="quote-main">
-                  “Data analysis is about understanding probabilities, not
-                  predicting absolute certainty.”
+                  “Data analysis is about understanding probabilities, not predicting absolute certainty.”
                 </div>
                 <p className="quote-sub">
-                  Our goal is to empower users with clean visual metrics, minimal
-                  personal data retention and complete transparency.
+                  Our commitment is providing clean visual metrics, minimal personal data retention, and complete operational transparency.
                 </p>
               </div>
             </div>
           </section>
 
-          {/* 10. Advertising Disclaimer */}
+          {/* 14. Advertising Disclaimer */}
           <section className="about-section" aria-labelledby="ads-heading">
-            <div className="clean-card" style={{ padding: "32px 36px" }}>
+            <div className="clean-card" style={{ padding: "30px 34px" }}>
               <div className="section-header">
                 <h2 id="ads-heading">
                   <span className="section-header-bar" />
                   Revenue Model &amp; Third-Party Advertising
                 </h2>
                 <p className="section-subtext">
-                  To keep our services available to users at no direct software-access
-                  cost, the website may display third-party advertisements from
-                  advertising providers such as Adsterra or Google Ads.
+                  To keep our services accessible without direct software fees, the website may display third-party advertisements from advertising networks such as Google Ads or Adsterra.
                 </p>
               </div>
 
-              <div className="card-grid-3" style={{ marginTop: "20px" }}>
+              <div className="card-grid-3" style={{ marginTop: "18px" }}>
                 <div
                   style={{
                     background: "rgba(0, 152, 91, 0.03)",
                     border: "1px solid rgba(0, 152, 91, 0.14)",
                     borderRadius: "14px",
-                    padding: "20px",
+                    padding: "18px",
                   }}
                 >
                   <h3
                     style={{
-                      fontSize: "16px",
+                      fontSize: "15.5px",
                       fontWeight: 700,
                       color: "#0f172a",
-                      margin: "0 0 8px 0",
+                      margin: "0 0 6px 0",
                     }}
                   >
                     User Responsibility
                   </h3>
-                  <p className="p-body" style={{ fontSize: "14px", margin: 0 }}>
-                    Clicking advertisement banners or visiting sponsored links is
-                    entirely the user&apos;s responsibility.
+                  <p className="p-body" style={{ fontSize: "13.5px", margin: 0 }}>
+                    Clicking advertisement banners or visiting sponsored external links is entirely the user&apos;s choice and responsibility.
                   </p>
                 </div>
 
@@ -1374,22 +1812,21 @@ export default function AboutPage() {
                     background: "rgba(0, 152, 91, 0.03)",
                     border: "1px solid rgba(0, 152, 91, 0.14)",
                     borderRadius: "14px",
-                    padding: "20px",
+                    padding: "18px",
                   }}
                 >
                   <h3
                     style={{
-                      fontSize: "16px",
+                      fontSize: "15.5px",
                       fontWeight: 700,
                       color: "#0f172a",
-                      margin: "0 0 8px 0",
+                      margin: "0 0 6px 0",
                     }}
                   >
                     Third-Party Responsibility
                   </h3>
-                  <p className="p-body" style={{ fontSize: "14px", margin: 0 }}>
-                    TrionAi is not responsible for the offers, products,
-                    services or content provided by external advertisers.
+                  <p className="p-body" style={{ fontSize: "13.5px", margin: 0 }}>
+                    TRION AI is not responsible for the offers, products, services, or claims made on external third-party advertiser websites.
                   </p>
                 </div>
 
@@ -1398,31 +1835,30 @@ export default function AboutPage() {
                     background: "rgba(0, 152, 91, 0.03)",
                     border: "1px solid rgba(0, 152, 91, 0.14)",
                     borderRadius: "14px",
-                    padding: "20px",
+                    padding: "18px",
                   }}
                 >
                   <h3
                     style={{
-                      fontSize: "16px",
+                      fontSize: "15.5px",
                       fontWeight: 700,
                       color: "#0f172a",
-                      margin: "0 0 8px 0",
+                      margin: "0 0 6px 0",
                     }}
                   >
                     External Websites
                   </h3>
-                  <p className="p-body" style={{ fontSize: "14px", margin: 0 }}>
-                    Users should perform their own due diligence before interacting
-                    with or purchasing anything from an external website.
+                  <p className="p-body" style={{ fontSize: "13.5px", margin: 0 }}>
+                    Users should practice proper due diligence and verify terms before providing information on external sites.
                   </p>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* 11. Legal & Responsible Use */}
+          {/* 15. Legal & Responsible Use */}
           <section className="about-section" aria-labelledby="legal-heading">
-            <div className="clean-card" style={{ padding: "32px 36px" }}>
+            <div className="clean-card" style={{ padding: "30px 34px" }}>
               <div className="age-pill">
                 <svg
                   viewBox="0 0 24 24"
@@ -1439,40 +1875,36 @@ export default function AboutPage() {
                   <line x1="12" y1="9" x2="12" y2="13" />
                   <line x1="12" y1="17" x2="12.01" y2="17" />
                 </svg>
-                <span>18+ Only</span>
+                <span>18+ Age Requirement</span>
               </div>
 
               <div className="section-header">
                 <h2 id="legal-heading">
                   <span className="section-header-bar" />
-                  Legal &amp; Responsible Use
+                  Legal &amp; Responsible Use Guidelines
                 </h2>
               </div>
               <p className="p-body">
-                TrionAi is an independent statistical data analytics and
-                visualization software platform. It does not operate, host or
-                facilitate real-money gaming or betting services.
+                TRION AI is an independent data analysis tool. It does not operate, facilitate, or host gaming or betting services.
               </p>
               <p className="p-body">
-                Users must be at least 18 years old to use the platform.
+                Users must be at least 18 years of age to access and use the platform.
               </p>
-              <p className="p-body" style={{ color: "#64748b", fontSize: "14px" }}>
-                Users are responsible for complying with the laws and regulations
-                applicable to their own location.
+              <p className="p-body" style={{ color: "#64748b", fontSize: "13.5px" }}>
+                Users are solely responsible for ensuring that their use of analytical research tools complies with all local laws and regulatory guidelines in their home jurisdiction.
               </p>
             </div>
           </section>
 
-          {/* 12. Transparency Section */}
+          {/* 16. Transparency Section */}
           <section className="about-section" aria-labelledby="transparency-heading">
             <div className="section-header centered">
               <h2 id="transparency-heading">
                 <span className="section-header-bar" />
-                Built Around Transparency
+                Built Around Three Core Pillars
               </h2>
               <p className="section-subtext">
-                We design our analytical tools around three simple, uncompromising
-                principles.
+                Our analytical software is developed around three uncompromising standards:
               </p>
             </div>
 
@@ -1492,9 +1924,9 @@ export default function AboutPage() {
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                   </svg>
                 </div>
-                <h3 className="transparency-pillar-title">Independent</h3>
+                <h3 className="transparency-pillar-title">1. Independent</h3>
                 <p className="transparency-pillar-desc">
-                  We operate as an independent analytical software platform.
+                  We operate as an autonomous research platform with zero ties to commercial gaming houses.
                 </p>
               </div>
 
@@ -1514,10 +1946,9 @@ export default function AboutPage() {
                     <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                   </svg>
                 </div>
-                <h3 className="transparency-pillar-title">Data-Minimal</h3>
+                <h3 className="transparency-pillar-title">2. Data-Minimal</h3>
                 <p className="transparency-pillar-desc">
-                  We limit stored account information to basic authentication
-                  requirements.
+                  We collect strictly essential OAuth profile data, preserving your privacy and personal security.
                 </p>
               </div>
 
@@ -1537,47 +1968,44 @@ export default function AboutPage() {
                     <path d="M22 12A10 10 0 0 0 12 2v10z" />
                   </svg>
                 </div>
-                <h3 className="transparency-pillar-title">Probability-Based</h3>
+                <h3 className="transparency-pillar-title">3. Probability-Based</h3>
                 <p className="transparency-pillar-desc">
-                  Our analytics represent statistical observations and probabilities,
-                  not certainty.
+                  All metrics illustrate statistical pattern probabilities rather than unscientific claims of certainty.
                 </p>
               </div>
             </div>
           </section>
 
-          {/* 13. Final Quote & 14. Final CTA */}
+          {/* 17. Final Quote & CTA Container */}
           <section className="final-section" aria-labelledby="cta-heading">
-            <div style={{ maxWidth: "700px", margin: "0 auto 32px auto" }}>
+            <div style={{ maxWidth: "700px", margin: "0 auto 28px auto" }}>
               <div
                 style={{
-                  fontSize: "clamp(20px, 3.2vw, 26px)",
+                  fontSize: "clamp(19px, 3vw, 24px)",
                   fontWeight: 800,
                   color: "#0f172a",
                   lineHeight: 1.35,
-                  marginBottom: "12px",
+                  marginBottom: "10px",
                 }}
               >
-                “Data analysis is about understanding probabilities, not predicting
-                absolute certainty.”
+                “Data analysis is about understanding probabilities, not predicting absolute certainty.”
               </div>
               <p
                 style={{
-                  fontSize: "15px",
+                  fontSize: "14.5px",
                   color: "#007543",
                   fontWeight: 600,
                   margin: 0,
                 }}
               >
-                TRION AI is committed to building clean, transparent and
-                research-oriented analytical tools.
+                TRION AI is committed to building clean, transparent, and research-oriented analytical tools.
               </p>
             </div>
 
             <div
               style={{
                 borderTop: "1px solid rgba(0, 152, 91, 0.15)",
-                paddingTop: "32px",
+                paddingTop: "28px",
                 maxWidth: "600px",
                 margin: "0 auto",
               }}
@@ -1585,23 +2013,22 @@ export default function AboutPage() {
               <h2
                 id="cta-heading"
                 style={{
-                  fontSize: "24px",
+                  fontSize: "22px",
                   fontWeight: 800,
                   color: "#0f172a",
                   margin: "0 0 8px 0",
                 }}
               >
-                Explore TRION AI
+                Explore TRION AI Analytics
               </h2>
               <p
                 style={{
-                  fontSize: "15px",
+                  fontSize: "14.5px",
                   color: "#475569",
-                  margin: "0 0 24px 0",
+                  margin: "0 0 22px 0",
                 }}
               >
-                Explore our analytical tools, dashboards and statistical research
-                features.
+                Start exploring our period history dashboards, trend matrices, and mathematical sequence tools today.
               </p>
 
               <div

@@ -2,7 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /admin
-Disallow: /login
 Disallow: /auth
 
 Sitemap: https://wingo30.com/sitemap.xml

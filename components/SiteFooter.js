@@ -51,6 +51,7 @@ export default function SiteFooter() {
             <Link href="/privacy">Privacy Policy</Link>
             <Link href="/terms">Terms &amp; Conditions</Link>
             <Link href="/refund">Refund Policy</Link>
+            <Link href="/responsible-gambling">Responsible Gaming (18+)</Link>
           </div>
         </div>
 

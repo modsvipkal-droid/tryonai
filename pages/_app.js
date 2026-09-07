@@ -38,6 +38,8 @@ export default function App({ Component, pageProps }) {
         "/wingo-ai-prediction",
         "/developer",
         "/subscription",
+        "/responsible-gambling",
+        "/about",
       ].some((p) => pathname.startsWith(p));
 
       try {
