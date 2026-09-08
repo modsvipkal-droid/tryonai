@@ -1257,7 +1257,7 @@ export default function ResponsibleGamblingPage() {
 
     try {
       sessionStorage.setItem("trion_intro_seen", "1");
-    } catch {}
+    } catch { }
 
     return () => {
       html.classList.remove("rg-page");
@@ -1288,7 +1288,7 @@ export default function ResponsibleGamblingPage() {
   const handleBack = () => {
     try {
       sessionStorage.setItem("trion_intro_seen", "1");
-    } catch {}
+    } catch { }
     router.push("/");
   };
 
@@ -1871,6 +1871,9 @@ export default function ResponsibleGamblingPage() {
                 </Link>
                 <Link href="/privacy" className="btn-secondary-action">
                   Privacy Policy
+                </Link>
+                <Link href="/yaar-win" className="btn-secondary-action">
+                  Yaar Win Guide
                 </Link>
                 <Link href="/terms" className="btn-secondary-action">
                   Terms of Service

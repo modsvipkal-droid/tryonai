@@ -40,6 +40,7 @@ export default function App({ Component, pageProps }) {
         "/subscription",
         "/responsible-gambling",
         "/about",
+        "/yaar-win",
       ].some((p) => pathname.startsWith(p));
 
       try {

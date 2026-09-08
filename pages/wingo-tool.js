@@ -1579,6 +1579,16 @@ export default function WingoToolPage() {
                   </p>
                 </Link>
 
+                <Link href="/yaar-win" className="wt-related-card">
+                  <div className="wt-related-title">
+                    <span>Yaar Win Guide</span>
+                    <span aria-hidden="true">→</span>
+                  </div>
+                  <p className="wt-related-desc">
+                    Comprehensive platform verification, game formats, login guidance, and statistical analytics.
+                  </p>
+                </Link>
+
                 <Link href="/developer" className="wt-related-card">
                   <div className="wt-related-title">
                     <span>Wingo Game API Docs</span>

@@ -2060,6 +2060,9 @@ export default function AboutPage() {
                 <Link href="/contact" className="btn-secondary">
                   <span>Contact Support</span>
                 </Link>
+                <Link href="/yaar-win" className="btn-secondary">
+                  <span>Yaar Win Guide</span>
+                </Link>
               </div>
             </div>
           </section>

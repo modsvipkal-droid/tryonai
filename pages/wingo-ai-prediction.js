@@ -1372,6 +1372,10 @@ export default function WingoAiPredictionPage() {
                   <span>TRION AI Models &amp; Plans</span>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6" /></svg>
                 </Link>
+                <Link href="/yaar-win" className="wai-link-card">
+                  <span>Yaar Win Guide</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6" /></svg>
+                </Link>
                 <Link href="/contact" className="wai-link-card">
                   <span>TRION AI Support &amp; Contact</span>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6" /></svg>
