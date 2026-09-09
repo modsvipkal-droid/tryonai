@@ -1626,13 +1626,23 @@
   }
 }
 
+@media (max-width: 480px) {
+  .loader-footer-links {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-md);
+  }
+}
+
 @media (max-width: 380px) {
   .loader-actions {
     grid-template-columns: 1fr;
   }
+}
 
+@media (max-width: 320px) {
   .loader-footer-links {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+    gap: var(--sp-sm);
   }
 }
 

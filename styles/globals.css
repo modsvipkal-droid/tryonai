@@ -103,7 +103,10 @@ html.developer-page body,
 html.developer-page #__next,
 html.dev-page,
 html.dev-page body,
-html.dev-page #__next {
+html.dev-page #__next,
+html.fm-page,
+html.fm-page body,
+html.fm-page #__next {
   height: auto !important;
   min-height: 100% !important;
   overflow: visible !important;
@@ -118,7 +121,8 @@ html.contact-page body,
 html.wingo-page body,
 html.login-page body,
 html.developer-page body,
-html.dev-page body {
+html.dev-page body,
+html.fm-page body {
   overflow-x: hidden !important;
   overflow-y: auto !important;
   overscroll-behavior-y: auto !important;
@@ -7424,9 +7428,17 @@ nextjs-portal,
   color: #6B7280;
 }
 
-@media (max-width: 380px) {
+@media (max-width: 480px) {
   .sf-footer-links {
     grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 320px) {
+  .sf-footer-links {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 }
 

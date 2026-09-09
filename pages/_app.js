@@ -41,6 +41,7 @@ export default function App({ Component, pageProps }) {
         "/responsible-gambling",
         "/about",
         "/yaar-win",
+        "/fund-management",
       ].some((p) => pathname.startsWith(p));
 
       try {

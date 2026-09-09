@@ -36,6 +36,7 @@ export default function SiteFooter() {
             <Link href="/subscription">Subscription &amp; Models</Link>
             <Link href="/login">Prediction Tool</Link>
             <Link href="/developer">Developer API</Link>
+            <Link href="/fund-management">Fund Management</Link>
             <Link href="/yaar-win">Yaar Win Guide</Link>
           </div>
 

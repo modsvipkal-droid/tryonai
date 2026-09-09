@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState, memo } from "react";
 import SparklesText from "./SparklesText";
 
@@ -429,12 +430,22 @@ const TrionIcon = memo(function TrionIcon() {
 /* ─── Loading Screen Component ───────────────────────────────────────────── */
 
 const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = false, error = "" }) {
+  const router = useRouter();
   const [phase, setPhase] = useState("idle");
   const [dismissing, setDismissing] = useState(false);
   const startButtonRef = useRef(null);
   const exitTimerRef = useRef(null);
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const [openFaq, setOpenFaq] = useState([]);
+
+  const handlePageNavigation = (url) => (e) => {
+    e.preventDefault();
+    try {
+      sessionStorage.setItem("trion_intro_seen", "1");
+    } catch {}
+    if (onComplete) onComplete();
+    router.push(url);
+  };
 
   const toggleAccordion = (index) => {
     setOpenFaq((prev) => {
@@ -1106,15 +1117,16 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
           <div className="loader-footer-links">
             <div className="loader-footer-link-group">
               <h4>Platform</h4>
-              <Link href="/about">About TRION AI</Link>
-              <Link href="/subscription">Subscription &amp; Models</Link>
-              <Link href="/login">Prediction Tool</Link>
-              <Link href="/developer">Developer API</Link>
+              <Link href="/about" onClick={handlePageNavigation("/about")}>About TRION AI</Link>
+              <Link href="/subscription" onClick={handlePageNavigation("/subscription")}>Subscription &amp; Models</Link>
+              <Link href="/login" onClick={handlePageNavigation("/login")}>Prediction Tool</Link>
+              <Link href="/developer" onClick={handlePageNavigation("/developer")}>Developer API</Link>
+              <Link href="/fund-management" onClick={handlePageNavigation("/fund-management")}>Fund Management</Link>
             </div>
 
             <div className="loader-footer-link-group">
               <h4>Support</h4>
-              <Link href="/contact">Contact Us</Link>
+              <Link href="/contact" onClick={handlePageNavigation("/contact")}>Contact Us</Link>
               <button type="button" className="loader-footer-link" onClick={handleTelegramClick}>
                 Telegram Channel
               </button>
@@ -1122,10 +1134,10 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
 
             <div className="loader-footer-link-group">
               <h4>Legal</h4>
-              <Link href="/privacy">Privacy Policy</Link>
-              <Link href="/terms">Terms &amp; Conditions</Link>
-              <Link href="/refund">Refund Policy</Link>
-              <Link href="/responsible-gambling">Responsible Gaming (18+)</Link>
+              <Link href="/privacy" onClick={handlePageNavigation("/privacy")}>Privacy Policy</Link>
+              <Link href="/terms" onClick={handlePageNavigation("/terms")}>Terms &amp; Conditions</Link>
+              <Link href="/refund" onClick={handlePageNavigation("/refund")}>Refund Policy</Link>
+              <Link href="/responsible-gambling" onClick={handlePageNavigation("/responsible-gambling")}>Responsible Gaming (18+)</Link>
             </div>
           </div>
 
