@@ -172,39 +172,58 @@ const pageStyles = `
     to { transform: translate(25px, 35px) scale(1.08); }
   }
 
-  /* ── Top Header Navigation (Enlarged & Matched to About Screen) ── */
+  /* ── Top Header Navigation (Enlarged & Centered Logo) ── */
   .fm-nav {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(255, 255, 255, 0.94);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(0, 152, 91, 0.15);
-    padding: 16px 32px;
-    min-height: 72px;
+    border-bottom: 1px solid rgba(0, 152, 91, 0.16);
+    padding: 18px 32px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0, 75, 47, 0.06);
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .fm-nav-inner {
+    max-width: 1200px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+  }
+  .fm-nav-side-left {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    box-shadow: 0 4px 18px rgba(0, 75, 47, 0.05);
   }
-  .fm-nav-left {
+  .fm-nav-center {
     display: flex;
     align-items: center;
-    gap: 18px;
-    width: 100%;
+    justify-content: center;
+  }
+  .fm-nav-side-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
   .fm-nav-back {
     display: inline-flex;
     align-items: center;
-    gap: 9px;
+    gap: 8px;
     color: #007543;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 13.5px;
     cursor: pointer;
     background: rgba(0, 152, 91, 0.08);
-    border: 1px solid rgba(0, 152, 91, 0.22);
-    padding: 9px 20px;
+    border: 1.5px solid rgba(0, 152, 91, 0.22);
+    padding: 9px 18px;
     border-radius: 50px;
     outline: none;
     transition: all 0.22s ease;
@@ -225,13 +244,14 @@ const pageStyles = `
   .fm-nav-brand-img {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     height: auto;
     text-decoration: none;
   }
   .fm-nav-brand-img img {
-    height: 38px;
-    width: 242px;
-    max-width: 245px;
+    height: 42px;
+    width: 270px;
+    max-width: 285px;
     object-fit: contain;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
@@ -239,20 +259,33 @@ const pageStyles = `
   }
   @media (max-width: 640px) {
     .fm-nav {
-      padding: 12px 18px;
-      min-height: 60px;
+      padding: 14px 16px;
+      min-height: 68px;
     }
-    .fm-nav-left {
-      gap: 12px;
+    .fm-nav-inner {
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+    }
+    .fm-nav-side-right {
+      display: none;
+    }
+    .fm-nav-center {
+      justify-content: center;
+      padding-right: 6px;
     }
     .fm-nav-back {
-      padding: 7px 14px;
-      font-size: 13px;
+      padding: 7px 13px;
+      font-size: 12px;
+      gap: 4px;
+    }
+    .fm-nav-back svg {
+      width: 14px;
+      height: 14px;
     }
     .fm-nav-brand-img img {
-      height: 32px;
+      height: 35px;
       width: auto;
-      max-width: 190px;
+      max-width: 195px;
     }
   }
 
@@ -263,10 +296,14 @@ const pageStyles = `
     padding: 32px 20px 80px 20px;
     position: relative;
     z-index: 1;
+    width: 100%;
+    box-sizing: border-box;
   }
   @media (max-width: 640px) {
     .fm-container {
-      padding: 18px 14px 60px 14px;
+      padding: 18px 12px 60px 12px;
+      max-width: 100%;
+      overflow-x: hidden;
     }
   }
 
@@ -306,23 +343,23 @@ const pageStyles = `
   /* ── Hero Section ── */
   .fm-hero {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 26px;
   }
   .fm-hero h1 {
-    font-size: clamp(24px, 4.5vw, 38px);
+    font-size: clamp(21px, 4vw, 34px);
     font-weight: 800;
     color: #0f172a;
-    margin: 0 0 10px 0;
+    margin: 0 0 8px 0;
     letter-spacing: -0.025em;
     line-height: 1.2;
     font-family: 'TrionAIAbout', sans-serif !important;
     word-break: break-word;
   }
   .fm-hero-desc {
-    font-size: 15px;
-    line-height: 1.7;
+    font-size: 13.5px;
+    line-height: 1.65;
     color: #475569;
-    max-width: 600px;
+    max-width: 580px;
     margin: 0 auto;
     font-weight: 400;
     font-family: 'TrionAIAbout', sans-serif !important;
@@ -336,10 +373,13 @@ const pageStyles = `
     padding: 30px 32px;
     box-shadow: 0 4px 20px -2px rgba(0, 50, 30, 0.04);
     word-break: break-word;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
   }
   @media (max-width: 768px) {
     .fm-calc-card {
-      padding: 20px 16px;
+      padding: 20px 14px;
       border-radius: 18px;
     }
   }
@@ -357,13 +397,13 @@ const pageStyles = `
     flex-wrap: wrap;
   }
   .fm-label {
-    font-size: 14.5px;
+    font-size: 13px;
     font-weight: 700;
     color: #0f172a;
     font-family: 'TrionAIAbout', sans-serif !important;
   }
   .fm-label-hint {
-    font-size: 12.5px;
+    font-size: 11.5px;
     color: #64748b;
     font-weight: 500;
     font-family: 'TrionAIAbout', sans-serif !important;
@@ -398,9 +438,9 @@ const pageStyles = `
   }
   .fm-amount-input {
     flex: 1;
-    height: 52px;
+    height: 48px;
     padding: 0 12px;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 700;
     color: #0f172a;
     background: transparent;
@@ -413,7 +453,7 @@ const pageStyles = `
   .fm-amount-input::placeholder {
     color: #94a3b8;
     font-weight: 500;
-    font-size: 15px;
+    font-size: 13.5px;
   }
   .fm-input-clear {
     margin-right: 12px;
@@ -457,9 +497,9 @@ const pageStyles = `
     background: rgba(0, 152, 91, 0.06);
     border: 1px solid rgba(0, 152, 91, 0.18);
     color: #007543;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
-    padding: 4px 12px;
+    padding: 3px 10px;
     border-radius: 9999px;
     cursor: pointer;
     transition: all 0.18s ease;
@@ -927,44 +967,57 @@ const pageStyles = `
   .fm-actions {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-top: 6px;
+    gap: 12px;
+    margin-top: 10px;
+    width: 100%;
   }
   .fm-btn-calc {
     flex: 1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    background: #00985b;
+    gap: 10px;
+    background: linear-gradient(135deg, #00ab66 0%, #008f55 50%, #007342 100%);
     color: #ffffff !important;
-    font-size: 14.5px;
-    font-weight: 700;
-    padding: 0 24px;
-    height: 50px;
-    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 800;
+    padding: 16px 28px;
+    min-height: 58px;
+    border-radius: 14px;
     text-decoration: none;
-    border: 1px solid transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 14px rgba(0, 152, 91, 0.22);
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 8px 24px rgba(0, 152, 91, 0.35), 0 2px 6px rgba(0, 75, 47, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.35);
     font-family: 'TrionAIAbout', sans-serif !important;
     outline: none;
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 2px rgba(0, 40, 20, 0.35);
+    box-sizing: border-box;
+  }
+  .fm-btn-calc svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2.8;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
   }
   .fm-btn-calc:hover:not(:disabled) {
-    background: #007543;
+    background: linear-gradient(135deg, #009658 0%, #007a47 50%, #006037 100%);
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0, 152, 91, 0.28);
+    box-shadow: 0 12px 28px rgba(0, 152, 91, 0.42), 0 4px 10px rgba(0, 152, 91, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
   .fm-btn-calc:active:not(:disabled) {
     transform: translateY(1px) scale(0.99);
+    box-shadow: 0 4px 12px rgba(0, 152, 91, 0.28);
   }
   .fm-btn-calc:focus-visible {
-    box-shadow: 0 0 0 3px rgba(0, 152, 91, 0.35);
+    box-shadow: 0 0 0 3px rgba(0, 152, 91, 0.4);
   }
   .fm-btn-calc:disabled {
     opacity: 0.65;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
   }
   .fm-btn-reset {
     display: inline-flex;
@@ -972,17 +1025,18 @@ const pageStyles = `
     justify-content: center;
     gap: 6px;
     background: #ffffff;
-    border: 1px solid rgba(0, 152, 91, 0.20);
+    border: 1.5px solid rgba(0, 152, 91, 0.25);
     color: #007543;
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 700;
     padding: 0 18px;
-    height: 50px;
-    border-radius: 12px;
+    min-height: 58px;
+    border-radius: 14px;
     cursor: pointer;
     transition: all 0.2s ease;
     font-family: 'TrionAIAbout', sans-serif !important;
     outline: none;
+    box-sizing: border-box;
   }
   .fm-btn-reset:hover {
     background: rgba(0, 152, 91, 0.05);
@@ -1032,10 +1086,13 @@ const pageStyles = `
     box-shadow: 0 4px 20px -2px rgba(0, 50, 30, 0.04);
     word-break: break-word;
     animation: fadeSlideUp 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
   @media (max-width: 768px) {
     .fm-result-card {
-      padding: 20px 16px;
+      padding: 20px 14px;
       border-radius: 18px;
     }
   }
@@ -1192,6 +1249,9 @@ const pageStyles = `
     flex-direction: column;
     gap: 11px;
     margin-bottom: 22px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
   .fm-plan-card {
     background: linear-gradient(180deg, #ffffff 0%, #f9fcfa 100%);
@@ -1208,6 +1268,9 @@ const pageStyles = `
     animation-delay: var(--anim-delay, 0ms);
     position: relative;
     overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
   }
   .fm-plan-card::before {
     content: '';
@@ -1322,18 +1385,21 @@ const pageStyles = `
     align-items: center;
     gap: 18px;
     flex-shrink: 0;
+    max-width: 100%;
   }
   .fm-plan-metric-group {
     display: flex;
     flex-direction: column;
     gap: 2px;
+    min-width: 0;
   }
   .fm-plan-alloc-group {
     text-align: right;
   }
   .fm-plan-cumul-group {
     text-align: right;
-    min-width: 110px;
+    min-width: 100px;
+    max-width: 140px;
     border-left: 1px solid rgba(0, 152, 91, 0.12);
     padding-left: 16px;
   }
@@ -1344,12 +1410,14 @@ const pageStyles = `
     text-transform: uppercase;
     letter-spacing: 0.04em;
     font-family: 'TrionAIAbout', sans-serif !important;
+    white-space: nowrap;
   }
   .fm-plan-alloc-wrap {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: 6px;
+    flex-wrap: wrap;
   }
   .fm-plan-alloc-val {
     font-size: 15.5px;
@@ -1357,6 +1425,8 @@ const pageStyles = `
     color: #007543;
     letter-spacing: -0.01em;
     font-family: 'TrionAIAbout', sans-serif !important;
+    word-break: break-all;
+    overflow-wrap: anywhere;
   }
   .fm-plan-pct-badge {
     font-size: 10px;
@@ -1367,20 +1437,23 @@ const pageStyles = `
     padding: 1px 5px;
     border-radius: 4px;
     font-family: 'TrionAIAbout', sans-serif !important;
+    white-space: nowrap;
   }
   .fm-plan-cumul-val {
     font-size: 14.5px;
     font-weight: 800;
     color: #0f172a;
     font-family: 'TrionAIAbout', sans-serif !important;
+    word-break: break-all;
+    overflow-wrap: anywhere;
   }
 
   @media (max-width: 680px) {
     .fm-plan-card {
       flex-direction: column;
       align-items: stretch;
-      gap: 12px;
-      padding: 14px 14px 12px 14px;
+      gap: 10px;
+      padding: 12px 12px 10px 12px;
     }
     .fm-plan-card-left {
       width: 100%;
@@ -1392,11 +1465,22 @@ const pageStyles = `
       width: 100%;
       justify-content: space-between;
       border-top: 1px solid rgba(0, 152, 91, 0.10);
-      padding-top: 10px;
+      padding-top: 8px;
+      gap: 8px;
     }
     .fm-plan-cumul-group {
-      border-left: none;
-      padding-left: 0;
+      border-left: 1px solid rgba(0, 152, 91, 0.12);
+      padding-left: 10px;
+      min-width: unset;
+      max-width: unset;
+      flex: 1;
+    }
+    .fm-plan-alloc-group {
+      flex: 1;
+      text-align: left;
+    }
+    .fm-plan-alloc-wrap {
+      justify-content: flex-start;
     }
   }
 
@@ -2159,11 +2243,71 @@ const pageStyles = `
 
   /* ═════════════════════════════════════════════════════════
      ── COMPREHENSIVE MOBILE RESPONSIVE MEDIA QUERIES ──
+     Phone-first: 768px → 640px → 480px → 400px → 360px → 320px
      ═════════════════════════════════════════════════════════ */
+
+  /* ── Tablet / Large Phone (≤768px) ── */
+  @media (max-width: 768px) {
+    .fm-orb-1 {
+      width: 260px;
+      height: 260px;
+      top: -60px;
+      right: -60px;
+      opacity: 0.12;
+    }
+    .fm-orb-2 {
+      width: 200px;
+      height: 200px;
+      bottom: 40px;
+      left: -50px;
+      opacity: 0.10;
+    }
+
+    .fm-result-header {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .fm-verified-pill {
+      align-self: flex-start;
+    }
+
+    .fm-seo-header-row {
+      flex-direction: column;
+      gap: 8px;
+    }
+    .fm-guide-status-pill {
+      align-self: flex-start;
+    }
+
+    .fm-plan-cumul-group {
+      min-width: 90px;
+      padding-left: 12px;
+    }
+    .fm-plan-card-right {
+      gap: 12px;
+    }
+
+    .fm-internal-links-bar {
+      gap: 8px;
+    }
+    .fm-internal-links-bar a {
+      padding: 4px 10px;
+      font-size: 11.5px;
+    }
+
+    .fm-insight-title-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+  }
+
+  /* ── Phone (≤640px) ── */
   @media (max-width: 640px) {
+    /* ── Navigation ── */
     .fm-nav {
-      padding: 10px 14px;
-      min-height: 56px;
+      padding: 8px 12px;
+      min-height: 48px;
     }
     .fm-nav-left {
       width: 100%;
@@ -2171,18 +2315,20 @@ const pageStyles = `
       gap: 8px;
     }
     .fm-nav-back {
-      padding: 6px 10px;
-      font-size: 12px;
+      padding: 5px 10px;
+      font-size: 11px;
       gap: 4px;
       white-space: nowrap;
       flex-shrink: 0;
+      min-height: 34px;
     }
     .fm-nav-brand-img img {
-      height: 28px;
+      height: 24px;
       width: auto;
-      max-width: 155px;
+      max-width: 145px;
     }
 
+    /* ── Layout ── */
     .fm-container {
       padding: 14px 12px 60px 12px;
     }
@@ -2190,6 +2336,7 @@ const pageStyles = `
       margin-bottom: 20px;
     }
 
+    /* ── Hero ── */
     .fm-hero {
       margin-bottom: 18px;
     }
@@ -2202,7 +2349,13 @@ const pageStyles = `
       font-size: 13px;
       line-height: 1.55;
     }
+    .fm-eyebrow {
+      font-size: 10px;
+      padding: 3px 10px;
+      gap: 5px;
+    }
 
+    /* ── Calculator Card ── */
     .fm-calc-card {
       padding: 16px 14px;
       border-radius: 16px;
@@ -2210,8 +2363,16 @@ const pageStyles = `
     .fm-field-group {
       margin-bottom: 18px;
     }
+    .fm-field-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
     .fm-label {
       font-size: 13.5px;
+    }
+    .fm-label-hint {
+      font-size: 11.5px;
     }
     .fm-amount-input {
       height: 48px;
@@ -2221,15 +2382,32 @@ const pageStyles = `
       padding-left: 12px;
       font-size: 17px;
     }
+    .fm-input-wrapper {
+      border-radius: 12px;
+    }
+    .fm-input-clear {
+      width: 30px;
+      height: 30px;
+      margin-right: 8px;
+    }
+
+    /* ── Quick Amounts ── */
     .fm-quick-row {
-      gap: 4px;
+      gap: 5px;
       margin-top: 8px;
     }
     .fm-quick-chip {
-      padding: 3px 9px;
+      padding: 5px 11px;
+      font-size: 11.5px;
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+    }
+    .fm-quick-label {
       font-size: 11px;
     }
 
+    /* ── Level Selector ── */
     .fm-levels-wrapper {
       padding: 14px 12px 12px 12px;
       border-radius: 14px;
@@ -2249,6 +2427,7 @@ const pageStyles = `
     .fm-levels-current-badge {
       padding: 4px 10px;
       font-size: 11.5px;
+      margin-top: 4px;
     }
     .fm-level-grid {
       grid-template-columns: repeat(3, 1fr);
@@ -2257,80 +2436,323 @@ const pageStyles = `
     }
     .fm-level-card {
       padding: 8px 3px 6px 3px;
-      min-height: 80px;
+      min-height: 82px;
       border-radius: 10px;
     }
     .fm-card-tag {
-      font-size: 7.5px;
-      padding: 1px 4px;
+      font-size: 8px;
     }
     .fm-card-number {
-      font-size: 15px;
+      font-size: 17px;
     }
     .fm-card-desc {
       font-size: 9px;
     }
+
+    /* ── Level Insight Banner ── */
     .fm-level-insight-banner {
       padding: 10px 12px;
       gap: 8px;
+      flex-direction: column;
     }
     .fm-insight-icon {
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
     }
     .fm-insight-title {
-      font-size: 12px;
+      font-size: 12.5px;
     }
     .fm-insight-badge {
       font-size: 10px;
-      padding: 2px 6px;
+      padding: 3px 8px;
+      white-space: nowrap;
     }
     .fm-insight-desc {
       font-size: 11.5px;
     }
+    .fm-insight-title-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+    }
 
+    /* ── Slider ── */
+    .fm-level-slider {
+      height: 8px;
+    }
+    .fm-level-slider::-webkit-slider-thumb {
+      width: 24px;
+      height: 24px;
+    }
+    .fm-level-slider::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+    }
+    .fm-slider-marker {
+      font-size: 12px;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    /* ── Validation ── */
+    .fm-validation {
+      padding: 10px 12px;
+      font-size: 12.5px;
+      border-radius: 10px;
+      gap: 8px;
+    }
+
+    /* ── Action Buttons ── */
+    .fm-actions {
+      flex-direction: column;
+      width: 100%;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .fm-btn-calc {
+      width: 100%;
+      min-height: 56px;
+      height: auto;
+      font-size: 16px;
+      font-weight: 800;
+      padding: 15px 18px;
+      border-radius: 14px;
+      letter-spacing: 0.015em;
+      box-shadow: 0 6px 20px rgba(0, 152, 91, 0.35), 0 2px 6px rgba(0, 75, 47, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    }
+    .fm-btn-reset {
+      width: 100%;
+      min-height: 50px;
+      height: auto;
+      font-size: 13.5px;
+      border-radius: 14px;
+      padding: 12px 16px;
+    }
+
+    /* ── Empty State ── */
+    .fm-empty {
+      padding: 28px 16px;
+      border-radius: 14px;
+    }
+    .fm-empty h3,
+    .fm-empty h2 {
+      font-size: 15px;
+    }
+    .fm-empty p {
+      font-size: 12.5px;
+    }
+    .fm-empty-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+    }
+
+    /* ── Result Card ── */
     .fm-result-card {
-      padding: 18px 14px;
+      padding: 16px 12px;
       border-radius: 16px;
     }
+    .fm-result-header {
+      flex-direction: column;
+      gap: 10px;
+      padding-bottom: 14px;
+    }
+    .fm-result-badge {
+      font-size: 10px;
+      padding: 2px 8px;
+    }
     .fm-result-title {
-      font-size: 17.5px;
+      font-size: 16px;
+      line-height: 1.3;
     }
     .fm-result-sub {
-      font-size: 12.5px;
+      font-size: 12px;
     }
     .fm-verified-pill {
       font-size: 11px;
       padding: 4px 10px;
+      align-self: flex-start;
     }
 
+    /* ── Summary Metrics Grid ── */
     .fm-summary-grid {
       grid-template-columns: repeat(2, 1fr);
       gap: 8px;
       margin: 14px 0 18px 0;
     }
     .fm-summary-item {
-      padding: 10px;
+      padding: 10px 8px;
       border-radius: 10px;
+      overflow: hidden;
     }
     .fm-summary-label {
-      font-size: 10px;
+      font-size: 9.5px;
+      gap: 4px;
     }
     .fm-summary-val {
-      font-size: 16px;
+      font-size: 15px;
+      word-break: break-all;
+      overflow-wrap: anywhere;
     }
 
+    /* ── Breakdown Header ── */
+    .fm-breakdown-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
     .fm-breakdown-title {
-      font-size: 15.5px;
+      font-size: 15px;
+    }
+    .fm-stages-badge {
+      font-size: 10.5px;
     }
 
+    /* ── Plan Cards ── */
+    .fm-plan-card {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+      padding: 12px 10px 10px 10px;
+      border-radius: 12px;
+      max-width: 100%;
+      overflow: hidden;
+    }
+    .fm-plan-card::before {
+      width: 3px;
+    }
+    .fm-plan-card-left {
+      width: 100%;
+      gap: 10px;
+      min-width: 0;
+    }
+    .fm-plan-badge-box {
+      min-width: 44px;
+      max-width: 52px;
+      padding: 6px 4px;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+    .fm-plan-stage-num {
+      font-size: 13px;
+    }
+    .fm-plan-stage-title {
+      font-size: 8px;
+    }
+    .fm-plan-seq-pill {
+      font-size: 10.5px;
+      padding: 2px 6px;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .fm-plan-stage-tag {
+      font-size: 10px;
+      white-space: nowrap;
+    }
+    .fm-plan-bar-track {
+      max-width: 100%;
+    }
+    .fm-plan-card-right {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 0;
+      border-top: 1px solid rgba(0, 152, 91, 0.10);
+      padding-top: 8px;
+      justify-content: space-between;
+    }
+    .fm-plan-alloc-group {
+      text-align: left;
+      flex: 1;
+      min-width: 0;
+    }
+    .fm-plan-cumul-group {
+      text-align: right;
+      min-width: unset;
+      max-width: unset;
+      flex: 1;
+      border-left: 1px solid rgba(0, 152, 91, 0.10);
+      padding-left: 10px;
+    }
+    .fm-plan-metric-label {
+      font-size: 9px;
+      white-space: nowrap;
+    }
+    .fm-plan-alloc-val {
+      font-size: 14px;
+      word-break: break-all;
+    }
+    .fm-plan-pct-badge {
+      font-size: 9px;
+      padding: 1px 4px;
+    }
+    .fm-plan-cumul-val {
+      font-size: 13px;
+      word-break: break-all;
+    }
+    .fm-plan-alloc-wrap {
+      justify-content: flex-start;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    /* ── Verification Card ── */
+    .fm-verify-card {
+      padding: 12px;
+      border-radius: 10px;
+    }
+    .fm-verify-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .fm-verify-title {
+      font-size: 12.5px;
+    }
+    .fm-verify-desc {
+      font-size: 11px;
+    }
+    .fm-verify-badge {
+      font-size: 10px;
+    }
+    .fm-verify-stats {
+      flex-direction: column;
+      gap: 6px;
+    }
+    .fm-v-div {
+      display: none;
+    }
+    .fm-v-stat {
+      font-size: 11.5px;
+      width: 100%;
+      justify-content: space-between;
+    }
+    .fm-verify-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    /* ── Top Takeaway ── */
     .fm-top-takeaway {
       padding: 16px 14px;
       border-radius: 14px;
       margin-bottom: 20px;
+      border-left-width: 3px;
+    }
+    .fm-top-takeaway-header {
+      gap: 8px;
+    }
+    .fm-top-takeaway-icon {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
     }
     .fm-top-takeaway h2 {
-      font-size: 14.5px;
+      font-size: 14px;
+      line-height: 1.35;
     }
     .fm-top-takeaway-desc {
       font-size: 12.5px;
@@ -2341,22 +2763,39 @@ const pageStyles = `
       line-height: 1.5;
     }
 
+    /* ── Notice Card ── */
     .fm-notice {
       padding: 14px 12px;
       border-radius: 12px;
+      border-left-width: 3px;
+    }
+    .fm-notice-head {
+      gap: 8px;
+    }
+    .fm-notice-icon {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
     }
     .fm-notice-head h2 {
-      font-size: 14px;
+      font-size: 13.5px;
+      line-height: 1.35;
     }
     .fm-notice p {
       font-size: 12px;
       line-height: 1.55;
     }
+    .fm-notice-link {
+      font-size: 12px;
+    }
 
+    /* ── Section Cards ── */
     .fm-section-card {
       padding: 18px 14px;
       border-radius: 14px;
     }
+
+    /* ── Audience Grid ── */
     .fm-audience-grid {
       grid-template-columns: 1fr;
       gap: 12px;
@@ -2365,24 +2804,38 @@ const pageStyles = `
       padding: 14px;
       border-radius: 12px;
     }
+    .fm-audience-card h3 {
+      font-size: 14px;
+    }
+    .fm-audience-item {
+      font-size: 12px;
+    }
 
+    /* ── Decision Table ── */
     .fm-decision-table-wrap {
       margin: 14px 0 12px 0;
       border-radius: 10px;
+      -webkit-overflow-scrolling: touch;
     }
     .fm-decision-table {
-      min-width: 520px;
-      font-size: 12px;
+      min-width: 480px;
+      font-size: 11.5px;
     }
     .fm-decision-table th {
-      padding: 10px 12px;
-      font-size: 11.5px;
+      padding: 10px 10px;
+      font-size: 11px;
+      white-space: nowrap;
     }
     .fm-decision-table td {
-      padding: 10px 12px;
-      font-size: 11.5px;
+      padding: 10px 10px;
+      font-size: 11px;
+    }
+    .fm-decision-note {
+      font-size: 12px;
+      padding: 8px 12px;
     }
 
+    /* ── How-To Guide ── */
     .fm-howto-item {
       padding: 12px 14px;
       gap: 10px;
@@ -2392,6 +2845,7 @@ const pageStyles = `
       width: 28px;
       height: 28px;
       font-size: 13px;
+      min-width: 28px;
     }
     .fm-howto-body h3 {
       font-size: 13.5px;
@@ -2401,10 +2855,12 @@ const pageStyles = `
       line-height: 1.55;
     }
 
+    /* ── Definition Card ── */
     .fm-def-card {
-      padding: 14px 14px;
+      padding: 14px;
       gap: 10px;
       border-radius: 10px;
+      flex-direction: column;
     }
     .fm-def-icon {
       width: 28px;
@@ -2414,103 +2870,307 @@ const pageStyles = `
       font-size: 13.5px;
     }
     .fm-def-card p {
-      font-size: 12.5px;
+      font-size: 12px;
       line-height: 1.55;
     }
 
+    /* ── SEO Card ── */
     .fm-seo-card {
       padding: 16px 14px;
       border-radius: 14px;
     }
     .fm-seo-title {
-      font-size: 16px;
+      font-size: 15px;
+      line-height: 1.35;
+    }
+    .fm-seo-badge {
+      font-size: 10px;
     }
     .fm-seo-text h3 {
-      font-size: 14.5px;
+      font-size: 14px;
     }
     .fm-seo-text p {
-      font-size: 12.5px;
+      font-size: 12px;
       line-height: 1.6;
     }
+    .fm-seo-quote {
+      font-size: 12px;
+      padding: 8px 10px;
+    }
+    .fm-seo-header-row {
+      flex-direction: column;
+      gap: 8px;
+    }
+    .fm-guide-status-pill {
+      align-self: flex-start;
+      font-size: 10.5px;
+    }
+
+    /* ── Showcase Figure ── */
+    .fm-showcase-figure {
+      border-radius: 12px;
+      margin: 14px 0 18px 0;
+    }
     .fm-showcase-caption-block {
-      padding: 12px 14px;
+      padding: 10px 12px;
     }
     .fm-showcase-caption-title {
-      font-size: 12.5px;
+      font-size: 12px;
     }
     .fm-showcase-description-text {
-      font-size: 11.5px;
+      font-size: 11px;
       padding-left: 10px;
     }
 
+    /* ── Internal Links Bar ── */
+    .fm-internal-links-bar {
+      font-size: 11px;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .fm-internal-links-bar a {
+      padding: 4px 9px;
+      font-size: 11px;
+    }
+
+    /* ── FAQ Section ── */
     .fm-faq-title {
-      font-size: 20px;
+      font-size: 19px;
     }
     .fm-faq-trigger {
-      padding: 13px 14px;
+      padding: 14px 12px;
       gap: 10px;
+      min-height: 48px;
     }
     .fm-faq-q {
-      font-size: 13.5px;
+      font-size: 13px;
+      line-height: 1.4;
     }
     .fm-faq-answer {
-      padding: 0 14px 14px 14px;
-      font-size: 12.5px;
+      padding: 0 12px 14px 12px;
+      font-size: 12px;
       line-height: 1.55;
     }
+    .fm-faq-arrow {
+      min-width: 18px;
+    }
+
+    /* ── Tier Badges ── */
+    .fm-tier-badge {
+      font-size: 10.5px;
+      padding: 2px 7px;
+    }
   }
 
+  /* ── Small Phone (≤480px) ── */
   @media (max-width: 480px) {
-    .fm-actions {
-      flex-direction: column;
-      width: 100%;
-      gap: 8px;
+    .fm-container {
+      padding: 12px 8px 50px 8px;
+      max-width: 100vw;
+      overflow-x: hidden;
     }
-    .fm-btn-calc {
-      width: 100%;
-      height: 48px;
+
+    .fm-hero h1 {
+      font-size: clamp(18px, 5.5vw, 22px);
+    }
+    .fm-hero-desc {
+      font-size: 12.5px;
+    }
+
+    .fm-calc-card {
+      padding: 14px 12px;
+    }
+
+    .fm-summary-grid {
+      gap: 6px;
+    }
+    .fm-summary-val {
       font-size: 14px;
-      padding: 0 16px;
     }
-    .fm-btn-reset {
-      width: 100%;
-      height: 44px;
-      font-size: 13px;
+    .fm-summary-label {
+      font-size: 9px;
+      flex-wrap: wrap;
     }
-    .fm-verify-stats {
-      gap: 6px 10px;
+
+    .fm-plan-alloc-val {
+      font-size: 12.5px;
+      word-break: break-all;
     }
-    .fm-v-div {
-      display: none;
-    }
-    .fm-v-stat {
-      font-size: 11px;
-      width: 100%;
-    }
-    .fm-internal-links-bar {
+    .fm-plan-cumul-val {
       font-size: 11.5px;
-      gap: 8px;
+      word-break: break-all;
+    }
+    .fm-plan-card-right {
+      gap: 0;
+    }
+    .fm-plan-cumul-group {
+      padding-left: 8px;
+    }
+
+    .fm-top-takeaway h2 {
+      font-size: 13.5px;
+    }
+    .fm-top-takeaway-desc {
+      font-size: 12px;
+    }
+    .fm-takeaway-item {
+      font-size: 11.5px;
+    }
+
+    .fm-faq-title {
+      font-size: 18px;
+    }
+    .fm-faq-q {
+      font-size: 12.5px;
+    }
+
+    .fm-audience-card h3 {
+      font-size: 13.5px;
+    }
+    .fm-audience-item {
+      font-size: 11.5px;
     }
   }
 
-  @media (max-width: 360px) {
+  /* ── Mini Phone (≤400px) ── */
+  @media (max-width: 400px) {
     .fm-nav {
-      padding: 8px 10px;
+      padding: 12px 12px;
+      min-height: 64px;
+    }
+    .fm-nav-inner {
+      grid-template-columns: auto 1fr;
+      gap: 6px;
     }
     .fm-nav-back {
-      padding: 5px 8px;
+      padding: 6px 10px;
+      font-size: 11.5px;
+      gap: 3px;
+    }
+    .fm-nav-back svg {
+      width: 13px;
+      height: 13px;
+    }
+    .fm-nav-brand-img img {
+      max-width: 175px;
+      height: 32px;
+    }
+
+    .fm-container {
+      padding: 10px 6px 44px 6px;
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+
+    .fm-level-grid {
+      gap: 5px;
+    }
+    .fm-level-card {
+      min-height: 76px;
+      padding: 7px 2px 5px 2px;
+    }
+    .fm-card-number {
+      font-size: 16px;
+    }
+    .fm-card-desc {
+      font-size: 8.5px;
+    }
+    .fm-card-tag {
+      font-size: 7.5px;
+    }
+
+    .fm-plan-card {
+      padding: 10px 8px 8px 8px;
+      overflow: hidden;
+    }
+    .fm-plan-badge-box {
+      min-width: 40px;
+      max-width: 46px;
+      padding: 5px 3px;
+    }
+    .fm-plan-cumul-group {
+      padding-left: 6px;
+    }
+    .fm-plan-alloc-val {
+      font-size: 12px;
+    }
+    .fm-plan-cumul-val {
+      font-size: 11px;
+    }
+
+    .fm-result-title {
+      font-size: 15px;
+    }
+
+    .fm-seo-title {
+      font-size: 14px;
+    }
+
+    .fm-notice-head h2 {
+      font-size: 13px;
+    }
+
+    .fm-howto-item {
+      padding: 10px 12px;
+    }
+
+    .fm-section-card {
+      padding: 14px 10px;
+    }
+    .fm-seo-card {
+      padding: 14px 10px;
+    }
+
+    .fm-quick-chip {
+      padding: 4px 8px;
+      font-size: 11px;
+    }
+
+    .fm-internal-links-bar {
+      font-size: 10.5px;
+      gap: 5px;
+    }
+    .fm-internal-links-bar a {
+      padding: 3px 8px;
+      font-size: 10.5px;
+    }
+  }
+
+  /* ── Extra Small Phone (≤360px) ── */
+  @media (max-width: 360px) {
+    .fm-nav {
+      padding: 10px 10px;
+      min-height: 60px;
+    }
+    .fm-nav-back {
+      padding: 6px 8px;
       font-size: 11px;
     }
     .fm-nav-brand-img img {
-      max-width: 128px;
-      height: 24px;
+      max-width: 160px;
+      height: 30px;
     }
+
+    .fm-hero h1 {
+      font-size: 17px;
+    }
+    .fm-hero-desc {
+      font-size: 12px;
+    }
+
+    .fm-container {
+      padding: 8px 4px 40px 4px;
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+
     .fm-level-grid {
       gap: 4px;
     }
     .fm-level-card {
-      min-height: 72px;
+      min-height: 70px;
       padding: 6px 2px 4px 2px;
+      border-radius: 8px;
     }
     .fm-card-number {
       font-size: 14px;
@@ -2518,30 +3178,233 @@ const pageStyles = `
     .fm-card-desc {
       font-size: 8px;
     }
+    .fm-card-tag {
+      font-size: 7px;
+    }
+
     .fm-summary-item {
       padding: 8px 6px;
     }
     .fm-summary-val {
-      font-size: 14px;
+      font-size: 13px;
     }
     .fm-summary-label {
-      font-size: 9px;
+      font-size: 8.5px;
     }
+
     .fm-plan-card {
-      padding: 10px 10px 8px 10px;
+      padding: 8px 6px 6px 6px;
+      overflow: hidden;
     }
     .fm-plan-badge-box {
-      min-width: 40px;
+      min-width: 36px;
+      max-width: 42px;
       padding: 4px 2px;
     }
     .fm-plan-stage-num {
-      font-size: 12px;
+      font-size: 11px;
     }
     .fm-plan-alloc-val {
-      font-size: 13.5px;
+      font-size: 11.5px;
+      word-break: break-all;
     }
     .fm-plan-cumul-val {
+      font-size: 11px;
+      word-break: break-all;
+    }
+    .fm-plan-seq-pill {
+      font-size: 9.5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 120px;
+    }
+    .fm-plan-cumul-group {
+      padding-left: 5px;
+    }
+    .fm-plan-metric-label {
+      font-size: 8px;
+    }
+
+    .fm-result-card {
+      padding: 14px 10px;
+    }
+    .fm-result-title {
+      font-size: 14.5px;
+    }
+
+    .fm-btn-calc {
+      min-height: 52px;
+      height: auto;
+      font-size: 14.5px;
+      font-weight: 800;
+      padding: 12px 14px;
+      border-radius: 12px;
+    }
+    .fm-btn-reset {
+      min-height: 44px;
+      height: auto;
       font-size: 12.5px;
+      border-radius: 12px;
+    }
+
+    .fm-calc-card {
+      padding: 12px 10px;
+      border-radius: 14px;
+    }
+
+    .fm-top-takeaway {
+      padding: 12px 10px;
+    }
+    .fm-top-takeaway h2 {
+      font-size: 13px;
+    }
+
+    .fm-notice {
+      padding: 12px 10px;
+    }
+
+    .fm-faq-trigger {
+      padding: 12px 10px;
+    }
+    .fm-faq-q {
+      font-size: 12px;
+    }
+    .fm-faq-answer {
+      padding: 0 10px 12px 10px;
+      font-size: 11.5px;
+    }
+
+    .fm-section-card {
+      padding: 12px 8px;
+      border-radius: 12px;
+    }
+    .fm-seo-card {
+      padding: 12px 8px;
+      border-radius: 12px;
+    }
+
+    .fm-decision-table {
+      min-width: 420px;
+      font-size: 10.5px;
+    }
+    .fm-decision-table th,
+    .fm-decision-table td {
+      padding: 8px;
+      font-size: 10px;
+    }
+  }
+
+  /* ── Minimum Viable Width (≤320px) ── */
+  @media (max-width: 320px) {
+    .fm-nav-back span,
+    .fm-nav-back {
+      font-size: 10px;
+      padding: 4px 6px;
+    }
+    .fm-nav-brand-img img {
+      max-width: 100px;
+      height: 20px;
+    }
+
+    .fm-hero h1 {
+      font-size: 16px;
+    }
+    .fm-hero-desc {
+      font-size: 11.5px;
+    }
+
+    .fm-card-number {
+      font-size: 13px;
+    }
+    .fm-level-card {
+      min-height: 65px;
+    }
+
+    .fm-summary-val {
+      font-size: 12px;
+    }
+
+    .fm-result-title {
+      font-size: 14px;
+    }
+
+    .fm-plan-alloc-val {
+      font-size: 11.5px;
+    }
+    .fm-plan-cumul-val {
+      font-size: 11px;
+    }
+
+    .fm-quick-chip {
+      font-size: 10px;
+      padding: 3px 6px;
+    }
+
+    .fm-top-takeaway h2 {
+      font-size: 12.5px;
+    }
+
+    .fm-seo-title {
+      font-size: 13px;
+    }
+  }
+
+  /* ── Touch Target Safety ── */
+  @media (hover: none) and (pointer: coarse) {
+    .fm-quick-chip {
+      min-height: 36px;
+      min-width: 44px;
+    }
+    .fm-level-card {
+      min-height: 84px;
+    }
+    .fm-faq-trigger {
+      min-height: 52px;
+    }
+    .fm-slider-marker {
+      min-width: 24px;
+      min-height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .fm-track-step {
+      height: 8px;
+    }
+    .fm-nav-back {
+      min-height: 40px;
+    }
+    .fm-input-clear {
+      width: 32px;
+      height: 32px;
+    }
+    .fm-internal-links-bar a {
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+    }
+    .fm-notice-link {
+      min-height: 36px;
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+
+  /* ── Landscape Phone ── */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .fm-orb {
+      display: none;
+    }
+    .fm-nav {
+      min-height: 48px;
+      padding: 6px 14px;
+    }
+    .fm-hero {
+      margin-bottom: 12px;
+    }
+    .fm-hero h1 {
+      font-size: 20px;
     }
   }
 
@@ -2598,7 +3461,7 @@ export default function FundManagementPage() {
 
     try {
       sessionStorage.setItem("trion_intro_seen", "1");
-    } catch {}
+    } catch { }
 
     return () => {
       html.classList.remove("fm-page");
@@ -2670,7 +3533,7 @@ export default function FundManagementPage() {
   };
 
   const handleBack = () => {
-    try { sessionStorage.setItem("trion_intro_seen", "1"); } catch {}
+    try { sessionStorage.setItem("trion_intro_seen", "1"); } catch { }
     router.push("/");
   };
 
@@ -2749,30 +3612,37 @@ export default function FundManagementPage() {
         <div className="fm-orb fm-orb-1" aria-hidden="true" />
         <div className="fm-orb fm-orb-2" aria-hidden="true" />
 
-        {/* ── 1. Top Header Navigation (Enlarged & Matched to About Screen) ── */}
+        {/* ── 1. Top Header Navigation (Enlarged & Centered Logo) ── */}
         <header className="fm-nav" role="banner">
-          <div className="fm-nav-left">
-            <button
-              className="fm-nav-back"
-              onClick={handleBack}
-              type="button"
-              aria-label="Navigate back to TRION AI home page"
-            >
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <line x1="19" y1="12" x2="5" y2="12" />
-                <polyline points="12 19 5 12 12 5" />
-              </svg>
-              Back to Home
-            </button>
-            <Link href="/" className="fm-nav-brand-img" aria-label="TRION AI Home">
-              <Image
-                src="/trionai.png"
-                alt="TRION AI"
-                width={242}
-                height={38}
-                priority
-              />
-            </Link>
+          <div className="fm-nav-inner">
+            <div className="fm-nav-side fm-nav-side-left">
+              <button
+                className="fm-nav-back"
+                onClick={handleBack}
+                type="button"
+                aria-label="Navigate back to TRION AI home page"
+              >
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <line x1="19" y1="12" x2="5" y2="12" />
+                  <polyline points="12 19 5 12 12 5" />
+                </svg>
+                <span>Back to Home</span>
+              </button>
+            </div>
+
+            <div className="fm-nav-center">
+              <Link href="/" className="fm-nav-brand-img" aria-label="TRION AI Home">
+                <Image
+                  src="/trionai.png"
+                  alt="TRION AI"
+                  width={270}
+                  height={42}
+                  priority
+                />
+              </Link>
+            </div>
+
+            <div className="fm-nav-side fm-nav-side-right" aria-hidden="true" />
           </div>
         </header>
 
