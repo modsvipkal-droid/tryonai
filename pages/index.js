@@ -468,6 +468,13 @@ function Icon({ name, className = "" }) {
         <path d="M12 2.8v3.1M12 18.1v3.1M2.8 12h3.1M18.1 12h3.1" />
       </>
     ),
+    wallet: (
+      <>
+        <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h14a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2V5" />
+        <path d="M16 12h5" />
+        <circle cx="17.5" cy="12" r=".75" fill="currentColor" />
+      </>
+    ),
     checkcircle: (
       <>
         <circle cx="12" cy="12" r="8.25" />
@@ -557,6 +564,7 @@ function NavigationDrawer({ open, activeView, user, onClose, onNavigate, onRules
   const navItems = [
     { label: "Predict", icon: "brain", active: activeView === "predict", action: () => onNavigate("predict") },
     { label: "Chart", icon: "chart", active: activeView === "dashboard", action: () => onNavigate("dashboard") },
+    { label: "Fund Management", icon: "wallet", active: activeView === "fund-management", action: () => onNavigate("fund-management") },
     { label: "Profile", icon: "user", active: activeView === "profile", action: () => onNavigate("profile") },
     { label: "Subscription", icon: "crown", action: () => onNavigate("subscription") },
     { label: "Rules", icon: "book", action: onRulesClick },
@@ -577,7 +585,7 @@ function NavigationDrawer({ open, activeView, user, onClose, onNavigate, onRules
       <aside className={`nav-drawer ${open ? "open" : ""}`} aria-hidden={!open} aria-label="Main menu">
         <div className="drawer-head">
           <div>
-            <span>TryonAI</span>
+            <span>TRION AI</span>
             <strong>Control Center</strong>
           </div>
           <button className="drawer-close" type="button" onClick={onClose} aria-label="Close menu">
@@ -2122,6 +2130,10 @@ function MainApp({ user }) {
   const handleDrawerNavigate = useCallback((target) => {
     if (target === "subscription") {
       openSubscription();
+      return;
+    }
+    if (target === "fund-management") {
+      router.push("/fund-management");
       return;
     }
     setActiveView(target);
