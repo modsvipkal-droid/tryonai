@@ -1122,6 +1122,7 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
               <Link href="/login" onClick={handlePageNavigation("/login")}>Prediction Tool</Link>
               <Link href="/developer" onClick={handlePageNavigation("/developer")}>Developer API</Link>
               <Link href="/fund-management" onClick={handlePageNavigation("/fund-management")}>Fund Management</Link>
+              <Link href="/yaar-win" onClick={handlePageNavigation("/yaar-win")}>Yaar Win Guide</Link>
             </div>
 
             <div className="loader-footer-link-group">
@@ -1138,6 +1139,7 @@ const LoadingScreen = memo(function LoadingScreen({ onComplete, autoDismiss = fa
               <Link href="/terms" onClick={handlePageNavigation("/terms")}>Terms &amp; Conditions</Link>
               <Link href="/refund" onClick={handlePageNavigation("/refund")}>Refund Policy</Link>
               <Link href="/responsible-gambling" onClick={handlePageNavigation("/responsible-gambling")}>Responsible Gaming (18+)</Link>
+              <Link href="/disclaimer" onClick={handlePageNavigation("/disclaimer")}>Disclaimer</Link>
             </div>
           </div>
 
