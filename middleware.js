@@ -1,0 +1,42 @@
+import { NextResponse } from "next/server";
+
+const SENSITIVE_PATHS = ["/api/developer/", "/api/auth/", "/api/track", "/api/users/"];
+
+const BOT_PATTERNS = [
+  /ahrefs/i, /semrush/i, /dotbot/i, /mj12bot/i, /majestic/i,
+  /rogerbot/i, /exabot/i, /screaming/i, /yandex/i, /baiduspider/i,
+  /petalbot/i, /scrapy/i, /curl/i, /wget/i, /python-urllib/i,
+  /ruby/i, /perl/i, /nikto/i, /sqlmap/i, /nmap/i,
+];
+
+function detectBot(userAgent) {
+  if (!userAgent) return false;
+  return BOT_PATTERNS.some((pattern) => pattern.test(userAgent));
+}
+
+export function middleware(request) {
+  const url = request.nextUrl.pathname;
+  const userAgent = request.headers.get("user-agent") || "";
+
+  const host = request.headers.get("host") || "";
+  if (host.toLowerCase().startsWith("www.")) {
+    const canonical = request.nextUrl.clone();
+    canonical.host = host.replace(/^www\./i, "");
+    canonical.protocol = "https";
+    return NextResponse.redirect(canonical, 301);
+  }
+
+  const isSensitive = SENSITIVE_PATHS.some((path) => url.startsWith(path));
+
+  if (isSensitive && detectBot(userAgent)) {
+    return new NextResponse(null, { status: 404 });
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: [
+    "/((?!_next/static|_next/image|fonts|favicon.ico|main.png|manifest.json|robots.txt|sw.js|workbox-).*)",
+  ],
+};
