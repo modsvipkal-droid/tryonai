@@ -98,6 +98,7 @@ export default withAuth(async (req, res, user) => {
   try {
     result = await verifyPayment({ gatewayOrderId: order.gateway_order_id, expectedAmount: order.amount });
   } catch (err) {
+    console.error("[payment/verify] Verification failed:", err?.message || err);
     logSecurityEvent("payment_verify_api_error", { email: user.email, orderId: safeOrderId, error: err.message });
     return res.status(502).json({ verified: false, status: "PENDING", error: "Payment not confirmed yet. Try again in a moment." });
   }

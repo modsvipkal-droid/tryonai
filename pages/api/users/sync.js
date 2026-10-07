@@ -1,5 +1,8 @@
 import { findUserByEmail, insertUser } from "@/lib/db";
-import { sanitizeEmail, sanitizeString } from "@/lib/validate";
+import { sanitizeEmail, sanitizeString, isValidEmail } from "@/lib/validate";
+import { createRateLimiter } from "@/lib/rateLimit";
+
+const syncLimiter = createRateLimiter({ windowMs: 60000, max: 30, name: "user-sync" });
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -7,10 +10,15 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
+  const { limited } = syncLimiter(req, res);
+  if (limited) {
+    return res.status(429).json({ error: "Too many requests" });
+  }
+
   try {
     const { email, displayName, photoURL } = req.body || {};
     const safeEmail = sanitizeEmail(email);
-    if (!safeEmail) {
+    if (!safeEmail || !isValidEmail(safeEmail)) {
       return res.status(400).json({ error: "Valid email is required" });
     }
 

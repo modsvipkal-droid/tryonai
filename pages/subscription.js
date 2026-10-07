@@ -725,15 +725,15 @@ export default function Subscription() {
                 <div className="payment-toast-overlay" onClick={() => setShowToast(false)} />
                 <div className="payment-toast">
                   <svg width="16" height="96" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M 8 0 Q 4 4.8, 8 9.6 T 8 19.2 Q 4 24, 8 28.8 T 8 38.4 Q 4 43.2, 8 48 T 8 57.6 Q 4 62.4, 8 67.2 T 8 76.8 Q 4 81.6, 8 86.4 T 8 96 L 0 96 L 0 0 Z" fill="#66cdaa" stroke="#66cdaa" strokeWidth="2" strokeLinecap="round"></path>
+                    <path d="M 8 0 Q 4 4.8, 8 9.6 T 8 19.2 Q 4 24, 8 28.8 T 8 38.4 Q 4 43.2, 8 48 T 8 57.6 Q 4 62.4, 8 67.2 T 8 76.8 Q 4 81.6, 8 86.4 T 8 96 L 0 96 L 0 0 Z" fill={toastSuccess ? "#66cdaa" : (verifyMsg ? "#f87171" : "#66cdaa")} stroke={toastSuccess ? "#66cdaa" : (verifyMsg ? "#f87171" : "#66cdaa")} strokeWidth="2" strokeLinecap="round"></path>
                   </svg>
                   <div className="payment-toast-body">
-                    <p className="payment-toast-title">{toastSuccess ? "Payment Successful ✓" : verifyMsg || "Processing your payment..."}</p>
-                    <p className="payment-toast-msg">{toastSuccess ? `${toastModel} Unlocked` : "Checking payment status"}</p>
+                    <p className="payment-toast-title" style={{ color: toastSuccess ? "#10b981" : (verifyMsg ? "#dc2626" : "#66cdaa") }}>{toastSuccess ? "Payment Successful ✓" : verifyMsg || "Processing your payment..."}</p>
+                    <p className="payment-toast-msg">{toastSuccess ? `${toastModel} Unlocked` : (verifyMsg ? "Please try again or contact support" : "Checking payment status")}</p>
                   </div>
                   <button className="payment-toast-close" onClick={() => setShowToast(false)}>
-                    <svg className="w-7 h-7" fill="none" stroke="mediumseagreen" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"></path>
+                    <svg className="w-7 h-7" fill="none" stroke={toastSuccess ? "mediumseagreen" : "#94a3b8"} strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" d={toastSuccess ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"}></path>
                     </svg>
                   </button>
                 </div>

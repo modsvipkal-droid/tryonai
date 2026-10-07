@@ -1,5 +1,8 @@
 import { findUserByEmail, updateUser } from "@/lib/db";
 import { sanitizeEmail } from "@/lib/validate";
+import { createRateLimiter } from "@/lib/rateLimit";
+
+const checkLimiter = createRateLimiter({ windowMs: 60000, max: 60, name: "user-check" });
 
 /**
  * Compute a user's effective access using server time.
@@ -42,6 +45,11 @@ export default async function handler(req, res) {
   if (req.method !== "GET") {
     res.setHeader("Allow", "GET");
     return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  const { limited } = checkLimiter(req, res);
+  if (limited) {
+    return res.status(429).json({ error: "Too many requests" });
   }
 
   try {

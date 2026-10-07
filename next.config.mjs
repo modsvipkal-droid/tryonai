@@ -2,10 +2,10 @@
 const CSP = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.firebaseio.com https://*.googleapis.com https://www.gstatic.com https://cdn.jsdelivr.net https://challenges.cloudflare.com https://accounts.google.com https://www.googletagmanager.com https://*.google-analytics.com",
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://*.googleusercontent.com https://www.googletagmanager.com https://*.google-analytics.com https://*.firebaseio.com",
-  "connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://draw.ar-lottery01.com https://challenges.cloudflare.com https://accounts.google.com https://www.googletagmanager.com https://*.google-analytics.com https://region1.google-analytics.com",
-  "font-src 'self' data:",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "img-src 'self' data: blob: https://*.googleusercontent.com https://www.googletagmanager.com https://*.google-analytics.com https://*.firebaseio.com https://*.gstatic.com https://fampay.anujbots.xyz https://*.anujbots.xyz",
+  "connect-src 'self' https://*.firebaseio.com wss://*.firebaseio.com https://*.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://draw.ar-lottery01.com https://challenges.cloudflare.com https://accounts.google.com https://www.googletagmanager.com https://*.google-analytics.com https://region1.google-analytics.com",
+  "font-src 'self' data: https://fonts.gstatic.com",
   "frame-src 'self' https://*.firebaseapp.com https://challenges.cloudflare.com https://accounts.google.com",
   "object-src 'none'",
   "base-uri 'self'",
@@ -64,6 +64,7 @@ const nextConfig = {
           { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
           { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
           { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+          { key: "X-Permitted-Cross-Domain-Policies", value: "none" },
           { key: "Content-Security-Policy", value: CSP },
         ],
       },
@@ -77,6 +78,7 @@ const nextConfig = {
         source: "/:path*.(svg|png|jpg|jpeg|gif|ico|webp|avif)",
         headers: [
           { key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=259200" },
+          { key: "Cross-Origin-Resource-Policy", value: "cross-origin" },
         ],
       },
     ];

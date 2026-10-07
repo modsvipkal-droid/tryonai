@@ -60,6 +60,7 @@ export default withAuth(async (req, res, user) => {
   try {
     qr = await generateQr({ amount });
   } catch (err) {
+    console.error("[payment/create] QR generation failed:", err?.message || err);
     logSecurityEvent("payment_qr_generation_failed", { email: user.email, modelId, plan: planConfig?.id, error: err.message });
     return res.status(502).json({ error: "Could not generate payment QR. Please try again." });
   }
