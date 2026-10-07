@@ -58,9 +58,6 @@ export default async function handler(req, res) {
     });
   } catch (err) {
     logSecurityEvent("session_creation_failed", { error: err.message });
-    if (err.message?.includes("Firebase Admin not initialized")) {
-      return res.status(501).json({ error: "Server authentication not configured" });
-    }
-    return res.status(401).json({ error: "Invalid token" });
+    return res.status(401).json({ error: err.message || "Invalid token" });
   }
 }
