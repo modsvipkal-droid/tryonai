@@ -51,3 +51,10 @@ fix_legal.py
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# ide and agents
+.agent/
+.gemini/
+.opencode/
+.impeccable/
+

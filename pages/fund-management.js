@@ -18,9 +18,73 @@ import {
 } from "@/lib/fundManagement";
 
 const PAGE_URL = "https://wingo30.com/fund-management";
-const PAGE_TITLE = "Fund Management Calculator | TRION AI";
+const PAGE_TITLE = "Fund Management Calculator & Tutorial | TRION AI";
 const PAGE_DESC =
-  "Use the TRION AI Fund Management Calculator to enter an amount, select 1–9 levels and generate a structured level-wise allocation plan.";
+  "Master fund management with our step-by-step video tutorial and calculator. Plan 1–9 level capital allocations, minimize risk, and track portfolio ROI.";
+
+const TARGET_SEO_KEYWORDS =
+  "fund management tutorial, how to use fund management software, fund management system demo, portfolio management guide, investment tracking system, fund management for beginners, fund management kaise use kare, mutual fund management in hindi, fund management software tutorial hindi, TRION AI, fund allocation, investment calculator";
+
+const TUTORIAL_VIDEO_URL = "https://wingo30.com/how-to-use-fund-management-tutorial-video.mp4";
+const TUTORIAL_THUMBNAIL_URL = "https://wingo30.com/trion-ai-fund-management-calculator-wingo30.webp";
+
+const VIDEO_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "How to Use a Fund Management System: A Complete Step-by-Step Guide",
+  "description": "Watch our step-by-step video tutorial on how to use fund management software: understand dashboard overview, add and allocate funds, track portfolio performance ROI, and generate financial reports.",
+  "thumbnailUrl": [
+    TUTORIAL_THUMBNAIL_URL,
+    "https://wingo30.com/trionAIofficial.png"
+  ],
+  "uploadDate": "2026-09-10T10:00:00+05:30",
+  "contentUrl": TUTORIAL_VIDEO_URL,
+  "embedUrl": PAGE_URL,
+  "publisher": {
+    "@type": "Organization",
+    "name": "TRION AI",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://wingo30.com/trionAIofficial.png"
+    }
+  },
+  "keywords": [
+    "fund management tutorial",
+    "how to use fund management software",
+    "fund management system demo",
+    "portfolio management guide",
+    "investment tracking system",
+    "fund management for beginners",
+    "fund management kaise use kare",
+    "mutual fund management in hindi",
+    "fund management software tutorial hindi"
+  ]
+};
+
+const ARTICLE_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Use a Fund Management System: A Complete Step-by-Step Guide",
+  "description": "Managing funds and tracking investments manually can be complicated and time-consuming. Step-by-step tutorial on how to use fund management software with practical video demo.",
+  "image": TUTORIAL_THUMBNAIL_URL,
+  "datePublished": "2026-09-10T10:00:00+05:30",
+  "dateModified": "2026-10-10T00:00:00+05:30",
+  "mainEntityOfPage": PAGE_URL,
+  "author": {
+    "@type": "Organization",
+    "name": "TRION AI Research Team",
+    "url": "https://wingo30.com/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "TRION AI",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://wingo30.com/trionAIofficial.png"
+    }
+  },
+  "keywords": TARGET_SEO_KEYWORDS
+};
 
 const FM_FAQS = [
   {
@@ -1669,6 +1733,69 @@ const pageStyles = `
     margin: 0 0 14px 0;
     font-family: 'TrionAIAbout', sans-serif !important;
   }
+  .fm-takeaway-badge-row {
+    margin-bottom: 10px;
+  }
+  .fm-takeaway-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 152, 91, 0.10);
+    border: 1px solid rgba(0, 152, 91, 0.24);
+    color: #007543;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-family: 'TrionAIAbout', sans-serif !important;
+  }
+  .fm-takeaways-box {
+    margin-top: 14px;
+    background: rgba(0, 152, 91, 0.04);
+    border: 1px dashed rgba(0, 152, 91, 0.20);
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .fm-takeaways-heading {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 800;
+    color: #007543;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+    font-family: 'TrionAIAbout', sans-serif !important;
+  }
+  .fm-date-byline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 6px 16px;
+    background: rgba(0, 152, 91, 0.06);
+    border: 1px solid rgba(0, 152, 91, 0.18);
+    border-radius: 9999px;
+    font-size: 11.5px;
+    color: #475569;
+    flex-wrap: wrap;
+    font-family: 'TrionAIAbout', sans-serif !important;
+  }
+  .fm-date-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+  }
+  .fm-date-item time {
+    color: #0f172a;
+    font-weight: 700;
+  }
+  .fm-date-divider {
+    color: #94a3b8;
+  }
   .fm-takeaways-list {
     list-style: none;
     padding: 0;
@@ -1884,6 +2011,328 @@ const pageStyles = `
     color: #475569;
     margin: 0;
     font-family: 'TrionAIAbout', sans-serif !important;
+  }
+
+  /* ── Video Player Showcase & Tutorial Article ── */
+  .fm-video-container {
+    background: #0d1713;
+    border: 1.5px solid rgba(0, 152, 91, 0.28);
+    border-radius: 16px;
+    overflow: hidden;
+    margin: 18px 0 22px 0;
+    box-shadow: 0 8px 30px rgba(0, 50, 30, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .fm-video-container:hover {
+    border-color: rgba(0, 152, 91, 0.45);
+    box-shadow: 0 12px 36px rgba(0, 152, 91, 0.16), 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  .fm-video-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .fm-video-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .fm-video-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 8px #10b981;
+    animation: videoDotPulse 2s infinite ease-in-out;
+  }
+  @keyframes videoDotPulse {
+    0% { transform: scale(0.9); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(0.9); opacity: 0.8; }
+  }
+  .fm-video-status-text {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #ecfdf5;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-family: 'TrionAIAbout', sans-serif !important;
+  }
+  .fm-video-badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(0, 152, 91, 0.22);
+    border: 1px solid rgba(0, 152, 91, 0.35);
+    color: #a7f3d0;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    font-family: 'TrionAIAbout', sans-serif !important;
+  }
+  .fm-video-screen {
+    position: relative;
+    width: 100%;
+    background: #000000;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fm-video-player {
+    width: 100%;
+    height: 100%;
+    max-height: 520px;
+    display: block;
+    background: #000000;
+    outline: none;
+    border: none;
+    object-fit: contain;
+  }
+  .fm-video-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .fm-video-caption {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #cbd5e1;
+    line-height: 1.5;
+    flex: 1;
+    min-width: 240px;
+    font-family: 'TrionAIAbout', sans-serif !important;
+  }
+  .fm-video-caption strong {
+    color: #ffffff;
+  }
+  .fm-video-pills {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .fm-pill-chip {
+    background: rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-family: 'TrionAIAbout', sans-serif !important;
+  }
+
+  .fm-article-content {
+    margin-top: 18px;
+  }
+  .fm-learn-section {
+    margin: 22px 0;
+  }
+  .fm-learn-heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15.5px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 14px 0;
+    font-family: 'TrionAIAbout', sans-serif !important;
+  }
+  .fm-learn-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+  }
+  .fm-learn-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #f8fcfa;
+    border: 1px solid rgba(0, 152, 91, 0.14);
+    border-radius: 12px;
+    padding: 14px 16px;
+    transition: all 0.22s ease;
+  }
+  .fm-learn-card:hover {
+    background: #ffffff;
+    border-color: rgba(0, 152, 91, 0.32);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0, 75, 47, 0.05);
+  }
+  .fm-learn-icon-box {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(0, 152, 91, 0.10);
+    color: #007543;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .fm-learn-card-body h4 {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 4px 0;
+    font-family: 'TrionAIAbout', sans-serif !important;
+  }
+  .fm-learn-card-body p {
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: #475569;
+    margin: 0;
+    font-family: 'TrionAIAbout', sans-serif !important;
+  }
+
+  .fm-callout-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin: 16px 0;
+    transition: transform 0.2s ease;
+  }
+  .fm-callout-box:hover {
+    transform: translateY(-1px);
+  }
+  .fm-callout-why {
+    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+    border: 1.5px solid rgba(0, 152, 91, 0.25);
+  }
+  .fm-callout-watch {
+    background: linear-gradient(135deg, #f8fafc 0%, #f0fdf4 100%);
+    border: 1.5px solid rgba(0, 152, 91, 0.20);
+  }
+  .fm-callout-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 152, 91, 0.20);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0, 75, 47, 0.04);
+  }
+  .fm-callout-text h4 {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 4px 0;
+    font-family: 'TrionAIAbout', sans-serif !important;
+  }
+  .fm-callout-text p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #334155;
+    margin: 0;
+    font-family: 'TrionAIAbout', sans-serif !important;
+  }
+  .fm-steps-summary {
+    margin: 22px 0;
+    padding-top: 14px;
+    border-top: 1px dashed rgba(0, 152, 91, 0.20);
+  }
+  .fm-steps-summary-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 10px 0;
+    font-family: 'TrionAIAbout', sans-serif !important;
+  }
+
+  .fm-tags-wrapper {
+    margin-top: 24px;
+    padding: 18px 20px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 152, 91, 0.18);
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0, 75, 47, 0.02);
+  }
+  .fm-tags-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    font-weight: 800;
+    color: #007543;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+    font-family: 'TrionAIAbout', sans-serif !important;
+  }
+  .fm-tags-group {
+    margin-bottom: 10px;
+  }
+  .fm-tags-group:last-child {
+    margin-bottom: 0;
+  }
+  .fm-tags-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+    font-family: 'TrionAIAbout', sans-serif !important;
+  }
+  .fm-tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .fm-tag {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    transition: all 0.18s ease;
+    font-family: 'TrionAIAbout', sans-serif !important;
+  }
+  .fm-tag-primary {
+    background: rgba(0, 152, 91, 0.08);
+    color: #007543;
+    border: 1px solid rgba(0, 152, 91, 0.24);
+  }
+  .fm-tag-primary:hover {
+    background: rgba(0, 152, 91, 0.14);
+    border-color: #00985b;
+  }
+  .fm-tag-secondary {
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+  }
+  .fm-tag-secondary:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+  }
+  .fm-tag-hinglish {
+    background: rgba(245, 158, 11, 0.08);
+    color: #b45309;
+    border: 1px solid rgba(245, 158, 11, 0.25);
+  }
+  .fm-tag-hinglish:hover {
+    background: rgba(245, 158, 11, 0.15);
   }
 
   /* ── Definition Card ── */
@@ -2195,6 +2644,11 @@ const pageStyles = `
     font-weight: 700;
     color: #0f172a;
     font-family: 'TrionAIAbout', sans-serif !important;
+    margin: 0;
+    padding: 0;
+    line-height: 1.4;
+    display: inline-block;
+    text-align: left;
   }
   .fm-faq-arrow {
     color: #007543;
@@ -2853,6 +3307,29 @@ const pageStyles = `
     .fm-howto-body p {
       font-size: 12px;
       line-height: 1.55;
+    }
+
+    .fm-video-topbar {
+      padding: 8px 12px;
+    }
+    .fm-video-footer {
+      padding: 10px 12px;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .fm-learn-grid {
+      grid-template-columns: 1fr;
+    }
+    .fm-callout-box {
+      padding: 12px 14px;
+      gap: 10px;
+    }
+    .fm-callout-icon {
+      width: 32px;
+      height: 32px;
+    }
+    .fm-tags-wrapper {
+      padding: 12px 14px;
     }
 
     /* ── Definition Card ── */
@@ -3588,6 +4065,22 @@ export default function FundManagementPage() {
   return (
     <>
       <PageHead title={PAGE_TITLE} description={PAGE_DESC} canonical={PAGE_URL}>
+        <meta name="keywords" content={TARGET_SEO_KEYWORDS} />
+        <meta property="og:video" content={TUTORIAL_VIDEO_URL} />
+        <meta property="og:video:secure_url" content={TUTORIAL_VIDEO_URL} />
+        <meta property="og:video:type" content="video/mp4" />
+        <meta property="og:video:width" content="1280" />
+        <meta property="og:video:height" content="720" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(VIDEO_SCHEMA) }}
+          key="schema-tutorial-video"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ARTICLE_SCHEMA) }}
+          key="schema-tutorial-article"
+        />
         <style dangerouslySetInnerHTML={{ __html: pageStyles }} />
       </PageHead>
 
@@ -3603,8 +4096,8 @@ export default function FundManagementPage() {
         title={PAGE_TITLE}
         description={PAGE_DESC}
         url={PAGE_URL}
-        datePublished="2026-09-09T00:00:00+05:30"
-        dateModified="2026-09-09T18:00:00+05:30"
+        datePublished="2026-09-10T00:00:00+05:30"
+        dateModified="2026-10-10T00:00:00+05:30"
       />
       <FAQSchema questions={FM_FAQS} />
 
@@ -3663,10 +4156,44 @@ export default function FundManagementPage() {
             <p className="fm-hero-desc">
               Enter your available amount and select the number of management levels to generate a structured level-wise allocation plan.
             </p>
+            <div className="fm-date-byline">
+              <span className="fm-date-item">
+                <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" strokeWidth="2" fill="none" aria-hidden="true">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                  <line x1="16" y1="2" x2="16" y2="6" />
+                  <line x1="8" y1="2" x2="8" y2="6" />
+                  <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+                Published: <time dateTime="2026-09-10" itemProp="datePublished">September 10, 2026</time>
+              </span>
+              <span className="fm-date-divider" aria-hidden="true">•</span>
+              <span className="fm-date-item">
+                <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" strokeWidth="2" fill="none" aria-hidden="true">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+                </svg>
+                Last Updated: <time dateTime="2026-10-10" itemProp="dateModified">October 10, 2026</time>
+              </span>
+              <span className="fm-date-divider" aria-hidden="true">•</span>
+              <span className="fm-date-item">
+                <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" strokeWidth="2" fill="none" aria-hidden="true">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+                By TRION AI Research Team
+              </span>
+            </div>
           </section>
 
           {/* ── Top Summary & Key Takeaway Callout (Direct Answer) ── */}
           <section className="fm-top-takeaway fm-section" aria-labelledby="fm-top-takeaway-title">
+            <div className="fm-takeaway-badge-row">
+              <span className="fm-takeaway-badge">
+                <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" strokeWidth="2.5" fill="none" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                Key Takeaways &amp; Executive Summary
+              </span>
+            </div>
             <div className="fm-top-takeaway-header">
               <div className="fm-top-takeaway-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2.2" fill="none">
@@ -3675,31 +4202,34 @@ export default function FundManagementPage() {
                   <line x1="12" y1="8" x2="12.01" y2="8" />
                 </svg>
               </div>
-              <h2 id="fm-top-takeaway-title">Quick Answer: What is the TRION AI Fund Management Calculator?</h2>
+              <h2 id="fm-top-takeaway-title">Key Takeaways &amp; Quick Summary: What is the Fund Management Calculator?</h2>
             </div>
             <p className="fm-top-takeaway-desc">
-              <strong>Direct Answer:</strong> The TRION AI Fund Management Calculator is a deterministic educational budgeting utility that partitions your available capital across 1 to 9 progressive levels based on the standard geometric allocation model. It delivers a transparent stage-by-stage financial plan to help users structure capital depth, manage risk tolerance, and maintain strict budgeting discipline.
+              <strong>Key Takeaways &amp; Direct Answer:</strong> The TRION AI Fund Management Calculator is a deterministic educational budgeting utility that partitions your available capital across 1 to 9 progressive levels based on the standard geometric allocation model. It delivers a transparent stage-by-stage financial plan to help users structure capital depth, manage risk tolerance, and maintain strict budgeting discipline.
             </p>
-            <ul className="fm-takeaways-list" aria-label="Key Takeaways">
-              <li className="fm-takeaway-item">
-                <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" strokeWidth="2.5" fill="none" aria-hidden="true">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-                <span><strong>100% Mathematical Reconciliation:</strong> Every rupee of your capital is accounted for across all chosen stages with zero calculation leakage.</span>
-              </li>
-              <li className="fm-takeaway-item">
-                <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" strokeWidth="2.5" fill="none" aria-hidden="true">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-                <span><strong>Configurable 1–9 Stage Depth:</strong> Easily select between compact short-sequence planning (Levels 1–3) and deep safety buffers (Levels 7–9).</span>
-              </li>
-              <li className="fm-takeaway-item">
-                <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" strokeWidth="2.5" fill="none" aria-hidden="true">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-                <span><strong>Educational Capital Modeling:</strong> Focuses strictly on disciplined risk management, educational budgeting, and objective numerical modeling.</span>
-              </li>
-            </ul>
+            <div className="fm-takeaways-box">
+              <strong className="fm-takeaways-heading">Key Takeaways:</strong>
+              <ul className="fm-takeaways-list" aria-label="Key Takeaways">
+                <li className="fm-takeaway-item">
+                  <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" strokeWidth="2.5" fill="none" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  <span><strong>100% Mathematical Reconciliation:</strong> Every rupee of your capital is accounted for across all chosen stages with zero calculation leakage.</span>
+                </li>
+                <li className="fm-takeaway-item">
+                  <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" strokeWidth="2.5" fill="none" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  <span><strong>Configurable 1–9 Stage Depth:</strong> Easily select between compact short-sequence planning (Levels 1–3) and deep safety buffers (Levels 7–9).</span>
+                </li>
+                <li className="fm-takeaway-item">
+                  <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" strokeWidth="2.5" fill="none" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  <span><strong>Educational Capital Modeling:</strong> Focuses strictly on disciplined risk management, educational budgeting, and objective numerical modeling.</span>
+                </li>
+              </ul>
+            </div>
           </section>
 
           {/* ── Calculator Control Card ── */}
@@ -4229,47 +4759,212 @@ export default function FundManagementPage() {
             </p>
           </section>
 
-          {/* ── Step-by-Step How-To Guide ── */}
+          {/* ── Step-by-Step How-To Guide & Video Tutorial ── */}
           <section className="fm-section-card fm-section" aria-labelledby="fm-howto-heading">
             <div className="fm-seo-header-row">
               <div>
                 <span className="fm-seo-badge">
-                  <svg viewBox="0 0 24 24" width="11" height="11" stroke="currentColor" strokeWidth="2.2" fill="none"><polyline points="9 11 12 14 22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg>
-                  How-To Guide
+                  <svg viewBox="0 0 24 24" width="11" height="11" stroke="currentColor" strokeWidth="2.2" fill="none">
+                    <polygon points="5 3 19 12 5 21 5 3" />
+                  </svg>
+                  Video Tutorial &amp; Complete Guide
                 </span>
                 <h2 id="fm-howto-heading" className="fm-seo-title">
                   <span className="fm-bar" aria-hidden="true" />
-                  How to Use the Fund Management Calculator (Step-by-Step)
+                  How to Use a Fund Management System: A Complete Step-by-Step Guide
                 </h2>
               </div>
             </div>
             <p className="fm-seo-text">
-              Follow these three simple steps to calculate your customized level-wise fund management plan in seconds:
+              <strong>Direct Answer:</strong> To effectively use a fund management system, enter your total available capital, configure your risk allocation depth from 1 to 9 levels, and generate a transparent stage breakdown to track ROI and preserve funds. Watch our practical screen-recorded demo and step-by-step tutorial below.
             </p>
 
-            <ol className="fm-howto-list">
-              <li className="fm-howto-item">
-                <div className="fm-howto-num">1</div>
-                <div className="fm-howto-body">
-                  <h3>Step 1: Enter Your Available Total Capital</h3>
-                  <p>Type your total available budget in INR (₹) into the input box or click one of the quick amount presets (₹500, ₹1,000, ₹2,500, or ₹5,000).</p>
+            {/* ── High-End Video Player Showcase ── */}
+            <div className="fm-video-container" id="tutorial-video">
+              <div className="fm-video-topbar">
+                <div className="fm-video-status">
+                  <span className="fm-video-dot" />
+                  <span className="fm-video-status-text">Tutorial Demo Video • HD 1080p</span>
                 </div>
-              </li>
-              <li className="fm-howto-item">
-                <div className="fm-howto-num">2</div>
-                <div className="fm-howto-body">
-                  <h3>Step 2: Choose Your Management Level Depth (1 to 9)</h3>
-                  <p>Select your preferred tier count by clicking on the level cards or dragging the smooth slider from 1 stage (direct allocation) up to 9 stages (deep buffer).</p>
+                <div className="fm-video-badge-pill">
+                  <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" strokeWidth="2.5" fill="none">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="2" y1="12" x2="22" y2="12" />
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                  </svg>
+                  Hindi + English Audio
                 </div>
-              </li>
-              <li className="fm-howto-item">
-                <div className="fm-howto-num">3</div>
-                <div className="fm-howto-body">
-                  <h3>Step 3: Calculate &amp; Review Your Allocation Breakdown</h3>
-                  <p>Click &ldquo;Calculate Fund Management&rdquo; to view your level-wise stage allocation amounts, percentage weights, cumulative progression, and 100% mathematical reconciliation.</p>
+              </div>
+
+              <div className="fm-video-screen">
+                <video
+                  className="fm-video-player"
+                  controls
+                  preload="metadata"
+                  playsInline
+                  poster="/trion-ai-fund-management-calculator-wingo30.webp"
+                  aria-label="How to Use Fund Management System Video Tutorial"
+                >
+                  <source src="/how-to-use-fund-management-tutorial-video.mp4" type="video/mp4" />
+                  Your browser does not support the video tag. Please update your browser to watch the tutorial video.
+                </video>
+              </div>
+
+              <div className="fm-video-footer">
+                <div className="fm-video-caption">
+                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="#00985b" strokeWidth="2.2" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10" />
+                    <polygon points="10 8 16 12 10 16 10 8" />
+                  </svg>
+                  <span><strong>Live Screen Recording:</strong> Step-by-step practical demonstration showing dashboard setup, stage allocation, and risk management.</span>
                 </div>
-              </li>
-            </ol>
+                <div className="fm-video-pills">
+                  <span className="fm-pill-chip">Screen-Recorded</span>
+                  <span className="fm-pill-chip">Click-by-Click</span>
+                  <span className="fm-pill-chip">Beginner Friendly</span>
+                </div>
+              </div>
+            </div>
+
+            {/* ── Short Article (Blog Post / Detailed Description) ── */}
+            <article className="fm-article-content">
+              <div className="fm-article-intro">
+                <p className="fm-seo-text" style={{ fontSize: 14.5, lineHeight: 1.7, color: "#1e293b", marginBottom: 12 }}>
+                  Managing funds and tracking investments manually can be complicated and time-consuming. Chahe aap ek individual investor hon ya kisi company ka finance manage kar rahe hon, ek proper <strong>Fund Management System</strong> aapki financial growth aur accuracy ke liye sabse zaroori tool hai.
+                </p>
+                <p className="fm-seo-text" style={{ fontSize: 14, lineHeight: 1.7, color: "#475569", marginBottom: 20 }}>
+                  Lekin is system ko effectively kaise use karein? Is guide aur hamare video tutorial mein, humne fund management ke pure process ko simplify kiya hai.
+                </p>
+              </div>
+
+              {/* What You Will Learn in This Tutorial */}
+              <div className="fm-learn-section">
+                <h3 className="fm-learn-heading">
+                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="#00985b" strokeWidth="2.4" fill="none" aria-hidden="true">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                    <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                  </svg>
+                  What You Will Learn in This Tutorial:
+                </h3>
+
+                <div className="fm-learn-grid">
+                  <div className="fm-learn-card">
+                    <div className="fm-learn-icon-box">
+                      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2.2" fill="none">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                        <line x1="3" y1="9" x2="21" y2="9" />
+                        <line x1="9" y1="21" x2="9" y2="9" />
+                      </svg>
+                    </div>
+                    <div className="fm-learn-card-body">
+                      <h4>Dashboard Overview</h4>
+                      <p>System ke interface ko samajhna aur apne total assets/funds ka quick view dekhna.</p>
+                    </div>
+                  </div>
+
+                  <div className="fm-learn-card">
+                    <div className="fm-learn-icon-box">
+                      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2.2" fill="none">
+                        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                      </svg>
+                    </div>
+                    <div className="fm-learn-card-body">
+                      <h4>Adding &amp; Allocating Funds</h4>
+                      <p>Naye investments ya funds ko system mein properly enter karna aur unhe different categories mein allocate karna.</p>
+                    </div>
+                  </div>
+
+                  <div className="fm-learn-card">
+                    <div className="fm-learn-icon-box">
+                      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2.2" fill="none">
+                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                        <polyline points="17 6 23 6 23 12" />
+                      </svg>
+                    </div>
+                    <div className="fm-learn-card-body">
+                      <h4>Tracking Performance</h4>
+                      <p>Apne portfolio ka daily, weekly, ya monthly profit/loss (ROI) track karna.</p>
+                    </div>
+                  </div>
+
+                  <div className="fm-learn-card">
+                    <div className="fm-learn-icon-box">
+                      <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2.2" fill="none">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                        <polyline points="10 9 9 9 8 9" />
+                      </svg>
+                    </div>
+                    <div className="fm-learn-card-body">
+                      <h4>Generating Financial Reports</h4>
+                      <p>Tax aur audit ke liye ek click mein detailed financial statements aur reports download karna.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Why is it Important Callout */}
+              <div className="fm-callout-box fm-callout-why">
+                <div className="fm-callout-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="22" height="22" stroke="#007543" strokeWidth="2.2" fill="none">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    <polyline points="9 12 11 14 15 10" />
+                  </svg>
+                </div>
+                <div className="fm-callout-text">
+                  <h4>Why is it Important?</h4>
+                  <p>
+                    Sahi fund management aapko overspending se bachata hai, risk ko minimize karta hai, aur aapke financial goals ko jaldi achieve karne mein madad karta hai. Agar aap apne paiso ka control apne haath mein rakhna chahte hain, toh is system ko samajhna bahut zaroori hai.
+                  </p>
+                </div>
+              </div>
+
+              {/* Watch the Full Video Callout */}
+              <div className="fm-callout-box fm-callout-watch">
+                <div className="fm-callout-icon play-pulse" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="22" height="22" stroke="#00985b" strokeWidth="2.2" fill="none">
+                    <circle cx="12" cy="12" r="10" />
+                    <polygon points="10 8 16 12 10 16 10 8" />
+                  </svg>
+                </div>
+                <div className="fm-callout-text">
+                  <h4>Watch the Full Video!</h4>
+                  <p>
+                    Theory samajhne ke baad practical dekhna zaroori hai. Upar diye gaye video mein humne screen-record karke step-by-step sikhaya hai ki software par click-by-click kaam kaise hota hai. Video dekhein aur aaj hi apna fund management shuru karein!
+                  </p>
+                </div>
+              </div>
+
+              {/* Calculator Quick 3 Steps */}
+              <div className="fm-steps-summary">
+                <h4 className="fm-steps-summary-title">Quick 3-Step Execution on This Page:</h4>
+                <ol className="fm-howto-list">
+                  <li className="fm-howto-item">
+                    <div className="fm-howto-num">1</div>
+                    <div className="fm-howto-body">
+                      <h3>Step 1: Enter Your Available Total Capital</h3>
+                      <p>Type your total available budget in INR (₹) into the input box above or click one of the quick amount presets (₹500, ₹1,000, ₹2,500, or ₹5,000).</p>
+                    </div>
+                  </li>
+                  <li className="fm-howto-item">
+                    <div className="fm-howto-num">2</div>
+                    <div className="fm-howto-body">
+                      <h3>Step 2: Choose Your Management Level Depth (1 to 9)</h3>
+                      <p>Select your preferred tier count by clicking on the level cards or dragging the smooth slider from 1 stage (direct allocation) up to 9 stages (deep buffer).</p>
+                    </div>
+                  </li>
+                  <li className="fm-howto-item">
+                    <div className="fm-howto-num">3</div>
+                    <div className="fm-howto-body">
+                      <h3>Step 3: Calculate &amp; Review Your Allocation Breakdown</h3>
+                      <p>Click &ldquo;Calculate Fund Management&rdquo; to view your level-wise stage allocation amounts, percentage weights, cumulative progression, and 100% mathematical reconciliation.</p>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+            </article>
           </section>
 
           {/* ── 3D Showcase Image Section & SEO Educational Guide ── */}
@@ -4290,6 +4985,9 @@ export default function FundManagementPage() {
                 TRION AI Methodology
               </span>
             </div>
+            <p className="fm-seo-text">
+              <strong>Direct Answer:</strong> Fund management is the systematic discipline of partitioning an aggregate capital pool into predefined fractional amounts across sequential stages to manage risk, preserve resources, and prevent sudden capital depletion.
+            </p>
 
             {/* Featured Visual Overview Figure with Complete SEO Metadata */}
             <figure className="fm-showcase-figure" itemScope itemType="https://schema.org/ImageObject">
@@ -4403,17 +5101,20 @@ export default function FundManagementPage() {
                   <div key={index} className={`fm-faq-item ${isOpen ? "open" : ""}`}>
                     <button type="button" onClick={() => toggleFaq(index)} className="fm-faq-trigger"
                       aria-expanded={isOpen} aria-controls={`fm-faq-ans-${index}`}>
-                      <span className="fm-faq-q">{faq.question}</span>
+                      <h3 className="fm-faq-q">{faq.question}</h3>
                       <svg className={`fm-faq-arrow ${isOpen ? "rotated" : ""}`}
                         viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2.2" fill="none" aria-hidden="true">
                         <polyline points="6 9 12 15 18 9" />
                       </svg>
                     </button>
-                    {isOpen && (
-                      <div id={`fm-faq-ans-${index}`} className="fm-faq-answer" role="region">
-                        <p>{faq.answer}</p>
-                      </div>
-                    )}
+                    <div
+                      id={`fm-faq-ans-${index}`}
+                      className="fm-faq-answer"
+                      role="region"
+                      style={{ display: isOpen ? "block" : "none" }}
+                    >
+                      <p>{faq.answer}</p>
+                    </div>
                   </div>
                 );
               })}
