@@ -1,36 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { MongoClient } from "mongodb";
 
-interface TokenPayload {
-  uid: string;
-  email: string;
-}
-
-interface UserDocument {
-  email: string;
-  payment_status?: string;
-  access_status?: string;
-  unlimited?: boolean;
-  model_access?: string[];
-  fx1_subscription?: {
-    access_status?: string;
-    access_type?: string;
-    expires_at?: number | null;
-  };
-  expires_at?: Date | null;
-  subscriptionBlocked?: boolean;
-}
-
-interface PredictionResponse {
-  period: string;
-  prediction: "BIG" | "SMALL";
-  confidence: number;
-  serverTimestamp: number;
-}
-
-let cachedClient: MongoClient | null = null;
+let cachedClient = null;
 
 async function getDb() {
   const uri = process.env.MONGODB_URI;
@@ -44,7 +17,7 @@ async function getDb() {
   return cachedClient.db(process.env.MONGODB_DB || "wingo_db");
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req) {
   try {
     // -------------------------------------------------------------------------
     // STEP 1: AUTHENTICATE USER SESSION
@@ -65,7 +38,7 @@ export async function POST(req: NextRequest) {
     if (token) {
       const jwtSecret = process.env.JWT_ACCESS_SECRET || process.env.CSRF_SECRET || "dev-access-secret";
       try {
-        const decoded = jwt.verify(token, jwtSecret) as TokenPayload;
+        const decoded = jwt.verify(token, jwtSecret);
         email = decoded.email?.toLowerCase().trim() || "";
       } catch {
         // Fallback: check token payload if expired or let body provide identity for DB check
@@ -91,7 +64,7 @@ export async function POST(req: NextRequest) {
     // STEP 2: QUERY DATABASE DIRECTLY FOR PAYMENT STATUS
     // -------------------------------------------------------------------------
     const db = await getDb();
-    const user = await db.collection<UserDocument>("users").findOne({ email });
+    const user = await db.collection("users").findOne({ email });
 
     if (!user) {
       return NextResponse.json(
@@ -145,10 +118,10 @@ export async function POST(req: NextRequest) {
     )}`;
 
     const entropy = (Date.now() % 100) + periodString.slice(-3).split("").reduce((a, b) => a + Number(b), 0);
-    const predictionResult: "BIG" | "SMALL" = entropy % 2 === 0 ? "BIG" : "SMALL";
+    const predictionResult = entropy % 2 === 0 ? "BIG" : "SMALL";
     const winRate = Number((88.0 + (entropy % 9) * 1.1).toFixed(1));
 
-    const payload: PredictionResponse = {
+    const payload = {
       period: periodString,
       prediction: predictionResult,
       confidence: winRate,
@@ -165,9 +138,8 @@ export async function POST(req: NextRequest) {
         },
       }
     );
-  } catch (err: unknown) {
-    const error = err as Error;
-    console.error("[app/api/get-prediction error]:", error?.message);
+  } catch (err) {
+    console.error("[app/api/get-prediction error]:", err?.message);
     return NextResponse.json(
       { error: "Failed to generate prediction.", code: "INTERNAL_ERROR" },
       { status: 500 }

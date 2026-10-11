@@ -4,24 +4,13 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { watchAuthState } from "@/lib/firebase";
 
-interface PredictionData {
-  period: string;
-  prediction: "BIG" | "SMALL";
-  confidence: number;
-  serverTimestamp: number;
-}
-
-interface PredictorProps {
-  userEmail?: string;
-}
-
-export default function Predictor({ userEmail: initialEmail }: PredictorProps) {
-  const [detectedEmail, setDetectedEmail] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [prediction, setPrediction] = useState<PredictionData | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [paymentRequired, setPaymentRequired] = useState<boolean>(false);
-  const [formattedTime, setFormattedTime] = useState<string>("");
+export default function Predictor({ userEmail: initialEmail }) {
+  const [detectedEmail, setDetectedEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [prediction, setPrediction] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [paymentRequired, setPaymentRequired] = useState(false);
+  const [formattedTime, setFormattedTime] = useState("");
 
   const activeEmail = initialEmail || detectedEmail;
 
