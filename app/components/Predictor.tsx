@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { watchAuthState } from "@/lib/firebase";
 
 interface PredictionData {
   period: string;
@@ -9,11 +11,33 @@ interface PredictionData {
   serverTimestamp: number;
 }
 
-export default function Predictor({ userEmail }: { userEmail?: string }) {
+interface PredictorProps {
+  userEmail?: string;
+}
+
+export default function Predictor({ userEmail: initialEmail }: PredictorProps) {
+  const [detectedEmail, setDetectedEmail] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [prediction, setPrediction] = useState<PredictionData | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [paymentRequired, setPaymentRequired] = useState<boolean>(false);
+  const [formattedTime, setFormattedTime] = useState<string>("");
+
+  const activeEmail = initialEmail || detectedEmail;
+
+  // Automatically detect logged-in Firebase user if userEmail prop is not provided
+  useEffect(() => {
+    if (initialEmail) return;
+
+    let unsub = () => {};
+    watchAuthState((firebaseUser) => {
+      setDetectedEmail(firebaseUser?.email || "");
+    }).then((cleanup) => {
+      if (typeof cleanup === "function") unsub = cleanup;
+    });
+
+    return () => unsub();
+  }, [initialEmail]);
 
   const handleFetchPrediction = async () => {
     setLoading(true);
@@ -28,11 +52,11 @@ export default function Predictor({ userEmail }: { userEmail?: string }) {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({ email: userEmail }),
+        body: JSON.stringify({ email: activeEmail || undefined }),
         cache: "no-store",
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       // 403 Forbidden: Database check failed on the server
       if (response.status === 403) {
@@ -58,6 +82,9 @@ export default function Predictor({ userEmail }: { userEmail?: string }) {
 
       // Success: ONLY render what the server authoritatively returned
       setPrediction(data.data);
+      if (data.data?.serverTimestamp) {
+        setFormattedTime(new Date(data.data.serverTimestamp).toLocaleTimeString());
+      }
     } catch {
       setErrorMessage("Network connection error. Please try again.");
     } finally {
@@ -85,12 +112,12 @@ export default function Predictor({ userEmail }: { userEmail?: string }) {
           </div>
           <h3 className="text-sm font-bold text-rose-300">Access Restricted</h3>
           <p className="text-xs text-rose-400/90 mt-1 mb-3">{errorMessage}</p>
-          <a
+          <Link
             href="/subscription"
             className="inline-block px-4 py-2 text-xs font-bold text-white bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg hover:brightness-110 transition shadow-lg shadow-emerald-900/30"
           >
             Upgrade to Premium Access
-          </a>
+          </Link>
         </div>
       )}
 
@@ -119,9 +146,11 @@ export default function Predictor({ userEmail }: { userEmail?: string }) {
             </span>
           </div>
 
-          <div className="text-[10px] text-center text-slate-500">
-            Validated at {new Date(prediction.serverTimestamp).toLocaleTimeString()}
-          </div>
+          {formattedTime && (
+            <div className="text-[10px] text-center text-slate-500">
+              Validated at {formattedTime}
+            </div>
+          )}
         </div>
       )}
 
