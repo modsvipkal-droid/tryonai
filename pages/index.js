@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { watchAuthState, signOutUser } from "@/lib/firebase";
 import { addUser, getRemainingPredictions, incrementPredictionCount, getProfilePlan, getTodayPredictions, addTodayPrediction } from "@/lib/storage";
 import { fetchWingoHistory, generateMockHistory, getCurrentIssue, estimateTimestamps } from "@/lib/wingo";
-import { generateSmartPrediction } from "@/lib/prediction";
 import { PageHead, OrganizationSchema, WebsiteSchema, WebPageSchema, BreadcrumbSchema, SoftwareAppSchema, FAQSchema } from "@/components/SEO";
 import { LoaderContext } from "./_app";
 
@@ -1977,7 +1976,33 @@ function MainApp({ user }) {
   }
   async function doPrediction(periodNum) {
     try {
-      const prediction = generateSmartPrediction(periodNum, history, predictionLevel);
+      const res = await fetch("/api/prediction/get", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          periodNum,
+          email: user?.email,
+          predictionLevel,
+          history: history.slice(0, 5),
+        }),
+      });
+
+      if (res.status === 403 || res.status === 401) {
+        setShowServerAnim(false);
+        lastPredictedPeriod.current = null;
+        openSubscription();
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error("Prediction request failed");
+      }
+
+      const data = await res.json();
+      const prediction = data.prediction;
+      if (!prediction) throw new Error("No prediction returned");
+
       const size = prediction.size === "BIG" ? "Big" : "Small";
       const entry = { period: periodNum, prediction: size, engine: prediction };
       setUserPredictions(prev => [...prev, entry]);
